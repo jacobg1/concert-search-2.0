@@ -27,7 +27,7 @@ export default function ConcertSelect({
   changeHandler,
   clearHandler,
   value,
-}: ConcertSelectProps) {
+}: ConcertSelectProps): JSX.Element {
   // Handle band / year select
   const handleChange: InputChangeHandler = (event, newValue) => {
     if (newValue) changeHandler(newValue.label)
