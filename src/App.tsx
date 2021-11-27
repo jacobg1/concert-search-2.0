@@ -1,7 +1,6 @@
-import React from 'react'
 import './App.css'
 import { fetchConcertList } from './features/concerts/concertListSlice'
-import { fetchIndividualConcert } from './features/concerts/individualConcertSlice'
+// import { fetchIndividualConcert } from './features/concerts/individualConcertSlice'
 import { useAppDispatch } from './app/hooks'
 import ConcertListDisplay from './features/concerts/ConcertListDisplay'
 import { Typography, AppBar } from '@mui/material'
@@ -87,7 +86,7 @@ const theme = createTheme({
   },
 })
 
-function App() {
+function App(): JSX.Element {
   const dispatch = useAppDispatch()
   dispatch(fetchConcertList({ bandName: 'moe.', year: '2011' }))
   // dispatch(fetchIndividualConcert('moe2011-03-25.salvo'))
