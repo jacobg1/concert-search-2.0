@@ -1,4 +1,4 @@
-import { Autocomplete, ClassNameMap } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { background } from '../../../app/background'
 import ConcertTextField from './ConcertTextField'
@@ -7,8 +7,9 @@ import {
   InputClearHandler,
   ConcertSelectProps,
 } from '../concertSelectInterface'
+import { SxProps } from '@mui/system'
 
-const autocompleteStyles: Record<string, ClassNameMap> = {
+const autocompleteStyles: SxProps = {
   '& .MuiOutlinedInput-root': {
     borderRadius: '0px',
     border: 'none',
@@ -47,12 +48,13 @@ export default function ConcertSelect({
     <Autocomplete
       disablePortal
       id={id}
-      value={{ label: value }}
+      value={value ? { label: value } : null}
       options={autocompleteOptions}
       disabled={disabled}
       sx={autocompleteStyles}
       onChange={handleChange}
       onInputChange={handleClearInput}
+      isOptionEqualToValue={(option, value) => option.label === value.label}
       popupIcon={<ExpandMoreIcon color="primary" />}
       renderInput={(params) => (
         <ConcertTextField {...params} placeholder={placeholder} />
