@@ -8,15 +8,7 @@ import {
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import { AccordionHandler } from '../concertListInterface'
-
-interface ConcertAccordionProps {
-  identifier: string
-  title: string
-  description: string
-  expanded: string | false
-  handleChange: AccordionHandler
-}
+import { ConcertAccordionProps } from '../concertListInterface'
 
 export default function ConcertAccordion({
   identifier,
