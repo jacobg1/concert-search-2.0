@@ -5,10 +5,10 @@ import ConcertAccordion from './components/ConcertAccordion'
 import ConcertPagination from './components/ConcertPagination'
 import { PaginationHandler, AccordionHandler } from './concertListInterface'
 
-export default function ConcertListDisplay(): JSX.Element {
+export default function ConcertListDisplay(): JSX.Element | null {
   const { concerts, loading } = useAppSelector((state) => state.concertList)
+  // TODO: reset page number when new search is made
   const [pageNumber, setPageNumber] = useState(1)
-
   const [expanded, setExpanded] = useState<string | false>(false)
 
   const handlePageChange: PaginationHandler = (event, value) => {
@@ -22,6 +22,8 @@ export default function ConcertListDisplay(): JSX.Element {
     }
 
   if (loading) return <CircularProgress />
+  // TODO: add record player animation
+  if (!concerts.length) return null
 
   return (
     <div style={{ width: '90%', margin: '25px auto 0' }}>
