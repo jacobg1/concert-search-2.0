@@ -14,6 +14,6 @@ const textFieldStyles = {
 
 export default function ConcertTextField(
   props: AutocompleteRenderInputParams & { placeholder: string }
-) {
+): JSX.Element {
   return <TextField {...props} sx={textFieldStyles} variant="outlined" />
 }

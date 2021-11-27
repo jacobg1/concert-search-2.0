@@ -46,7 +46,7 @@ const { loadBandList } = concertSelectSlice.actions
 export const { selectBand, selectYear, clearBand, clearYear } =
   concertSelectSlice.actions
 
-export const handleLoadBandList = (): AppThunk => (dispatch, getState) => {
+export const handleLoadBandList = (): AppThunk => (dispatch) => {
   dispatch(loadBandList(artistYearList))
 }
 
