@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { TrackList, TrackMetaData } from '../tracks/trackInterface'
+import { TrackListData, TrackMetaData } from '../tracks/trackInterface'
 
 interface SelectedConcert {
-  metaData?: TrackMetaData
-  trackList?: TrackList[]
+  metaData: TrackMetaData | Record<string, unknown>
+  trackList: TrackListData[]
 }
 
 export const fetchSelectedConcert = createAsyncThunk(
@@ -22,12 +22,14 @@ export const fetchSelectedConcert = createAsyncThunk(
 
 interface SelectedConcertState {
   selectedConcert: SelectedConcert
+  isDrawerOpen: boolean
   loading: boolean
   error: Error | Record<string, unknown>
 }
 
 const initialState: SelectedConcertState = {
-  selectedConcert: {},
+  selectedConcert: { trackList: [], metaData: {} },
+  isDrawerOpen: false,
   loading: false,
   error: {},
 }
@@ -35,10 +37,16 @@ const initialState: SelectedConcertState = {
 const selectedConcertSlice = createSlice({
   name: 'selectedConcert',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleConcertDrawer: (state) => {
+      state.isDrawerOpen = !state.isDrawerOpen
+    },
+  },
   extraReducers: {
     // Loading
     [fetchSelectedConcert.pending.type]: (state) => {
+      // Open concert drawer when concert is selected
+      state.isDrawerOpen = true
       state.loading = true
     },
     // Success
@@ -57,5 +65,7 @@ const selectedConcertSlice = createSlice({
     },
   },
 })
+
+export const { toggleConcertDrawer } = selectedConcertSlice.actions
 
 export default selectedConcertSlice.reducer
