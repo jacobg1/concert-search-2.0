@@ -5,7 +5,9 @@ export default function ConcertPagination({
   count,
   pageNumber,
   handlePageChange,
-}: ConcertPaginationProps): JSX.Element {
+}: ConcertPaginationProps): JSX.Element | null {
+  // Only show pagination if more than one page
+  if (count <= 1) return null
   return (
     <Box my={3} display="flex" justifyContent="center">
       <Pagination
