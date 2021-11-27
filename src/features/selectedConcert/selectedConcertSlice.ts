@@ -2,13 +2,13 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { TrackList, TrackMetaData } from '../tracks/trackInterface'
 
-interface IndividualConcert {
+interface SelectedConcert {
   metaData?: TrackMetaData
   trackList?: TrackList[]
 }
 
-export const fetchIndividualConcert = createAsyncThunk(
-  'individualConcert/fetchIndividualConcert',
+export const fetchSelectedConcert = createAsyncThunk(
+  'selectedConcert/fetchselectedConcert',
   async (concertId: string) => {
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/concert/${concertId}`,
@@ -16,41 +16,41 @@ export const fetchIndividualConcert = createAsyncThunk(
         method: 'GET',
       }
     )
-    return response.json() as Promise<IndividualConcert>
+    return response.json() as Promise<SelectedConcert>
   }
 )
 
-interface IndividualConcertState {
-  individualConcert: IndividualConcert
+interface SelectedConcertState {
+  selectedConcert: SelectedConcert
   loading: boolean
   error: Error | Record<string, unknown>
 }
 
-const initialState: IndividualConcertState = {
-  individualConcert: {},
+const initialState: SelectedConcertState = {
+  selectedConcert: {},
   loading: false,
   error: {},
 }
 
-const individualConcertSlice = createSlice({
-  name: 'individualConcert',
+const selectedConcertSlice = createSlice({
+  name: 'selectedConcert',
   initialState,
   reducers: {},
   extraReducers: {
     // Loading
-    [fetchIndividualConcert.pending.type]: (state) => {
+    [fetchSelectedConcert.pending.type]: (state) => {
       state.loading = true
     },
     // Success
-    [fetchIndividualConcert.fulfilled.type]: (
+    [fetchSelectedConcert.fulfilled.type]: (
       state,
-      action: PayloadAction<IndividualConcert>
+      action: PayloadAction<SelectedConcert>
     ) => {
-      state.individualConcert = action.payload
+      state.selectedConcert = action.payload
       state.loading = false
     },
     // Error
-    [fetchIndividualConcert.rejected.type]: (state, action) => {
+    [fetchSelectedConcert.rejected.type]: (state, action) => {
       // show error toast on error?
       state.error = action.error
       state.loading = false
@@ -58,4 +58,4 @@ const individualConcertSlice = createSlice({
   },
 })
 
-export default individualConcertSlice.reducer
+export default selectedConcertSlice.reducer
