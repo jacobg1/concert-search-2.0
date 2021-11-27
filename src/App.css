@@ -1,0 +1,23 @@
+html {
+	font-size: 12px;
+}
+
+@media only screen and (min-width : 425px) {
+	html {
+		font-size: 14px;
+	}
+}
+
+@media only screen and (min-width : 768px) {
+	html {
+		font-size: 16px;
+	}
+}
+
+body {
+	/* background-color: #B7C0EE; */
+	/* background-color: #394376; */
+	/* background-color: #d1d3dd; */
+	text-align: center;
+	background-color: #bed5ff;
+}
