@@ -14,6 +14,7 @@ interface ConcertListState {
   concerts: ChunkedConcertList
   loading: boolean
   error: Error | Record<string, unknown>
+  pageNumber: number
 }
 
 export const fetchConcertList = createAsyncThunk(
@@ -34,15 +35,22 @@ const initialState: ConcertListState = {
   concerts: [],
   loading: false,
   error: {},
+  pageNumber: 1,
 }
 
 const concertListSlice = createSlice({
   name: 'concertList',
   initialState,
-  reducers: {},
+  reducers: {
+    setPageNumber: (state, action: PayloadAction<number>) => {
+      state.pageNumber = action.payload
+    },
+  },
   extraReducers: {
     // Loading
     [fetchConcertList.pending.type]: (state) => {
+      // Reset pagination
+      state.pageNumber = 1
       state.loading = true
     },
     // Success
@@ -62,4 +70,5 @@ const concertListSlice = createSlice({
   },
 })
 
+export const { setPageNumber } = concertListSlice.actions
 export default concertListSlice.reducer
