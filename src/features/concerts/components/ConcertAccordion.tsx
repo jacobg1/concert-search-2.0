@@ -3,12 +3,13 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  Button,
 } from '@mui/material'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { ConcertAccordionProps } from '../concertListInterface'
+import PlayConcertButton from './PlayConcertButton'
+import { useAppDispatch } from '../../../app/hooks'
+import { fetchSelectedConcert } from '../../selectedConcert/selectedConcertSlice'
 
 export default function ConcertAccordion({
   identifier,
@@ -17,6 +18,10 @@ export default function ConcertAccordion({
   expanded,
   handleChange,
 }: ConcertAccordionProps): JSX.Element {
+  const dispatch = useAppDispatch()
+  const playConcert = (identifier: string) => {
+    dispatch(fetchSelectedConcert(identifier))
+  }
   return (
     <Accordion
       expanded={expanded === identifier}
@@ -35,17 +40,7 @@ export default function ConcertAccordion({
       </AccordionSummary>
 
       <AccordionDetails>
-        <Typography variant="subtitle1">
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={
-              <PlayArrowIcon sx={{ verticalAlign: 'sub' }} fontSize="small" />
-            }
-          >
-            Play
-          </Button>
-        </Typography>
+        <PlayConcertButton identifier={identifier} playConcert={playConcert} />
         <Typography sx={{ marginTop: '30px' }} variant="body1">
           {description}
         </Typography>
