@@ -1,17 +1,12 @@
 import { Autocomplete, ClassNameMap } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { background } from '../../../app/background'
-import { SyntheticEvent } from 'react'
 import ConcertTextField from './ConcertTextField'
-
-interface ConcertSelectProps {
-  id: string
-  placeholder: string
-  autocompleteOptions: { label: string }[]
-  changeHandler: (selection: string) => void
-  clearHandler: () => void
-  value: string
-}
+import {
+  InputChangeHandler,
+  InputClearHandler,
+  ConcertSelectProps,
+} from '../concertSelectInterface'
 
 const autocompleteStyles: Record<string, ClassNameMap> = {
   '& .MuiOutlinedInput-root': {
@@ -33,6 +28,20 @@ export default function ConcertSelect({
   clearHandler,
   value,
 }: ConcertSelectProps) {
+  // Handle band / year select
+  const handleChange: InputChangeHandler = (event, newValue) => {
+    if (newValue) changeHandler(newValue.label)
+  }
+
+  // Handler clearing form
+  const handleClearInput: InputClearHandler = (
+    event,
+    newInputValue,
+    reason
+  ) => {
+    if (reason === 'clear') clearHandler()
+  }
+
   return (
     <Autocomplete
       disablePortal
@@ -40,16 +49,8 @@ export default function ConcertSelect({
       value={{ label: value }}
       options={autocompleteOptions}
       sx={autocompleteStyles}
-      onChange={(event: SyntheticEvent, newValue: { label: string } | null) => {
-        if (newValue) changeHandler(newValue.label)
-      }}
-      onInputChange={(
-        event: SyntheticEvent,
-        newInputValue: string,
-        reason: string
-      ) => {
-        if (reason === 'clear') clearHandler()
-      }}
+      onChange={handleChange}
+      onInputChange={handleClearInput}
       popupIcon={<ExpandMoreIcon color="primary" />}
       renderInput={(params) => (
         <ConcertTextField {...params} placeholder={placeholder} />
