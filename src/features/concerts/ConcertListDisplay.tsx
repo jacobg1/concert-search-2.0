@@ -1,19 +1,21 @@
 import { useState } from 'react'
 import { CircularProgress } from '@mui/material'
-import { useAppSelector } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ConcertAccordion from './components/ConcertAccordion'
 import ConcertPagination from './components/ConcertPagination'
 import { PaginationHandler, AccordionHandler } from './concertListInterface'
+import { setPageNumber } from './concertListSlice'
 
 export default function ConcertListDisplay(): JSX.Element | null {
-  const { concerts, loading } = useAppSelector((state) => state.concertList)
-  // TODO: reset page number when new search is made
-  const [pageNumber, setPageNumber] = useState(1)
+  const dispatch = useAppDispatch()
+  const { concerts, loading, pageNumber } = useAppSelector(
+    (state) => state.concertList
+  )
   const [expanded, setExpanded] = useState<string | false>(false)
 
   const handlePageChange: PaginationHandler = (event, value) => {
     setExpanded(false)
-    setPageNumber(value)
+    dispatch(setPageNumber(value))
   }
 
   const handleAccordionChange: AccordionHandler =
