@@ -1,6 +1,7 @@
 import { AutocompleteRenderInputParams, TextField } from '@mui/material'
+import { SxProps } from '@mui/system'
 
-const textFieldStyles = {
+const textFieldStyles: SxProps = {
   '& input': {
     fontWeight: 'bold',
     '&::placeholder': {
@@ -10,7 +11,7 @@ const textFieldStyles = {
       background: 'none',
     },
   },
-} as const
+}
 
 export default function ConcertTextField(
   props: AutocompleteRenderInputParams & { placeholder: string }
