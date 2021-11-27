@@ -1,5 +1,6 @@
-import { Box, ClassNameMap } from '@mui/material'
 import { useEffect } from 'react'
+import { SxProps } from '@mui/system'
+import { Box } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 import ConcertSelect from './components/ConcertSelect'
@@ -12,13 +13,14 @@ import {
   clearYear,
 } from './concertSelectSlice'
 
-const boxStyles: ClassNameMap = {
+const boxStyles: SxProps = {
   width: '90%',
   margin: 'auto',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   height: '185px',
+  marginTop: '105px',
 
   // backgroundColor: {
   //   sm: 'red',
