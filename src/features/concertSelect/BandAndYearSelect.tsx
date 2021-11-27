@@ -1,8 +1,9 @@
-import { Box, Button, ClassNameMap } from '@mui/material'
+import { Box, ClassNameMap } from '@mui/material'
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 import ConcertSelect from './components/ConcertSelect'
+import ConcertSelectButton from './components/ConcertSelectButton'
 import {
   handleLoadBandList,
   selectBand,
@@ -11,11 +12,6 @@ import {
   clearYear,
 } from './concertSelectSlice'
 
-const buttonStyles: ClassNameMap = {
-  width: '25%',
-  alignSelf: 'flex-end',
-  padding: '10px',
-}
 const boxStyles: ClassNameMap = {
   width: '90%',
   margin: 'auto',
@@ -49,6 +45,7 @@ export default function BandAndYearSelect(): JSX.Element | null {
         id="select-band-name"
         placeholder="Select a band"
         value={selectedBand}
+        disabled={false}
         autocompleteOptions={formatter(Object.keys(bandList))}
         changeHandler={(selection) => dispatch(selectBand(selection))}
         clearHandler={() => dispatch(clearBand())}
@@ -57,15 +54,17 @@ export default function BandAndYearSelect(): JSX.Element | null {
         id="select-concert-year"
         placeholder="Select year (optional)"
         value={selectedYear}
+        disabled={!selectedBand}
         autocompleteOptions={
           selectedBand ? formatter(bandList[selectedBand]) : []
         }
         changeHandler={(selection) => dispatch(selectYear(selection))}
         clearHandler={() => dispatch(clearYear())}
       />
-      <Button sx={buttonStyles} variant="contained" color="primary">
-        Crawl
-      </Button>
+      <ConcertSelectButton
+        selectedBand={selectedBand}
+        selectedYear={selectedYear}
+      />
     </Box>
   )
 }
