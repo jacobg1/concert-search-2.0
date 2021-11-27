@@ -27,13 +27,14 @@ export default function ConcertSelect({
   changeHandler,
   clearHandler,
   value,
+  disabled,
 }: ConcertSelectProps): JSX.Element {
   // Handle band / year select
   const handleChange: InputChangeHandler = (event, newValue) => {
     if (newValue) changeHandler(newValue.label)
   }
 
-  // Handler clearing form
+  // Handle clearing form
   const handleClearInput: InputClearHandler = (
     event,
     newInputValue,
@@ -48,6 +49,7 @@ export default function ConcertSelect({
       id={id}
       value={{ label: value }}
       options={autocompleteOptions}
+      disabled={disabled}
       sx={autocompleteStyles}
       onChange={handleChange}
       onInputChange={handleClearInput}
