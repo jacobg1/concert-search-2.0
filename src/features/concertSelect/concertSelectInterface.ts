@@ -18,4 +18,10 @@ export interface ConcertSelectProps {
   changeHandler: (selection: string) => void
   clearHandler: () => void
   value: string
+  disabled: boolean
+}
+
+export interface ConcertSelectButtonProps {
+  selectedBand: string
+  selectedYear: string
 }
