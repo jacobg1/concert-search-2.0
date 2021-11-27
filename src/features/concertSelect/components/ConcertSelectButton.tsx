@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import { SxProps } from '@mui/system'
-import { useAppDispatch } from '../../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { fetchConcertList } from '../../concerts/concertListSlice'
 import { ConcertSelectButtonProps } from '../concertSelectInterface'
 
@@ -15,13 +15,13 @@ export default function ConcertSelectButton({
   selectedYear,
 }: ConcertSelectButtonProps): JSX.Element {
   const dispatch = useAppDispatch()
-
+  const { loading } = useAppSelector((state) => state.concertList)
   return (
     <Button
       variant="contained"
       color="primary"
       sx={buttonStyles}
-      disabled={!selectedBand}
+      disabled={!selectedBand || loading}
       onClick={() =>
         dispatch(
           fetchConcertList({
