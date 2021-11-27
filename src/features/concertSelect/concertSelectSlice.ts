@@ -32,6 +32,7 @@ export const concertSelectSlice = createSlice({
     },
     clearBand: (state) => {
       state.selectedBand = ''
+      // Clear year when band changes
       state.selectedYear = ''
     },
     clearYear: (state) => {
