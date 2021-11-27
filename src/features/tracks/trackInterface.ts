@@ -1,4 +1,4 @@
-export interface TrackList {
+export interface TrackListData {
   name: string
   playUrl: string
   title: string
