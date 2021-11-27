@@ -1,11 +1,5 @@
 import { Pagination, Box } from '@mui/material'
-import { PaginationHandler } from '../concertListInterface'
-
-interface ConcertPaginationProps {
-  count: number
-  pageNumber: number
-  handlePageChange: PaginationHandler
-}
+import { ConcertPaginationProps } from '../concertListInterface'
 
 export default function ConcertPagination({
   count,
