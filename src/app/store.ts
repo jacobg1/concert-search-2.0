@@ -1,14 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/counterSlice'
 import concertListReducer from '../features/concerts/concertListSlice'
-import individualConcertReducer from '../features/concerts/individualConcertSlice'
+import individualConcertReducer from '../features/selectedConcert/selectedConcertSlice'
 import concertSelectReducer from '../features/concertSelect/concertSelectSlice'
 
 export const store = configureStore({
   reducer: {
     individualConcert: individualConcertReducer,
     concertList: concertListReducer,
-    counter: counterReducer,
     concertSelect: concertSelectReducer,
   },
 })
