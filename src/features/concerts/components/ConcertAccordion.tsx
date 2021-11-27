@@ -22,7 +22,7 @@ export default function ConcertAccordion({
       expanded={expanded === identifier}
       onChange={handleChange(identifier)}
       TransitionProps={{
-        timeout: 300,
+        timeout: 250,
       }}
       square
     >
