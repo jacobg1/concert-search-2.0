@@ -1,9 +1,10 @@
-import { Button, ClassNameMap } from '@mui/material'
+import { Button } from '@mui/material'
+import { SxProps } from '@mui/system'
 import { useAppDispatch } from '../../../app/hooks'
 import { fetchConcertList } from '../../concerts/concertListSlice'
 import { ConcertSelectButtonProps } from '../concertSelectInterface'
 
-const buttonStyles: ClassNameMap = {
+const buttonStyles: SxProps = {
   width: '25%',
   alignSelf: 'flex-end',
   padding: '10px',
