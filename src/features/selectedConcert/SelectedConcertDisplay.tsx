@@ -2,6 +2,8 @@ import { CircularProgress, Drawer, Stack } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { useAppSelector } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
+import ConcertMeta from '../tracks/components/ConcertMeta'
+
 const drawerStyles: SxProps = {
   height: '100%',
   flexShrink: 0,
@@ -13,19 +15,22 @@ const drawerStyles: SxProps = {
   },
   '& .MuiDrawer-paperAnchorBottom': {
     backgroundColor: '#2e7e89',
+    overflow: 'hidden',
   },
 }
+
 interface SelectedConcertDisplayProps {
   isDrawerOpen: boolean
 }
+
 export default function SelectedConcertDisplay({
   isDrawerOpen,
-}: SelectedConcertDisplayProps) {
+}: SelectedConcertDisplayProps): JSX.Element {
   const {
     loading,
-    selectedConcert: { trackList },
+    selectedConcert: { trackList, metaData },
   } = useAppSelector((state) => state.individualConcert)
-  // if (loading) return <CircularProgress />
+
   return (
     <Drawer
       sx={drawerStyles}
@@ -34,11 +39,23 @@ export default function SelectedConcertDisplay({
       open={isDrawerOpen}
       hideBackdrop
     >
-      <Stack my={10} alignItems="center">
+      <Stack my={15} alignItems="center">
         {loading ? (
           <CircularProgress color="secondary" />
         ) : (
-          <TrackListDisplay trackList={trackList} />
+          <>
+            {metaData && (
+              <ConcertMeta
+                date={metaData.date}
+                title={metaData.title}
+                description={metaData.description}
+                creator={metaData.creator}
+                venue={metaData.venue}
+                source={metaData.source}
+              />
+            )}
+            <TrackListDisplay trackList={trackList} />
+          </>
         )}
       </Stack>
     </Drawer>
