@@ -9,7 +9,7 @@ interface PlayConcertButtonProps {
 export default function PlayConcertButton({
   playConcert,
   identifier,
-}: PlayConcertButtonProps) {
+}: PlayConcertButtonProps): JSX.Element {
   return (
     <Button
       sx={{
