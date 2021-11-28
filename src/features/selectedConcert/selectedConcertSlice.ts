@@ -2,8 +2,8 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { TrackListData, TrackMetaData } from '../tracks/trackInterface'
 
-interface SelectedConcert {
-  metaData: TrackMetaData | Record<string, unknown>
+export interface SelectedConcert {
+  metaData: TrackMetaData | null
   trackList: TrackListData[]
 }
 
@@ -28,7 +28,7 @@ interface SelectedConcertState {
 }
 
 const initialState: SelectedConcertState = {
-  selectedConcert: { trackList: [], metaData: {} },
+  selectedConcert: { trackList: [], metaData: null },
   isDrawerOpen: false,
   loading: false,
   error: {},
