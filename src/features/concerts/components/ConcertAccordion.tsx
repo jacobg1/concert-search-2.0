@@ -28,6 +28,7 @@ export default function ConcertAccordion({
       onChange={handleChange(identifier)}
       TransitionProps={{
         timeout: 250,
+        unmountOnExit: true,
       }}
       square
     >
