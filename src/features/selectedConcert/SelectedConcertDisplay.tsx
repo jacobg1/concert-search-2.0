@@ -3,6 +3,7 @@ import { SxProps } from '@mui/system'
 import { useAppSelector } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
+import AudioPlayer from '../player/AudioPlayer'
 
 const drawerStyles: SxProps = {
   height: '100%',
@@ -55,6 +56,7 @@ export default function SelectedConcertDisplay({
               />
             )}
             <TrackListDisplay trackList={trackList} />
+            <AudioPlayer />
           </>
         )}
       </Stack>
