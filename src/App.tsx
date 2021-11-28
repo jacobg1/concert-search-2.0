@@ -1,12 +1,16 @@
 import './App.css'
-import { fetchConcertList } from './features/concerts/concertListSlice'
-// import { fetchIndividualConcert } from './features/concerts/individualConcertSlice'
-import { useAppDispatch } from './app/hooks'
+// import { fetchConcertList } from './features/concerts/concertListSlice'
+// import { fetchSelectedConcert } from './features/selectedConcert/selectedConcertSlice'
+import { useAppDispatch, useAppSelector } from './app/hooks'
 import ConcertListDisplay from './features/concerts/ConcertListDisplay'
-import { Typography, AppBar } from '@mui/material'
+import { Typography, AppBar, Box, GlobalStyles } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import BandAndYearSelect from './features/concertSelect/BandAndYearSelect'
 import { background } from './app/background'
+import { SxProps } from '@mui/system'
+import SelectedConcertDisplay from './features/selectedConcert/SelectedConcertDisplay'
+// import { useState } from 'react'
+import { toggleConcertDrawer } from './features/selectedConcert/selectedConcertSlice'
 
 const theme = createTheme({
   palette: {
@@ -25,6 +29,20 @@ const theme = createTheme({
           borderRadius: 'none',
           backgroundColor: '#2e7e89',
           color: 'white',
+        },
+        noOptions: {
+          borderRadius: 'none',
+          backgroundColor: '#2e7e89',
+          color: 'white',
+        },
+      },
+    },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          borderRadius: 0,
+          background: '#bed5ff',
+          width: '90%',
         },
       },
     },
@@ -86,28 +104,47 @@ const theme = createTheme({
   },
 })
 
+const appBarStyles: SxProps = {
+  textAlign: 'left',
+  position: 'absolute',
+  right: 0,
+  left: 0,
+  width: '90%',
+  margin: '25px auto',
+  padding: '16px',
+  zIndex: 1,
+  border: '2px solid #bed5ff',
+}
+
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-  dispatch(fetchConcertList({ bandName: 'moe.', year: '2011' }))
-  // dispatch(fetchIndividualConcert('moe2011-03-25.salvo'))
+  // // dispatch(fetchConcertList({ bandName: 'moe.', year: '2011' }))
+  // dispatch(fetchSelectedConcert('moe2011-03-25.salvo'))
+  const { isDrawerOpen } = useAppSelector((state) => state.individualConcert)
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <GlobalStyles
+        styles={{ body: { overflow: isDrawerOpen ? 'hidden' : 'auto' } }}
+      />
+      <Box>
         <AppBar
           sx={{
-            textAlign: 'left',
-            position: 'static',
-            width: '90%',
-            margin: '25px auto',
-            padding: '16px',
+            ...appBarStyles,
+            ...(isDrawerOpen && { position: 'fixed', borderColor: 'white' }),
           }}
         >
-          <Typography variant="h1">Concert Crawler</Typography>
+          <Typography
+            variant="h1"
+            onClick={() => dispatch(toggleConcertDrawer())}
+          >
+            Concert Crawler
+          </Typography>
         </AppBar>
         <BandAndYearSelect />
         <ConcertListDisplay />
-      </div>
+        <SelectedConcertDisplay isDrawerOpen={isDrawerOpen} />
+      </Box>
     </ThemeProvider>
   )
 }
