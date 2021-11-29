@@ -20,9 +20,18 @@ export const fetchSelectedConcert = createAsyncThunk(
   }
 )
 
+interface CurrentlyPlayingTrack {
+  currentTrackName: string
+  playUrl: string
+}
+
+type PlayerState = 'pause' | 'play'
+
 interface SelectedConcertState {
   selectedConcert: SelectedConcert
+  currentlyPlayingTrack: CurrentlyPlayingTrack
   isDrawerOpen: boolean
+  playerState: PlayerState
   loading: boolean
   error: Error | Record<string, unknown>
 }
@@ -30,6 +39,8 @@ interface SelectedConcertState {
 const initialState: SelectedConcertState = {
   selectedConcert: { trackList: [], metaData: null },
   isDrawerOpen: false,
+  currentlyPlayingTrack: { currentTrackName: '', playUrl: '' },
+  playerState: 'pause',
   loading: false,
   error: {},
 }
@@ -40,6 +51,21 @@ const selectedConcertSlice = createSlice({
   reducers: {
     toggleConcertDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen
+    },
+    // TODO: playNextTrack / playPreviousTrack
+    playNewTrack: (state, action: PayloadAction<string>) => {
+      const findTrack = state.selectedConcert.trackList.find(
+        (t) => t.name === action.payload
+      )
+      state.currentlyPlayingTrack.currentTrackName = action.payload
+      state.currentlyPlayingTrack.playUrl = findTrack?.playUrl || ''
+      state.playerState = 'play'
+    },
+    setPlayerState: (state, action: PayloadAction<PlayerState>) => {
+      // Don't toggle state before song is selected
+      // TODO: play first song instead if none are selected
+      if (!state.currentlyPlayingTrack.playUrl) return
+      state.playerState = action.payload
     },
   },
   extraReducers: {
@@ -66,6 +92,7 @@ const selectedConcertSlice = createSlice({
   },
 })
 
-export const { toggleConcertDrawer } = selectedConcertSlice.actions
+export const { toggleConcertDrawer, playNewTrack, setPlayerState } =
+  selectedConcertSlice.actions
 
 export default selectedConcertSlice.reducer
