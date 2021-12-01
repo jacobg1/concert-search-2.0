@@ -29,6 +29,7 @@ export default function SelectedConcertDisplay({
 }: SelectedConcertDisplayProps): JSX.Element {
   const {
     loading,
+    currentlyPlayingTrack,
     selectedConcert: { trackList, metaData },
   } = useAppSelector((state) => state.individualConcert)
 
@@ -55,8 +56,12 @@ export default function SelectedConcertDisplay({
                 source={metaData.source}
               />
             )}
-            <TrackListDisplay trackList={trackList} />
-            <AudioPlayer />
+            {trackList.length && (
+              <>
+                <TrackListDisplay trackList={trackList} />
+                <AudioPlayer src={currentlyPlayingTrack.playUrl} />
+              </>
+            )}
           </>
         )}
       </Stack>
