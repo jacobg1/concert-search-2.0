@@ -1,6 +1,37 @@
 import { Typography, Box, Popover } from '@mui/material'
 import { TrackMetaData } from '../trackInterface'
-import { useState, MouseEvent } from 'react'
+import { SxProps } from '@mui/system'
+import { usePopover } from '../../../app/hooks'
+
+const metaContainerStyles: SxProps = {
+  width: '90%',
+  cursor: 'pointer',
+  '& p': {
+    margin: '0 0 10px',
+    width: '90%',
+    textAlign: 'left',
+    fontWeight: 'bold',
+    color: 'white',
+  },
+}
+
+const popoverContainerStyles: SxProps = {
+  p: 1,
+  border: '2px solid #ffffff',
+  cursor: 'default',
+  '& p': {
+    margin: '5px',
+  },
+  '& span': {
+    fontWeight: 'bold',
+  },
+}
+
+const popoverStyles: SxProps = {
+  cursor: 'pointer',
+  display: 'flex',
+  flexWrap: 'wrap',
+}
 
 export default function ConcertMeta({
   title,
@@ -10,57 +41,26 @@ export default function ConcertMeta({
   source,
   date,
 }: TrackMetaData): JSX.Element {
-  const [htmlEl, setHtmlEl] = useState<HTMLParagraphElement | null>(null)
-  const handleClick = (event: MouseEvent<HTMLParagraphElement>) => {
-    setHtmlEl(event.currentTarget)
-  }
+  const [htmlEl, isOpen, handleOpen, handleClose] =
+    usePopover<HTMLParagraphElement>()
 
   return (
-    <Box
-      sx={{
-        width: '90%',
-        cursor: 'pointer',
-        '& p': {
-          margin: '0 0 10px',
-          width: '90%',
-
-          textAlign: 'left',
-          fontWeight: 'bold',
-          color: 'white',
-        },
-      }}
-    >
-      <Typography
-        sx={{ cursor: 'pointer' }}
-        component="p"
-        onClick={handleClick}
-      >
+    <Box sx={metaContainerStyles}>
+      <Typography sx={{ cursor: 'pointer' }} component="p" onClick={handleOpen}>
         {title}
       </Typography>
       <Popover
-        sx={{ cursor: 'pointer' }}
+        sx={popoverStyles}
         id="concert-meta-popover"
-        open={Boolean(htmlEl)}
+        open={isOpen}
         anchorEl={htmlEl}
-        onClose={() => setHtmlEl(null)}
+        onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
         }}
       >
-        <Box
-          sx={{
-            p: 1,
-            border: '2px solid #ffffff',
-            cursor: 'default',
-            '& p': {
-              margin: '5px',
-            },
-            '& span': {
-              fontWeight: 'bold',
-            },
-          }}
-        >
+        <Box sx={popoverContainerStyles}>
           <Typography>
             <span>Band</span>: {creator}
           </Typography>
