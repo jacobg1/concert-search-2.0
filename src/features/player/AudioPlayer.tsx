@@ -20,23 +20,38 @@ const audioPlayerStyles: SxProps = {
 export default function AudioPlayer({ src }: { src: string }) {
   const dispatch = useAppDispatch()
   const audioEl = useRef<HTMLAudioElement>(null)
-  // const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState<number>(25)
+
   const {
     playerState,
     currentlyPlayingTrack: { playUrl },
   } = useAppSelector((state) => state.individualConcert)
 
+  const isPlaying = (current: HTMLAudioElement) => {
+    return !!(
+      current.currentTime > 0 &&
+      !current.paused &&
+      !current.ended &&
+      current.readyState > 2
+    )
+  }
+
   useEffect(() => {
     const { current } = audioEl
     if (!current) return
+
+    // Play when enough of track is loaded
+    current.oncanplay = () => current.play()
 
     // Set initial volume
     current.volume = (volume as number) / 100
 
     // If playerState changes, play or pause accordingly
-    if (playerState === 'play') current.play()
-    else current.pause()
+    if (playerState === 'play' && current.readyState > 2) {
+      current.play()
+    } else {
+      current.pause()
+    }
   }, [playerState, playUrl])
 
   const onPlayPauseClick = () => {
@@ -44,7 +59,7 @@ export default function AudioPlayer({ src }: { src: string }) {
     if (!current) return
 
     // Toggle playerState
-    if (current.paused) dispatch(setPlayerState('play'))
+    if (!isPlaying(current)) dispatch(setPlayerState('play'))
     else dispatch(setPlayerState('pause'))
   }
 
@@ -64,6 +79,7 @@ export default function AudioPlayer({ src }: { src: string }) {
           isPlaying={playerState === 'play'}
           onPlayPauseClick={onPlayPauseClick}
         />
+        {/* next / prev track */}
         <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
       </Stack>
     </Box>
