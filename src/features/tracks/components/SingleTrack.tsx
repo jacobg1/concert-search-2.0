@@ -1,6 +1,9 @@
 import { ListItemButton, ListItemText, Checkbox } from '@mui/material'
 import { SxProps } from '@mui/system'
+import React from 'react'
 import { background } from '../../../app/background'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { playNewTrack } from '../../selectedConcert/selectedConcertSlice'
 
 const listItemStyles: SxProps = {
   background,
@@ -34,22 +37,36 @@ export default function SingleTrack({
   title,
   length,
 }: SingleTrackProps): JSX.Element {
+  const dispatch = useAppDispatch()
+  const clickHandler = (e: React.SyntheticEvent): void => {
+    dispatch(playNewTrack(name))
+  }
+
+  const { currentTrackName } = useAppSelector(
+    (state) => state.individualConcert.currentlyPlayingTrack
+  )
+
   return (
-    <ListItemButton dense sx={listItemStyles} key={name}>
+    <ListItemButton
+      dense
+      sx={listItemStyles}
+      key={name}
+      selected={currentTrackName === name}
+    >
       <ListItemText
         sx={listItemTextSyles}
         id={name}
         primary={title}
         secondary={length}
-        onClick={(e) => console.log(e.target)}
+        onClick={clickHandler}
       />
-
+      {/* 
       <Checkbox
         edge="end"
         checked={false}
         value="checkbox"
         inputProps={{ 'aria-labelledby': name }}
-      />
+      /> */}
     </ListItemButton>
   )
 }
