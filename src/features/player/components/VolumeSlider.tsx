@@ -30,7 +30,7 @@ export default function VolumeSlider({
           minWidth: '40px',
           padding: '4px 6px',
         }}
-        onClick={handleOpen}
+        onClick={!isOpen ? handleOpen : handleClose}
       >
         <VolumeUp />
       </Button>
