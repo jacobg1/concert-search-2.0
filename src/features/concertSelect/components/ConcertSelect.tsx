@@ -1,13 +1,8 @@
-import { Autocomplete } from '@mui/material'
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { SxProps } from '@mui/system'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { background } from '../../../app/background'
-import ConcertTextField from './ConcertTextField'
-import {
-  InputChangeHandler,
-  InputClearHandler,
-  ConcertSelectProps,
-} from '../concertSelectInterface'
-import { SxProps } from '@mui/system'
+import { ConcertSelectProps } from '../concertSelectInterface'
 
 const autocompleteStyles: SxProps = {
   '& .MuiOutlinedInput-root': {
@@ -21,44 +16,63 @@ const autocompleteStyles: SxProps = {
   },
 }
 
+const menuItemStyles: SxProps = {
+  '& input': {
+    fontWeight: 'bold',
+    '&::placeholder': {
+      opacity: 1,
+    },
+    '&::selection': {
+      background: 'none',
+    },
+  },
+}
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 250,
+      // width: 250,
+      background: '#2e7e89',
+      color: 'white',
+      fontWeight: 'bold',
+    },
+  },
+}
 export default function ConcertSelect({
   id,
   placeholder,
   autocompleteOptions,
   changeHandler,
-  clearHandler,
+  // clearHandler,
   value,
   disabled,
 }: ConcertSelectProps): JSX.Element {
-  // Handle band / year select
-  const handleChange: InputChangeHandler = (event, newValue) => {
-    if (newValue) changeHandler(newValue.label)
-  }
-
-  // Handle clearing form
-  const handleClearInput: InputClearHandler = (
-    event,
-    newInputValue,
-    reason
-  ) => {
-    if (reason === 'clear') clearHandler()
-  }
-
   return (
-    <Autocomplete
-      disablePortal
+    <Select
       id={id}
-      value={value ? { label: value } : null}
-      options={autocompleteOptions}
+      value={value}
       disabled={disabled}
+      displayEmpty
       sx={autocompleteStyles}
-      onChange={handleChange}
-      onInputChange={handleClearInput}
-      isOptionEqualToValue={(option, value) => option.label === value.label}
-      popupIcon={<ExpandMoreIcon color="primary" />}
-      renderInput={(params) => (
-        <ConcertTextField {...params} placeholder={placeholder} />
+      MenuProps={MenuProps}
+      IconComponent={() => (
+        <ExpandMoreIcon
+          style={{ position: 'absolute', right: '15px' }}
+          color="primary"
+        />
       )}
-    />
+      onChange={(event: SelectChangeEvent) => changeHandler(event.target.value)}
+      renderValue={(selected) => (!selected.length ? placeholder : selected)}
+    >
+      <MenuItem disabled value="">
+        {placeholder}
+      </MenuItem>
+      {autocompleteOptions.map(({ label }) => (
+        <MenuItem key={label} value={label} sx={menuItemStyles}>
+          {label}
+        </MenuItem>
+      ))}
+    </Select>
   )
 }
