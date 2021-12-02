@@ -1,9 +1,7 @@
+import { SelectChangeEvent } from '@mui/material'
 import { SyntheticEvent } from 'react'
 
-export type InputChangeHandler = (
-  event: SyntheticEvent,
-  newValue: { label: string } | null
-) => void
+export type SelectEvent = SelectChangeEvent<{ label: string } | null>
 
 export type InputClearHandler = (
   event: SyntheticEvent,
