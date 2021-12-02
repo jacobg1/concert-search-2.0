@@ -6,7 +6,7 @@ import { TrackListData } from './trackInterface'
 const listContainerStyles: SxProps = {
   width: '90%',
   margin: '5px auto',
-  maxHeight: '60vh',
+  maxHeight: '50vh',
   overflowY: 'auto',
   '& .MuiButtonBase-root': {
     '&:first-of-type': {
@@ -20,17 +20,28 @@ const listContainerStyles: SxProps = {
 
 interface TrackListDisplayProps {
   trackList: TrackListData[]
+  currentTrackName: string
+  playNewTrack: (name: string) => void
 }
 
 // TODO: order by track# in back-end
 export default function TrackListDisplay({
   trackList,
+  playNewTrack,
+  currentTrackName,
 }: TrackListDisplayProps): JSX.Element | null {
-  if (!trackList.length) return null
   return (
     <List disablePadding sx={listContainerStyles}>
+      {/* <Typography variant="body1">Tracks: {trackList.length}</Typography> */}
       {trackList.map((track) => {
-        return <SingleTrack key={track.name} {...track} />
+        return (
+          <SingleTrack
+            {...track}
+            key={track.name}
+            playNewTrack={playNewTrack}
+            currentTrackName={currentTrackName}
+          />
+        )
       })}
     </List>
   )
