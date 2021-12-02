@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-
 import { TrackListData, TrackMetaData } from '../tracks/trackInterface'
 
 export interface SelectedConcert {
@@ -45,6 +44,13 @@ const initialState: SelectedConcertState = {
   error: {},
 }
 
+const findTrackIndex = (
+  trackList: TrackListData[],
+  currentTrackName: string
+): number => {
+  return trackList.findIndex(({ name }) => name === currentTrackName)
+}
+
 const selectedConcertSlice = createSlice({
   name: 'selectedConcert',
   initialState,
@@ -52,18 +58,63 @@ const selectedConcertSlice = createSlice({
     toggleConcertDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen
     },
-    // TODO: playNextTrack / playPreviousTrack
     playNewTrack: (state, action: PayloadAction<string>) => {
-      const findTrack = state.selectedConcert.trackList.find(
-        (t) => t.name === action.payload
-      )
-      state.currentlyPlayingTrack.currentTrackName = action.payload
-      state.currentlyPlayingTrack.playUrl = findTrack?.playUrl || ''
+      const {
+        selectedConcert: { trackList },
+      } = state
+
+      const trackIndex = findTrackIndex(trackList, action.payload)
+
+      state.currentlyPlayingTrack = {
+        currentTrackName: action.payload,
+        playUrl: trackList[trackIndex].playUrl,
+      }
+      state.playerState = 'play'
+    },
+    playNextTrack: (state) => {
+      const {
+        selectedConcert: { trackList },
+        currentlyPlayingTrack: { currentTrackName },
+      } = state
+
+      const trackIndex = findTrackIndex(trackList, currentTrackName)
+
+      // Check whether we are at end of trackList
+      // If so go to first track
+      // Otherwise play next track
+      const nextTrack =
+        trackIndex === trackList.length - 1
+          ? trackList[0]
+          : trackList[trackIndex + 1]
+
+      state.currentlyPlayingTrack = {
+        currentTrackName: nextTrack.name,
+        playUrl: nextTrack.playUrl,
+      }
+      state.playerState = 'play'
+    },
+    playPreviousTrack: (state) => {
+      const {
+        selectedConcert: { trackList },
+        currentlyPlayingTrack: { currentTrackName },
+      } = state
+
+      const trackIndex = findTrackIndex(trackList, currentTrackName)
+
+      const previousTrack =
+        trackIndex === 0
+          ? trackList[trackList.length - 1]
+          : trackList[trackIndex - 1]
+
+      state.currentlyPlayingTrack = {
+        currentTrackName: previousTrack.name,
+        playUrl: previousTrack.playUrl,
+      }
       state.playerState = 'play'
     },
     setPlayerState: (state, action: PayloadAction<PlayerState>) => {
-      // Don't toggle state before song is selected
       // TODO: play first song instead if none are selected
+      // TODO: handle loading state?
       if (!state.currentlyPlayingTrack.playUrl) return
       state.playerState = action.payload
     },
@@ -71,7 +122,6 @@ const selectedConcertSlice = createSlice({
   extraReducers: {
     // Loading
     [fetchSelectedConcert.pending.type]: (state) => {
-      // Open concert drawer when concert is selected
       state.isDrawerOpen = true
       state.loading = true
     },
@@ -92,7 +142,12 @@ const selectedConcertSlice = createSlice({
   },
 })
 
-export const { toggleConcertDrawer, playNewTrack, setPlayerState } =
-  selectedConcertSlice.actions
+export const {
+  toggleConcertDrawer,
+  playNewTrack,
+  setPlayerState,
+  playNextTrack,
+  playPreviousTrack,
+} = selectedConcertSlice.actions
 
 export default selectedConcertSlice.reducer
