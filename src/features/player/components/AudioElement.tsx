@@ -3,6 +3,7 @@ import { forwardRef } from 'react'
 interface AudioElementProps {
   src: string
   children?: React.ReactNode
+  handleNextTrack: () => void
 }
 
 export const AudioElement = forwardRef<HTMLAudioElement, AudioElementProps>(
@@ -11,6 +12,7 @@ export const AudioElement = forwardRef<HTMLAudioElement, AudioElementProps>(
       <audio
         ref={forwardedRef}
         src={props.src}
+        onEnded={() => props.handleNextTrack()}
         id="musicPlayer"
         preload="metadata"
         crossOrigin="anonymous"
