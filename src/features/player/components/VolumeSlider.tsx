@@ -1,5 +1,5 @@
+import { Stack, Slider, Box, Button, Popper } from '@mui/material'
 import { VolumeUp } from '@mui/icons-material'
-import { Stack, Slider, Box, Button, Popover, Popper } from '@mui/material'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 
 import { usePopover } from '../../../app/hooks'
@@ -7,7 +7,6 @@ import { usePopover } from '../../../app/hooks'
 type ClickAwayEvent = Event | React.SyntheticEvent
 
 interface VolumeSliderProps {
-  // audioPlayer: HTMLAudioElement | null
   volume: number
   handleVolumeChange: (event: Event, newValue: number | number[]) => void
 }
@@ -35,8 +34,8 @@ export default function VolumeSlider({
         <VolumeUp />
       </Button>
       <Popper
+        id="vol-control"
         placement="top-end"
-        id={'vol-control'}
         open={isOpen}
         anchorEl={htmlEl}
       >
