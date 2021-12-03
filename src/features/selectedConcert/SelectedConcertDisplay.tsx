@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { CircularProgress, Drawer, Stack } from '@mui/material'
 import { SxProps } from '@mui/system'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import {
+  useAppDispatch,
+  useAppSelector,
+  usePlayPause,
+  useVolumeChange,
+} from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
 import AudioPlayer from '../player/AudioPlayer'
@@ -41,24 +46,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
   const audioEl = useRef<HTMLAudioElement>(null)
   const [volume, setVolume] = useState<number>(25)
 
-  useEffect(() => {
-    const { current } = audioEl
-
-    if (current) {
-      current.volume = (volume as number) / 100
-    }
-  }, [volume, playerState])
-
-  useEffect(() => {
-    const { current } = audioEl
-    if (!current) return
-
-    if (playerState === 'play') {
-      current.play()
-    } else {
-      current.pause()
-    }
-  }, [playerState, playUrl])
+  useVolumeChange(audioEl.current, volume, playerState)
+  usePlayPause(audioEl.current, playUrl, playerState)
 
   const isPlaying = (current: HTMLAudioElement): boolean => {
     return !!(
@@ -78,6 +67,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
       return
     }
 
+    // If song is already playing
+    // prevent play until current track is loaded
     if (current.readyState > 2) {
       dispatch(playNewTrack(name))
       return
@@ -95,18 +86,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
     }
   }
 
-  const handleNextTrack = (): void => {
+  const handleNextOrPreviousTrack = (nextOrPrev: string) => (): void => {
     const { current } = audioEl
+    if (!current || current.readyState <= 2) return
 
-    if (current && current.readyState > 2) {
+    if (nextOrPrev === 'next') {
       dispatch(playNextTrack())
-    }
-  }
-
-  const handlePreviousTrack = (): void => {
-    const { current } = audioEl
-
-    if (current && current.readyState > 2) {
+    } else {
       dispatch(playPreviousTrack())
     }
   }
@@ -117,6 +103,10 @@ export default function SelectedConcertDisplay(): JSX.Element {
     if (current) {
       setVolume(newValue as number)
     }
+  }
+
+  const getDuration = (current: HTMLAudioElement | null): number => {
+    return !current || isNaN(current.duration) ? 0 : current.duration
   }
 
   return (
@@ -145,22 +135,23 @@ export default function SelectedConcertDisplay(): JSX.Element {
             {trackList.length ? (
               <>
                 <AudioElement
-                  handleNextTrack={handleNextTrack}
                   ref={audioEl}
                   src={playUrl}
+                  handleNextTrack={handleNextOrPreviousTrack('next')}
                 />
                 <TrackListDisplay
                   trackList={trackList}
-                  playNewTrack={handlePlayNewTrack}
                   currentTrackName={currentTrackName}
+                  playNewTrack={handlePlayNewTrack}
                 />
                 <AudioPlayer
                   volume={volume}
                   playerState={playerState}
-                  onPlayPauseClick={onPlayPauseClick}
-                  handleNextTrack={handleNextTrack}
-                  handlePreviousTrack={handlePreviousTrack}
+                  duration={getDuration(audioEl.current)}
                   handleVolumeChange={handleVolumeChange}
+                  onPlayPauseClick={onPlayPauseClick}
+                  handleNextTrack={handleNextOrPreviousTrack('next')}
+                  handlePreviousTrack={handleNextOrPreviousTrack('prev')}
                 />
               </>
             ) : null}
