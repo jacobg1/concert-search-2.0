@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from 'react'
+import { useState, MouseEvent, useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import type { RootState, AppDispatch } from './store'
 
@@ -25,4 +25,31 @@ export function usePopover<T>(): [
   }
 
   return [htmlEl, isOpen, handleOpen, handleClose]
+}
+
+export function useVolumeChange(
+  current: HTMLAudioElement | null,
+  volume: number,
+  playerState: 'play' | 'pause'
+): void {
+  useEffect(() => {
+    if (current) {
+      current.volume = (volume as number) / 100
+    }
+  }, [volume, playerState])
+}
+
+export function usePlayPause(
+  current: HTMLAudioElement | null,
+  playUrl: string,
+  playerState: 'play' | 'pause'
+): void {
+  useEffect(() => {
+    if (!current) return
+    if (playerState === 'play') {
+      current.play()
+    } else {
+      current.pause()
+    }
+  }, [playerState, playUrl])
 }
