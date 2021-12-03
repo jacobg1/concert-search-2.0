@@ -28,16 +28,11 @@ const drawerStyles: SxProps = {
   },
 }
 
-interface SelectedConcertDisplayProps {
-  isDrawerOpen: boolean
-}
-
-export default function SelectedConcertDisplay({
-  isDrawerOpen,
-}: SelectedConcertDisplayProps): JSX.Element {
+export default function SelectedConcertDisplay(): JSX.Element {
   const {
     loading,
     playerState,
+    isDrawerOpen,
     currentlyPlayingTrack: { playUrl, currentTrackName },
     selectedConcert: { trackList, metaData },
   } = useAppSelector((state) => state.individualConcert)
