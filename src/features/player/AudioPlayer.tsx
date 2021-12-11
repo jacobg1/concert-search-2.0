@@ -7,7 +7,7 @@ import NextOrPreviousTrack from './components/NextOrPreviousTrack'
 import ProgressBar from './components/ProgressBar'
 
 const audioPlayerStyles: SxProps = {
-  padding: '16px 16px 0',
+  padding: '16px 16px',
   width: '90%',
   border: '2px solid black',
   background,
@@ -21,8 +21,10 @@ interface AudioPlayerProps {
   handlePreviousTrack: () => void
   onPlayPauseClick: () => void
   handleVolumeChange: (event: Event, newValue: number | number[]) => void
+  setSongPosition: (songPosition: number) => void
   volume: number
   duration: number
+  position: number
   playerState: 'play' | 'pause'
 }
 
@@ -34,10 +36,24 @@ export default function AudioPlayer({
   playerState,
   volume,
   duration,
-}: AudioPlayerProps) {
+  position,
+  setSongPosition,
+}: AudioPlayerProps): JSX.Element {
   return (
     <Box my={3} sx={audioPlayerStyles}>
-      <Stack flexDirection="row" justifyContent="space-between">
+      <ProgressBar
+        duration={duration}
+        position={position}
+        setSongPosition={setSongPosition}
+      />
+      <Stack
+        sx={{
+          width: '70%',
+          margin: 'auto',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
         <PlayOrPause
           isPlaying={playerState === 'play'}
           onPlayPauseClick={onPlayPauseClick}
@@ -48,7 +64,6 @@ export default function AudioPlayer({
         />
         <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
       </Stack>
-      <ProgressBar duration={duration} />
     </Box>
   )
 }
