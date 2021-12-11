@@ -29,17 +29,17 @@ type PlayerState = 'pause' | 'play'
 interface SelectedConcertState {
   selectedConcert: SelectedConcert
   currentlyPlayingTrack: CurrentlyPlayingTrack
-  isDrawerOpen: boolean
   playerState: PlayerState
+  isDrawerOpen: boolean
   loading: boolean
   error: Error | Record<string, unknown>
 }
 
 const initialState: SelectedConcertState = {
   selectedConcert: { trackList: [], metaData: null },
-  isDrawerOpen: false,
   currentlyPlayingTrack: { currentTrackName: '', playUrl: '' },
   playerState: 'pause',
+  isDrawerOpen: false,
   loading: false,
   error: {},
 }
@@ -57,6 +57,7 @@ const selectedConcertSlice = createSlice({
   reducers: {
     toggleConcertDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen
+      state.playerState = !state.isDrawerOpen ? 'pause' : 'play'
     },
     playNewTrack: (state, action: PayloadAction<string>) => {
       const {
@@ -122,6 +123,7 @@ const selectedConcertSlice = createSlice({
   extraReducers: {
     // Loading
     [fetchSelectedConcert.pending.type]: (state) => {
+      state.currentlyPlayingTrack = { currentTrackName: '', playUrl: '' }
       state.isDrawerOpen = true
       state.loading = true
     },
