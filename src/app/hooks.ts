@@ -59,6 +59,8 @@ export function useSongDuration(
 ): number {
   const [duration, setDuration] = useState(0)
   useEffect(() => {
+    if (!playUrl) setDuration(0)
+
     if (current) {
       current.onloadedmetadata = () => {
         setDuration(current.duration)
@@ -87,6 +89,8 @@ export function useSongPosition(
   const [position, setPosition] = useState(0)
 
   useEffect(() => {
+    if (!playUrl) setPosition(0)
+
     if (current) {
       current.ontimeupdate = () => {
         setPosition(Math.floor(current.currentTime))
