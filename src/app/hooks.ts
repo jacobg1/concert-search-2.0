@@ -1,11 +1,10 @@
 import { useState, MouseEvent, useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { PopoverHandler } from './interface'
 import type { RootState, AppDispatch } from './store'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
-
-type PopoverHandler<T> = (event: MouseEvent<T>) => void
 
 export function usePopover<T>(): [
   T | null,
@@ -52,4 +51,61 @@ export function usePlayPause(
       current.pause()
     }
   }, [playerState, playUrl])
+}
+
+export function useSongDuration(
+  current: HTMLAudioElement | null,
+  playUrl: string
+): number {
+  const [duration, setDuration] = useState(0)
+  useEffect(() => {
+    if (current) {
+      current.onloadedmetadata = () => {
+        setDuration(current.duration)
+      }
+    }
+
+    return () => {
+      if (current) {
+        current.onloadedmetadata = null
+      }
+    }
+  }, [playUrl])
+
+  return duration
+}
+
+type SongPosition = [
+  position: number,
+  setSongPosition: (songPosition: number) => void
+]
+
+export function useSongPosition(
+  current: HTMLAudioElement | null,
+  playUrl: string
+): SongPosition {
+  const [position, setPosition] = useState(0)
+
+  useEffect(() => {
+    if (current) {
+      current.ontimeupdate = () => {
+        setPosition(Math.floor(current.currentTime))
+      }
+    }
+
+    return () => {
+      if (current) {
+        current.ontimeupdate = null
+      }
+    }
+  }, [playUrl])
+
+  const setSongPosition = (songPosition: number) => {
+    if (current && current.readyState > 2) {
+      setPosition(songPosition)
+      current.currentTime = Math.floor(songPosition)
+    }
+  }
+
+  return [position, setSongPosition]
 }
