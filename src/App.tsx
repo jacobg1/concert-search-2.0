@@ -1,17 +1,13 @@
 import './App.css'
-// import { fetchConcertList } from './features/concerts/concertListSlice'
-// import { fetchSelectedConcert } from './features/selectedConcert/selectedConcertSlice'
-import { useAppDispatch, useAppSelector } from './app/hooks'
-import ConcertListDisplay from './features/concerts/ConcertListDisplay'
 import { Typography, AppBar, Box, GlobalStyles, Stack } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import BandAndYearSelect from './features/concertSelect/BandAndYearSelect'
-import { background } from './app/background'
 import { SxProps } from '@mui/system'
+import { useAppDispatch, useAppSelector } from './app/hooks'
+import ConcertListDisplay from './features/concerts/ConcertListDisplay'
+import BandAndYearSelect from './features/concertSelect/BandAndYearSelect'
 import SelectedConcertDisplay from './features/selectedConcert/SelectedConcertDisplay'
-// import { useState } from 'react'
-// import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp'
 import { toggleConcertDrawer } from './features/selectedConcert/selectedConcertSlice'
+import { background } from './app/background'
 
 const theme = createTheme({
   palette: {
@@ -75,6 +71,16 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
+          width: '90%',
+          margin: 'auto',
+        },
+        thumb: {
+          borderRadius: 0,
+          height: 16,
+          width: 16,
+        },
+        rail: {
+          height: 5,
         },
       },
     },
@@ -149,8 +155,6 @@ const appBarStyles: SxProps = {
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch()
-  // // dispatch(fetchConcertList({ bandName: 'moe.', year: '2011' }))
-  // dispatch(fetchSelectedConcert('moe2011-03-25.salvo'))
   const {
     isDrawerOpen,
     selectedConcert: { trackList },
