@@ -10,7 +10,7 @@ interface PlayOrPauseProps {
 export default function PlayOrPause({
   isPlaying,
   onPlayPauseClick,
-}: PlayOrPauseProps) {
+}: PlayOrPauseProps): JSX.Element {
   return (
     <Box onClick={onPlayPauseClick}>
       <Button

@@ -16,7 +16,7 @@ interface NextOrPreviousTrackProps {
 export default function NextOrPreviousTrack({
   handleNextTrack,
   handlePreviousTrack,
-}: NextOrPreviousTrackProps) {
+}: NextOrPreviousTrackProps): JSX.Element {
   return (
     <Box width="55%" display="flex" justifyContent="space-around">
       <Button
