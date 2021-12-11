@@ -5,6 +5,8 @@ import {
   useAppDispatch,
   useAppSelector,
   usePlayPause,
+  useSongDuration,
+  useSongPosition,
   useVolumeChange,
 } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
@@ -49,6 +51,9 @@ export default function SelectedConcertDisplay(): JSX.Element {
   useVolumeChange(audioEl.current, volume, playerState)
   usePlayPause(audioEl.current, playUrl, playerState)
 
+  const duration = useSongDuration(audioEl.current, playUrl)
+  const [position, setSongPosition] = useSongPosition(audioEl.current, playUrl)
+
   const isPlaying = (current: HTMLAudioElement): boolean => {
     return !!(
       current.currentTime > 0 &&
@@ -69,6 +74,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
     // If song is already playing
     // prevent play until current track is loaded
+    // TODO: rethink this
     if (current.readyState > 2) {
       dispatch(playNewTrack(name))
       return
@@ -103,10 +109,6 @@ export default function SelectedConcertDisplay(): JSX.Element {
     if (current) {
       setVolume(newValue as number)
     }
-  }
-
-  const getDuration = (current: HTMLAudioElement | null): number => {
-    return !current || isNaN(current.duration) ? 0 : current.duration
   }
 
   return (
@@ -147,7 +149,9 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 <AudioPlayer
                   volume={volume}
                   playerState={playerState}
-                  duration={getDuration(audioEl.current)}
+                  duration={duration}
+                  position={position}
+                  setSongPosition={setSongPosition}
                   handleVolumeChange={handleVolumeChange}
                   onPlayPauseClick={onPlayPauseClick}
                   handleNextTrack={handleNextOrPreviousTrack('next')}
