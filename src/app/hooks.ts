@@ -93,7 +93,9 @@ export function useSongPosition(
 
     if (current) {
       current.ontimeupdate = () => {
-        setPosition(Math.floor(current.currentTime))
+        if (current.buffered.length && !current.seeking) {
+          setPosition(Math.floor(current.currentTime))
+        }
       }
     }
 
