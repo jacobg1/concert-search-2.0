@@ -89,6 +89,7 @@ export default function ProgressBar({
         style={{ width: '70%' }}
         value={position}
         min={0}
+        step={1}
         max={duration}
         disabled={duration === 0}
         onChange={(_e, value) => setSongPosition(value as number)}
