@@ -14,7 +14,7 @@ export const AudioElement = forwardRef<HTMLAudioElement, AudioElementProps>(
         src={props.src}
         onEnded={() => props.handleNextTrack()}
         id="musicPlayer"
-        preload="metadata"
+        preload="auto"
         crossOrigin="anonymous"
       />
     )
