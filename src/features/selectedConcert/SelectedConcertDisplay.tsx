@@ -76,6 +76,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
     // prevent play until current track is loaded
     // TODO: rethink this
     if (current.readyState > 2) {
+      setSongPosition(0)
+      current.currentTime = 0
       dispatch(playNewTrack(name))
       return
     }
@@ -95,6 +97,9 @@ export default function SelectedConcertDisplay(): JSX.Element {
   const handleNextOrPreviousTrack = (nextOrPrev: string) => (): void => {
     const { current } = audioEl
     if (!current || current.readyState <= 2) return
+
+    setSongPosition(0)
+    current.currentTime = 0
 
     if (nextOrPrev === 'next') {
       dispatch(playNextTrack())
