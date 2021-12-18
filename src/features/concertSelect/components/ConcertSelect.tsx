@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { background } from '../../../app/background'
 import { ConcertSelectProps } from '../concertSelectInterface'
 
-const autocompleteStyles: SxProps = {
+const selectListStyles: SxProps = {
   '& .MuiOutlinedInput-root': {
     borderRadius: '0px',
     border: 'none',
@@ -32,7 +32,6 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: 250,
-      // width: 250,
       background: '#2e7e89',
       color: 'white',
       fontWeight: 'bold',
@@ -44,7 +43,6 @@ export default function ConcertSelect({
   placeholder,
   autocompleteOptions,
   changeHandler,
-  // clearHandler,
   value,
   disabled,
 }: ConcertSelectProps): JSX.Element {
@@ -54,12 +52,12 @@ export default function ConcertSelect({
       value={value}
       disabled={disabled}
       displayEmpty
-      sx={autocompleteStyles}
+      sx={selectListStyles}
       MenuProps={MenuProps}
       IconComponent={() => (
         <ExpandMoreIcon
-          style={{ position: 'absolute', right: '15px' }}
           color="primary"
+          style={{ position: 'absolute', right: '15px' }}
         />
       )}
       onChange={(event: SelectChangeEvent) => changeHandler(event.target.value)}
