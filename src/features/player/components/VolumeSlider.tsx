@@ -2,11 +2,11 @@ import { Stack, Slider, Box, Button, Popper } from '@mui/material'
 import { VolumeUp } from '@mui/icons-material'
 import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 import { usePopover } from '../../../app/hooks'
-import { PopoverHandler } from '../../../app/interface'
+import { PopoverHandler, VolumeChangeHandler } from '../../../app/interface'
 
 interface VolumeSliderProps {
   volume: number
-  handleVolumeChange: (event: Event, newValue: number | number[]) => void
+  handleVolumeChange: VolumeChangeHandler
 }
 
 interface VolumeButtonProps {
@@ -24,7 +24,7 @@ const VolumeButton = ({
       variant="contained"
       size="small"
       aria-label="volume-control"
-      sx={{
+      style={{
         minWidth: '40px',
         padding: '4px 6px',
       }}
@@ -55,7 +55,7 @@ export default function VolumeSlider({
       >
         <Stack bgcolor="#bed5ff">
           <Slider
-            sx={{ width: '225px', margin: '11px' }}
+            style={{ width: '225px', margin: '11px' }}
             value={volume}
             min={0}
             max={100}
