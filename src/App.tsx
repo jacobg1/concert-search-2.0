@@ -58,6 +58,17 @@ const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+          border: '2px solid white',
+        },
+        input: {
+          fontSize: '1.1rem',
+        },
+      },
+    },
     MuiPopover: {
       styleOverrides: {
         paper: {
@@ -73,8 +84,10 @@ const theme = createTheme({
           borderRadius: 0,
           width: '90%',
           margin: 'auto',
+          // pointerEvents: 'none',
         },
         thumb: {
+          // pointerEvents: 'all',
           borderRadius: 0,
           height: 16,
           width: 16,
@@ -89,6 +102,7 @@ const theme = createTheme({
         root: {
           padding: '3px 0',
           margin: '15px 0',
+          border: '2px solid white',
           background,
         },
       },
@@ -148,7 +162,7 @@ const appBarStyles: SxProps = {
   right: 0,
   left: 0,
   width: '90%',
-  margin: '25px auto',
+  margin: '30px auto',
   padding: '16px',
   zIndex: 1,
 }
