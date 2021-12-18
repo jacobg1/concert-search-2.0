@@ -21,10 +21,6 @@ const boxStyles: SxProps = {
   justifyContent: 'space-between',
   height: '185px',
   marginTop: '105px',
-
-  // backgroundColor: {
-  //   sm: 'red',
-  // },
 }
 
 export default function BandAndYearSelect(): JSX.Element | null {
