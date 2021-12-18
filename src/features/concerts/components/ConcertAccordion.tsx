@@ -33,16 +33,16 @@ export default function ConcertAccordion({
       square
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon color="primary" />}
-        aria-controls={`concert-${identifier}-header`}
         id={`concert-${identifier}-header`}
+        aria-controls={`concert-${identifier}-header`}
+        expandIcon={<ExpandMoreIcon color="primary" />}
       >
         <Typography variant="h2">{title}</Typography>
       </AccordionSummary>
 
       <AccordionDetails>
         <PlayConcertButton identifier={identifier} playConcert={playConcert} />
-        <Typography sx={{ marginTop: '30px' }} variant="body1">
+        <Typography variant="body1" style={{ marginTop: '30px' }}>
           {description}
         </Typography>
       </AccordionDetails>
