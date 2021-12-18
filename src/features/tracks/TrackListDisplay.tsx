@@ -6,7 +6,7 @@ import { TrackListData } from './trackInterface'
 const listContainerStyles: SxProps = {
   width: '90%',
   margin: '5px auto',
-  maxHeight: '50vh',
+  maxHeight: 'calc(75vh - 150px)',
   overflowY: 'auto',
   '& .MuiButtonBase-root': {
     '&:first-of-type': {
