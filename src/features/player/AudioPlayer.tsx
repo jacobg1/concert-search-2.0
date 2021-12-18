@@ -5,23 +5,22 @@ import { background } from '../../app/background'
 import { SxProps } from '@mui/system'
 import NextOrPreviousTrack from './components/NextOrPreviousTrack'
 import ProgressBar from './components/ProgressBar'
+import { SongPositionHandler, VolumeChangeHandler } from '../../app/interface'
 
 const audioPlayerStyles: SxProps = {
-  padding: '16px 16px',
+  padding: { xs: '14px 10px 20px' },
   width: '90%',
-  border: '2px solid black',
+  border: '2px solid white',
   background,
   boxSizing: 'border-box',
-  position: 'absolute',
-  bottom: 0,
 }
 
 interface AudioPlayerProps {
   handleNextTrack: () => void
   handlePreviousTrack: () => void
   onPlayPauseClick: () => void
-  handleVolumeChange: (event: Event, newValue: number | number[]) => void
-  setSongPosition: (songPosition: number) => void
+  handleVolumeChange: VolumeChangeHandler
+  setSongPosition: SongPositionHandler
   volume: number
   duration: number
   position: number
@@ -33,11 +32,11 @@ export default function AudioPlayer({
   handlePreviousTrack,
   onPlayPauseClick,
   handleVolumeChange,
+  setSongPosition,
   playerState,
   volume,
   duration,
   position,
-  setSongPosition,
 }: AudioPlayerProps): JSX.Element {
   return (
     <Box my={3} sx={audioPlayerStyles}>
@@ -48,7 +47,7 @@ export default function AudioPlayer({
       />
       <Stack
         sx={{
-          width: '70%',
+          width: { xs: '80%', md: '25%' },
           margin: 'auto',
           flexDirection: 'row',
           justifyContent: 'space-between',
