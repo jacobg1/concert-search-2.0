@@ -18,17 +18,16 @@ export default function ConcertListDisplay(): JSX.Element | null {
     dispatch(setPageNumber(value))
   }
 
-  const handleAccordionChange: AccordionHandler =
-    (id) => (event, isExpanded) => {
-      setExpanded(isExpanded ? id : false)
-    }
+  const handleAccordionChange: AccordionHandler = (id) => (_e, isExpanded) => {
+    setExpanded(isExpanded ? id : false)
+  }
 
   if (loading) return <CircularProgress />
   // TODO: add record player animation
   if (!concerts.length) return null
 
   return (
-    <div style={{ width: '90%', margin: '25px auto 0' }}>
+    <div style={{ width: '90%', margin: '40px auto 0' }}>
       {concerts[pageNumber - 1].map((concert, i) => {
         return (
           <ConcertAccordion
