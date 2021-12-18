@@ -4,8 +4,8 @@ import { background } from '../../../app/background'
 
 const listItemStyles: SxProps = {
   background,
-  margin: '4px 0',
-  border: '2px solid black',
+  margin: '10px 0',
+  border: '2px solid white',
   textTransform: 'capitalize',
 }
 
@@ -48,7 +48,7 @@ export default function SingleTrack({
       <ListItemText
         sx={listItemTextSyles}
         id={name}
-        primary={title}
+        primary={title || name}
         secondary={length}
         onClick={() => playNewTrack(name)}
       />
