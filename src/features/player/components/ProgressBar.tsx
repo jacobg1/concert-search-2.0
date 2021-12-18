@@ -1,18 +1,18 @@
 import { Box, Slider, Typography } from '@mui/material'
+import { SongPositionHandler } from '../../../app/interface'
 
 const progressBarHolderStyles = {
-  width: {
-    xs: '100%',
-    sm: '75%',
-    md: '70%',
-  },
+  width: '100%',
   margin: '5px auto 15px auto',
+  '& .MuiSlider-rail, & .MuiSlider-track': {
+    height: { xs: 5, md: 10 },
+  },
   '& .MuiSlider-colorPrimary': {
     padding: '13px 0',
   },
   '& .MuiSlider-thumb': {
-    height: 12,
-    width: 12,
+    height: { xs: 12, md: 18 },
+    width: { xs: 12, md: 18 },
   },
   '& .Mui-disabled': {
     '.MuiSlider-thumb': {
@@ -52,7 +52,7 @@ const DurationLabel = ({
 interface ProgressBarProps {
   duration: number
   position: number
-  setSongPosition: (songPosition: number) => void
+  setSongPosition: SongPositionHandler
 }
 
 export default function ProgressBar({
@@ -86,7 +86,6 @@ export default function ProgressBar({
         aria-label="progress-bar"
         id="progressBar"
         color="primary"
-        style={{ width: '70%' }}
         value={position}
         min={0}
         step={1}
