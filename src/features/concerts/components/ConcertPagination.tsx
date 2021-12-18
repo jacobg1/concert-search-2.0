@@ -1,5 +1,23 @@
 import { Pagination, Box } from '@mui/material'
+import { SxProps } from '@mui/system'
 import { ConcertPaginationProps } from '../concertListInterface'
+
+const paginationStyles: SxProps = {
+  '& .MuiPaginationItem-root': {
+    borderRadius: 0,
+  },
+  '& .MuiPagination-ul': {
+    flexWrap: 'nowrap',
+    width: '90%',
+  },
+}
+
+const boxStyles = {
+  display: 'flex',
+  justifyContent: 'center',
+  width: '90%',
+  margin: '20px auto',
+}
 
 export default function ConcertPagination({
   count,
@@ -9,18 +27,14 @@ export default function ConcertPagination({
   // Only show pagination if more than one page
   if (count <= 1) return null
   return (
-    <Box my={3} display="flex" justifyContent="center">
+    <Box my={3} style={boxStyles}>
       <Pagination
-        count={count}
-        page={pageNumber}
-        onChange={handlePageChange}
         shape="rounded"
         color="primary"
-        sx={{
-          '& .MuiPaginationItem-root': {
-            borderRadius: 0,
-          },
-        }}
+        count={count}
+        page={pageNumber}
+        sx={paginationStyles}
+        onChange={handlePageChange}
       />
     </Box>
   )
