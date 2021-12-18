@@ -1,6 +1,6 @@
-import { useState, MouseEvent, useEffect } from 'react'
+import { useState, MouseEvent, useEffect, useRef } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { PopoverHandler } from './interface'
+import { PopoverHandler, SongPositionHandler } from './interface'
 import type { RootState, AppDispatch } from './store'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -19,7 +19,7 @@ export function usePopover<T>(): [
     setHtmlEl(event.currentTarget)
   }
 
-  const handleClose = (event: MouseEvent<T>) => {
+  const handleClose = (_e: MouseEvent<T>) => {
     setHtmlEl(null)
   }
 
@@ -45,6 +45,7 @@ export function usePlayPause(
 ): void {
   useEffect(() => {
     if (!current) return
+
     if (playerState === 'play') {
       current.play()
     } else {
@@ -58,20 +59,15 @@ export function useSongDuration(
   playUrl: string
 ): number {
   const [duration, setDuration] = useState(0)
+
+  if (current) {
+    current.onloadedmetadata = () => {
+      setDuration(current.duration)
+    }
+  }
+
   useEffect(() => {
     if (!playUrl) setDuration(0)
-
-    if (current) {
-      current.onloadedmetadata = () => {
-        setDuration(current.duration)
-      }
-    }
-
-    return () => {
-      if (current) {
-        current.onloadedmetadata = null
-      }
-    }
   }, [playUrl])
 
   return duration
@@ -79,7 +75,8 @@ export function useSongDuration(
 
 type SongPosition = [
   position: number,
-  setSongPosition: (songPosition: number) => void
+  setSongPosition: SongPositionHandler,
+  resetSongPosition: () => void
 ]
 
 export function useSongPosition(
@@ -88,30 +85,38 @@ export function useSongPosition(
 ): SongPosition {
   const [position, setPosition] = useState(0)
 
+  if (current) {
+    current.ontimeupdate = () => {
+      if (current.paused) return
+      setPosition(Math.floor(current.currentTime))
+    }
+  }
+
   useEffect(() => {
     if (!playUrl) setPosition(0)
-
-    if (current) {
-      current.ontimeupdate = () => {
-        if (current.buffered.length && !current.seeking) {
-          setPosition(Math.floor(current.currentTime))
-        }
-      }
-    }
-
-    return () => {
-      if (current) {
-        current.ontimeupdate = null
-      }
-    }
   }, [playUrl])
 
   const setSongPosition = (songPosition: number) => {
     if (current && current.readyState > 2) {
+      // Pause track
+      current.pause()
+
+      // Set position and currentTime
       setPosition(songPosition)
       current.currentTime = Math.floor(songPosition)
+
+      // Start track back up
+      if (current.paused) {
+        current.play()
+      }
     }
   }
 
-  return [position, setSongPosition]
+  const resetSongPosition = () => {
+    if (!current) return
+    setPosition(0)
+    current.currentTime = 0
+  }
+
+  return [position, setSongPosition, resetSongPosition]
 }
