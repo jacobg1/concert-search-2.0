@@ -57,7 +57,9 @@ const selectedConcertSlice = createSlice({
   reducers: {
     toggleConcertDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen
-      state.playerState = !state.isDrawerOpen ? 'pause' : 'play'
+      if (state.currentlyPlayingTrack.playUrl) {
+        state.playerState = !state.isDrawerOpen ? 'pause' : 'play'
+      }
     },
     playNewTrack: (state, action: PayloadAction<string>) => {
       const {
