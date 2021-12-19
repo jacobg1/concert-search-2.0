@@ -11,6 +11,9 @@ export const theme = createTheme({
       main: '#8eb9ff',
     },
   },
+  typography: {
+    fontFamily: `'PT Sans', 'sans-serif'`,
+  },
   components: {
     MuiDrawer: {
       styleOverrides: {
