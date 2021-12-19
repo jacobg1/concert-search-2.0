@@ -20,26 +20,11 @@ export interface TrackListData {
 }
 
 export interface TrackMetaData {
-  // identifier: string
   title: string
+  numTracks: string
   creator: string
-  // mediatype: string
-  // collection?: string[]
-  // type?: string
   description?: string
   date: string
-  // year?: string
-  // subject?: string
-  // publicdate?: string
-  // addeddate?: string
-  // uploader?: string
   venue?: string
-  // coverage?: string
   source?: string
-  // lineage?: string
-  // taper?: string
-  // transferer?: string
-  // updatedate?: string
-  // updater?: string
-  // backup_location?: string
 }
