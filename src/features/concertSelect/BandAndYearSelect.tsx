@@ -2,15 +2,12 @@ import { useEffect } from 'react'
 import { SxProps } from '@mui/system'
 import { Box } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-
 import ConcertSelect from './components/ConcertSelect'
 import ConcertSelectButton from './components/ConcertSelectButton'
 import {
   handleLoadBandList,
   selectBand,
   selectYear,
-  clearBand,
-  clearYear,
 } from './concertSelectSlice'
 
 const boxStyles: SxProps = {
@@ -19,8 +16,7 @@ const boxStyles: SxProps = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  height: '185px',
-  marginTop: '105px',
+  height: { xs: '185px', sm: '200px' },
 }
 
 export default function BandAndYearSelect(): JSX.Element | null {
@@ -46,7 +42,6 @@ export default function BandAndYearSelect(): JSX.Element | null {
         disabled={false}
         autocompleteOptions={formatter(Object.keys(bandList))}
         changeHandler={(selection) => dispatch(selectBand(selection))}
-        clearHandler={() => dispatch(clearBand())}
       />
       <ConcertSelect
         id="select-concert-year"
@@ -57,7 +52,6 @@ export default function BandAndYearSelect(): JSX.Element | null {
           selectedBand ? formatter(bandList[selectedBand]) : []
         }
         changeHandler={(selection) => dispatch(selectYear(selection))}
-        clearHandler={() => dispatch(clearYear())}
       />
       <ConcertSelectButton
         selectedBand={selectedBand}
