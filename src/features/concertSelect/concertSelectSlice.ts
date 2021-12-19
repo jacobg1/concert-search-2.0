@@ -30,21 +30,12 @@ export const concertSelectSlice = createSlice({
     selectYear: (state, action: PayloadAction<string>) => {
       state.selectedYear = action.payload
     },
-    clearBand: (state) => {
-      state.selectedBand = ''
-      // Clear year when band changes
-      state.selectedYear = ''
-    },
-    clearYear: (state) => {
-      state.selectedYear = ''
-    },
   },
 })
 
 const { loadBandList } = concertSelectSlice.actions
 
-export const { selectBand, selectYear, clearBand, clearYear } =
-  concertSelectSlice.actions
+export const { selectBand, selectYear } = concertSelectSlice.actions
 
 // TODO: load this from back end
 export const handleLoadBandList = (): AppThunk => (dispatch) => {
