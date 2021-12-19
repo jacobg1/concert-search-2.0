@@ -81,13 +81,13 @@ type SongPosition = [
 
 export function useSongPosition(
   current: HTMLAudioElement | null,
-  playUrl: string
+  playUrl: string,
+  playerState: string
 ): SongPosition {
   const [position, setPosition] = useState(0)
 
   if (current) {
     current.ontimeupdate = () => {
-      if (current.paused) return
       setPosition(Math.floor(current.currentTime))
     }
   }
@@ -106,7 +106,7 @@ export function useSongPosition(
       current.currentTime = Math.floor(songPosition)
 
       // Start track back up
-      if (current.paused) {
+      if (current.paused && playerState !== 'pause') {
         current.play()
       }
     }
