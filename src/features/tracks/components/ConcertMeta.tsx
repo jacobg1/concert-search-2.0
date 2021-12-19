@@ -2,15 +2,16 @@ import { Typography, Box, Popover } from '@mui/material'
 import { TrackMetaData } from '../trackInterface'
 import { SxProps } from '@mui/system'
 import { usePopover } from '../../../app/hooks'
+import { MetaItem } from './MetaItem'
 
 const metaContainerStyles: SxProps = {
   width: '90%',
   cursor: 'pointer',
+
   '& p': {
     margin: '0 0 10px',
     width: '90%',
     textAlign: 'left',
-    fontWeight: 'bold',
     color: 'white',
   },
 }
@@ -20,7 +21,8 @@ const popoverContainerStyles: SxProps = {
   border: '2px solid #ffffff',
   cursor: 'default',
   '& p': {
-    margin: '5px',
+    fontSize: '1rem',
+    margin: '10px 5px',
   },
   '& span': {
     fontWeight: 'bold',
@@ -31,6 +33,7 @@ const popoverStyles: SxProps = {
   cursor: 'pointer',
   display: 'flex',
   flexWrap: 'wrap',
+  maxWidth: '1000px',
 }
 
 export default function ConcertMeta({
@@ -40,13 +43,27 @@ export default function ConcertMeta({
   venue,
   source,
   date,
+  numTracks,
 }: TrackMetaData): JSX.Element {
   const [htmlEl, isOpen, handleOpen, handleClose] =
     usePopover<HTMLParagraphElement>()
 
+  const metaItems = [
+    { label: 'Band', value: creator },
+    { label: 'Date', value: date },
+    { label: 'Venue', value: venue },
+    { label: 'Tracks', value: numTracks },
+    { label: 'Description', value: description },
+    { label: 'Source', value: source },
+  ]
+
   return (
     <Box sx={metaContainerStyles}>
-      <Typography sx={{ cursor: 'pointer' }} component="p" onClick={handleOpen}>
+      <Typography
+        sx={{ cursor: 'pointer', fontSize: '1.1rem' }}
+        component="p"
+        onClick={handleOpen}
+      >
         {title}
       </Typography>
       <Popover
@@ -61,25 +78,11 @@ export default function ConcertMeta({
         }}
       >
         <Box sx={popoverContainerStyles}>
-          <Typography>
-            <span>Band</span>: {creator}
-          </Typography>
-          <Typography>
-            <span>Date</span>: {date}
-          </Typography>
-          <Typography>
-            <span>Venue</span>: {venue}
-          </Typography>
-          {description && (
-            <Typography>
-              <span>Description</span>: {description}
-            </Typography>
-          )}
-          {source && (
-            <Typography>
-              <span>Source</span>: {source}
-            </Typography>
-          )}
+          {metaItems.map(({ label, value }, i) => {
+            return value ? (
+              <MetaItem key={`metaItem-${i}`} label={label} value={value} />
+            ) : null
+          })}
         </Box>
       </Popover>
     </Box>
