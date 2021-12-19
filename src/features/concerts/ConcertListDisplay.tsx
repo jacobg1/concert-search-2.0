@@ -5,6 +5,7 @@ import ConcertAccordion from './components/ConcertAccordion'
 import ConcertPagination from './components/ConcertPagination'
 import { PaginationHandler, AccordionHandler } from './concertListInterface'
 import { setPageNumber } from './concertListSlice'
+import { RecordIcon } from './components/RecordIcon'
 
 export default function ConcertListDisplay(): JSX.Element | null {
   const dispatch = useAppDispatch()
@@ -22,9 +23,9 @@ export default function ConcertListDisplay(): JSX.Element | null {
     setExpanded(isExpanded ? id : false)
   }
 
+  if (!concerts.length && !loading) return <RecordIcon />
+
   if (loading) return <CircularProgress />
-  // TODO: add record player animation
-  if (!concerts.length) return null
 
   return (
     <div style={{ width: '90%', margin: '40px auto 0' }}>
@@ -46,5 +47,3 @@ export default function ConcertListDisplay(): JSX.Element | null {
     </div>
   )
 }
-
-// TODO: playlist as mui drawer
