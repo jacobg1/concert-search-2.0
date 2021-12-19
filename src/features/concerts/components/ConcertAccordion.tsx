@@ -51,6 +51,4 @@ export default function ConcertAccordion({
 }
 
 // TODO: playlist as mui drawer
-// TODO: player as mui drawer?
 // TODO: concert rating on accordion tab?
-// TODO: order concerts by date (title? may not have date)
