@@ -24,7 +24,6 @@ interface TrackListDisplayProps {
   playNewTrack: (name: string) => void
 }
 
-// TODO: order by track# in back-end
 export default function TrackListDisplay({
   trackList,
   playNewTrack,
