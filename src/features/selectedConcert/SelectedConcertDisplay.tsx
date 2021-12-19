@@ -136,11 +136,11 @@ export default function SelectedConcertDisplay(): JSX.Element {
           alignSelf: 'center',
         }}
       >
-        <BackButton />
         {loading ? (
           <CircularProgress color="secondary" />
         ) : (
           <>
+            <BackButton />
             {metaData && (
               <ConcertMeta
                 date={metaData.date}
