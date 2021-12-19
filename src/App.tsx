@@ -1,13 +1,12 @@
 import './App.css'
-import { Typography, AppBar, Box, GlobalStyles, Stack } from '@mui/material'
+import { Box, GlobalStyles } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { SxProps } from '@mui/system'
-import { useAppDispatch, useAppSelector } from './app/hooks'
+import { useAppSelector } from './app/hooks'
 import ConcertListDisplay from './features/concerts/ConcertListDisplay'
 import BandAndYearSelect from './features/concertSelect/BandAndYearSelect'
 import SelectedConcertDisplay from './features/selectedConcert/SelectedConcertDisplay'
-import { toggleConcertDrawer } from './features/selectedConcert/selectedConcertSlice'
 import { background } from './app/background'
+import { AppHeader } from './AppHeader'
 
 const theme = createTheme({
   palette: {
@@ -84,10 +83,8 @@ const theme = createTheme({
           borderRadius: 0,
           width: '90%',
           margin: 'auto',
-          // pointerEvents: 'none',
         },
         thumb: {
-          // pointerEvents: 'all',
           borderRadius: 0,
           height: 16,
           width: 16,
@@ -107,14 +104,6 @@ const theme = createTheme({
         },
       },
     },
-    // MuiAccordionDetails: {
-    //   styleOverrides: {
-    //     root: {
-    //       width: 'auto',
-    //       display: 'block',
-    //     },
-    //   },
-    // },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -156,62 +145,23 @@ const theme = createTheme({
   },
 })
 
-const appBarStyles: SxProps = {
-  textAlign: 'left',
-  position: 'absolute',
-  right: 0,
-  left: 0,
-  width: '90%',
-  margin: '30px auto',
-  padding: '16px',
-  zIndex: 1,
-}
-
 function App(): JSX.Element {
-  const dispatch = useAppDispatch()
   const {
-    isDrawerOpen,
-    selectedConcert: { trackList },
-  } = useAppSelector((state) => state.individualConcert)
-
-  const handleConcertDrawer = (): void | null => {
-    if (trackList.length) {
-      dispatch(toggleConcertDrawer())
-    } else {
-      return null
-    }
-  }
+    individualConcert: { isDrawerOpen },
+  } = useAppSelector((state) => state)
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles
-        styles={{ body: { overflow: isDrawerOpen ? 'hidden' : 'auto' } }}
+        styles={{
+          body: {
+            overflow: isDrawerOpen ? 'hidden' : 'auto',
+            maxWidth: '1000px',
+            margin: 'auto',
+          },
+        }}
       />
       <Box>
-        <AppBar
-          onClick={handleConcertDrawer}
-          sx={{
-            ...appBarStyles,
-            ...(isDrawerOpen && {
-              position: 'fixed',
-              border: '2px solid white',
-            }),
-          }}
-        >
-          <Stack
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-          >
-            <Typography variant="h1">Concert Search</Typography>
-            {trackList.length ? (
-              <>
-                <Typography alignSelf="center" variant="body1">
-                  Back
-                </Typography>
-              </>
-            ) : null}
-          </Stack>
-        </AppBar>
+        <AppHeader />
         <BandAndYearSelect />
         <ConcertListDisplay />
         <SelectedConcertDisplay />
