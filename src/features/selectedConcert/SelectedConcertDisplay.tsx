@@ -19,6 +19,8 @@ import {
   setPlayerState,
   playNewTrack,
 } from './selectedConcertSlice'
+import { VolumeChangeHandler } from '../../app/interface'
+import { BackButton } from './components/BackButton'
 
 const drawerStyles: SxProps = {
   height: '100%',
@@ -52,7 +54,11 @@ export default function SelectedConcertDisplay(): JSX.Element {
   usePlayPause(audioEl.current, playUrl, playerState)
 
   const duration = useSongDuration(audioEl.current, playUrl)
-  const [position, setSongPosition] = useSongPosition(audioEl.current, playUrl)
+  const [position, setSongPosition, resetSongPosition] = useSongPosition(
+    audioEl.current,
+    playUrl,
+    playerState
+  )
 
   const isPlaying = (current: HTMLAudioElement): boolean => {
     return !!(
@@ -76,8 +82,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     // prevent play until current track is loaded
     // TODO: rethink this
     if (current.readyState > 2) {
-      setSongPosition(0)
-      current.currentTime = 0
+      resetSongPosition()
       dispatch(playNewTrack(name))
       return
     }
@@ -98,8 +103,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     const { current } = audioEl
     if (!current || current.readyState <= 2) return
 
-    setSongPosition(0)
-    current.currentTime = 0
+    resetSongPosition()
 
     if (nextOrPrev === 'next') {
       dispatch(playNextTrack())
@@ -108,7 +112,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     }
   }
 
-  const handleVolumeChange = (event: Event, newValue: number | number[]) => {
+  const handleVolumeChange: VolumeChangeHandler = (_e, newValue) => {
     const { current } = audioEl
 
     if (current) {
@@ -124,7 +128,15 @@ export default function SelectedConcertDisplay(): JSX.Element {
       open={isDrawerOpen}
       hideBackdrop
     >
-      <Stack my={15} alignItems="center">
+      <Stack
+        style={{
+          width: '100%',
+          maxWidth: '1000px',
+          alignItems: 'center',
+          alignSelf: 'center',
+        }}
+      >
+        <BackButton />
         {loading ? (
           <CircularProgress color="secondary" />
         ) : (
@@ -137,19 +149,20 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 creator={metaData.creator}
                 venue={metaData.venue}
                 source={metaData.source}
+                numTracks={trackList.length.toString()}
               />
             )}
             {trackList.length ? (
               <>
-                <AudioElement
-                  ref={audioEl}
-                  src={playUrl}
-                  handleNextTrack={handleNextOrPreviousTrack('next')}
-                />
                 <TrackListDisplay
                   trackList={trackList}
                   currentTrackName={currentTrackName}
                   playNewTrack={handlePlayNewTrack}
+                />
+                <AudioElement
+                  ref={audioEl}
+                  src={playUrl}
+                  handleNextTrack={handleNextOrPreviousTrack('next')}
                 />
                 <AudioPlayer
                   volume={volume}
