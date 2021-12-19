@@ -10,6 +10,7 @@ export function AppStyles({ theme }: { theme: Theme }): JSX.Element {
       styles={{
         html: {
           fontSize: '12px',
+
           [theme.breakpoints.up('sm')]: {
             fontSize: '13px',
           },
