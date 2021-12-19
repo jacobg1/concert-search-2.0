@@ -17,6 +17,8 @@ const selectListStyles: SxProps = {
 }
 
 const menuItemStyles: SxProps = {
+  height: '48px',
+
   '& input': {
     fontWeight: 'bold',
     '&::placeholder': {
@@ -31,6 +33,7 @@ const menuItemStyles: SxProps = {
 const MenuProps = {
   PaperProps: {
     style: {
+      maxWidth: '900px',
       maxHeight: 250,
       background: '#2e7e89',
       color: 'white',
