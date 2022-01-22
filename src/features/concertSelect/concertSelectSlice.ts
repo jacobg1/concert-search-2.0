@@ -37,7 +37,6 @@ const { loadBandList } = concertSelectSlice.actions
 
 export const { selectBand, selectYear } = concertSelectSlice.actions
 
-// TODO: load this from back end
 export const handleLoadBandList = (): AppThunk => (dispatch) => {
   dispatch(loadBandList(artistYearList))
 }
