@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { TrackListData, TrackMetaData } from '../tracks/trackInterface'
+import { PlayerState } from '../../app/interface'
+import { PlayArrowTwoTone } from '@mui/icons-material'
+
+const { Play, Pause } = PlayerState
 
 export interface SelectedConcert {
   metaData: TrackMetaData | null
@@ -24,8 +28,6 @@ interface CurrentlyPlayingTrack {
   playUrl: string
 }
 
-type PlayerState = 'pause' | 'play'
-
 interface SelectedConcertState {
   selectedConcert: SelectedConcert
   currentlyPlayingTrack: CurrentlyPlayingTrack
@@ -38,7 +40,7 @@ interface SelectedConcertState {
 const initialState: SelectedConcertState = {
   selectedConcert: { trackList: [], metaData: null },
   currentlyPlayingTrack: { currentTrackName: '', playUrl: '' },
-  playerState: 'pause',
+  playerState: Pause,
   isDrawerOpen: false,
   loading: false,
   error: {},
@@ -58,7 +60,7 @@ const selectedConcertSlice = createSlice({
     toggleConcertDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen
       if (state.currentlyPlayingTrack.playUrl) {
-        state.playerState = !state.isDrawerOpen ? 'pause' : 'play'
+        state.playerState = !state.isDrawerOpen ? Pause : Play
       }
     },
     playNewTrack: (state, action: PayloadAction<string>) => {
@@ -72,7 +74,7 @@ const selectedConcertSlice = createSlice({
         currentTrackName: action.payload,
         playUrl: trackList[trackIndex].playUrl,
       }
-      state.playerState = 'play'
+      state.playerState = Play
     },
     playNextTrack: (state) => {
       const {
@@ -94,7 +96,7 @@ const selectedConcertSlice = createSlice({
         currentTrackName: nextTrack.name,
         playUrl: nextTrack.playUrl,
       }
-      state.playerState = 'play'
+      state.playerState = Play
     },
     playPreviousTrack: (state) => {
       const {
@@ -113,7 +115,7 @@ const selectedConcertSlice = createSlice({
         currentTrackName: previousTrack.name,
         playUrl: previousTrack.playUrl,
       }
-      state.playerState = 'play'
+      state.playerState = Play
     },
     setPlayerState: (state, action: PayloadAction<PlayerState>) => {
       // TODO: play first song instead if none are selected
