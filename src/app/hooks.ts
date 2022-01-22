@@ -1,7 +1,9 @@
 import { useState, MouseEvent, useEffect, useRef } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { PopoverHandler, SongPositionHandler } from './interface'
+import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
 import type { RootState, AppDispatch } from './store'
+
+const { Play, Pause } = PlayerState
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -29,7 +31,7 @@ export function usePopover<T>(): [
 export function useVolumeChange(
   current: HTMLAudioElement | null,
   volume: number,
-  playerState: 'play' | 'pause'
+  playerState: PlayerState
 ): void {
   useEffect(() => {
     if (current) {
@@ -41,12 +43,12 @@ export function useVolumeChange(
 export function usePlayPause(
   current: HTMLAudioElement | null,
   playUrl: string,
-  playerState: 'play' | 'pause'
+  playerState: PlayerState
 ): void {
   useEffect(() => {
     if (!current) return
 
-    if (playerState === 'play') {
+    if (playerState === Play) {
       current.play()
     } else {
       current.pause()
@@ -106,7 +108,7 @@ export function useSongPosition(
       current.currentTime = Math.floor(songPosition)
 
       // Start track back up
-      if (current.paused && playerState !== 'pause') {
+      if (current.paused && playerState !== Pause) {
         current.play()
       }
     }
