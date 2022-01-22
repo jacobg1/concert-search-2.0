@@ -19,8 +19,15 @@ import {
   setPlayerState,
   playNewTrack,
 } from './selectedConcertSlice'
-import { VolumeChangeHandler } from '../../app/interface'
-import { BackButton } from './components/BackButton'
+import {
+  PlayerState,
+  TrackDirection,
+  VolumeChangeHandler,
+} from '../../app/interface'
+import { ButtonContainer } from './components/ButtonContainer'
+
+const { Play, Pause } = PlayerState
+const { Next, Prev } = TrackDirection
 
 const drawerStyles: SxProps = {
   height: '100%',
@@ -78,8 +85,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
       return
     }
 
-    // If song is already playing
-    // prevent play until current track is loaded
+    // If song is already playing prevent play until current track is loaded
     // TODO: rethink this
     if (current.readyState > 2) {
       resetSongPosition()
@@ -93,24 +99,25 @@ export default function SelectedConcertDisplay(): JSX.Element {
     if (!current) return
 
     if (!isPlaying(current)) {
-      dispatch(setPlayerState('play'))
+      dispatch(setPlayerState(Play))
     } else {
-      dispatch(setPlayerState('pause'))
+      dispatch(setPlayerState(Pause))
     }
   }
 
-  const handleNextOrPreviousTrack = (nextOrPrev: string) => (): void => {
-    const { current } = audioEl
-    if (!current || current.readyState <= 2) return
+  const handleNextOrPreviousTrack =
+    (nextOrPrev: TrackDirection) => (): void => {
+      const { current } = audioEl
+      if (!current || current.readyState <= 2) return
 
-    resetSongPosition()
+      resetSongPosition()
 
-    if (nextOrPrev === 'next') {
-      dispatch(playNextTrack())
-    } else {
-      dispatch(playPreviousTrack())
+      if (nextOrPrev === Next) {
+        dispatch(playNextTrack())
+      } else {
+        dispatch(playPreviousTrack())
+      }
     }
-  }
 
   const handleVolumeChange: VolumeChangeHandler = (_e, newValue) => {
     const { current } = audioEl
@@ -140,7 +147,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
           <CircularProgress color="secondary" />
         ) : (
           <>
-            <BackButton />
+            <ButtonContainer />
             {metaData && (
               <ConcertMeta
                 date={metaData.date}
@@ -162,7 +169,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 <AudioElement
                   ref={audioEl}
                   src={playUrl}
-                  handleNextTrack={handleNextOrPreviousTrack('next')}
+                  handleNextTrack={handleNextOrPreviousTrack(Next)}
                 />
                 <AudioPlayer
                   volume={volume}
@@ -172,8 +179,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   setSongPosition={setSongPosition}
                   handleVolumeChange={handleVolumeChange}
                   onPlayPauseClick={onPlayPauseClick}
-                  handleNextTrack={handleNextOrPreviousTrack('next')}
-                  handlePreviousTrack={handleNextOrPreviousTrack('prev')}
+                  handleNextTrack={handleNextOrPreviousTrack(Next)}
+                  handlePreviousTrack={handleNextOrPreviousTrack(Prev)}
                 />
               </>
             ) : null}
