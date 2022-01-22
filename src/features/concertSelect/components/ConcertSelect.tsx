@@ -5,10 +5,11 @@ import { background } from '../../../app/background'
 import { ConcertSelectProps } from '../concertSelectInterface'
 
 const selectListStyles: SxProps = {
-  '& .MuiOutlinedInput-root': {
+  '&.MuiOutlinedInput-root': {
     borderRadius: '0px',
     border: 'none',
     color: 'black',
+    marginBottom: '20px',
     background,
   },
   '& .MuiOutlinedInput-notchedOutline': {
