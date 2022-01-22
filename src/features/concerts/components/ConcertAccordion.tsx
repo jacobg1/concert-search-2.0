@@ -49,6 +49,3 @@ export default function ConcertAccordion({
     </Accordion>
   )
 }
-
-// TODO: playlist as mui drawer
-// TODO: concert rating on accordion tab?
