@@ -12,14 +12,11 @@ export default function PlayConcertButton({
 }: PlayConcertButtonProps): JSX.Element {
   return (
     <Button
-      sx={{
-        display: 'flex',
-        alignItems: 'start',
-      }}
+      sx={{ display: 'flex' }}
       variant="contained"
       color="primary"
       onClick={() => playConcert(identifier)}
-      endIcon={<PlayArrowIcon fontSize="small" />}
+      endIcon={<PlayArrowIcon fontSize="medium" />}
     >
       Play
     </Button>
