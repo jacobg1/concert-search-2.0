@@ -10,16 +10,18 @@ export function AppStyles({ theme }: { theme: Theme }): JSX.Element {
       styles={{
         html: {
           fontSize: '12px',
-
           [theme.breakpoints.up('sm')]: {
             fontSize: '13px',
           },
           [theme.breakpoints.up('md')]: {
-            fontSize: '14px',
+            fontSize: '15.5px',
           },
-          // [theme.breakpoints.up('lg')]: {
-          //   fontSize: '14.5px',
-          // },
+          [theme.breakpoints.up('lg')]: {
+            fontSize: '16px',
+          },
+          [theme.breakpoints.up('xl')]: {
+            fontSize: '17px',
+          },
           '*::-webkit-scrollbar': {
             width: '10px',
             WebkitAppearance: 'none',
@@ -35,7 +37,6 @@ export function AppStyles({ theme }: { theme: Theme }): JSX.Element {
         },
         body: {
           overflow: isDrawerOpen ? 'hidden' : 'auto',
-          maxWidth: '1000px',
           margin: 'auto',
           textAlign: 'center',
           backgroundColor: '#bed5ff',

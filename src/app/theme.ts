@@ -12,7 +12,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: `'PT Sans', 'sans-serif'`,
+    fontFamily: "'Outfit', sans-serif",
   },
   components: {
     MuiDrawer: {
@@ -65,7 +65,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
-          border: '2px solid white',
+          // border: '2px solid white',
         },
         input: {
           fontSize: '1.1rem',
@@ -101,9 +101,9 @@ export const theme = createTheme({
     MuiAccordion: {
       styleOverrides: {
         root: {
-          padding: '3px 0',
+          padding: '7px 0',
           margin: '15px 0',
-          border: '2px solid white',
+          // border: '2px solid white',
           background,
         },
       },
@@ -125,13 +125,13 @@ export const theme = createTheme({
         },
         h2: {
           fontWeight: '600',
-          fontSize: '1.1rem',
+          fontSize: '1.2rem',
         },
         subtitle1: {
           fontWeight: 'bold',
         },
         body1: {
-          fontSize: '.87rem',
+          fontSize: '1rem',
         },
       },
     },
