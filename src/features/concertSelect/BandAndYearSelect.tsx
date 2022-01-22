@@ -16,7 +16,6 @@ const boxStyles: SxProps = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  height: { xs: '185px', sm: '200px' },
 }
 
 export default function BandAndYearSelect(): JSX.Element | null {
