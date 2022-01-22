@@ -5,7 +5,11 @@ import { background } from '../../app/background'
 import { SxProps } from '@mui/system'
 import NextOrPreviousTrack from './components/NextOrPreviousTrack'
 import ProgressBar from './components/ProgressBar'
-import { SongPositionHandler, VolumeChangeHandler } from '../../app/interface'
+import {
+  PlayerState,
+  SongPositionHandler,
+  VolumeChangeHandler,
+} from '../../app/interface'
 
 const audioPlayerStyles: SxProps = {
   padding: { xs: '14px 10px 20px' },
@@ -24,7 +28,7 @@ interface AudioPlayerProps {
   volume: number
   duration: number
   position: number
-  playerState: 'play' | 'pause'
+  playerState: PlayerState
 }
 
 export default function AudioPlayer({
@@ -54,7 +58,7 @@ export default function AudioPlayer({
         }}
       >
         <PlayOrPause
-          isPlaying={playerState === 'play'}
+          isPlaying={playerState === PlayerState.Play}
           onPlayPauseClick={onPlayPauseClick}
         />
         <NextOrPreviousTrack
