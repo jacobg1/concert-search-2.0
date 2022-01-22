@@ -13,6 +13,9 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: "'Outfit', sans-serif",
+    button: {
+      textTransform: 'none',
+    },
   },
   components: {
     MuiDrawer: {
@@ -65,7 +68,6 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 0,
-          // border: '2px solid white',
         },
         input: {
           fontSize: '1.1rem',
@@ -103,7 +105,6 @@ export const theme = createTheme({
         root: {
           padding: '7px 0',
           margin: '15px 0',
-          // border: '2px solid white',
           background,
         },
       },
