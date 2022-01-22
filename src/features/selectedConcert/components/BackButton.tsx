@@ -1,32 +1,33 @@
-import { Button, Box } from '@mui/material'
-import SkipPreviousSharpIcon from '@mui/icons-material/SkipPreviousSharp'
+import { Button } from '@mui/material'
+import ArrowLeftSharpIcon from '@mui/icons-material/ArrowLeftSharp'
 import { useAppDispatch } from '../../../app/hooks'
 import { toggleConcertDrawer } from '../selectedConcertSlice'
+import { IconDirection } from '../../../app/interface'
 
-export function BackButton(): JSX.Element {
+export function BackButton({
+  iconDirection,
+}: {
+  iconDirection: IconDirection
+}): JSX.Element {
   const dispatch = useAppDispatch()
 
   return (
-    <Box
+    <Button
+      variant="contained"
+      size="large"
       style={{
-        width: '90%',
-        margin: '30px auto 20px',
-        textAlign: 'left',
+        color: 'black',
+        background: '#bed5ff',
+        padding: 0,
       }}
+      onClick={() => dispatch(toggleConcertDrawer())}
     >
-      <Button
-        variant="contained"
-        size="large"
+      <ArrowLeftSharpIcon
         style={{
-          color: 'black',
-          background: '#bed5ff',
-          textTransform: 'none',
-          alignItems: 'flex-start',
+          transform: iconDirection === 'right' ? 'rotate(180deg)' : 'rotate(0)',
         }}
-        onClick={() => dispatch(toggleConcertDrawer())}
-      >
-        <SkipPreviousSharpIcon /> Back
-      </Button>
-    </Box>
+        fontSize="large"
+      />
+    </Button>
   )
 }
