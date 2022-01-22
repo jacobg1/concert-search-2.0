@@ -1,7 +1,8 @@
 import { AppBar, Stack, Typography } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { useAppDispatch, useAppSelector } from './app/hooks'
-import { toggleConcertDrawer } from './features/selectedConcert/selectedConcertSlice'
+import { IconDirection } from './app/interface'
+import { BackButton } from './features/selectedConcert/components/BackButton'
 
 const appBarStyles: SxProps = {
   textAlign: 'left',
@@ -17,22 +18,13 @@ export function AppHeader(): JSX.Element {
     selectedConcert: { trackList },
   } = useAppSelector((state) => state.individualConcert)
 
-  const handleConcertDrawer = (): void | null => {
-    if (trackList.length) {
-      dispatch(toggleConcertDrawer())
-    } else {
-      return null
-    }
-  }
   return (
-    <AppBar onClick={handleConcertDrawer} sx={appBarStyles}>
+    <AppBar sx={appBarStyles}>
       <Stack display="flex" flexDirection="row" justifyContent="space-between">
         <Typography variant="h1">Concert Search</Typography>
         {trackList.length ? (
           <>
-            <Typography alignSelf="center" variant="body1">
-              Back
-            </Typography>
+            <BackButton iconDirection={IconDirection.Right} />
           </>
         ) : null}
       </Stack>
