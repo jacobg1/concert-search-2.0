@@ -1,6 +1,9 @@
 import PauseSharpIcon from '@mui/icons-material/PauseSharp'
 import PlayArrowSharpIcon from '@mui/icons-material/PlayArrowSharp'
 import { Button, Box } from '@mui/material'
+import { PlayerState } from '../../../app/interface'
+
+const { Play, Pause } = PlayerState
 
 interface PlayOrPauseProps {
   isPlaying: boolean
@@ -17,7 +20,7 @@ export default function PlayOrPause({
         color="primary"
         variant="contained"
         size="small"
-        aria-label={isPlaying ? 'pause' : 'play'}
+        aria-label={isPlaying ? Pause : Play}
         sx={{
           minWidth: '40px',
           padding: '4px 6px',
