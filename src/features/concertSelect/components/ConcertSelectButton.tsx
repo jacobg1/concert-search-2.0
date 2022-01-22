@@ -3,11 +3,13 @@ import { SxProps } from '@mui/system'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { fetchConcertList } from '../../concerts/concertListSlice'
 import { ConcertSelectButtonProps } from '../concertSelectInterface'
+import SearchSharpIcon from '@mui/icons-material/SearchSharp'
 
 const buttonStyles: SxProps = {
-  width: '25%',
+  width: '30%',
   alignSelf: 'flex-end',
-  padding: '10px',
+  padding: '11.5px 0px',
+  maxWidth: '125px',
 }
 
 export default function ConcertSelectButton({
@@ -30,8 +32,9 @@ export default function ConcertSelectButton({
           })
         )
       }
+      endIcon={<SearchSharpIcon style={{ paddingLeft: '5px' }} />}
     >
-      Search!
+      Search
     </Button>
   )
 }
