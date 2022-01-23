@@ -8,6 +8,7 @@ import {
   useSongDuration,
   useSongPosition,
   useVolumeChange,
+  useToggleSound,
 } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
@@ -66,6 +67,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
     playUrl,
     playerState
   )
+
+  const [isMuted, handleToggleSound] = useToggleSound(audioEl.current)
 
   const isPlaying = (current: HTMLAudioElement): boolean => {
     return !!(
@@ -176,9 +179,11 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   playerState={playerState}
                   duration={duration}
                   position={position}
+                  isMuted={isMuted}
                   setSongPosition={setSongPosition}
                   handleVolumeChange={handleVolumeChange}
                   onPlayPauseClick={onPlayPauseClick}
+                  handleToggleSound={handleToggleSound}
                   handleNextTrack={handleNextOrPreviousTrack(Next)}
                   handlePreviousTrack={handleNextOrPreviousTrack(Prev)}
                 />
