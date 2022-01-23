@@ -1,4 +1,10 @@
-import { useState, MouseEvent, useEffect } from 'react'
+import {
+  useState,
+  MouseEvent,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
 import type { RootState, AppDispatch } from './store'
@@ -141,4 +147,65 @@ export function useToggleSound(current: HTMLAudioElement | null): SoundToggle {
     }
   }
   return [isMuted, handleToggleSound]
+}
+
+type IAudioContext = [
+  dataArray: Uint8Array,
+  audioBufferLength: number,
+  analyser?: AnalyserNode
+]
+
+type IDataArray = [
+  dataArray: Uint8Array,
+  setDataArray: Dispatch<SetStateAction<Uint8Array>>
+]
+
+type IAnalyser = [
+  analyser: AnalyserNode | undefined,
+  setAnalyser: Dispatch<SetStateAction<AnalyserNode | undefined>>
+]
+
+type IAudioBuffer = [
+  audioBufferLength: number,
+  setAudioBufferLength: Dispatch<SetStateAction<number>>
+]
+
+export function useAudioContext(
+  current: HTMLAudioElement | null
+): IAudioContext {
+  const [dataArray, setDataArray]: IDataArray = useState(new Uint8Array())
+  const [analyser, setAnalyser]: IAnalyser = useState()
+  const [audioBufferLength, setAudioBufferLength]: IAudioBuffer = useState(0)
+
+  useEffect(() => {
+    if (current) {
+      const audioContext = new (AudioContext ||
+        (window as any).webkitAudioContext)()
+      const source = audioContext.createMediaElementSource(current)
+
+      // To ensure track actually plays
+      current.onplay = () => audioContext.resume()
+
+      const audioAnalyser = audioContext.createAnalyser()
+      audioAnalyser.fftSize = 256
+
+      source.connect(audioAnalyser)
+      audioAnalyser.connect(audioContext.destination)
+
+      const bufferLength = audioAnalyser.frequencyBinCount
+      const data = new Uint8Array(bufferLength)
+
+      setAudioBufferLength(bufferLength)
+      setAnalyser(audioAnalyser)
+      setDataArray(data)
+
+      return () => {
+        source.disconnect(audioAnalyser)
+        audioAnalyser.disconnect(audioContext.destination)
+      }
+    }
+  }, [current]) // Should only run once audio ref is set
+
+  // For use in Visualizer animation
+  return [dataArray, audioBufferLength, analyser]
 }
