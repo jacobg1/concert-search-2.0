@@ -23,12 +23,14 @@ interface AudioPlayerProps {
   handleNextTrack: () => void
   handlePreviousTrack: () => void
   onPlayPauseClick: () => void
+  handleToggleSound: () => void
   handleVolumeChange: VolumeChangeHandler
   setSongPosition: SongPositionHandler
   volume: number
   duration: number
   position: number
   playerState: PlayerState
+  isMuted: boolean
 }
 
 export default function AudioPlayer({
@@ -37,10 +39,12 @@ export default function AudioPlayer({
   onPlayPauseClick,
   handleVolumeChange,
   setSongPosition,
+  handleToggleSound,
   playerState,
   volume,
   duration,
   position,
+  isMuted,
 }: AudioPlayerProps): JSX.Element {
   return (
     <Box my={3} sx={audioPlayerStyles}>
@@ -65,7 +69,12 @@ export default function AudioPlayer({
           handlePreviousTrack={handlePreviousTrack}
           handleNextTrack={handleNextTrack}
         />
-        <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
+        <VolumeSlider
+          volume={volume}
+          isMuted={isMuted}
+          handleToggleSound={handleToggleSound}
+          handleVolumeChange={handleVolumeChange}
+        />
       </Stack>
     </Box>
   )
