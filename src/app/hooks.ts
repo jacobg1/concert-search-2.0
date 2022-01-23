@@ -126,12 +126,11 @@ export function useSongPosition(
 type SoundToggle = [isMuted: boolean, setIsMuted: () => void]
 
 export function useToggleSound(current: HTMLAudioElement | null): SoundToggle {
-  const { isDrawerOpen } = useAppSelector((state) => state.individualConcert)
   const [isMuted, setIsMuted] = useState(false)
 
   useEffect(() => {
-    if (!isDrawerOpen) setIsMuted(false)
-  }, [isDrawerOpen])
+    if (!current || !current.duration) setIsMuted(false)
+  }, [current?.duration])
 
   const handleToggleSound = () => {
     if (current) {
