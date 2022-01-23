@@ -17,6 +17,7 @@ import {
 } from './selectedConcertSlice'
 import { TrackDirection } from '../../app/interface'
 import { ButtonContainer } from './components/ButtonContainer'
+import Visualizer from '../visualizer/Visualizer'
 
 const { Next, Prev } = TrackDirection
 
@@ -111,6 +112,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 numTracks={trackList.length.toString()}
               />
             )}
+            <Visualizer audioEl={audioEl} />
             {trackList.length ? (
               <>
                 <TrackListDisplay
