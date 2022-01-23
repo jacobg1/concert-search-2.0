@@ -6,17 +6,21 @@ import { PopoverHandler, VolumeChangeHandler } from '../../../app/interface'
 
 interface VolumeSliderProps {
   volume: number
+  isMuted: boolean
   handleVolumeChange: VolumeChangeHandler
+  handleToggleSound: () => void
 }
 
 interface VolumeButtonProps {
-  isOpen: boolean
+  toggle: boolean
+  forMobile?: boolean
   clickHandler: PopoverHandler<HTMLButtonElement>
 }
 
 const VolumeButton = ({
-  isOpen,
+  toggle,
   clickHandler,
+  forMobile = false,
 }: VolumeButtonProps): JSX.Element => {
   return (
     <Button
@@ -24,19 +28,27 @@ const VolumeButton = ({
       variant="contained"
       size="small"
       aria-label="volume-control"
-      style={{
+      sx={{
         minWidth: '40px',
         padding: '4px 6px',
+        '@media (min-width: 768px)': {
+          display: forMobile ? 'none' : 'inline-flex',
+        },
+        '@media (max-width: 768px)': {
+          display: forMobile ? 'inline-flex' : 'none',
+        },
       }}
       onClick={clickHandler}
     >
-      {isOpen ? <CloseSharpIcon /> : <VolumeUp />}
+      {toggle ? <CloseSharpIcon /> : <VolumeUp />}
     </Button>
   )
 }
 export default function VolumeSlider({
   volume,
   handleVolumeChange,
+  isMuted,
+  handleToggleSound,
 }: VolumeSliderProps): JSX.Element {
   const [htmlEl, isOpen, handleOpen, handleClose] =
     usePopover<HTMLButtonElement>()
@@ -44,7 +56,12 @@ export default function VolumeSlider({
   return (
     <Box>
       <VolumeButton
-        isOpen={isOpen}
+        forMobile={true}
+        toggle={isMuted}
+        clickHandler={handleToggleSound}
+      />
+      <VolumeButton
+        toggle={isOpen}
         clickHandler={!isOpen ? handleOpen : handleClose}
       />
       <Popper
