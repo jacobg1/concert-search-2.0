@@ -1,14 +1,10 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { CircularProgress, Drawer, Stack } from '@mui/material'
 import { SxProps } from '@mui/system'
 import {
   useAppDispatch,
   useAppSelector,
-  usePlayPause,
-  useSongDuration,
   useSongPosition,
-  useVolumeChange,
-  useToggleSound,
 } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
@@ -17,17 +13,11 @@ import { AudioElement } from '../player/components/AudioElement'
 import {
   playNextTrack,
   playPreviousTrack,
-  setPlayerState,
   playNewTrack,
 } from './selectedConcertSlice'
-import {
-  PlayerState,
-  TrackDirection,
-  VolumeChangeHandler,
-} from '../../app/interface'
+import { TrackDirection } from '../../app/interface'
 import { ButtonContainer } from './components/ButtonContainer'
 
-const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection
 
 const drawerStyles: SxProps = {
@@ -45,6 +35,13 @@ const drawerStyles: SxProps = {
   },
 }
 
+const stackStyles = {
+  width: '100%',
+  maxWidth: '1000px',
+  alignItems: 'center',
+  alignSelf: 'center',
+}
+
 export default function SelectedConcertDisplay(): JSX.Element {
   const {
     loading,
@@ -53,31 +50,14 @@ export default function SelectedConcertDisplay(): JSX.Element {
     currentlyPlayingTrack: { playUrl, currentTrackName },
     selectedConcert: { trackList, metaData },
   } = useAppSelector((state) => state.individualConcert)
-
   const dispatch = useAppDispatch()
+
   const audioEl = useRef<HTMLAudioElement>(null)
-  const [volume, setVolume] = useState<number>(25)
-
-  useVolumeChange(audioEl.current, volume, playerState)
-  usePlayPause(audioEl.current, playUrl, playerState)
-
-  const duration = useSongDuration(audioEl.current, playUrl)
   const [position, setSongPosition, resetSongPosition] = useSongPosition(
     audioEl.current,
     playUrl,
     playerState
   )
-
-  const [isMuted, handleToggleSound] = useToggleSound(audioEl.current)
-
-  const isPlaying = (current: HTMLAudioElement): boolean => {
-    return !!(
-      current.currentTime > 0 &&
-      !current.paused &&
-      !current.ended &&
-      current.readyState > 2
-    )
-  }
 
   const handlePlayNewTrack = (name: string): void => {
     const { current } = audioEl
@@ -97,17 +77,6 @@ export default function SelectedConcertDisplay(): JSX.Element {
     }
   }
 
-  const onPlayPauseClick = (): void => {
-    const { current } = audioEl
-    if (!current) return
-
-    if (!isPlaying(current)) {
-      dispatch(setPlayerState(Play))
-    } else {
-      dispatch(setPlayerState(Pause))
-    }
-  }
-
   const handleNextOrPreviousTrack =
     (nextOrPrev: TrackDirection) => (): void => {
       const { current } = audioEl
@@ -122,14 +91,6 @@ export default function SelectedConcertDisplay(): JSX.Element {
       }
     }
 
-  const handleVolumeChange: VolumeChangeHandler = (_e, newValue) => {
-    const { current } = audioEl
-
-    if (current) {
-      setVolume(newValue as number)
-    }
-  }
-
   return (
     <Drawer
       sx={drawerStyles}
@@ -138,14 +99,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
       open={isDrawerOpen}
       hideBackdrop
     >
-      <Stack
-        style={{
-          width: '100%',
-          maxWidth: '1000px',
-          alignItems: 'center',
-          alignSelf: 'center',
-        }}
-      >
+      <Stack style={stackStyles}>
         {loading ? (
           <CircularProgress color="secondary" />
         ) : (
@@ -153,12 +107,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
             <ButtonContainer />
             {metaData && (
               <ConcertMeta
-                date={metaData.date}
-                title={metaData.title}
-                description={metaData.description}
-                creator={metaData.creator}
-                venue={metaData.venue}
-                source={metaData.source}
+                {...metaData}
                 numTracks={trackList.length.toString()}
               />
             )}
@@ -175,15 +124,11 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   handleNextTrack={handleNextOrPreviousTrack(Next)}
                 />
                 <AudioPlayer
-                  volume={volume}
+                  audioEl={audioEl}
+                  playUrl={playUrl}
                   playerState={playerState}
-                  duration={duration}
                   position={position}
-                  isMuted={isMuted}
                   setSongPosition={setSongPosition}
-                  handleVolumeChange={handleVolumeChange}
-                  onPlayPauseClick={onPlayPauseClick}
-                  handleToggleSound={handleToggleSound}
                   handleNextTrack={handleNextOrPreviousTrack(Next)}
                   handlePreviousTrack={handleNextOrPreviousTrack(Prev)}
                 />

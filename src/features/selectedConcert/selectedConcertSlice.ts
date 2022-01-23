@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { TrackListData, TrackMetaData } from '../tracks/trackInterface'
 import { PlayerState } from '../../app/interface'
-import { PlayArrowTwoTone } from '@mui/icons-material'
 
 const { Play, Pause } = PlayerState
 

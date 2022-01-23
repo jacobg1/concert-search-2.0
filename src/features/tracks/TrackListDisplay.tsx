@@ -31,7 +31,6 @@ export default function TrackListDisplay({
 }: TrackListDisplayProps): JSX.Element | null {
   return (
     <List disablePadding sx={listContainerStyles}>
-      {/* <Typography variant="body1">Tracks: {trackList.length}</Typography> */}
       {trackList.map((track) => {
         return (
           <SingleTrack
