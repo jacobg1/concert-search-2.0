@@ -1,4 +1,4 @@
-import { useState, MouseEvent, useEffect, useRef } from 'react'
+import { useState, MouseEvent, useEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
 import type { RootState, AppDispatch } from './store'
@@ -121,4 +121,25 @@ export function useSongPosition(
   }
 
   return [position, setSongPosition, resetSongPosition]
+}
+
+type SoundToggle = [isMuted: boolean, setIsMuted: () => void]
+
+export function useToggleSound(current: HTMLAudioElement | null): SoundToggle {
+  const { isDrawerOpen } = useAppSelector((state) => state.individualConcert)
+  const [isMuted, setIsMuted] = useState(false)
+
+  useEffect(() => {
+    if (!isDrawerOpen) setIsMuted(false)
+  }, [isDrawerOpen])
+
+  const handleToggleSound = () => {
+    if (current) {
+      const isPlayerMuted = !current.paused && !current.muted
+
+      setIsMuted(isPlayerMuted)
+      current.muted = isPlayerMuted
+    }
+  }
+  return [isMuted, handleToggleSound]
 }
