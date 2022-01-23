@@ -54,12 +54,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-selected': {
-            background: '#2e7e89',
+            // background: '#2e7e89',
             borderColor: '#ffffff',
-            '& span, p': {
-              color: '#ffffff',
-              textShadow: '0.5px 0.5px 3px #3a1b1c',
-            },
+            borderLeft: '5px dashed #000000',
+            // background: '#bed5ff',
+            // '& span, p': {
+            //   color: '#ffffff',
+            //   textShadow: '0.5px 0.5px 3px #3a1b1c',
+            // },
           },
         },
       },

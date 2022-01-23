@@ -14,7 +14,7 @@ import {
 const audioPlayerStyles: SxProps = {
   padding: { xs: '14px 10px 20px' },
   width: '90%',
-  border: '2px solid white',
+  // border: '2px solid white',
   background,
   boxSizing: 'border-box',
 }

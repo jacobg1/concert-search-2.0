@@ -5,7 +5,8 @@ import { background } from '../../../app/background'
 const listItemStyles: SxProps = {
   background,
   margin: '10px 0',
-  border: '2px solid white',
+  padding: '7px 16px',
+  // border: '2px solid white',
   textTransform: 'capitalize',
 }
 
