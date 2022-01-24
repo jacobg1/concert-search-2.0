@@ -1,4 +1,4 @@
-import { RefObject, useState } from 'react'
+import { useState } from 'react'
 import { Box, Stack } from '@mui/material'
 import PlayOrPause from './components/PlayOrPause'
 import VolumeSlider from './components/VolumeSlider'
@@ -7,6 +7,7 @@ import { SxProps } from '@mui/system'
 import NextOrPreviousTrack from './components/NextOrPreviousTrack'
 import ProgressBar from './components/ProgressBar'
 import {
+  AudioRef,
   PlayerState,
   SongPositionHandler,
   VolumeChangeHandler,
@@ -44,7 +45,7 @@ interface AudioPlayerProps {
   position: number
   playerState: PlayerState
   playUrl: string
-  audioEl: RefObject<HTMLAudioElement>
+  audioEl: AudioRef
 }
 
 export default function AudioPlayer({
