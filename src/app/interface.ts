@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, MouseEvent } from 'react'
+import { Dispatch, SetStateAction, MouseEvent, RefObject } from 'react'
 
 export type SetState<T> = Dispatch<SetStateAction<T>>
 
@@ -10,6 +10,8 @@ export type VolumeChangeHandler = (
 ) => void
 
 export type SongPositionHandler = (songPosition: number) => void
+
+export type AudioRef = RefObject<HTMLAudioElement>
 
 export enum IconDirection {
   Left = 'left',
