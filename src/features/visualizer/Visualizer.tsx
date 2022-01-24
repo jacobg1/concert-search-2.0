@@ -1,17 +1,19 @@
-import { useEffect, useRef } from 'react'
-import { useAudioContext, useResize } from '../../app/hooks'
-import { AudioRef } from '../../app/interface'
+import { useEffect, useRef, memo } from 'react'
+import { useResize } from '../../app/hooks'
 
-export default function Visualizer({
-  audioEl,
-}: {
-  audioEl: AudioRef
-}): JSX.Element {
+interface VisualizerProps {
+  dataArray: Uint8Array
+  audioBufferLength: number
+  analyser?: AnalyserNode
+}
+
+function Visualizer({
+  dataArray,
+  audioBufferLength,
+  analyser,
+}: VisualizerProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
-  const [dataArray, audioBufferLength, analyser] = useAudioContext(
-    audioEl.current
-  )
   const [, windowWidth] = useResize(1000)
 
   const visualize = () => {
@@ -56,3 +58,5 @@ export default function Visualizer({
     </>
   )
 }
+
+export default memo(Visualizer)
