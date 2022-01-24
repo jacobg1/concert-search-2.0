@@ -4,6 +4,7 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
+  useLayoutEffect,
 } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
@@ -170,6 +171,7 @@ type IAudioBuffer = [
   setAudioBufferLength: Dispatch<SetStateAction<number>>
 ]
 
+// Initial analyser set up. Needs to only run once.
 export function useAudioContext(
   current: HTMLAudioElement | null
 ): IAudioContext {
@@ -189,10 +191,12 @@ export function useAudioContext(
       const audioAnalyser = audioContext.createAnalyser()
       audioAnalyser.fftSize = 256
 
+      // Connect analyser between source and destination
       source.connect(audioAnalyser)
       audioAnalyser.connect(audioContext.destination)
 
       const bufferLength = audioAnalyser.frequencyBinCount
+      // Empty array will be filled with frequency data
       const data = new Uint8Array(bufferLength)
 
       setAudioBufferLength(bufferLength)
@@ -200,12 +204,31 @@ export function useAudioContext(
       setDataArray(data)
 
       return () => {
+        // Cleanup and disconnect
         source.disconnect(audioAnalyser)
         audioAnalyser.disconnect(audioContext.destination)
       }
     }
-  }, [current]) // Should only run once audio ref is set
+  }, [current])
 
-  // For use in Visualizer animation
   return [dataArray, audioBufferLength, analyser]
+}
+
+export function useResize(maxWidth: number) {
+  const [windowSize, setWindowSize] = useState([0, 0])
+
+  useLayoutEffect(() => {
+    const setSize = () => {
+      const { innerHeight, innerWidth } = window
+
+      const width = innerWidth < maxWidth ? innerWidth : maxWidth
+
+      setWindowSize([innerHeight, width])
+    }
+    window.addEventListener('resize', setSize)
+    setSize()
+    return () => window.removeEventListener('resize', setSize)
+  }, [])
+
+  return windowSize
 }
