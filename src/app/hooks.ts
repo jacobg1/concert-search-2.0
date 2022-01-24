@@ -106,7 +106,7 @@ export function useSongPosition(
   }, [playUrl])
 
   const setSongPosition = (songPosition: number) => {
-    if (current && current.readyState > 2) {
+    if (current) {
       // Pause track
       current.pause()
 
@@ -128,26 +128,6 @@ export function useSongPosition(
   }
 
   return [position, setSongPosition, resetSongPosition]
-}
-
-type SoundToggle = [isMuted: boolean, setIsMuted: () => void]
-
-export function useToggleSound(current: HTMLAudioElement | null): SoundToggle {
-  const [isMuted, setIsMuted] = useState(false)
-
-  useEffect(() => {
-    if (!current || !current.duration) setIsMuted(false)
-  }, [current?.duration])
-
-  const handleToggleSound = () => {
-    if (current) {
-      const isPlayerMuted = !current.paused && !current.muted
-
-      setIsMuted(isPlayerMuted)
-      current.muted = isPlayerMuted
-    }
-  }
-  return [isMuted, handleToggleSound]
 }
 
 type IAudioContext = [
@@ -220,9 +200,7 @@ export function useResize(maxWidth: number) {
   useLayoutEffect(() => {
     const setSize = () => {
       const { innerHeight, innerWidth } = window
-
       const width = innerWidth < maxWidth ? innerWidth : maxWidth
-
       setWindowSize([innerHeight, width])
     }
     window.addEventListener('resize', setSize)
