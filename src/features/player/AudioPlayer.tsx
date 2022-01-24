@@ -4,24 +4,25 @@ import PlayOrPause from './components/PlayOrPause'
 import VolumeSlider from './components/VolumeSlider'
 import { background } from '../../app/background'
 import { SxProps } from '@mui/system'
-import NextOrPreviousTrack from './components/NextOrPreviousTrack'
 import ProgressBar from './components/ProgressBar'
 import {
   AudioRef,
   PlayerState,
   SongPositionHandler,
+  TrackDirection,
   VolumeChangeHandler,
 } from '../../app/interface'
 import {
   useAppDispatch,
-  useToggleSound,
   useVolumeChange,
   usePlayPause,
   useSongDuration,
 } from '../../app/hooks'
 import { setPlayerState } from '../selectedConcert/selectedConcertSlice'
+import SkipButton from './components/SkipButton'
 
 const { Play, Pause } = PlayerState
+const { Next, Prev } = TrackDirection
 
 const audioPlayerStyles: SxProps = {
   padding: { xs: '14px 10px 20px' },
@@ -32,7 +33,8 @@ const audioPlayerStyles: SxProps = {
 }
 
 const containerStyles: SxProps = {
-  width: { xs: '80%', md: '25%' },
+  width: { xs: '80%', md: '35%' },
+  maxWidth: '300px',
   margin: 'auto',
   flexDirection: 'row',
   justifyContent: 'space-between',
@@ -59,7 +61,6 @@ export default function AudioPlayer({
 }: AudioPlayerProps): JSX.Element {
   const dispatch = useAppDispatch()
   const [volume, setVolume] = useState<number>(25)
-  const [isMuted, handleToggleSound] = useToggleSound(audioEl.current)
   const duration = useSongDuration(audioEl.current, playUrl)
 
   useVolumeChange(audioEl.current, volume, playerState)
@@ -101,20 +102,13 @@ export default function AudioPlayer({
         setSongPosition={setSongPosition}
       />
       <Stack sx={containerStyles}>
+        <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
         <PlayOrPause
           isPlaying={playerState === PlayerState.Play}
           onPlayPauseClick={onPlayPauseClick}
         />
-        <NextOrPreviousTrack
-          handlePreviousTrack={handlePreviousTrack}
-          handleNextTrack={handleNextTrack}
-        />
-        <VolumeSlider
-          volume={volume}
-          isMuted={isMuted}
-          handleToggleSound={handleToggleSound}
-          handleVolumeChange={handleVolumeChange}
-        />
+        <SkipButton direction={Next} clickHandler={handleNextTrack} />
+        <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
       </Stack>
     </Box>
   )
