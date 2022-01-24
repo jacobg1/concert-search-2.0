@@ -1,9 +1,11 @@
-import { useRef } from 'react'
-import { CircularProgress, Drawer, Stack } from '@mui/material'
+import { useRef, useState } from 'react'
+import { CircularProgress, Drawer, Stack, Box } from '@mui/material'
 import { SxProps } from '@mui/system'
+import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import {
   useAppDispatch,
   useAppSelector,
+  useAudioContext,
   useSongPosition,
 } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
@@ -53,7 +55,11 @@ export default function SelectedConcertDisplay(): JSX.Element {
   } = useAppSelector((state) => state.individualConcert)
   const dispatch = useAppDispatch()
 
+  const [isVisualizerOpen, toggleVisualizer] = useState(false)
   const audioEl = useRef<HTMLAudioElement>(null)
+  const [dataArray, audioBufferLength, analyser] = useAudioContext(
+    audioEl.current
+  )
   const [position, setSongPosition, resetSongPosition] = useSongPosition(
     audioEl.current,
     playUrl,
@@ -63,25 +69,16 @@ export default function SelectedConcertDisplay(): JSX.Element {
   const handlePlayNewTrack = (name: string): void => {
     const { current } = audioEl
     if (!current) return
-
-    if (!playUrl) {
-      dispatch(playNewTrack(name))
-      return
-    }
-
-    // If song is already playing prevent play until current track is loaded
-    // TODO: rethink this
-    if (current.readyState > 2) {
+    if (current) {
       resetSongPosition()
       dispatch(playNewTrack(name))
-      return
     }
   }
 
   const handleNextOrPreviousTrack =
     (nextOrPrev: TrackDirection) => (): void => {
       const { current } = audioEl
-      if (!current || current.readyState <= 2) return
+      if (!current) return
 
       resetSongPosition()
 
@@ -107,12 +104,31 @@ export default function SelectedConcertDisplay(): JSX.Element {
           <>
             <ButtonContainer />
             {metaData && (
-              <ConcertMeta
-                {...metaData}
-                numTracks={trackList.length.toString()}
+              <Box
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '90%',
+                }}
+              >
+                <ConcertMeta
+                  {...metaData}
+                  numTracks={trackList.length.toString()}
+                />
+                <BarChartSharpIcon
+                  style={{ color: 'white', cursor: 'pointer' }}
+                  fontSize="large"
+                  onClick={() => toggleVisualizer(!isVisualizerOpen)}
+                />
+              </Box>
+            )}
+            {isVisualizerOpen && (
+              <Visualizer
+                dataArray={dataArray}
+                audioBufferLength={audioBufferLength}
+                analyser={analyser}
               />
             )}
-            <Visualizer audioEl={audioEl} />
             {trackList.length ? (
               <>
                 <TrackListDisplay
