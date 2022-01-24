@@ -1,4 +1,4 @@
-import { Stack, Slider, Box, Button, Popper } from '@mui/material'
+import { Stack, Slider, Button, Popper } from '@mui/material'
 import { VolumeUp } from '@mui/icons-material'
 import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 import { usePopover } from '../../../app/hooks'
@@ -6,9 +6,7 @@ import { PopoverHandler, VolumeChangeHandler } from '../../../app/interface'
 
 interface VolumeSliderProps {
   volume: number
-  isMuted: boolean
   handleVolumeChange: VolumeChangeHandler
-  handleToggleSound: () => void
 }
 
 interface VolumeButtonProps {
@@ -20,7 +18,6 @@ interface VolumeButtonProps {
 const VolumeButton = ({
   toggle,
   clickHandler,
-  forMobile = false,
 }: VolumeButtonProps): JSX.Element => {
   return (
     <Button
@@ -31,12 +28,7 @@ const VolumeButton = ({
       sx={{
         minWidth: '40px',
         padding: '4px 6px',
-        '@media (min-width: 768px)': {
-          display: forMobile ? 'none' : 'inline-flex',
-        },
-        '@media (max-width: 768px)': {
-          display: forMobile ? 'inline-flex' : 'none',
-        },
+        display: { xs: 'none', md: 'inline-flex' },
       }}
       onClick={clickHandler}
     >
@@ -47,19 +39,12 @@ const VolumeButton = ({
 export default function VolumeSlider({
   volume,
   handleVolumeChange,
-  isMuted,
-  handleToggleSound,
 }: VolumeSliderProps): JSX.Element {
   const [htmlEl, isOpen, handleOpen, handleClose] =
     usePopover<HTMLButtonElement>()
 
   return (
-    <Box>
-      <VolumeButton
-        forMobile={true}
-        toggle={isMuted}
-        clickHandler={handleToggleSound}
-      />
+    <>
       <VolumeButton
         toggle={isOpen}
         clickHandler={!isOpen ? handleOpen : handleClose}
@@ -80,6 +65,6 @@ export default function VolumeSlider({
           />
         </Stack>
       </Popper>
-    </Box>
+    </>
   )
 }
