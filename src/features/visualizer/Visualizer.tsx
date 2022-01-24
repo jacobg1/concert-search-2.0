@@ -1,22 +1,23 @@
-import { RefObject, useEffect, useRef } from 'react'
-import { useAudioContext } from '../../app/hooks'
+import { useEffect, useRef } from 'react'
+import { useAudioContext, useResize } from '../../app/hooks'
+import { AudioRef } from '../../app/interface'
 
 export default function Visualizer({
   audioEl,
 }: {
-  audioEl: RefObject<HTMLAudioElement | null>
+  audioEl: AudioRef
 }): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
   const [dataArray, audioBufferLength, analyser] = useAudioContext(
     audioEl.current
   )
+  const [, windowWidth] = useResize(1000)
 
   const visualize = () => {
     if (canvasRef.current && analyser) {
       // Start animation
       animationRef.current = requestAnimationFrame(visualize)
-
       // Copy frequency data to array
       analyser.getByteFrequencyData(dataArray)
 
@@ -24,7 +25,6 @@ export default function Visualizer({
       if (context) {
         const { height, width } = context.canvas
 
-        // Set initial canvas size / color
         context.fillStyle = '#2e7e89'
         context.fillRect(0, 0, width, height)
 
@@ -32,6 +32,7 @@ export default function Visualizer({
         let animHeight
         let x = 0
 
+        // Loop through frequency data and draw on canvas
         for (let i = 0; i < audioBufferLength; i++) {
           animHeight = dataArray[i] / 1.5
           context.fillStyle = `hsl(${i + 195}deg, 100%, 50%)`
@@ -49,7 +50,7 @@ export default function Visualizer({
 
   return (
     <>
-      <canvas ref={canvasRef} width="500" height="150">
+      <canvas ref={canvasRef} width={windowWidth * 0.9} height="150">
         Audio Visualizer
       </canvas>
     </>
