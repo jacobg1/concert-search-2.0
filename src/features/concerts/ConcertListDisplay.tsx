@@ -7,7 +7,7 @@ import { PaginationHandler, AccordionHandler } from './concertListInterface'
 import { setPageNumber } from './concertListSlice'
 import { RecordIcon } from './components/RecordIcon'
 
-export default function ConcertListDisplay(): JSX.Element | null {
+export default function ConcertListDisplay(): JSX.Element {
   const dispatch = useAppDispatch()
   const { concerts, loading, pageNumber } = useAppSelector(
     (state) => state.concertList
