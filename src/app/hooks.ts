@@ -1,11 +1,4 @@
-import {
-  useState,
-  MouseEvent,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  useLayoutEffect,
-} from 'react'
+import { useState, MouseEvent, useEffect, useLayoutEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
 import type { RootState, AppDispatch } from './store'
@@ -136,28 +129,13 @@ type IAudioContext = [
   analyser?: AnalyserNode
 ]
 
-type IDataArray = [
-  dataArray: Uint8Array,
-  setDataArray: Dispatch<SetStateAction<Uint8Array>>
-]
-
-type IAnalyser = [
-  analyser: AnalyserNode | undefined,
-  setAnalyser: Dispatch<SetStateAction<AnalyserNode | undefined>>
-]
-
-type IAudioBuffer = [
-  audioBufferLength: number,
-  setAudioBufferLength: Dispatch<SetStateAction<number>>
-]
-
 // Initial analyser set up. Needs to only run once.
 export function useAudioContext(
   current: HTMLAudioElement | null
 ): IAudioContext {
-  const [dataArray, setDataArray]: IDataArray = useState(new Uint8Array())
-  const [analyser, setAnalyser]: IAnalyser = useState()
-  const [audioBufferLength, setAudioBufferLength]: IAudioBuffer = useState(0)
+  const [dataArray, setDataArray] = useState<Uint8Array>(new Uint8Array())
+  const [analyser, setAnalyser] = useState<AnalyserNode | undefined>(undefined)
+  const [audioBufferLength, setAudioBufferLength] = useState<number>(0)
 
   useEffect(() => {
     if (current) {
