@@ -68,8 +68,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   const handlePlayNewTrack = (name: string): void => {
     const { current } = audioEl
-    if (!current) return
     if (current) {
+      if (!playUrl) toggleVisualizer(true)
       resetSongPosition()
       dispatch(playNewTrack(name))
     }
@@ -81,7 +81,6 @@ export default function SelectedConcertDisplay(): JSX.Element {
       if (!current) return
 
       resetSongPosition()
-
       if (nextOrPrev === Next) {
         dispatch(playNextTrack())
       } else {
