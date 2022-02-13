@@ -51,7 +51,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     playerState,
     isDrawerOpen,
     currentlyPlayingTrack: { playUrl, currentTrackName },
-    selectedConcert: { trackList, metaData },
+    selectedConcert: { trackList, metadata },
   } = useAppSelector((state) => state.individualConcert)
   const dispatch = useAppDispatch()
 
@@ -102,7 +102,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
         ) : (
           <>
             <ButtonContainer />
-            {metaData && (
+            {metadata && (
               <Box
                 style={{
                   display: 'flex',
@@ -111,7 +111,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 }}
               >
                 <ConcertMeta
-                  {...metaData}
+                  {...metadata}
                   numTracks={trackList.length.toString()}
                 />
                 <BarChartSharpIcon
@@ -121,15 +121,16 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 />
               </Box>
             )}
-            {isVisualizerOpen && (
-              <Visualizer
-                dataArray={dataArray}
-                audioBufferLength={audioBufferLength}
-                analyser={analyser}
-              />
-            )}
+
             {trackList.length ? (
               <>
+                {isVisualizerOpen && (
+                  <Visualizer
+                    dataArray={dataArray}
+                    audioBufferLength={audioBufferLength}
+                    analyser={analyser}
+                  />
+                )}
                 <TrackListDisplay
                   trackList={trackList}
                   currentTrackName={currentTrackName}

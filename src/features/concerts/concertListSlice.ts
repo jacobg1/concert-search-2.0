@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  SerializedError,
+} from '@reduxjs/toolkit'
 
 interface SingleConcertMeta {
   description: string
@@ -15,8 +20,15 @@ interface ConcertListState {
   concertBand: string
   concertYear: string
   loading: boolean
-  error: Error | Record<string, unknown>
+  error: SerializedError
   pageNumber: number
+}
+
+interface SearchBody {
+  searchTerm: string
+  max: number
+  sortBy: Record<string, string>
+  filterDuplicates: boolean
 }
 
 export const fetchConcertList = createAsyncThunk<
@@ -33,20 +45,30 @@ export const fetchConcertList = createAsyncThunk<
     dispatch(setBandAndYear(query))
 
     const { bandName, year } = query
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/meta/${bandName}/${year}`,
-      {
-        method: 'GET',
-      }
-    )
+    const searchTerm = year ? `${bandName}+AND+year%3A${year}` : bandName
+
+    const body: SearchBody = {
+      searchTerm,
+      max: 1000,
+      sortBy: { date: 'desc', downloads: 'desc' }, // downloads always should be desc
+      filterDuplicates: true,
+    }
+
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/concerts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
     return response.json() as Promise<ChunkedConcertList>
   },
+
   {
     condition: ({ bandName, year }, { getState }) => {
       const {
         concertList: { concertBand, concertYear },
       } = getState()
-
       if (bandName === concertBand && year === concertYear) {
         return false
       }
@@ -93,7 +115,10 @@ const concertListSlice = createSlice({
       state.loading = false
     },
     // Error
-    [fetchConcertList.rejected.type]: (state, action) => {
+    [fetchConcertList.rejected.type]: (
+      state,
+      action: { error: SerializedError }
+    ) => {
       // show error toast on error?
       state.error = action.error
       state.loading = false

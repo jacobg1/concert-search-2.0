@@ -1,5 +1,5 @@
 import { Typography, Box, Popover } from '@mui/material'
-import { TrackMetaData } from '../trackInterface'
+import { TrackMetadata } from '../trackInterface'
 import { SxProps } from '@mui/system'
 import { usePopover } from '../../../app/hooks'
 import { MetaItem } from './MetaItem'
@@ -44,7 +44,7 @@ export default function ConcertMeta({
   source,
   date,
   numTracks,
-}: TrackMetaData): JSX.Element {
+}: TrackMetadata): JSX.Element {
   const [htmlEl, isOpen, handleOpen, handleClose] =
     usePopover<HTMLParagraphElement>()
 

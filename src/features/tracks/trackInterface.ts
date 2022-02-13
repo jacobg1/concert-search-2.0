@@ -1,25 +1,25 @@
 export interface TrackListData {
   name: string
-  playUrl: string
-  title: string
+  source: string
   creator: string
+  title: string
+  track: string
+  album: string
+  bitrate: string
+  format: string
+  original: string
+  mtime: string
+  size: string
+  md5: string
+  crc32: string
+  sha1: string
   length: string
-  source?: string
-  track?: string
-  album?: string
-  bitrate?: string
-  format?: string
-  original?: string
-  mtime?: string
-  size?: string
-  md5?: string
-  crc32?: string
-  sha1?: string
-  height?: string
-  width?: string
+  height: string
+  width: string
+  link: string
 }
 
-export interface TrackMetaData {
+export interface TrackMetadata {
   title: string
   numTracks: string
   creator: string

@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { TrackListData, TrackMetaData } from '../tracks/trackInterface'
+import { TrackListData, TrackMetadata } from '../tracks/trackInterface'
 import { PlayerState } from '../../app/interface'
 
 const { Play, Pause } = PlayerState
 
 export interface SelectedConcert {
-  metaData: TrackMetaData | null
+  metadata: TrackMetadata | null
   trackList: TrackListData[]
 }
 
@@ -13,7 +13,7 @@ export const fetchSelectedConcert = createAsyncThunk(
   'selectedConcert/fetchselectedConcert',
   async (concertId: string) => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/concert/${concertId}`,
+      `${process.env.REACT_APP_BASE_URL}/concerts/${concertId}/format/mp3`,
       {
         method: 'GET',
       }
@@ -37,7 +37,7 @@ interface SelectedConcertState {
 }
 
 const initialState: SelectedConcertState = {
-  selectedConcert: { trackList: [], metaData: null },
+  selectedConcert: { trackList: [], metadata: null },
   currentlyPlayingTrack: { currentTrackName: '', playUrl: '' },
   playerState: Pause,
   isDrawerOpen: false,
@@ -71,7 +71,7 @@ const selectedConcertSlice = createSlice({
 
       state.currentlyPlayingTrack = {
         currentTrackName: action.payload,
-        playUrl: trackList[trackIndex].playUrl,
+        playUrl: trackList[trackIndex].link,
       }
       state.playerState = Play
     },
@@ -93,7 +93,7 @@ const selectedConcertSlice = createSlice({
 
       state.currentlyPlayingTrack = {
         currentTrackName: nextTrack.name,
-        playUrl: nextTrack.playUrl,
+        playUrl: nextTrack.link,
       }
       state.playerState = Play
     },
@@ -112,7 +112,7 @@ const selectedConcertSlice = createSlice({
 
       state.currentlyPlayingTrack = {
         currentTrackName: previousTrack.name,
-        playUrl: previousTrack.playUrl,
+        playUrl: previousTrack.link,
       }
       state.playerState = Play
     },

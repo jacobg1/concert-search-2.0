@@ -1,4 +1,9 @@
-import { ListItemButton, ListItemText } from '@mui/material'
+import {
+  // Checkbox,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from '@mui/material'
 import { SxProps } from '@mui/system'
 import { background } from '../../../app/background'
 
@@ -42,24 +47,23 @@ export default function SingleTrack({
   return (
     <ListItemButton
       dense
-      sx={listItemStyles}
       key={name}
+      sx={listItemStyles}
       selected={currentTrackName === name}
     >
       <ListItemText
         sx={listItemTextSyles}
-        id={name}
+        id={title}
         primary={title || name}
-        secondary={length}
+        secondary={
+          <>
+            <Typography component="span" variant="body2">
+              {length}
+            </Typography>
+          </>
+        }
         onClick={() => playNewTrack(name)}
       />
-      {/* 
-      <Checkbox
-        edge="end"
-        checked={false}
-        value="checkbox"
-        inputProps={{ 'aria-labelledby': name }}
-      /> */}
     </ListItemButton>
   )
 }
