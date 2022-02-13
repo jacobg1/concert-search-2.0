@@ -26,7 +26,7 @@ export default function FilterDuplicatesCheckbox(): JSX.Element {
   }
 
   return (
-    <FormGroup>
+    <FormGroup style={{ alignSelf: 'center' }}>
       <FormControlLabel
         control={
           <Checkbox
