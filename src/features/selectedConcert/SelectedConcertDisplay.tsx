@@ -121,16 +121,15 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 />
               </Box>
             )}
-
+            {isVisualizerOpen && (
+              <Visualizer
+                dataArray={dataArray}
+                audioBufferLength={audioBufferLength}
+                analyser={analyser}
+              />
+            )}
             {trackList.length ? (
               <>
-                {isVisualizerOpen && (
-                  <Visualizer
-                    dataArray={dataArray}
-                    audioBufferLength={audioBufferLength}
-                    analyser={analyser}
-                  />
-                )}
                 <TrackListDisplay
                   trackList={trackList}
                   currentTrackName={currentTrackName}
