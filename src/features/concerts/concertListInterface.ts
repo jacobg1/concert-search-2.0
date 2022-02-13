@@ -1,5 +1,5 @@
-import { SerializedError } from '@reduxjs/toolkit'
 import { ChangeEvent } from 'react'
+import { NetworkError } from '../../app/interface'
 
 export type AccordionHandler = (
   id: string
@@ -51,6 +51,6 @@ export interface ConcertListState {
   concerts: ChunkedConcertList
   concertQuery: SearchParams
   loading: boolean
-  error: SerializedError
+  error: NetworkError | Record<string, unknown>
   pageNumber: number
 }

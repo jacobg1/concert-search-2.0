@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { TrackListData, TrackMetadata } from '../tracks/trackInterface'
-import { PlayerState } from '../../app/interface'
+import { NetworkError, PlayerState } from '../../app/interface'
 
 const { Play, Pause } = PlayerState
 
@@ -11,14 +11,17 @@ export interface SelectedConcert {
 
 export const fetchSelectedConcert = createAsyncThunk(
   'selectedConcert/fetchselectedConcert',
-  async (concertId: string) => {
+  async (concertId: string, { rejectWithValue }) => {
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/concerts/${concertId}/format/mp3`,
       {
         method: 'GET',
       }
     )
-    return response.json() as Promise<SelectedConcert>
+    if (response.ok) {
+      return response.json() as Promise<SelectedConcert>
+    }
+    return rejectWithValue((await response.json()) as NetworkError)
   }
 )
 
@@ -33,7 +36,7 @@ interface SelectedConcertState {
   playerState: PlayerState
   isDrawerOpen: boolean
   loading: boolean
-  error: Error | Record<string, unknown>
+  error: NetworkError | Record<string, unknown>
 }
 
 const initialState: SelectedConcertState = {
@@ -117,20 +120,17 @@ const selectedConcertSlice = createSlice({
       state.playerState = Play
     },
     setPlayerState: (state, action: PayloadAction<PlayerState>) => {
-      // TODO: play first song instead if none are selected
       // TODO: handle loading state?
       if (!state.currentlyPlayingTrack.playUrl) return
       state.playerState = action.payload
     },
   },
   extraReducers: {
-    // Loading
     [fetchSelectedConcert.pending.type]: (state) => {
       state.currentlyPlayingTrack = { currentTrackName: '', playUrl: '' }
       state.isDrawerOpen = true
       state.loading = true
     },
-    // Success
     [fetchSelectedConcert.fulfilled.type]: (
       state,
       action: PayloadAction<SelectedConcert>
@@ -138,10 +138,11 @@ const selectedConcertSlice = createSlice({
       state.selectedConcert = action.payload
       state.loading = false
     },
-    // Error
-    [fetchSelectedConcert.rejected.type]: (state, action) => {
-      // show error toast on error?
-      state.error = action.error
+    [fetchSelectedConcert.rejected.type]: (
+      state,
+      action: { payload: NetworkError }
+    ) => {
+      state.error = action.payload
       state.loading = false
     },
   },

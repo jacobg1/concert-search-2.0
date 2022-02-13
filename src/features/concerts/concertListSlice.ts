@@ -1,9 +1,5 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAsyncThunk,
-  SerializedError,
-} from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { NetworkError } from '../../app/interface'
 import {
   ChunkedConcertList,
   SearchParams,
@@ -31,7 +27,6 @@ export const fetchConcertList = createAsyncThunk<
       sortBy: { date: 'desc', downloads: 'desc' },
       filterDuplicates,
     }
-
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/concerts`, {
       method: 'POST',
       headers: {
@@ -39,13 +34,20 @@ export const fetchConcertList = createAsyncThunk<
       },
       body: JSON.stringify(body),
     })
-    return response.json() as Promise<ChunkedConcertList>
+
+    if (response.ok) {
+      return response.json() as Promise<ChunkedConcertList>
+    }
+    return thunkApi.rejectWithValue((await response.json()) as NetworkError)
   },
   {
     condition: (query, { getState }) => {
       const {
-        concertList: { concertQuery },
+        concertList: { concertQuery, error },
       } = getState()
+
+      if (Object.keys(error).length) return true
+
       return !Object.values(query).every(
         (val) => Object.values(concertQuery).indexOf(val) !== -1
       )
@@ -73,13 +75,11 @@ const concertListSlice = createSlice({
     },
   },
   extraReducers: {
-    // Loading
     [fetchConcertList.pending.type]: (state) => {
       // Reset pagination
       state.pageNumber = 1
       state.loading = true
     },
-    // Success
     [fetchConcertList.fulfilled.type]: (
       state,
       action: PayloadAction<ChunkedConcertList>
@@ -87,13 +87,11 @@ const concertListSlice = createSlice({
       state.concerts = action.payload
       state.loading = false
     },
-    // Error
     [fetchConcertList.rejected.type]: (
       state,
-      action: { error: SerializedError }
+      action: { payload: NetworkError }
     ) => {
-      // show error toast on error?
-      state.error = action.error
+      state.error = action.payload
       state.loading = false
     },
   },

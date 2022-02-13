@@ -27,3 +27,9 @@ export enum TrackDirection {
   Next = 'next',
   Prev = 'prev',
 }
+
+export interface NetworkError {
+  statusCode: number
+  message: string
+  error: string | Error
+}
