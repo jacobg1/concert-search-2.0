@@ -5,7 +5,6 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#2e7e89',
-      // main: '#394376',
     },
     secondary: {
       main: '#8eb9ff',
@@ -15,6 +14,13 @@ export const theme = createTheme({
     fontFamily: "'Outfit', sans-serif",
     button: {
       textTransform: 'none',
+    },
+    body2: {
+      span: {
+        color: '#1c1d20',
+        fontWeight: '400',
+        fontSize: '0.875rem',
+      },
     },
   },
   components: {
@@ -54,14 +60,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-selected': {
-            // background: '#2e7e89',
             borderColor: '#ffffff',
             borderLeft: '5px dashed #000000',
-            // background: '#bed5ff',
-            // '& span, p': {
-            //   color: '#ffffff',
-            //   textShadow: '0.5px 0.5px 3px #3a1b1c',
-            // },
           },
         },
       },
