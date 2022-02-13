@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { SxProps } from '@mui/system'
-import { Box } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ConcertSelect from './components/ConcertSelect'
 import ConcertSelectButton from './components/ConcertSelectButton'
@@ -9,6 +9,7 @@ import {
   selectBand,
   selectYear,
 } from './concertSelectSlice'
+import FilterDuplicatesCheckbox from './components/FilterDuplicatesCheckbox'
 
 const boxStyles: SxProps = {
   width: '90%',
@@ -52,10 +53,10 @@ export default function BandAndYearSelect(): JSX.Element | null {
         }
         changeHandler={(selection) => dispatch(selectYear(selection))}
       />
-      <ConcertSelectButton
-        selectedBand={selectedBand}
-        selectedYear={selectedYear}
-      />
+      <Stack display="flex" flexDirection="row" justifyContent="space-between">
+        <FilterDuplicatesCheckbox />
+        <ConcertSelectButton />
+      </Stack>
     </Box>
   )
 }

@@ -2,7 +2,6 @@ import { Button } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { fetchConcertList } from '../../concerts/concertListSlice'
-import { ConcertSelectButtonProps } from '../concertSelectInterface'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
 
 const buttonStyles: SxProps = {
@@ -12,12 +11,13 @@ const buttonStyles: SxProps = {
   maxWidth: '125px',
 }
 
-export default function ConcertSelectButton({
-  selectedBand,
-  selectedYear,
-}: ConcertSelectButtonProps): JSX.Element {
+export default function ConcertSelectButton(): JSX.Element {
   const dispatch = useAppDispatch()
-  const { loading } = useAppSelector((state) => state.concertList)
+  const {
+    concertList: { loading },
+    concertSelect: { selectedBand, selectedYear, filterDuplicates },
+  } = useAppSelector((state) => state)
+
   return (
     <Button
       variant="contained"
@@ -29,6 +29,7 @@ export default function ConcertSelectButton({
           fetchConcertList({
             bandName: selectedBand.replace(/ /g, '+'),
             year: selectedYear,
+            filterDuplicates,
           })
         )
       }
