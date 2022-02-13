@@ -1,3 +1,4 @@
+import { SerializedError } from '@reduxjs/toolkit'
 import { ChangeEvent } from 'react'
 
 export type AccordionHandler = (
@@ -21,4 +22,35 @@ export interface ConcertPaginationProps {
   count: number
   pageNumber: number
   handlePageChange: PaginationHandler
+}
+
+export interface SingleConcertMeta {
+  description: string
+  identifier: string
+  mediatype: string
+  title: string
+  year: number
+}
+
+export type ChunkedConcertList = SingleConcertMeta[][]
+
+export interface SearchBody {
+  searchTerm: string
+  max: number
+  sortBy: Record<string, string>
+  filterDuplicates: boolean
+}
+
+export interface SearchParams {
+  bandName: string
+  year: string
+  filterDuplicates: boolean
+}
+
+export interface ConcertListState {
+  concerts: ChunkedConcertList
+  concertQuery: SearchParams
+  loading: boolean
+  error: SerializedError
+  pageNumber: number
 }

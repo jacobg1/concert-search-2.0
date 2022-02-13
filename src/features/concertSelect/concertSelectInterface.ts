@@ -11,7 +11,9 @@ export interface ConcertSelectProps {
   changeHandler: (selection: string) => void
 }
 
-export interface ConcertSelectButtonProps {
+export interface ConcertSelectState {
+  bandList: Record<string, string[]> | null
   selectedBand: string
   selectedYear: string
+  filterDuplicates: boolean
 }

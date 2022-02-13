@@ -1,17 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from '../../app/store'
+import { ConcertSelectState } from './concertSelectInterface'
 import artistYearList from './options/artistYearList.json'
-
-export interface ConcertSelectState {
-  bandList: Record<string, string[]> | null
-  selectedBand: string
-  selectedYear: string
-}
 
 const initialState: ConcertSelectState = {
   bandList: null,
   selectedBand: '',
   selectedYear: '',
+  filterDuplicates: true,
 }
 
 export const concertSelectSlice = createSlice({
@@ -30,12 +26,16 @@ export const concertSelectSlice = createSlice({
     selectYear: (state, action: PayloadAction<string>) => {
       state.selectedYear = action.payload
     },
+    setFilterDuplicates: (state, action: PayloadAction<boolean>) => {
+      state.filterDuplicates = action.payload
+    },
   },
 })
 
 const { loadBandList } = concertSelectSlice.actions
 
-export const { selectBand, selectYear } = concertSelectSlice.actions
+export const { selectBand, selectYear, setFilterDuplicates } =
+  concertSelectSlice.actions
 
 export const handleLoadBandList = (): AppThunk => (dispatch) => {
   dispatch(loadBandList(artistYearList))

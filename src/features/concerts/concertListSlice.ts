@@ -4,36 +4,16 @@ import {
   createAsyncThunk,
   SerializedError,
 } from '@reduxjs/toolkit'
-
-interface SingleConcertMeta {
-  description: string
-  identifier: string
-  mediatype: string
-  title: string
-  year: number
-}
-
-type ChunkedConcertList = SingleConcertMeta[][]
-
-interface ConcertListState {
-  concerts: ChunkedConcertList
-  concertBand: string
-  concertYear: string
-  loading: boolean
-  error: SerializedError
-  pageNumber: number
-}
-
-interface SearchBody {
-  searchTerm: string
-  max: number
-  sortBy: Record<string, string>
-  filterDuplicates: boolean
-}
+import {
+  ChunkedConcertList,
+  SearchParams,
+  ConcertListState,
+  SearchBody,
+} from './concertListInterface'
 
 export const fetchConcertList = createAsyncThunk<
   ChunkedConcertList,
-  Record<string, string>,
+  SearchParams,
   {
     state: { concertList: ConcertListState }
   }
@@ -41,17 +21,15 @@ export const fetchConcertList = createAsyncThunk<
   'concertList/fetchConcertList',
   async (query, thunkApi) => {
     const { dispatch } = thunkApi
-
     dispatch(setBandAndYear(query))
 
-    const { bandName, year } = query
-    const searchTerm = year ? `${bandName}+AND+year%3A${year}` : bandName
+    const { bandName, year, filterDuplicates } = query
 
     const body: SearchBody = {
-      searchTerm,
+      searchTerm: year ? `${bandName}+AND+year%3A${year}` : bandName,
       max: 1000,
-      sortBy: { date: 'desc', downloads: 'desc' }, // downloads always should be desc
-      filterDuplicates: true,
+      sortBy: { date: 'desc', downloads: 'desc' },
+      filterDuplicates,
     }
 
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/concerts`, {
@@ -63,25 +41,21 @@ export const fetchConcertList = createAsyncThunk<
     })
     return response.json() as Promise<ChunkedConcertList>
   },
-
   {
-    condition: ({ bandName, year }, { getState }) => {
+    condition: (query, { getState }) => {
       const {
-        concertList: { concertBand, concertYear },
+        concertList: { concertQuery },
       } = getState()
-      if (bandName === concertBand && year === concertYear) {
-        return false
-      }
-
-      return true
+      return !Object.values(query).every(
+        (val) => Object.values(concertQuery).indexOf(val) !== -1
+      )
     },
   }
 )
 
 const initialState: ConcertListState = {
   concerts: [],
-  concertBand: '',
-  concertYear: '',
+  concertQuery: { bandName: '', year: '', filterDuplicates: true },
   loading: false,
   error: {},
   pageNumber: 1,
@@ -94,9 +68,8 @@ const concertListSlice = createSlice({
     setPageNumber: (state, action: PayloadAction<number>) => {
       state.pageNumber = action.payload
     },
-    setBandAndYear: (state, action: PayloadAction<{ [k: string]: string }>) => {
-      state.concertBand = action.payload.bandName
-      state.concertYear = action.payload.year
+    setBandAndYear: (state, action: PayloadAction<SearchParams>) => {
+      state.concertQuery = action.payload
     },
   },
   extraReducers: {
