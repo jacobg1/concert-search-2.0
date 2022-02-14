@@ -37,8 +37,8 @@ export function ErrorDisplay(): JSX.Element {
 
   useEffect(() => {
     const hasError =
-      Object.keys(listError).length !== 0 ||
-      Object.keys(concertError).length !== 0
+      (listError && Object.keys(listError).length !== 0) ||
+      (concertError && Object.keys(concertError).length !== 0)
     setOpen(hasError)
   }, [listError, concertError])
 
