@@ -6,6 +6,7 @@ import {
 } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { background } from '../../../app/background'
+import { durationFormat } from '../../../app/util'
 
 const listItemStyles: SxProps = {
   background,
@@ -40,10 +41,21 @@ interface SingleTrackProps {
 export default function SingleTrack({
   name,
   title,
-  length,
   playNewTrack,
   currentTrackName,
+  length,
 }: SingleTrackProps): JSX.Element {
+  const duration = (durationValue: string): string => {
+    // Value is already formatted
+    if (durationValue.includes(':')) {
+      return durationValue
+    }
+    // Value needs formatting
+    const [calcMinutes, calcSecondsLeft, addZero] = durationFormat(
+      parseInt(durationValue, 10)
+    )
+    return `${addZero(calcMinutes)}:${addZero(calcSecondsLeft)}`
+  }
   return (
     <ListItemButton
       dense
@@ -58,7 +70,7 @@ export default function SingleTrack({
         secondary={
           <>
             <Typography component="span" variant="body2">
-              {length}
+              {length ? duration(length) : null}
             </Typography>
           </>
         }

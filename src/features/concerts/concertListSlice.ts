@@ -24,7 +24,7 @@ export const fetchConcertList = createAsyncThunk<
     const body: SearchBody = {
       searchTerm: year ? `${bandName}+AND+year%3A${year}` : bandName,
       max: 1000,
-      sortBy: { date: 'desc', downloads: 'desc' },
+      sortBy: { downloads: 'desc' },
       filterDuplicates,
     }
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/concerts`, {

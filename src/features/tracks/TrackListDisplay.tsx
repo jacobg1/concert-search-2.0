@@ -1,7 +1,7 @@
 import { List } from '@mui/material'
 import { SxProps } from '@mui/system'
 import SingleTrack from './components/SingleTrack'
-import { TrackListData } from './trackInterface'
+import { TrackListDisplayProps } from './trackInterface'
 
 const listContainerStyles: SxProps = {
   width: '90%',
@@ -18,12 +18,6 @@ const listContainerStyles: SxProps = {
   },
 }
 
-interface TrackListDisplayProps {
-  trackList: TrackListData[]
-  currentTrackName: string
-  playNewTrack: (name: string) => void
-}
-
 export default function TrackListDisplay({
   trackList,
   playNewTrack,
@@ -34,10 +28,10 @@ export default function TrackListDisplay({
       {trackList.map((track) => {
         return (
           <SingleTrack
-            {...track}
             key={track.name}
             playNewTrack={playNewTrack}
             currentTrackName={currentTrackName}
+            {...track}
           />
         )
       })}

@@ -28,3 +28,9 @@ export interface TrackMetadata {
   venue?: string
   source?: string
 }
+
+export interface TrackListDisplayProps {
+  trackList: TrackListData[]
+  currentTrackName: string
+  playNewTrack: (name: string) => void
+}

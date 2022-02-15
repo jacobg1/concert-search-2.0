@@ -7,7 +7,6 @@ import { MetaItem } from './MetaItem'
 const metaContainerStyles: SxProps = {
   width: '90%',
   cursor: 'pointer',
-
   '& p': {
     margin: '0 0 10px',
     width: '90%',

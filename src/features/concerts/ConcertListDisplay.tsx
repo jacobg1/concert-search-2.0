@@ -14,7 +14,7 @@ export default function ConcertListDisplay(): JSX.Element {
   )
   const [expanded, setExpanded] = useState<string | false>(false)
 
-  const handlePageChange: PaginationHandler = (event, value) => {
+  const handlePageChange: PaginationHandler = (_e, value) => {
     setExpanded(false)
     dispatch(setPageNumber(value))
   }

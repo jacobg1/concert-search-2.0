@@ -33,26 +33,32 @@ export default function BandAndYearSelect(): JSX.Element | null {
 
   if (!bandList) return null
 
+  const options = [
+    {
+      id: 'select-band-name',
+      placeholder: 'Select a band',
+      value: selectedBand,
+      disabled: false,
+      autocompleteOptions: formatter(Object.keys(bandList)),
+      changeHandler: (selection: string) => dispatch(selectBand(selection)),
+    },
+    {
+      id: 'select-concert-year',
+      placeholder: 'Select year (optional)',
+      value: selectedYear,
+      disabled: !selectedBand,
+      autocompleteOptions: selectedBand
+        ? formatter(bandList[selectedBand])
+        : [],
+      changeHandler: (selection: string) => dispatch(selectYear(selection)),
+    },
+  ]
+
   return (
     <Box sx={boxStyles}>
-      <ConcertSelect
-        id="select-band-name"
-        placeholder="Select a band"
-        value={selectedBand}
-        disabled={false}
-        autocompleteOptions={formatter(Object.keys(bandList))}
-        changeHandler={(selection) => dispatch(selectBand(selection))}
-      />
-      <ConcertSelect
-        id="select-concert-year"
-        placeholder="Select year (optional)"
-        value={selectedYear}
-        disabled={!selectedBand}
-        autocompleteOptions={
-          selectedBand ? formatter(bandList[selectedBand]) : []
-        }
-        changeHandler={(selection) => dispatch(selectYear(selection))}
-      />
+      {options.map((opt) => (
+        <ConcertSelect key={opt.id} {...opt} />
+      ))}
       <Stack display="flex" flexDirection="row" justifyContent="space-between">
         <FilterDuplicatesCheckbox />
         <ConcertSelectButton />

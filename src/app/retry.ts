@@ -2,6 +2,7 @@ import { Middleware, MiddlewareAPI } from '@reduxjs/toolkit'
 import { fetchConcertList } from '../features/concerts/concertListSlice'
 import { AppDispatch, RootState } from './store'
 
+// Not in use anymore since deploying app to elastic beanstalk
 // Retry initial search twice if lambda is sleeping
 let tries = 0
 const extraTries = 2
