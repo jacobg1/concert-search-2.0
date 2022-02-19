@@ -59,7 +59,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
   const [isVisualizerOpen, toggleVisualizer] = useState(false)
   const audioEl = useRef<HTMLAudioElement>(null)
 
-  useMediaSession(currentTrackName)
+  useMediaSession(currentTrackName, audioEl.current)
 
   const [dataArray, audioBufferLength, analyser] = useAudioContext(
     audioEl.current
