@@ -25,6 +25,7 @@ const boxStyles: SxProps = {
   },
   '& .MuiSvgIcon-root': {
     alignSelf: 'center',
+    display: 'inline-block',
   },
 }
 
