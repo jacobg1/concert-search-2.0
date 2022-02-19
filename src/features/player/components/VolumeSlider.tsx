@@ -2,18 +2,7 @@ import { Stack, Slider, Button, Popper } from '@mui/material'
 import { VolumeUp } from '@mui/icons-material'
 import CloseSharpIcon from '@mui/icons-material/CloseSharp'
 import { usePopover } from '../../../app/hooks'
-import { PopoverHandler, VolumeChangeHandler } from '../../../app/interface'
-
-interface VolumeSliderProps {
-  volume: number
-  handleVolumeChange: VolumeChangeHandler
-}
-
-interface VolumeButtonProps {
-  toggle: boolean
-  forMobile?: boolean
-  clickHandler: PopoverHandler<HTMLButtonElement>
-}
+import { VolumeButtonProps, VolumeSliderProps } from '../playerInterface'
 
 const VolumeButton = ({
   toggle,

@@ -6,9 +6,7 @@ import { background } from '../../app/background'
 import { SxProps } from '@mui/system'
 import ProgressBar from './components/ProgressBar'
 import {
-  AudioRef,
   PlayerState,
-  SongPositionHandler,
   TrackDirection,
   VolumeChangeHandler,
 } from '../../app/interface'
@@ -20,6 +18,7 @@ import {
 } from '../../app/hooks'
 import { setPlayerState } from '../selectedConcert/selectedConcertSlice'
 import SkipButton from './components/SkipButton'
+import { AudioPlayerProps } from './playerInterface'
 
 const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection
@@ -38,16 +37,6 @@ const containerStyles: SxProps = {
   margin: 'auto',
   flexDirection: 'row',
   justifyContent: 'space-between',
-}
-
-interface AudioPlayerProps {
-  handleNextTrack: () => void
-  handlePreviousTrack: () => void
-  setSongPosition: SongPositionHandler
-  position: number
-  playerState: PlayerState
-  playUrl: string
-  audioEl: AudioRef
 }
 
 export default function AudioPlayer({

@@ -2,13 +2,9 @@ import PauseSharpIcon from '@mui/icons-material/PauseSharp'
 import PlayArrowSharpIcon from '@mui/icons-material/PlayArrowSharp'
 import { Button, Box } from '@mui/material'
 import { PlayerState } from '../../../app/interface'
+import { PlayOrPauseProps } from '../playerInterface'
 
 const { Play, Pause } = PlayerState
-
-interface PlayOrPauseProps {
-  isPlaying: boolean
-  onPlayPauseClick: () => void
-}
 
 export default function PlayOrPause({
   isPlaying,

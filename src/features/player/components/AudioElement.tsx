@@ -1,10 +1,5 @@
 import { forwardRef } from 'react'
-
-interface AudioElementProps {
-  src: string
-  children?: React.ReactNode
-  handleNextTrack: () => void
-}
+import { AudioElementProps } from '../playerInterface'
 
 export const AudioElement = forwardRef<HTMLAudioElement, AudioElementProps>(
   (props, forwardedRef) => {

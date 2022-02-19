@@ -1,6 +1,6 @@
 import { Box, Slider, Typography } from '@mui/material'
-import { SongPositionHandler } from '../../../app/interface'
 import { durationFormat } from '../../../app/util'
+import { DurationLabelProps, ProgressBarProps } from '../playerInterface'
 
 const progressBarHolderStyles = {
   width: '100%',
@@ -26,12 +26,6 @@ const progressBarHolderStyles = {
   },
 }
 
-interface DurationLabelProps {
-  time: string
-  disabled: boolean
-  prefix?: '-'
-}
-
 const DurationLabel = ({
   time,
   disabled,
@@ -48,12 +42,6 @@ const DurationLabel = ({
       {prefix ? `${prefix}${time}` : time}
     </Typography>
   )
-}
-
-interface ProgressBarProps {
-  duration: number
-  position: number
-  setSongPosition: SongPositionHandler
 }
 
 export default function ProgressBar({

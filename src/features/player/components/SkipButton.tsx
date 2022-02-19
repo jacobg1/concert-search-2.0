@@ -3,15 +3,11 @@ import SkipPreviousSharpIcon from '@mui/icons-material/SkipPreviousSharp'
 import SkipNextSharpIcon from '@mui/icons-material/SkipNextSharp'
 import { SxProps } from '@mui/system'
 import { TrackDirection } from '../../../app/interface'
+import { NextOrPreviousTrackProps } from '../playerInterface'
 
 const buttonStyles: SxProps = {
   minWidth: '40px',
   padding: '4px 6px',
-}
-
-interface NextOrPreviousTrackProps {
-  clickHandler: () => void
-  direction: TrackDirection
 }
 
 const { Prev } = TrackDirection

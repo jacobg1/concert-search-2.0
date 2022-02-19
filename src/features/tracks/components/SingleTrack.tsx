@@ -7,6 +7,7 @@ import {
 import { SxProps } from '@mui/system'
 import { background } from '../../../app/background'
 import { durationFormat } from '../../../app/util'
+import { SingleTrackProps } from '../trackInterface'
 
 const listItemStyles: SxProps = {
   background,
@@ -28,14 +29,6 @@ const listItemTextSyles: SxProps = {
     alignSelf: 'end',
     marginRight: '10px',
   },
-}
-
-interface SingleTrackProps {
-  name: string
-  title: string
-  length: string
-  currentTrackName: string
-  playNewTrack: (name: string) => void
 }
 
 export default function SingleTrack({
