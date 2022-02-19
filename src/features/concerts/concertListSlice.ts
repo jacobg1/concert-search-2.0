@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { NetworkError } from '../../app/interface'
+import { MediaFormat, NetworkError, SortOrder } from '../../app/interface'
 import {
   ChunkedConcertList,
   SearchParams,
   ConcertListState,
   SearchBody,
 } from './concertListInterface'
+
+const { OGG, MP3 } = MediaFormat
 
 export const fetchConcertList = createAsyncThunk<
   ChunkedConcertList,
@@ -19,13 +21,14 @@ export const fetchConcertList = createAsyncThunk<
     const { dispatch } = thunkApi
     dispatch(setBandAndYear(query))
 
-    const { bandName, year, filterDuplicates } = query
+    const { bandName, year, filterDuplicates, sortBy } = query
 
     const body: SearchBody = {
       searchTerm: year ? `${bandName}+AND+year%3A${year}` : bandName,
       max: 1000,
-      sortBy: { downloads: 'desc' },
       filterDuplicates,
+      sortBy,
+      mediaFormat: [OGG, MP3],
     }
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/concerts`, {
       method: 'POST',
@@ -57,7 +60,12 @@ export const fetchConcertList = createAsyncThunk<
 
 const initialState: ConcertListState = {
   concerts: [],
-  concertQuery: { bandName: '', year: '', filterDuplicates: true },
+  concertQuery: {
+    bandName: '',
+    year: '',
+    filterDuplicates: true,
+    sortBy: { downloads: SortOrder.DESC },
+  },
   loading: false,
   error: {},
   pageNumber: 1,
