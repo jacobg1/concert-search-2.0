@@ -3,6 +3,7 @@ import { SxProps } from '@mui/system'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { fetchConcertList } from '../../concerts/concertListSlice'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
+import { SortOrder } from '../../../app/interface'
 
 const buttonStyles: SxProps = {
   width: '30%',
@@ -27,9 +28,10 @@ export default function ConcertSelectButton(): JSX.Element {
       onClick={() =>
         dispatch(
           fetchConcertList({
-            bandName: selectedBand.replace(/ /g, '+'),
-            year: selectedYear,
             filterDuplicates,
+            year: selectedYear,
+            bandName: selectedBand.replace(/ /g, '+'),
+            sortBy: { downloads: SortOrder.DESC },
           })
         )
       }
