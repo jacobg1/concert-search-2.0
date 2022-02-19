@@ -1,6 +1,7 @@
 import { useState, MouseEvent, useEffect, useLayoutEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
+import { mediaHandlers } from './mediaHandlers'
 import type { RootState, AppDispatch } from './store'
 
 const { Play, Pause } = PlayerState
@@ -40,6 +41,12 @@ export function useVolumeChange(
   }, [volume, playerState])
 }
 
+const setMediaSessionState = (sessionState: 'playing' | 'paused') => {
+  if (navigator?.mediaSession) {
+    navigator.mediaSession.playbackState = sessionState
+  }
+}
+
 export function usePlayPause(
   current: HTMLAudioElement | null,
   playUrl: string,
@@ -50,8 +57,10 @@ export function usePlayPause(
 
     if (playerState === Play) {
       current.play()
+      setMediaSessionState('playing')
     } else {
       current.pause()
+      setMediaSessionState('paused')
     }
   }, [playerState, playUrl])
 }
@@ -102,6 +111,7 @@ export function useSongPosition(
     if (current) {
       // Pause track
       current.pause()
+      setMediaSessionState('paused')
 
       // Set position and currentTime
       setPosition(songPosition)
@@ -110,6 +120,7 @@ export function useSongPosition(
       // Start track back up
       if (current.paused && playerState !== Pause) {
         current.play()
+        setMediaSessionState('playing')
       }
     }
   }
@@ -189,12 +200,25 @@ export function useResize(maxWidth: number) {
   return windowSize
 }
 
-export function useMediaSession(currentTrackName: string) {
+export function useMediaSession(
+  currentTrackName: string,
+  current: HTMLAudioElement | null
+) {
   const { metadata, trackList } = useAppSelector(
     (state) => state.individualConcert.selectedConcert
   )
+  const dispatch = useAppDispatch()
+
   useEffect(() => {
-    if (metadata && navigator.mediaSession) {
+    if (current && navigator?.mediaSession) {
+      mediaHandlers(current, dispatch).forEach(({ action, handler }) =>
+        navigator.mediaSession.setActionHandler(action, handler)
+      )
+    }
+  }, [current])
+
+  useEffect(() => {
+    if (metadata && navigator?.mediaSession) {
       const findTitle = trackList.find(({ name }) => currentTrackName === name)
 
       navigator.mediaSession.metadata = new MediaMetadata({
