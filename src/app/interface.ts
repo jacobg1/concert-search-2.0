@@ -33,3 +33,13 @@ export interface NetworkError {
   message: string
   error: string | Error
 }
+
+export enum MediaFormat {
+  MP3 = 'mp3',
+  OGG = 'ogg',
+}
+
+export enum SortOrder {
+  ASC = 'asc',
+  DESC = 'desc',
+}
