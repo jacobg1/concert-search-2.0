@@ -11,7 +11,7 @@ const formatSelectStyles: SxProps = {
   background: '#bed5ff',
   width: { xs: '30%', sm: '20%' },
   maxWidth: '150px',
-  display: 'flex',
+  display: { xs: 'none', md: 'flex' },
   justifyContent: 'space-around',
   padding: 0,
   cursor: 'auto',
