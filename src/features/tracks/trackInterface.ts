@@ -34,3 +34,11 @@ export interface TrackListDisplayProps {
   currentTrackName: string
   playNewTrack: (name: string) => void
 }
+
+export interface SingleTrackProps {
+  name: string
+  title: string
+  length: string
+  currentTrackName: string
+  playNewTrack: (name: string) => void
+}

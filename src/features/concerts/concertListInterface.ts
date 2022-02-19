@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react'
-import { NetworkError } from '../../app/interface'
+import { MediaFormat, NetworkError, SortOrder } from '../../app/interface'
 
 export type AccordionHandler = (
   id: string
@@ -34,23 +34,33 @@ export interface SingleConcertMeta {
 
 export type ChunkedConcertList = SingleConcertMeta[][]
 
-export interface SearchBody {
-  searchTerm: string
-  max: number
-  sortBy: Record<string, string>
-  filterDuplicates: boolean
+interface SortBy {
+  downloads: SortOrder
 }
 
+/**
+ * Passed from component
+ */
 export interface SearchParams {
   bandName: string
   year: string
   filterDuplicates: boolean
+  sortBy: SortBy
+}
+
+/**
+ * Passed to back-end
+ */
+export interface SearchBody extends Omit<SearchParams, 'bandName' | 'year'> {
+  searchTerm: string
+  max: number
+  mediaFormat: MediaFormat[]
 }
 
 export interface ConcertListState {
   concerts: ChunkedConcertList
   concertQuery: SearchParams
   loading: boolean
-  error: NetworkError | Record<string, unknown>
+  error: NetworkError | Record<string, never>
   pageNumber: number
 }
