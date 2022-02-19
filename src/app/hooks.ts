@@ -190,13 +190,15 @@ export function useResize(maxWidth: number) {
 }
 
 export function useMediaSession(currentTrackName: string) {
-  const { metadata } = useAppSelector(
+  const { metadata, trackList } = useAppSelector(
     (state) => state.individualConcert.selectedConcert
   )
   useEffect(() => {
     if (metadata && navigator.mediaSession) {
+      const findTitle = trackList.find(({ name }) => currentTrackName === name)
+
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentTrackName,
+        title: findTitle ? findTitle.title : currentTrackName,
         artist: metadata.creator,
         album: metadata.title,
       })
