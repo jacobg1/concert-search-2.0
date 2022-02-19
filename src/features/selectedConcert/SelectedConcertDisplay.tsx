@@ -6,6 +6,7 @@ import {
   useAppDispatch,
   useAppSelector,
   useAudioContext,
+  useMediaSession,
   useSongPosition,
 } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
@@ -57,9 +58,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   const [isVisualizerOpen, toggleVisualizer] = useState(false)
   const audioEl = useRef<HTMLAudioElement>(null)
+
+  useMediaSession(currentTrackName)
+
   const [dataArray, audioBufferLength, analyser] = useAudioContext(
     audioEl.current
   )
+
   const [position, setSongPosition, resetSongPosition] = useSongPosition(
     audioEl.current,
     playUrl,
@@ -115,8 +120,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   numTracks={trackList.length.toString()}
                 />
                 <BarChartSharpIcon
-                  style={{ color: 'white', cursor: 'pointer' }}
                   fontSize="large"
+                  style={{ color: 'white', cursor: 'pointer' }}
                   onClick={() => toggleVisualizer(!isVisualizerOpen)}
                 />
               </Box>
