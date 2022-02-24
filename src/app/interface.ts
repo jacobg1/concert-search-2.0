@@ -43,3 +43,20 @@ export enum SortOrder {
   ASC = 'asc',
   DESC = 'desc',
 }
+
+type MediaSessionAction =
+  | 'hangup'
+  | 'nexttrack'
+  | 'pause'
+  | 'play'
+  | 'previoustrack'
+  | 'seekbackward'
+  | 'seekforward'
+  | 'seekto'
+  | 'skipad'
+  | 'stop'
+
+export interface MediaHandler {
+  action: MediaSessionAction
+  handler: () => void | null
+}
