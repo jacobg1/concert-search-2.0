@@ -56,8 +56,15 @@ export function usePlayPause(
     if (!current) return
 
     if (playerState === Play) {
-      current.play()
-      setMediaSessionState('playing')
+      current.focus()
+      current
+        .play()
+        .then(() => {
+          setMediaSessionState('playing')
+        })
+        .catch(() => {
+          setMediaSessionState('paused')
+        })
     } else {
       current.pause()
       setMediaSessionState('paused')
@@ -119,8 +126,15 @@ export function useSongPosition(
 
       // Start track back up
       if (current.paused && playerState !== Pause) {
-        current.play()
-        setMediaSessionState('playing')
+        current.focus()
+        current
+          .play()
+          .then(() => {
+            setMediaSessionState('playing')
+          })
+          .catch(() => {
+            setMediaSessionState('paused')
+          })
       }
     }
   }
