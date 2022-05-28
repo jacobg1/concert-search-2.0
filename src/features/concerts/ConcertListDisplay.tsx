@@ -41,7 +41,7 @@ export default function ConcertListDisplay(): JSX.Element {
       })}
       <ConcertPagination
         pageNumber={pageNumber}
-        count={concerts.length - 1}
+        count={concerts.length}
         handlePageChange={handlePageChange}
       />
     </div>
