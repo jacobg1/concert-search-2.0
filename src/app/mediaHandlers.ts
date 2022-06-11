@@ -13,7 +13,6 @@ export const mediaHandlers = (
     {
       action: 'play',
       handler: () => {
-        current.focus()
         current
           .play()
           .then(() => {

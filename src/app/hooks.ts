@@ -57,7 +57,6 @@ export function usePlayPause(
     if (!current) return
 
     if (playerState === Play) {
-      current.focus()
       current
         .play()
         .then(() => {
@@ -127,7 +126,6 @@ export function useSongPosition(
 
       // Start track back up
       if (current.paused && playerState !== Pause) {
-        current.focus()
         current
           .play()
           .then(() => {
@@ -217,7 +215,7 @@ export function useMediaSession(
   currentTrackName: string
 ) {
   useEffect(() => {
-    if (metadata && navigator?.mediaSession) {
+    if (metadata && 'mediaSession' in navigator) {
       const findTitle = trackList.find(({ name }) => currentTrackName === name)
 
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -233,7 +231,7 @@ export function useMediaHandlers(current: HTMLAudioElement) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (navigator?.mediaSession) {
+    if ('mediaSession' in navigator) {
       mediaHandlers(current, dispatch).forEach(({ action, handler }) =>
         navigator.mediaSession.setActionHandler(action, handler)
       )

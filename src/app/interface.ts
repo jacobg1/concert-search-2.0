@@ -58,5 +58,5 @@ type MediaSessionAction =
 
 export interface MediaHandler {
   action: MediaSessionAction
-  handler: () => void | null
+  handler: () => void
 }
