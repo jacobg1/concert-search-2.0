@@ -1,20 +1,21 @@
-import { useEffect, useRef, memo } from 'react'
-import { useResize } from '../../app/hooks'
+import { useEffect, useRef, memo, useState } from 'react'
+import { useAudioContext, useMediaHandlers, useResize } from '../../app/hooks'
+import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
+import { Box } from '@mui/material'
 
 interface VisualizerProps {
-  dataArray: Uint8Array
-  audioBufferLength: number
-  analyser?: AnalyserNode
+  current: HTMLAudioElement
 }
 
-function Visualizer({
-  dataArray,
-  audioBufferLength,
-  analyser,
-}: VisualizerProps): JSX.Element {
+function Visualizer({ current }: VisualizerProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
   const [, windowWidth] = useResize(1000)
+  const [isPaused, setIsPaused] = useState<boolean | null>(null)
+
+  const [dataArray, audioBufferLength, analyser] = useAudioContext(current)
+
+  useMediaHandlers(current)
 
   const visualize = () => {
     if (canvasRef.current && analyser) {
@@ -45,6 +46,18 @@ function Visualizer({
     }
   }
 
+  const handleSetPaused = () => {
+    if (!animationRef.current) return
+    if (!isPaused) {
+      setIsPaused(true)
+      cancelAnimationFrame(animationRef.current)
+    }
+    if (isPaused === true) {
+      setIsPaused(false)
+      animationRef.current = requestAnimationFrame(visualize)
+    }
+  }
+
   useEffect(() => {
     visualize()
     return () => cancelAnimationFrame(animationRef.current)
@@ -52,7 +65,19 @@ function Visualizer({
 
   return (
     <>
-      <canvas ref={canvasRef} width={windowWidth * 0.9} height="150">
+      <Box style={{ width: '90%', textAlign: 'right' }}>
+        <BarChartSharpIcon
+          fontSize="large"
+          style={{ color: 'white', cursor: 'pointer' }}
+          onClick={() => handleSetPaused()}
+        />
+      </Box>
+
+      <canvas
+        ref={canvasRef}
+        width={windowWidth * 0.9}
+        height={isPaused ? '0' : '150'}
+      >
         Audio Visualizer
       </canvas>
     </>

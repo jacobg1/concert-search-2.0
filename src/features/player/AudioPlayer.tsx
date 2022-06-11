@@ -19,6 +19,7 @@ import {
 import { setPlayerState } from '../selectedConcert/selectedConcertSlice'
 import SkipButton from './components/SkipButton'
 import { AudioPlayerProps } from './playerInterface'
+import { AudioElement } from './components/AudioElement'
 
 const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection
@@ -26,7 +27,6 @@ const { Next, Prev } = TrackDirection
 const audioPlayerStyles: SxProps = {
   padding: { xs: '14px 10px 20px' },
   width: '90%',
-  // border: '2px solid white',
   background,
   boxSizing: 'border-box',
 }
@@ -99,6 +99,11 @@ export default function AudioPlayer({
         <SkipButton direction={Next} clickHandler={handleNextTrack} />
         <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
       </Stack>
+      <AudioElement
+        ref={audioEl}
+        src={playUrl}
+        handleNextTrack={handleNextTrack}
+      />
     </Box>
   )
 }

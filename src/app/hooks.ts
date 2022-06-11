@@ -1,5 +1,6 @@
 import { useState, MouseEvent, useEffect, useLayoutEffect } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { TrackListData, TrackMetadata } from '../features/tracks/trackInterface'
 import { PlayerState, PopoverHandler, SongPositionHandler } from './interface'
 import { mediaHandlers } from './mediaHandlers'
 import type { RootState, AppDispatch } from './store'
@@ -155,44 +156,40 @@ type IAudioContext = [
 ]
 
 // Initial analyser set up. Needs to only run once.
-export function useAudioContext(
-  current: HTMLAudioElement | null
-): IAudioContext {
+export function useAudioContext(current: HTMLAudioElement): IAudioContext {
   const [dataArray, setDataArray] = useState<Uint8Array>(new Uint8Array())
   const [analyser, setAnalyser] = useState<AnalyserNode | undefined>(undefined)
   const [audioBufferLength, setAudioBufferLength] = useState<number>(0)
 
   useEffect(() => {
-    if (current) {
-      const audioContext = new (AudioContext ||
-        (window as any).webkitAudioContext)()
-      const source = audioContext.createMediaElementSource(current)
+    const audioContext = new (AudioContext ||
+      (window as any).webkitAudioContext)()
+    const source = audioContext.createMediaElementSource(current)
 
-      // To ensure track actually plays
-      current.onplay = () => audioContext.resume()
+    // To ensure track actually plays
+    current.onplay = () => audioContext.resume()
 
-      const audioAnalyser = audioContext.createAnalyser()
-      audioAnalyser.fftSize = 256
+    const audioAnalyser = audioContext.createAnalyser()
+    audioAnalyser.fftSize = 256
 
-      // Connect analyser between source and destination
-      source.connect(audioAnalyser)
-      audioAnalyser.connect(audioContext.destination)
+    // Connect analyser between source and destination
+    source.connect(audioAnalyser)
+    audioAnalyser.connect(audioContext.destination)
 
-      const bufferLength = audioAnalyser.frequencyBinCount
-      // Empty array will be filled with frequency data
-      const data = new Uint8Array(bufferLength)
+    const bufferLength = audioAnalyser.frequencyBinCount
+    // Empty array will be filled with frequency data
+    const data = new Uint8Array(bufferLength)
 
-      setAudioBufferLength(bufferLength)
-      setAnalyser(audioAnalyser)
-      setDataArray(data)
+    setAudioBufferLength(bufferLength)
+    setAnalyser(audioAnalyser)
+    setDataArray(data)
 
-      return () => {
-        // Cleanup and disconnect
-        source.disconnect(audioAnalyser)
-        audioAnalyser.disconnect(audioContext.destination)
-      }
+    return () => {
+      // Cleanup and disconnect
+      source.disconnect(audioAnalyser)
+      audioAnalyser.disconnect(audioContext.destination)
     }
-  }, [current])
+  }, [])
 
   return [dataArray, audioBufferLength, analyser]
 }
@@ -215,22 +212,10 @@ export function useResize(maxWidth: number) {
 }
 
 export function useMediaSession(
-  currentTrackName: string,
-  current: HTMLAudioElement | null
+  metadata: TrackMetadata | null,
+  trackList: TrackListData[],
+  currentTrackName: string
 ) {
-  const { metadata, trackList } = useAppSelector(
-    (state) => state.individualConcert.selectedConcert
-  )
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (current && navigator?.mediaSession) {
-      mediaHandlers(current, dispatch).forEach(({ action, handler }) =>
-        navigator.mediaSession.setActionHandler(action, handler)
-      )
-    }
-  }, [current])
-
   useEffect(() => {
     if (metadata && navigator?.mediaSession) {
       const findTitle = trackList.find(({ name }) => currentTrackName === name)
@@ -242,4 +227,16 @@ export function useMediaSession(
       })
     }
   }, [metadata, currentTrackName])
+}
+
+export function useMediaHandlers(current: HTMLAudioElement) {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (navigator?.mediaSession) {
+      mediaHandlers(current, dispatch).forEach(({ action, handler }) =>
+        navigator.mediaSession.setActionHandler(action, handler)
+      )
+    }
+  }, [])
 }

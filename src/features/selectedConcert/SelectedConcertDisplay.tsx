@@ -1,18 +1,15 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { CircularProgress, Drawer, Stack, Box } from '@mui/material'
 import { SxProps } from '@mui/system'
-import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import {
   useAppDispatch,
   useAppSelector,
-  useAudioContext,
   useMediaSession,
   useSongPosition,
 } from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
 import AudioPlayer from '../player/AudioPlayer'
-import { AudioElement } from '../player/components/AudioElement'
 import {
   playNextTrack,
   playPreviousTrack,
@@ -46,6 +43,12 @@ const stackStyles = {
   alignSelf: 'center',
 }
 
+const metadataStyles = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '90%',
+}
+
 export default function SelectedConcertDisplay(): JSX.Element {
   const {
     loading,
@@ -56,14 +59,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
   } = useAppSelector((state) => state.individualConcert)
   const dispatch = useAppDispatch()
 
-  const [isVisualizerOpen, toggleVisualizer] = useState(false)
   const audioEl = useRef<HTMLAudioElement>(null)
-
-  useMediaSession(currentTrackName, audioEl.current)
-
-  const [dataArray, audioBufferLength, analyser] = useAudioContext(
-    audioEl.current
-  )
 
   const [position, setSongPosition, resetSongPosition] = useSongPosition(
     audioEl.current,
@@ -71,14 +67,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     playerState
   )
 
-  const handlePlayNewTrack = (name: string): void => {
-    const { current } = audioEl
-    if (current) {
-      if (!playUrl) toggleVisualizer(true)
-      resetSongPosition()
-      dispatch(playNewTrack(name))
-    }
-  }
+  useMediaSession(metadata, trackList, currentTrackName)
 
   const handleNextOrPreviousTrack =
     (nextOrPrev: TrackDirection) => (): void => {
@@ -93,6 +82,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
       }
     }
 
+  const handlePlayNewTrack = (name: string): void => {
+    const { current } = audioEl
+    if (current) {
+      resetSongPosition()
+      dispatch(playNewTrack(name))
+    }
+  }
   return (
     <Drawer
       sx={drawerStyles}
@@ -108,42 +104,20 @@ export default function SelectedConcertDisplay(): JSX.Element {
           <>
             <ButtonContainer />
             {metadata && (
-              <Box
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '90%',
-                }}
-              >
+              <Box style={metadataStyles}>
                 <ConcertMeta
                   {...metadata}
                   numTracks={trackList.length.toString()}
                 />
-                <BarChartSharpIcon
-                  fontSize="large"
-                  style={{ color: 'white', cursor: 'pointer' }}
-                  onClick={() => toggleVisualizer(!isVisualizerOpen)}
-                />
               </Box>
             )}
-            {isVisualizerOpen && (
-              <Visualizer
-                dataArray={dataArray}
-                audioBufferLength={audioBufferLength}
-                analyser={analyser}
-              />
-            )}
+            {audioEl.current && <Visualizer current={audioEl.current} />}
             {trackList.length ? (
               <>
                 <TrackListDisplay
                   trackList={trackList}
                   currentTrackName={currentTrackName}
                   playNewTrack={handlePlayNewTrack}
-                />
-                <AudioElement
-                  ref={audioEl}
-                  src={playUrl}
-                  handleNextTrack={handleNextOrPreviousTrack(Next)}
                 />
                 <AudioPlayer
                   audioEl={audioEl}
