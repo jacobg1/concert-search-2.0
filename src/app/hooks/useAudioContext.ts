@@ -13,10 +13,14 @@ export function useAudioContext(current: HTMLAudioElement): IAudioContext {
   const [analyser, setAnalyser] = useState<AnalyserNode | undefined>(undefined)
   const [audioBufferLength, setAudioBufferLength] = useState<number>(0)
 
+  let source: MediaElementAudioSourceNode
+
   useEffect(() => {
+    if (source) return
     const audioContext = new (AudioContext ||
       (window as any).webkitAudioContext)()
-    const source = audioContext.createMediaElementSource(current)
+
+    source = audioContext.createMediaElementSource(current)
 
     // To ensure track actually plays
     current.onplay = () => audioContext.resume()
