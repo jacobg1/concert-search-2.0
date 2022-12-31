@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { CircularProgress } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ConcertAccordion from './components/ConcertAccordion'
 import ConcertPagination from './components/ConcertPagination'
 import { PaginationHandler, AccordionHandler } from './concertListInterface'
 import { setPageNumber } from './concertListSlice'
 import { RecordIcon } from './components/RecordIcon'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 export default function ConcertListDisplay(): JSX.Element {
   const dispatch = useAppDispatch()

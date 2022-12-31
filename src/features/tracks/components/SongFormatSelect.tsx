@@ -1,10 +1,10 @@
 import { Typography, Button } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { MediaFormat } from '../../../app/interface'
 import { changeMediaFormat } from '../../selectedConcert/selectedConcertSlice'
 import { useState } from 'react'
 import { SxProps } from '@mui/system'
+import { useAppSelector, useAppDispatch } from '../../../app/hooks'
 
 const formatSelectStyles: SxProps = {
   color: 'black',

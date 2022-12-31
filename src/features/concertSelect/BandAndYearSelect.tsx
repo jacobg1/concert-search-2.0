@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { SxProps } from '@mui/system'
 import { Box, Stack } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ConcertSelect from './components/ConcertSelect'
 import ConcertSelectButton from './components/ConcertSelectButton'
 import {
@@ -10,6 +9,7 @@ import {
   selectYear,
 } from './concertSelectSlice'
 import FilterDuplicatesCheckbox from './components/FilterDuplicatesCheckbox'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 const boxStyles: SxProps = {
   width: '90%',

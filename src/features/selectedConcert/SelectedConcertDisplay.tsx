@@ -1,12 +1,6 @@
 import { useRef } from 'react'
 import { CircularProgress, Drawer, Stack, Box } from '@mui/material'
 import { SxProps } from '@mui/system'
-import {
-  useAppDispatch,
-  useAppSelector,
-  useMediaSession,
-  useSongPosition,
-} from '../../app/hooks'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
 import AudioPlayer from '../player/AudioPlayer'
@@ -18,6 +12,12 @@ import {
 import { TrackDirection } from '../../app/interface'
 import { ButtonContainer } from './components/ButtonContainer'
 import Visualizer from '../visualizer/Visualizer'
+import {
+  useAppSelector,
+  useAppDispatch,
+  useMediaSession,
+  useSongPosition,
+} from '../../app/hooks'
 
 const { Next, Prev } = TrackDirection
 

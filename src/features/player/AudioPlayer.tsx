@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Box, Stack } from '@mui/material'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import PlayOrPause from './components/PlayOrPause'
 import VolumeSlider from './components/VolumeSlider'
 import { background } from '../../app/background'
@@ -10,16 +11,16 @@ import {
   TrackDirection,
   VolumeChangeHandler,
 } from '../../app/interface'
-import {
-  useAppDispatch,
-  useVolumeChange,
-  usePlayPause,
-  useSongDuration,
-} from '../../app/hooks'
 import { setPlayerState } from '../selectedConcert/selectedConcertSlice'
 import SkipButton from './components/SkipButton'
 import { AudioPlayerProps } from './playerInterface'
 import { AudioElement } from './components/AudioElement'
+import {
+  useSongDuration,
+  usePlayPause,
+  useVolumeChange,
+  useAppDispatch,
+} from '../../app/hooks'
 
 const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection

@@ -8,8 +8,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ConcertAccordionProps } from '../concertListInterface'
 import PlayConcertButton from './PlayConcertButton'
-import { useAppDispatch } from '../../../app/hooks'
 import { fetchSelectedConcert } from '../../selectedConcert/selectedConcertSlice'
+import { useAppDispatch } from '../../../app/hooks'
 
 export default function ConcertAccordion({
   identifier,

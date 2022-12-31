@@ -1,8 +1,8 @@
 import { Button } from '@mui/material'
 import ArrowLeftSharpIcon from '@mui/icons-material/ArrowLeftSharp'
-import { useAppDispatch } from '../../../app/hooks'
 import { toggleConcertDrawer } from '../selectedConcertSlice'
 import { IconDirection } from '../../../app/interface'
+import { useAppDispatch } from '../../../app/hooks'
 
 export function BackButton({
   iconDirection,

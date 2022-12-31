@@ -1,7 +1,7 @@
 import { useEffect, useRef, memo, useState } from 'react'
-import { useAudioContext, useMediaHandlers, useResize } from '../../app/hooks'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import { Box } from '@mui/material'
+import { useMediaHandlers, useAudioContext, useResize } from '../../app/hooks'
 
 interface VisualizerProps {
   current: HTMLAudioElement

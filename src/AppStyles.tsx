@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material'
 import { GlobalStyles } from '@mui/system'
-import { useAppSelector } from './app/hooks'
 import { background } from './app/background'
+import { useAppSelector } from './app/hooks'
 
 export function AppStyles({ theme }: { theme: Theme }): JSX.Element {
   const { isDrawerOpen } = useAppSelector((state) => state.individualConcert)

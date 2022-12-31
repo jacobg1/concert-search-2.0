@@ -1,8 +1,8 @@
 import { Typography, Box, Popover } from '@mui/material'
 import { TrackMetadata } from '../trackInterface'
 import { SxProps } from '@mui/system'
-import { usePopover } from '../../../app/hooks'
 import { MetaItem } from './MetaItem'
+import { usePopover } from '../../../app/hooks'
 
 const metaContainerStyles: SxProps = {
   width: '90%',
