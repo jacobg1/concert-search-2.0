@@ -1,7 +1,14 @@
 import { useEffect, useRef, memo, useState } from 'react'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import { Box } from '@mui/material'
-import { useMediaHandlers, useAudioContext, useResize } from '../../app/hooks'
+import {
+  useMediaHandlers,
+  useAudioContext,
+  useResize,
+  useAppSelector,
+} from '../../app/hooks'
+import { PlayerState } from '../../app/interface'
+import { VisualizerPaused } from './VisualizerPaused'
 
 interface VisualizerProps {
   current: HTMLAudioElement
@@ -11,11 +18,15 @@ function Visualizer({ current }: VisualizerProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
   const [, windowWidth] = useResize(1000)
-  const [isPaused, setIsPaused] = useState<boolean | null>(null)
+  const [isVizPaused, setIsVizPaused] = useState<boolean | null>(null)
 
   const [dataArray, audioBufferLength, analyser] = useAudioContext(current)
 
+  const { playerState } = useAppSelector((state) => state.individualConcert)
+
   useMediaHandlers(current)
+
+  const isSoundPlaying = playerState === PlayerState.Play
 
   const visualize = () => {
     if (canvasRef.current && analyser) {
@@ -46,22 +57,22 @@ function Visualizer({ current }: VisualizerProps): JSX.Element {
     }
   }
 
-  const handleSetPaused = () => {
+  // Handle visualizer toggle
+  useEffect(() => {
     if (!animationRef.current) return
-    if (!isPaused) {
-      setIsPaused(true)
+    if (!isVizPaused) {
       cancelAnimationFrame(animationRef.current)
-    }
-    if (isPaused === true) {
-      setIsPaused(false)
+    } else {
       animationRef.current = requestAnimationFrame(visualize)
     }
-  }
-
-  useEffect(() => {
     visualize()
     return () => cancelAnimationFrame(animationRef.current)
-  }, [analyser])
+  }, [isVizPaused, analyser])
+
+  // Initial start of visualizer
+  useEffect(() => {
+    if (isSoundPlaying) visualize()
+  }, [analyser, isSoundPlaying])
 
   return (
     <>
@@ -69,17 +80,20 @@ function Visualizer({ current }: VisualizerProps): JSX.Element {
         <BarChartSharpIcon
           fontSize="large"
           style={{ color: 'white', cursor: 'pointer' }}
-          onClick={() => handleSetPaused()}
+          onClick={() => setIsVizPaused(!isVizPaused)}
         />
       </Box>
-
-      <canvas
-        ref={canvasRef}
-        width={windowWidth * 0.9}
-        height={isPaused ? '0' : '150'}
-      >
-        Audio Visualizer
-      </canvas>
+      {isSoundPlaying ? (
+        <canvas
+          ref={canvasRef}
+          width={windowWidth * 0.9}
+          height={isVizPaused ? '0' : '150'}
+        >
+          Audio Visualizer
+        </canvas>
+      ) : (
+        !isVizPaused && <VisualizerPaused />
+      )}
     </>
   )
 }
