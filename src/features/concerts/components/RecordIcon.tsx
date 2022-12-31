@@ -30,7 +30,7 @@ export function RecordIcon(): JSX.Element {
         `}
         src={recordPlayer}
         alt="record-icon"
-      ></img>
+      />
     </Box>
   )
 }
