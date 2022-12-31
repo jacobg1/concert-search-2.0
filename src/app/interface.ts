@@ -23,6 +23,11 @@ export enum PlayerState {
   Pause = 'pause',
 }
 
+export enum SessionState {
+  Playing = 'playing',
+  Paused = 'paused',
+}
+
 export enum TrackDirection {
   Next = 'next',
   Prev = 'prev',
@@ -43,18 +48,6 @@ export enum SortOrder {
   ASC = 'asc',
   DESC = 'desc',
 }
-
-type MediaSessionAction =
-  | 'hangup'
-  | 'nexttrack'
-  | 'pause'
-  | 'play'
-  | 'previoustrack'
-  | 'seekbackward'
-  | 'seekforward'
-  | 'seekto'
-  | 'skipad'
-  | 'stop'
 
 export interface MediaHandler {
   action: MediaSessionAction
