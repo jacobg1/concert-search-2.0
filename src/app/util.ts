@@ -1,4 +1,4 @@
-export function durationFormat(
+function durationFormat(
   durationValue: number
 ): [number, number, (x: number) => string] {
   const calcMinutes = Math.floor(durationValue / 60)
@@ -9,4 +9,22 @@ export function durationFormat(
   }
 
   return [calcMinutes, calcSecondsLeft, addZero]
+}
+
+export function handleTrackDuration(durationValue: string): string {
+  // Value is already formatted
+  if (durationValue.includes(':')) {
+    return durationValue
+  }
+  // Value needs formatting
+  const [calcMinutes, calcSecondsLeft, addZero] = durationFormat(
+    parseInt(durationValue, 10)
+  )
+  return `${addZero(calcMinutes)}:${addZero(calcSecondsLeft)}`
+}
+
+export function handleTrackProgressDuration(durationValue: number): string {
+  const [calcMinutes, calcSecondsLeft, addZero] = durationFormat(durationValue)
+
+  return `${calcMinutes}:${addZero(calcSecondsLeft)}`
 }
