@@ -1,5 +1,5 @@
 import { Box, Slider, Typography } from '@mui/material'
-import { durationFormat } from '../../../app/util'
+import { handleTrackProgressDuration } from '../../../app/util'
 import { DurationLabelProps, ProgressBarProps } from '../playerInterface'
 
 const progressBarHolderStyles = {
@@ -49,13 +49,6 @@ export default function ProgressBar({
   position,
   setSongPosition,
 }: ProgressBarProps): JSX.Element {
-  const songDuration = (durationValue: number): string => {
-    const [calcMinutes, calcSecondsLeft, addZero] =
-      durationFormat(durationValue)
-
-    return `${calcMinutes}:${addZero(calcSecondsLeft)}`
-  }
-
   return (
     <Box
       sx={progressBarHolderStyles}
@@ -63,7 +56,10 @@ export default function ProgressBar({
       justifyContent="space-between"
       alignItems="center"
     >
-      <DurationLabel disabled={duration === 0} time={songDuration(position)} />
+      <DurationLabel
+        disabled={duration === 0}
+        time={handleTrackProgressDuration(position)}
+      />
       <Slider
         aria-label="progress-bar"
         id="progressBar"
@@ -79,7 +75,7 @@ export default function ProgressBar({
       <DurationLabel
         prefix="-"
         disabled={duration === 0}
-        time={songDuration(duration - position)}
+        time={handleTrackProgressDuration(duration - position)}
       />
     </Box>
   )
