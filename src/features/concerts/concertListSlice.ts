@@ -76,7 +76,8 @@ const concertListSlice = createSlice({
   initialState,
   reducers: {
     setPageNumber: (state, action: PayloadAction<number>) => {
-      state.pageNumber = action.payload // Can mutate state here with ImmerJS
+      // Can mutate state here with immerjs
+      state.pageNumber = action.payload
     },
     setBandAndYear: (state, action: PayloadAction<SearchParams>) => {
       state.concertQuery = action.payload
