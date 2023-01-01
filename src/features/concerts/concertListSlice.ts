@@ -76,32 +76,30 @@ const concertListSlice = createSlice({
   initialState,
   reducers: {
     setPageNumber: (state, action: PayloadAction<number>) => {
-      state.pageNumber = action.payload
+      state.pageNumber = action.payload // Can mutate state here with ImmerJS
     },
     setBandAndYear: (state, action: PayloadAction<SearchParams>) => {
       state.concertQuery = action.payload
     },
   },
-  extraReducers: {
-    [fetchConcertList.pending.type]: (state) => {
-      // Reset pagination
-      state.pageNumber = 1
-      state.loading = true
-    },
-    [fetchConcertList.fulfilled.type]: (
-      state,
-      action: PayloadAction<ChunkedConcertList>
-    ) => {
-      state.concerts = action.payload
-      state.loading = false
-    },
-    [fetchConcertList.rejected.type]: (
-      state,
-      action: { payload: NetworkError }
-    ) => {
-      state.error = action.payload
-      state.loading = false
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchConcertList.pending, (state) => {
+        // Reset pagination
+        state.pageNumber = 1
+        state.loading = true
+      })
+      .addCase(
+        fetchConcertList.fulfilled,
+        (state, action: PayloadAction<ChunkedConcertList>) => {
+          state.concerts = action.payload
+          state.loading = false
+        }
+      )
+      .addCase(fetchConcertList.rejected, (state, action) => {
+        state.error = action.payload as NetworkError
+        state.loading = false
+      })
   },
 })
 
