@@ -96,6 +96,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
       anchor="bottom"
       open={isDrawerOpen}
       hideBackdrop
+      transitionDuration={0}
     >
       <Stack style={stackStyles}>
         {loading ? (

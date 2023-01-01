@@ -1,13 +1,9 @@
-import {
-  // Checkbox,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from '@mui/material'
+import { ListItemButton, ListItemText, Typography } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { background } from '../../../app/background'
-import { durationFormat } from '../../../app/util'
+import { handleTrackDuration } from '../../../app/util'
 import { SingleTrackProps } from '../trackInterface'
+import { PlayingText } from './PlayingText'
 
 const listItemStyles: SxProps = {
   background,
@@ -22,12 +18,21 @@ const listItemTextSyles: SxProps = {
   justifyContent: 'space-between',
   '& span': {
     fontSize: '1rem',
-    fontWeight: 'bold',
+    fontWeight: 700,
   },
   '& p': {
     color: '#1c1d20',
     alignSelf: 'end',
     marginRight: '10px',
+  },
+}
+
+const songDurationContainer: SxProps = {
+  display: 'flex',
+  alignItems: 'center',
+  '& .playing': {
+    fontWeight: 700,
+    marginRight: { xs: '15px', md: '40px' },
   },
 }
 
@@ -38,32 +43,27 @@ export default function SingleTrack({
   currentTrackName,
   length,
 }: SingleTrackProps): JSX.Element {
-  const duration = (durationValue: string): string => {
-    // Value is already formatted
-    if (durationValue.includes(':')) {
-      return durationValue
-    }
-    // Value needs formatting
-    const [calcMinutes, calcSecondsLeft, addZero] = durationFormat(
-      parseInt(durationValue, 10)
-    )
-    return `${addZero(calcMinutes)}:${addZero(calcSecondsLeft)}`
-  }
+  const isSelectedTrack = currentTrackName === name
   return (
     <ListItemButton
       dense
       key={name}
       sx={listItemStyles}
-      selected={currentTrackName === name}
+      selected={isSelectedTrack}
     >
       <ListItemText
         sx={listItemTextSyles}
         id={title}
         primary={title || name}
+        secondaryTypographyProps={{
+          component: 'div',
+          sx: songDurationContainer,
+        }}
         secondary={
           <>
-            <Typography component="span" variant="body2">
-              {length ? duration(length) : null}
+            {isSelectedTrack && <PlayingText />}
+            <Typography component="span" variant="subtitle2">
+              {length ?? handleTrackDuration(length)}
             </Typography>
           </>
         }
