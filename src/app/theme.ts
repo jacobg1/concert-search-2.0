@@ -15,11 +15,29 @@ export const theme = createTheme({
     button: {
       textTransform: 'none',
     },
+    h1: {
+      fontSize: '1.8rem',
+    },
+    h2: {
+      fontWeight: '600',
+      fontSize: '1.2rem',
+    },
+    subtitle1: {
+      fontWeight: 'bold',
+    },
+    body1: {
+      fontSize: '1rem',
+    },
     body2: {
       span: {
         color: '#1c1d20',
         fontWeight: '400',
         fontSize: '0.875rem',
+      },
+    },
+    subtitle2: {
+      span: {
+        fontSize: '1rem',
       },
     },
   },
@@ -122,19 +140,6 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           textAlign: 'left',
-        },
-        h1: {
-          fontSize: '1.8rem',
-        },
-        h2: {
-          fontWeight: '600',
-          fontSize: '1.2rem',
-        },
-        subtitle1: {
-          fontWeight: 'bold',
-        },
-        body1: {
-          fontSize: '1rem',
         },
       },
     },
