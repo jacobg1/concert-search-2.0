@@ -51,6 +51,7 @@ const selectedConcertSlice = createSlice({
   initialState,
   reducers: {
     toggleConcertDrawer: (state) => {
+      // Can mutate state here with immerjs
       state.isDrawerOpen = !state.isDrawerOpen
     },
     changeMediaFormat: (state, action: PayloadAction<MediaFormat>) => {
@@ -116,26 +117,24 @@ const selectedConcertSlice = createSlice({
       state.playerState = action.payload
     },
   },
-  extraReducers: {
-    [fetchSelectedConcert.pending.type]: (state) => {
-      state.currentlyPlayingTrack = { currentTrackName: '', playUrl: '' }
-      state.isDrawerOpen = true
-      state.loading = true
-    },
-    [fetchSelectedConcert.fulfilled.type]: (
-      state,
-      action: PayloadAction<SelectedConcert>
-    ) => {
-      state.selectedConcert = action.payload
-      state.loading = false
-    },
-    [fetchSelectedConcert.rejected.type]: (
-      state,
-      action: { payload: NetworkError }
-    ) => {
-      state.error = action.payload
-      state.loading = false
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSelectedConcert.pending, (state) => {
+        state.currentlyPlayingTrack = { currentTrackName: '', playUrl: '' }
+        state.isDrawerOpen = true
+        state.loading = true
+      })
+      .addCase(
+        fetchSelectedConcert.fulfilled,
+        (state, action: PayloadAction<SelectedConcert>) => {
+          state.selectedConcert = action.payload
+          state.loading = false
+        }
+      )
+      .addCase(fetchSelectedConcert.rejected, (state, action) => {
+        state.error = action.payload as NetworkError
+        state.loading = false
+      })
   },
 })
 
