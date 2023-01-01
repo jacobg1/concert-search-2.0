@@ -5,10 +5,7 @@ export type AccordionHandler = (
   id: string
 ) => (event: React.SyntheticEvent, isExpanded: boolean) => void
 
-export interface ConcertAccordionProps {
-  identifier: string
-  title: string
-  description: string
+export interface ConcertAccordionProps extends SingleConcertMeta {
   expanded: string | false
   handleChange: AccordionHandler
 }
@@ -30,6 +27,7 @@ export interface SingleConcertMeta {
   mediatype: string
   title: string
   year: number
+  source: string
 }
 
 export type ChunkedConcertList = SingleConcertMeta[][]
