@@ -15,15 +15,15 @@ interface VisualizerProps {
 }
 
 function Visualizer({ current }: VisualizerProps): JSX.Element {
-  const { playerState } = useAppSelector((state) => state.individualConcert)
-
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
-
   const [, windowWidth] = useResize(1000)
   const [isVizPaused, setIsVizPaused] = useState<boolean | null>(null)
 
   const [dataArray, audioBufferLength, analyser] = useAudioContext(current)
+
+  const { playerState } = useAppSelector((state) => state.individualConcert)
+
   useMediaHandlers(current)
 
   const isSoundPlaying = playerState === PlayerState.Play
@@ -59,6 +59,7 @@ function Visualizer({ current }: VisualizerProps): JSX.Element {
 
   // Handle visualizer toggle
   useEffect(() => {
+    if (!animationRef.current) return
     if (!isVizPaused) {
       cancelAnimationFrame(animationRef.current)
     } else {
@@ -78,16 +79,11 @@ function Visualizer({ current }: VisualizerProps): JSX.Element {
       <Box style={{ width: '90%', textAlign: 'right' }}>
         <BarChartSharpIcon
           fontSize="large"
-          sx={{
-            color: 'white',
-            cursor: 'pointer',
-            height: { xs: '24px', md: '36px' },
-            width: { xs: '24px', md: '36px' },
-          }}
+          style={{ color: 'white', cursor: 'pointer' }}
           onClick={() => setIsVizPaused(!isVizPaused)}
         />
       </Box>
-      {current && isSoundPlaying ? (
+      {isSoundPlaying ? (
         <canvas
           ref={canvasRef}
           width={windowWidth * 0.9}
