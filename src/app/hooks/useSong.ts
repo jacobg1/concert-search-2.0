@@ -42,10 +42,10 @@ export function useSongPosition(
   if (current) {
     // If media stalls pause for a few seconds and attempt to replay
     current.onstalled = () => {
-      if (playUrl) {
+      if (playUrl && !current.paused) {
         current.pause()
         dispatch(setPlayerState(PlayerState.Pause))
-        setConnectionError('Connection stalled... Attempting to reconnect')
+        setConnectionError('Bad network connection... Attempting to reconnect')
         window.setTimeout(() => {
           current.play()
           dispatch(setPlayerState(PlayerState.Play))
