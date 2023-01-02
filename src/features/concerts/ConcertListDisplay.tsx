@@ -29,10 +29,10 @@ export default function ConcertListDisplay(): JSX.Element {
 
   return (
     <div style={{ width: '90%', margin: '40px auto 0' }}>
-      {concerts[pageNumber - 1].map((concert, i) => {
+      {concerts[pageNumber - 1].map((concert) => {
         return (
           <ConcertAccordion
-            key={`concert-${i}`}
+            key={concert.identifier}
             expanded={expanded}
             handleChange={handleAccordionChange}
             {...concert}

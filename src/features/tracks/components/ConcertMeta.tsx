@@ -77,9 +77,9 @@ export default function ConcertMeta({
         }}
       >
         <Box sx={popoverContainerStyles}>
-          {metaItems.map(({ label, value }, i) => {
+          {metaItems.map(({ label, value }) => {
             return value ? (
-              <MetaItem key={`metaItem-${i}`} label={label} value={value} />
+              <MetaItem key={value} label={label} value={value} />
             ) : null
           })}
         </Box>
