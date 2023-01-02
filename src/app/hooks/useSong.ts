@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { setPlayerState } from '../../features/selectedConcert/selectedConcertSlice'
 import { PlayerState, SessionState, SongPositionHandler } from '../interface'
+import { useAppDispatch } from './useRedux'
 
 export function useSongDuration(
   current: HTMLAudioElement | null,
@@ -23,7 +25,9 @@ export function useSongDuration(
 type SongPosition = [
   position: number,
   setSongPosition: SongPositionHandler,
-  resetSongPosition: () => void
+  resetSongPosition: () => void,
+  connectionError: string,
+  setConnectionError: Dispatch<SetStateAction<string>>
 ]
 
 export function useSongPosition(
@@ -31,11 +35,28 @@ export function useSongPosition(
   playUrl: string,
   playerState: string
 ): SongPosition {
+  const dispatch = useAppDispatch()
   const [position, setPosition] = useState(0)
+  const [connectionError, setConnectionError] = useState('')
 
   if (current) {
+    // If media stalls pause for a few seconds and attempt to replay
+    current.onstalled = () => {
+      if (playUrl) {
+        current.pause()
+        dispatch(setPlayerState(PlayerState.Pause))
+        setConnectionError('Connection stalled... Attempting to reconnect')
+        window.setTimeout(() => {
+          current.play()
+          dispatch(setPlayerState(PlayerState.Play))
+        }, 4000)
+      }
+    }
+
     current.ontimeupdate = () => {
-      setPosition(Math.floor(current.currentTime))
+      if (current.played) {
+        setPosition(Math.floor(current.currentTime))
+      }
     }
   }
 
@@ -69,7 +90,13 @@ export function useSongPosition(
     current.currentTime = 0
   }
 
-  return [position, setSongPosition, resetSongPosition]
+  return [
+    position,
+    setSongPosition,
+    resetSongPosition,
+    connectionError,
+    setConnectionError,
+  ]
 }
 
 const setMediaSessionState = (sessionState: SessionState) => {
