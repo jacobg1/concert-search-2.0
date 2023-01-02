@@ -1,5 +1,16 @@
 import { useRef } from 'react'
-import { CircularProgress, Drawer, Stack, Box } from '@mui/material'
+import {
+  CircularProgress,
+  Drawer,
+  Stack,
+  Box,
+  Snackbar,
+  IconButton,
+  Typography,
+} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp'
+
 import { SxProps } from '@mui/system'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
@@ -49,6 +60,29 @@ const metadataStyles = {
   width: '90%',
 }
 
+const snackbarStyles = {
+  left: '18px',
+  right: '15px',
+  bottom: '24px',
+  color: '#ffffff',
+  width: '88%',
+}
+
+const snackbarBoxStyles: SxProps = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '13px',
+  backgroundColor: '#d32f2f',
+  '& .MuiTypography-body1': {
+    paddingLeft: '15px',
+  },
+  '& .MuiSvgIcon-root': {
+    alignSelf: 'center',
+    display: 'inline-block',
+  },
+}
+
 export default function SelectedConcertDisplay(): JSX.Element {
   const {
     loading,
@@ -61,11 +95,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   const audioEl = useRef<HTMLAudioElement>(null)
 
-  const [position, setSongPosition, resetSongPosition] = useSongPosition(
-    audioEl.current,
-    playUrl,
-    playerState
-  )
+  const [
+    position,
+    setSongPosition,
+    resetSongPosition,
+    connectionError,
+    setConnectionError,
+  ] = useSongPosition(audioEl.current, playUrl, playerState)
 
   useMediaSession(metadata, trackList, currentTrackName)
 
@@ -134,6 +170,31 @@ export default function SelectedConcertDisplay(): JSX.Element {
           </>
         )}
       </Stack>
+      <Snackbar
+        open={!!connectionError}
+        autoHideDuration={4000}
+        TransitionProps={{
+          appear: false,
+        }}
+        onClose={() => setConnectionError('')}
+        message={connectionError}
+        sx={snackbarStyles}
+      >
+        <Box sx={snackbarBoxStyles}>
+          <Box display="inline-flex">
+            <ErrorOutlineSharpIcon fontSize="medium" />
+            <Typography>{connectionError}</Typography>
+          </Box>
+          <IconButton
+            size="medium"
+            aria-label="close"
+            color="inherit"
+            onClick={() => setConnectionError('')}
+          >
+            <CloseIcon color="inherit" fontSize="medium" />
+          </IconButton>
+        </Box>
+      </Snackbar>
     </Drawer>
   )
 }
