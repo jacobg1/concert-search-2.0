@@ -45,7 +45,6 @@ export function useSongPosition(
       if (playUrl && !current.paused) {
         current.pause()
         dispatch(setPlayerState(PlayerState.Pause))
-        setConnectionError('Bad network connection... Attempting to reconnect')
         window.setTimeout(() => {
           current.play()
           dispatch(setPlayerState(PlayerState.Play))
