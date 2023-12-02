@@ -20,16 +20,21 @@ import {
   usePlayPause,
   useVolumeChange,
   useAppDispatch,
+  useResize,
 } from '../../app/hooks'
 
 const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection
 
 const audioPlayerStyles: SxProps = {
-  padding: { xs: '14px 10px 20px' },
+  padding: { sm: '14px 10px 20px' },
   width: '90%',
-  background,
+  background: { xs: 'none', tablet: background },
   boxSizing: 'border-box',
+  '& audio::-webkit-media-controls-mute-button, audio::-webkit-media-controls-volume-slider':
+    {
+      display: 'none',
+    },
 }
 
 const containerStyles: SxProps = {
@@ -55,6 +60,8 @@ export default function AudioPlayer({
 
   useVolumeChange(audioEl.current, volume, playerState)
   usePlayPause(audioEl.current, playUrl, playerState)
+
+  const [, windowWidth] = useResize(1000)
 
   const handleVolumeChange: VolumeChangeHandler = (_e, newValue) => {
     const { current } = audioEl
@@ -86,20 +93,27 @@ export default function AudioPlayer({
 
   return (
     <Box my={3} sx={audioPlayerStyles}>
-      <ProgressBar
-        duration={duration}
-        position={position}
-        setSongPosition={setSongPosition}
-      />
-      <Stack sx={containerStyles}>
-        <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
-        <PlayOrPause
-          isPlaying={playerState === PlayerState.Play}
-          onPlayPauseClick={onPlayPauseClick}
-        />
-        <SkipButton direction={Next} clickHandler={handleNextTrack} />
-        <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
-      </Stack>
+      {windowWidth > 768 && (
+        <>
+          <ProgressBar
+            duration={duration}
+            position={position}
+            setSongPosition={setSongPosition}
+          />
+          <Stack sx={containerStyles}>
+            <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
+            <PlayOrPause
+              isPlaying={playerState === PlayerState.Play}
+              onPlayPauseClick={onPlayPauseClick}
+            />
+            <SkipButton direction={Next} clickHandler={handleNextTrack} />
+            <VolumeSlider
+              volume={volume}
+              handleVolumeChange={handleVolumeChange}
+            />
+          </Stack>
+        </>
+      )}
       <AudioElement
         ref={audioEl}
         src={playUrl}
