@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { RefObject, useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import PlayOrPause from './components/PlayOrPause'
@@ -20,21 +20,16 @@ import {
   usePlayPause,
   useVolumeChange,
   useAppDispatch,
-  useResize,
 } from '../../app/hooks'
 
 const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection
 
 const audioPlayerStyles: SxProps = {
-  padding: { sm: '14px 10px 20px' },
+  padding: '14px 10px 20px',
   width: '90%',
-  background: { xs: 'none', tablet: background },
+  background,
   boxSizing: 'border-box',
-  '& audio::-webkit-media-controls-mute-button, audio::-webkit-media-controls-volume-slider':
-    {
-      display: 'none',
-    },
 }
 
 const containerStyles: SxProps = {
@@ -56,35 +51,31 @@ export default function AudioPlayer({
 }: AudioPlayerProps): JSX.Element {
   const dispatch = useAppDispatch()
   const [volume, setVolume] = useState<number>(25)
-  const duration = useSongDuration(audioEl.current, playUrl)
+  const duration = useSongDuration(audioEl, playUrl)
 
-  useVolumeChange(audioEl.current, volume, playerState)
-  usePlayPause(audioEl.current, playUrl, playerState)
-
-  const [, windowWidth] = useResize(1000)
+  useVolumeChange(audioEl, volume, playerState)
+  usePlayPause(audioEl, playUrl, playerState)
 
   const handleVolumeChange: VolumeChangeHandler = (_e, newValue) => {
-    const { current } = audioEl
-
-    if (current) {
+    if (audioEl.current) {
       setVolume(newValue as number)
     }
   }
 
-  const isPlaying = (current: HTMLAudioElement): boolean => {
+  const isPlaying = (el: RefObject<HTMLAudioElement>): boolean => {
+    if (!el.current) return false
     return !!(
-      current.currentTime > 0 &&
-      !current.paused &&
-      !current.ended &&
-      current.readyState > 2
+      el.current.currentTime > 0 &&
+      !el.current.paused &&
+      !el.current.ended &&
+      el.current.readyState > 2
     )
   }
 
   const onPlayPauseClick = (): void => {
-    const { current } = audioEl
-    if (!current) return
+    if (!audioEl.current) return
 
-    if (!isPlaying(current)) {
+    if (!isPlaying(audioEl)) {
       dispatch(setPlayerState(Play))
     } else {
       dispatch(setPlayerState(Pause))
@@ -93,27 +84,20 @@ export default function AudioPlayer({
 
   return (
     <Box my={3} sx={audioPlayerStyles}>
-      {windowWidth > 768 && (
-        <>
-          <ProgressBar
-            duration={duration}
-            position={position}
-            setSongPosition={setSongPosition}
-          />
-          <Stack sx={containerStyles}>
-            <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
-            <PlayOrPause
-              isPlaying={playerState === PlayerState.Play}
-              onPlayPauseClick={onPlayPauseClick}
-            />
-            <SkipButton direction={Next} clickHandler={handleNextTrack} />
-            <VolumeSlider
-              volume={volume}
-              handleVolumeChange={handleVolumeChange}
-            />
-          </Stack>
-        </>
-      )}
+      <ProgressBar
+        duration={duration}
+        position={position}
+        setSongPosition={setSongPosition}
+      />
+      <Stack sx={containerStyles}>
+        <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
+        <PlayOrPause
+          isPlaying={playerState === PlayerState.Play}
+          onPlayPauseClick={onPlayPauseClick}
+        />
+        <SkipButton direction={Next} clickHandler={handleNextTrack} />
+        <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
+      </Stack>
       <AudioElement
         ref={audioEl}
         src={playUrl}

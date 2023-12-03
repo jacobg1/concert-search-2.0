@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { RefObject, useEffect } from 'react'
 import {
   TrackMetadata,
   TrackListData,
@@ -25,12 +25,12 @@ export function useMediaSession(
   }, [metadata, currentTrackName])
 }
 
-export function useMediaHandlers(current: HTMLAudioElement) {
+export function useMediaHandlers(audioEl: RefObject<HTMLAudioElement>) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if ('mediaSession' in navigator) {
-      mediaHandlers(current, dispatch).forEach(({ action, handler }) =>
+      mediaHandlers(audioEl, dispatch).forEach(({ action, handler }) =>
         navigator.mediaSession.setActionHandler(action, handler)
       )
     }

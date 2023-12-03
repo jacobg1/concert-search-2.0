@@ -1,17 +1,17 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, RefObject, SetStateAction, useEffect, useState } from 'react'
 import { setPlayerState } from '../../features/selectedConcert/selectedConcertSlice'
 import { PlayerState, SessionState, SongPositionHandler } from '../interface'
 import { useAppDispatch } from './useRedux'
 
 export function useSongDuration(
-  current: HTMLAudioElement | null,
+  audioEl: RefObject<HTMLAudioElement>,
   playUrl: string
 ): number {
   const [duration, setDuration] = useState(0)
 
-  if (current) {
-    current.onloadedmetadata = () => {
-      setDuration(current.duration)
+  if (audioEl.current) {
+    audioEl.current.onloadedmetadata = () => {
+      setDuration(audioEl.current?.duration || 0)
     }
   }
 
@@ -31,7 +31,7 @@ type SongPosition = [
 ]
 
 export function useSongPosition(
-  current: HTMLAudioElement | null,
+  audioEl: RefObject<HTMLAudioElement>,
   playUrl: string,
   playerState: string
 ): SongPosition {
@@ -39,22 +39,22 @@ export function useSongPosition(
   const [position, setPosition] = useState(0)
   const [connectionError, setConnectionError] = useState('')
 
-  if (current) {
+  if (audioEl.current) {
     // If media stalls pause for a few seconds and attempt to replay
-    current.onstalled = () => {
-      if (playUrl && !current.paused) {
-        current.pause()
+    audioEl.current.onstalled = () => {
+      if (playUrl && !audioEl.current?.paused) {
+        audioEl.current?.pause()
         dispatch(setPlayerState(PlayerState.Pause))
         window.setTimeout(() => {
-          current.play()
+          audioEl.current?.play()
           dispatch(setPlayerState(PlayerState.Play))
         }, 4000)
       }
     }
 
-    current.ontimeupdate = () => {
-      if (current.played) {
-        setPosition(Math.floor(current.currentTime))
+    audioEl.current.ontimeupdate = () => {
+      if (audioEl.current?.played) {
+        setPosition(Math.floor(audioEl.current?.currentTime || 0))
       }
     }
   }
@@ -64,18 +64,18 @@ export function useSongPosition(
   }, [playUrl])
 
   const setSongPosition = (songPosition: number) => {
-    if (current) {
+    if (audioEl.current) {
       // Pause track
-      current.pause()
+      audioEl.current.pause()
       setMediaSessionState(SessionState.Paused)
 
       // Set position and currentTime
       setPosition(songPosition)
-      current.currentTime = Math.floor(songPosition)
+      audioEl.current.currentTime = Math.floor(songPosition)
 
       // Start track back up
-      if (current.paused && playerState !== PlayerState.Pause) {
-        current
+      if (audioEl.current.paused && playerState !== PlayerState.Pause) {
+        audioEl.current
           .play()
           .then(() => setMediaSessionState(SessionState.Playing))
           .catch(() => setMediaSessionState(SessionState.Paused))
@@ -84,9 +84,9 @@ export function useSongPosition(
   }
 
   const resetSongPosition = () => {
-    if (!current) return
+    if (!audioEl.current) return
     setPosition(0)
-    current.currentTime = 0
+    audioEl.current.currentTime = 0
   }
 
   return [
@@ -105,20 +105,20 @@ const setMediaSessionState = (sessionState: SessionState) => {
 }
 
 export function usePlayPause(
-  current: HTMLAudioElement | null,
+  audioEl: RefObject<HTMLAudioElement>,
   playUrl: string,
   playerState: PlayerState
 ): void {
   useEffect(() => {
-    if (!current) return
+    if (!audioEl.current) return
 
     if (playerState === PlayerState.Play) {
-      current
+      audioEl.current
         .play()
         .then(() => setMediaSessionState(SessionState.Playing))
         .catch(() => setMediaSessionState(SessionState.Paused))
     } else {
-      current.pause()
+      audioEl.current.pause()
       setMediaSessionState(SessionState.Paused)
     }
   }, [playerState, playUrl])

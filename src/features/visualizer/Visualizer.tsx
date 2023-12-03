@@ -1,21 +1,21 @@
-import { useEffect, useRef, memo, useState } from 'react'
+import { useEffect, useRef, memo, useState, RefObject } from 'react'
 import BarChartSharpIcon from '@mui/icons-material/BarChartSharp'
 import { Box } from '@mui/material'
 import { useMediaHandlers, useAudioContext, useResize } from '../../app/hooks'
 
 interface VisualizerProps {
-  current: HTMLAudioElement
+  audioEl: RefObject<HTMLAudioElement>
 }
 
-function Visualizer({ current }: VisualizerProps): JSX.Element {
+function Visualizer({ audioEl }: VisualizerProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
   const [, windowWidth] = useResize(1000)
   const [isPaused, setIsPaused] = useState<boolean | null>(null)
 
-  const [dataArray, audioBufferLength, analyser] = useAudioContext(current)
+  const [dataArray, audioBufferLength, analyser] = useAudioContext(audioEl)
 
-  useMediaHandlers(current)
+  useMediaHandlers(audioEl)
 
   const visualize = () => {
     if (canvasRef.current && analyser) {

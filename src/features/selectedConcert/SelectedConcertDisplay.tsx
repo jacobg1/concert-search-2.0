@@ -101,14 +101,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
     resetSongPosition,
     connectionError,
     setConnectionError,
-  ] = useSongPosition(audioEl.current, playUrl, playerState)
+  ] = useSongPosition(audioEl, playUrl, playerState)
 
   useMediaSession(metadata, trackList, currentTrackName)
 
   const handleNextOrPreviousTrack =
     (nextOrPrev: TrackDirection) => (): void => {
-      const { current } = audioEl
-      if (!current) return
+      if (!audioEl.current) return
 
       resetSongPosition()
       if (nextOrPrev === Next) {
@@ -119,8 +118,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     }
 
   const handlePlayNewTrack = (name: string): void => {
-    const { current } = audioEl
-    if (current) {
+    if (audioEl.current) {
       resetSongPosition()
       dispatch(playNewTrack(name))
     }
@@ -148,7 +146,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 />
               </Box>
             )}
-            {audioEl.current && <Visualizer current={audioEl.current} />}
+            {audioEl.current && <Visualizer audioEl={audioEl} />}
             {trackList.length ? (
               <>
                 <TrackListDisplay

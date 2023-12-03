@@ -2,6 +2,7 @@ import { List } from '@mui/material'
 import { SxProps } from '@mui/system'
 import SingleTrack from './components/SingleTrack'
 import { TrackListDisplayProps } from './trackInterface'
+import { memo } from 'react'
 
 const listContainerStyles: SxProps = {
   width: '90%',
@@ -18,7 +19,7 @@ const listContainerStyles: SxProps = {
   },
 }
 
-export default function TrackListDisplay({
+function TrackListDisplay({
   trackList,
   playNewTrack,
   currentTrackName,
@@ -38,3 +39,5 @@ export default function TrackListDisplay({
     </List>
   )
 }
+
+export default memo(TrackListDisplay)

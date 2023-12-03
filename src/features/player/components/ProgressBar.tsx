@@ -1,6 +1,7 @@
 import { Box, Slider, Typography } from '@mui/material'
 import { handleTrackProgressDuration } from '../../../app/util'
 import { DurationLabelProps, ProgressBarProps } from '../playerInterface'
+import { useResize } from '../../../app/hooks'
 
 const progressBarHolderStyles = {
   width: '100%',
@@ -49,6 +50,7 @@ export default function ProgressBar({
   position,
   setSongPosition,
 }: ProgressBarProps): JSX.Element {
+  const [, windowWidth] = useResize(1000)
   return (
     <Box
       sx={progressBarHolderStyles}
@@ -69,7 +71,12 @@ export default function ProgressBar({
         step={1}
         max={duration}
         disabled={duration === 0}
-        onChange={(_e, value) => setSongPosition(value as number)}
+        onChange={(_e, value) => {
+          if (windowWidth <= 768) {
+            return
+          }
+          setSongPosition(value as number)
+        }}
       />
 
       <DurationLabel

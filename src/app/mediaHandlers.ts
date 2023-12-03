@@ -1,3 +1,4 @@
+import { RefObject } from 'react'
 import {
   playNextTrack,
   playPreviousTrack,
@@ -6,14 +7,16 @@ import { MediaHandler } from './interface'
 import { AppDispatch } from './store'
 
 export const mediaHandlers = (
-  current: HTMLMediaElement,
+  audioEl: RefObject<HTMLMediaElement>,
   dispatch: AppDispatch
 ): MediaHandler[] => {
+  if (!audioEl.current) return []
   return [
     {
       action: 'play',
       handler: () => {
-        current
+        if (!audioEl.current) return
+        audioEl.current
           .play()
           .then(() => {
             navigator.mediaSession.playbackState = 'playing'
@@ -26,7 +29,7 @@ export const mediaHandlers = (
     {
       action: 'pause',
       handler: () => {
-        current.pause()
+        audioEl.current?.pause()
         navigator.mediaSession.playbackState = 'paused'
       },
     },

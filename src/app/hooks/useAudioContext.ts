@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, RefObject } from 'react'
 
 type IAudioContext = [
   dataArray: Uint8Array,
@@ -8,19 +8,23 @@ type IAudioContext = [
 ]
 
 // Initial analyser set up. Needs to only run once.
-export function useAudioContext(current: HTMLAudioElement): IAudioContext {
+export function useAudioContext(
+  audioEl: RefObject<HTMLAudioElement>
+): IAudioContext {
   const [dataArray, setDataArray] = useState<Uint8Array>(new Uint8Array())
   const [analyser, setAnalyser] = useState<AnalyserNode | undefined>(undefined)
   const [audioBufferLength, setAudioBufferLength] = useState<number>(0)
 
   useEffect(() => {
+    if (!audioEl.current) return
+
     const audioContext = new (AudioContext ||
       (window as any).webkitAudioContext)()
 
-    const source = audioContext.createMediaElementSource(current)
+    const source = audioContext.createMediaElementSource(audioEl.current)
 
     // To ensure track actually plays
-    current.onplay = () => audioContext.resume()
+    audioEl.current.onplay = () => audioContext.resume()
 
     const audioAnalyser = audioContext.createAnalyser()
     audioAnalyser.fftSize = 256
