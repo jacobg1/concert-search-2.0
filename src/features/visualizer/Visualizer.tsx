@@ -13,12 +13,13 @@ function Visualizer({ audioEl }: VisualizerProps): JSX.Element {
   const [, windowWidth] = useResize(1000)
   const [isPaused, setIsPaused] = useState<boolean | null>(null)
 
-  const [dataArray, audioBufferLength, analyser] = useAudioContext(audioEl)
+  const [audioBufferLength, analyser] = useAudioContext(audioEl)
 
   useMediaHandlers(audioEl)
 
   const visualize = () => {
     if (canvasRef.current && analyser) {
+      const dataArray = new Uint8Array(audioBufferLength)
       // Start animation
       animationRef.current = requestAnimationFrame(visualize)
       // Copy frequency data to array
