@@ -1,5 +1,4 @@
-import { AppBar, Stack, Typography } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { AppBar, Stack, Typography, type SxProps } from '@mui/material'
 import { useAppSelector } from './app/hooks'
 import { IconDirection } from './app/interface'
 import { BackButton } from './features/selectedConcert/components/BackButton'

@@ -7,11 +7,11 @@ import {
   Snackbar,
   IconButton,
   Typography,
+  type SxProps,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp'
 
-import { SxProps } from '@mui/system'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
 import AudioPlayer from '../player/AudioPlayer'

@@ -1,5 +1,4 @@
-import { Button } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { Button, type SxProps } from '@mui/material'
 import { fetchConcertList } from '../../concerts/concertListSlice'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
 import { SortOrder } from '../../../app/interface'

@@ -1,5 +1,9 @@
-import { ListItemButton, ListItemText, Typography } from '@mui/material'
-import { SxProps } from '@mui/system'
+import {
+  ListItemButton,
+  ListItemText,
+  Typography,
+  type SxProps,
+} from '@mui/material'
 import { background } from '../../../app/background'
 import { handleTrackDuration } from '../../../app/util'
 import { SingleTrackProps } from '../trackInterface'

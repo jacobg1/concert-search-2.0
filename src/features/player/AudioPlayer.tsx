@@ -3,8 +3,8 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import PlayOrPause from './components/PlayOrPause'
 import VolumeSlider from './components/VolumeSlider'
+import type { SxProps } from '@mui/material'
 import { background } from '../../app/background'
-import { SxProps } from '@mui/system'
 import ProgressBar from './components/ProgressBar'
 import {
   PlayerState,

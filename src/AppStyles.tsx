@@ -1,5 +1,4 @@
-import { Theme } from '@mui/material'
-import { GlobalStyles } from '@mui/system'
+import { Theme, GlobalStyles } from '@mui/material'
 import { background } from './app/background'
 import { useAppSelector } from './app/hooks'
 

@@ -1,6 +1,5 @@
-import { Typography, Box, Popover } from '@mui/material'
+import { Typography, Box, Popover, type SxProps } from '@mui/material'
 import { TrackMetadata } from '../trackInterface'
-import { SxProps } from '@mui/system'
 import { MetaItem } from './MetaItem'
 import { usePopover } from '../../../app/hooks'
 

@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css, keyframes } from '@emotion/react'
-import { Box } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { Box, type SxProps } from '@mui/material'
 import recordPlayer from '../../../images/vinyl.svg'
 
 const spin = keyframes`

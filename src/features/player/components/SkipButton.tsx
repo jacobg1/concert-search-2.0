@@ -1,7 +1,6 @@
-import { Button } from '@mui/material'
+import { Button, type SxProps } from '@mui/material'
 import SkipPreviousSharpIcon from '@mui/icons-material/SkipPreviousSharp'
 import SkipNextSharpIcon from '@mui/icons-material/SkipNextSharp'
-import { SxProps } from '@mui/system'
 import { TrackDirection } from '../../../app/interface'
 import { NextOrPreviousTrackProps } from '../playerInterface'
 

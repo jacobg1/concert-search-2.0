@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
-import { SxProps } from '@mui/system'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, type SxProps } from '@mui/material'
 import ConcertSelect from './components/ConcertSelect'
 import ConcertSelectButton from './components/ConcertSelectButton'
 import {

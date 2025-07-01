@@ -1,5 +1,10 @@
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { SxProps } from '@mui/system'
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  type SxProps,
+} from '@mui/material'
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { background } from '../../../app/background'
 import { ConcertSelectProps } from '../concertSelectInterface'

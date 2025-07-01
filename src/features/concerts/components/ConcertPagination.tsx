@@ -1,5 +1,4 @@
-import { Pagination, Box } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { Pagination, Box, type SxProps } from '@mui/material'
 import { ConcertPaginationProps } from '../concertListInterface'
 
 const paginationStyles: SxProps = {

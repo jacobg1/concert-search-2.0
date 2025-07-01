@@ -1,7 +1,7 @@
 const plugins = [
   [
     'babel-plugin-direct-import',
-    { modules: ['@mui/system', '@mui/material', '@mui/icons-material'] },
+    { modules: ['@mui/material', '@mui/icons-material'] },
   ],
 ]
 

@@ -1,5 +1,4 @@
-import { Box, Snackbar, Typography } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { Box, Snackbar, Typography, type SxProps } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp'

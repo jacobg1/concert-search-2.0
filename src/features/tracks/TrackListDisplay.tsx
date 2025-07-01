@@ -1,5 +1,4 @@
-import { List } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { List, type SxProps } from '@mui/material'
 import SingleTrack from './components/SingleTrack'
 import { TrackListDisplayProps } from './trackInterface'
 import { memo } from 'react'
