@@ -12,7 +12,7 @@ export const fetchSelectedConcert = createAsyncThunk(
   'selectedConcert/fetchSelectedConcert',
   async (concertId: string, { rejectWithValue }) => {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/concerts/${concertId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/concerts/${concertId}`,
       {
         method: 'GET',
       }

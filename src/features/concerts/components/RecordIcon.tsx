@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css, keyframes } from '@emotion/react'
 import { Box, type SxProps } from '@mui/material'
-import recordPlayer from '../../../images/vinyl.svg'
+import recordPlayer from '../../../../public/vinyl.svg'
 
 const spin = keyframes`
 	100% {
@@ -27,7 +27,7 @@ export function RecordIcon(): JSX.Element {
           margin: auto;
           animation: ${spin} 3s linear infinite;
         `}
-        src={recordPlayer}
+        src={recordPlayer.src}
         alt="record-icon"
       />
     </Box>

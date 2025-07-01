@@ -7,19 +7,23 @@ import { AppHeader } from './AppHeader'
 import { theme } from './app/theme'
 import { AppStyles } from './AppStyles'
 import { ErrorDisplay } from './ErrorDisplay'
+import { Provider } from 'react-redux'
+import { store } from './app/store'
 
 function App(): JSX.Element {
   return (
-    <ThemeProvider theme={theme}>
-      <AppStyles theme={theme} />
-      <Box>
-        <ErrorDisplay />
-        <AppHeader />
-        <BandAndYearSelect />
-        <ConcertListDisplay />
-        <SelectedConcertDisplay />
-      </Box>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <AppStyles theme={theme} />
+        <Box>
+          <ErrorDisplay />
+          <AppHeader />
+          <BandAndYearSelect />
+          <ConcertListDisplay />
+          <SelectedConcertDisplay />
+        </Box>
+      </ThemeProvider>
+    </Provider>
   )
 }
 

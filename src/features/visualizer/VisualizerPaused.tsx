@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import recordPlayer from '../../images/vinyl.svg'
+import recordPlayer from '../../../public/vinyl.svg'
 
 export function VisualizerPaused(): JSX.Element {
   return (
@@ -10,7 +10,11 @@ export function VisualizerPaused(): JSX.Element {
       justifyContent="center"
       height="150px"
     >
-      <img style={{ width: '110px' }} src={recordPlayer} alt="record-icon" />
+      <img
+        style={{ width: '110px' }}
+        src={recordPlayer.src}
+        alt="record-icon"
+      />
     </Box>
   )
 }

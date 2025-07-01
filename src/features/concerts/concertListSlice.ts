@@ -30,13 +30,16 @@ export const fetchConcertList = createAsyncThunk<
       sortBy,
       mediaFormat: [OGG, MP3],
     }
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/concerts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/concerts`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    )
 
     if (response.ok) {
       return response.json() as Promise<ChunkedConcertList>

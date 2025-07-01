@@ -18,10 +18,27 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-		"types": ["node", "jest", "@testing-library/jest-dom"]
+    "jsx": "preserve",
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
-    "src"
+    "app/**/*",
+    "build/types/**/*.ts",
+    "next-env.d.ts",
+    "src/**/*",
+    ".next/types/**/*.ts"
   ],
+  "exclude": [
+    "node_modules"
+  ]
 }
