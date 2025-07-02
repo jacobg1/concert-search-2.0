@@ -29,10 +29,10 @@ const boxStyles: SxProps = {
 }
 
 export function ErrorDisplay(): JSX.Element {
-  const {
-    concertList: { error: listError },
-    individualConcert: { error: concertError },
-  } = useAppSelector((state) => state)
+  const { error: listError } = useAppSelector((state) => state.concertList)
+  const { error: concertError } = useAppSelector(
+    (state) => state.individualConcert
+  )
   const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {

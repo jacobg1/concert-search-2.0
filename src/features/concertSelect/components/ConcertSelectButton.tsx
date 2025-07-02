@@ -13,10 +13,10 @@ const buttonStyles: SxProps = {
 
 export default function ConcertSelectButton(): JSX.Element {
   const dispatch = useAppDispatch()
-  const {
-    concertList: { loading },
-    concertSelect: { selectedBand, selectedYear, filterDuplicates },
-  } = useAppSelector((state) => state)
+  const { loading } = useAppSelector((state) => state.concertList)
+  const { selectedBand, selectedYear, filterDuplicates } = useAppSelector(
+    (state) => state.concertSelect
+  )
 
   return (
     <Button
