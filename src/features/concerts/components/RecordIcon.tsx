@@ -2,6 +2,7 @@
 import { css, keyframes } from '@emotion/react'
 import { Box, type SxProps } from '@mui/material'
 import recordPlayer from '../../../../public/vinyl.svg'
+import Image from 'next/image'
 
 const spin = keyframes`
 	100% {
@@ -17,7 +18,9 @@ const iconHolderStyles: SxProps = {
 export function RecordIcon(): JSX.Element {
   return (
     <Box sx={iconHolderStyles}>
-      <img
+      <Image
+        width={200}
+        height={180}
         css={css`
           width: 180px;
           position: absolute;
