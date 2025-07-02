@@ -7,7 +7,7 @@ const AudioElementComponent = forwardRef<HTMLAudioElement, AudioElementProps>(
     return (
       <audio
         ref={forwardedRef}
-        src={props.src}
+        src={props.src || undefined}
         onEnded={() => props.handleNextTrack()}
         id="musicPlayer"
         preload="auto"
