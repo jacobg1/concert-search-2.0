@@ -23,11 +23,12 @@ export default function FilterDuplicatesCheckbox(): JSX.Element {
       <FormControlLabel
         control={
           <Checkbox
+            id="filter-duplicates"
             checked={filterDuplicates}
             onChange={handleChange}
             icon={<CheckBoxOutlineBlankSharpIcon />}
             checkedIcon={<CheckBoxSharpIcon />}
-            inputProps={{ 'aria-label': 'filter duplicates' }}
+            slotProps={{ input: { 'aria-label': 'filter duplicates' } }}
           />
         }
         label={
