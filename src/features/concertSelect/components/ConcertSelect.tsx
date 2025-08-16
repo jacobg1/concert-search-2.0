@@ -20,6 +20,13 @@ const selectListStyles: SxProps = {
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
   },
+  '& .MuiSelect-icon': {
+    transition: 'transform .2s ease-in-out',
+    fill: 'rgb(46, 126, 137)',
+  },
+  '& .MuiSelect-iconOpen': {
+    transform: 'rotate(180deg)',
+  },
 }
 
 const menuItemStyles: SxProps = {
@@ -31,6 +38,15 @@ const menuItemStyles: SxProps = {
     },
     '&::selection': {
       background: 'none',
+    },
+  },
+  '&:hover, &.Mui-selected, &.Mui-selected:hover': {
+    backgroundColor: '#3e95a1',
+  },
+  '&:focus': {
+    backgroundColor: '#2e7e89',
+    '&:hover': {
+      backgroundColor: '#3e95a1',
     },
   },
 }
@@ -46,6 +62,7 @@ const MenuProps = {
     },
   },
 }
+
 export default function ConcertSelect({
   id,
   placeholder,
@@ -62,8 +79,11 @@ export default function ConcertSelect({
       displayEmpty
       sx={selectListStyles}
       MenuProps={MenuProps}
-      IconComponent={() => (
+      inputProps={{ id: `${id}-input` }}
+      autoFocus={false}
+      IconComponent={(props) => (
         <ExpandMoreIcon
+          className={props.className}
           color="primary"
           style={{ position: 'absolute', right: '15px' }}
         />
@@ -71,11 +91,16 @@ export default function ConcertSelect({
       onChange={(event: SelectChangeEvent) => changeHandler(event.target.value)}
       renderValue={(selected) => (!selected.length ? placeholder : selected)}
     >
-      <MenuItem disabled value="">
+      <MenuItem id={`${id}-placeholder`} disabled value="">
         {placeholder}
       </MenuItem>
       {autocompleteOptions.map(({ label }) => (
-        <MenuItem key={label} value={label} sx={menuItemStyles}>
+        <MenuItem
+          id={`${id}-${label}`}
+          key={label}
+          value={label}
+          sx={menuItemStyles}
+        >
           {label}
         </MenuItem>
       ))}
