@@ -18,6 +18,8 @@ const boxStyles: SxProps = {
   justifyContent: 'space-between',
 }
 
+const formatter = (array: string[]) => array.map((x) => ({ label: x }))
+
 export default function BandAndYearSelect(): JSX.Element | null {
   const dispatch = useAppDispatch()
   useEffect(() => {
@@ -27,8 +29,6 @@ export default function BandAndYearSelect(): JSX.Element | null {
   const { bandList, selectedBand, selectedYear } = useAppSelector(
     (state) => state.concertSelect
   )
-
-  const formatter = (array: string[]) => array.map((x) => ({ label: x }))
 
   if (!bandList) return null
 
