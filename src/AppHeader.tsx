@@ -9,6 +9,7 @@ const appBarStyles: SxProps = {
   width: '90%',
   margin: { xs: '30px auto 15px', sm: '30px auto 18px' },
   padding: '16px',
+  paddingRight: '16px !important',
 }
 
 export function AppHeader(): JSX.Element {
