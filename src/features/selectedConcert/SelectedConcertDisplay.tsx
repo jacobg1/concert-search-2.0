@@ -19,6 +19,7 @@ import {
   playNextTrack,
   playPreviousTrack,
   playNewTrack,
+  setConcertInitialized,
 } from './selectedConcertSlice'
 import { TrackDirection } from '../../app/interface'
 import { ButtonContainer } from './components/ButtonContainer'
@@ -88,6 +89,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     loading,
     playerState,
     isDrawerOpen,
+    concertInitialized,
     currentlyPlayingTrack: { playUrl, currentTrackName },
     selectedConcert: { trackList, metadata },
   } = useAppSelector((state) => state.individualConcert)
@@ -109,7 +111,9 @@ export default function SelectedConcertDisplay(): JSX.Element {
     (nextOrPrev: TrackDirection) => (): void => {
       if (!audioEl.current) return
 
+      dispatch(setConcertInitialized())
       resetSongPosition()
+
       if (nextOrPrev === Next) {
         dispatch(playNextTrack())
       } else {
@@ -118,11 +122,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
     }
 
   const handlePlayNewTrack = (name: string): void => {
-    if (audioEl.current) {
-      resetSongPosition()
-      dispatch(playNewTrack(name))
-    }
+    if (!audioEl.current) return
+
+    dispatch(setConcertInitialized())
+    resetSongPosition()
+    dispatch(playNewTrack(name))
   }
+
   return (
     <Drawer
       sx={drawerStyles}
@@ -146,7 +152,12 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 />
               </Box>
             )}
-            {audioEl.current && <Visualizer audioEl={audioEl} />}
+            {audioEl.current && (
+              <Visualizer
+                audioEl={audioEl}
+                concertInitialized={concertInitialized}
+              />
+            )}
             {trackList.length ? (
               <>
                 <TrackListDisplay
@@ -171,9 +182,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
       <Snackbar
         open={!!connectionError}
         autoHideDuration={4000}
-        TransitionProps={{
-          appear: false,
-        }}
+        slotProps={{ transition: { appear: false } }}
         onClose={() => setConnectionError('')}
         message={connectionError}
         sx={snackbarStyles}
