@@ -17,6 +17,7 @@ export interface SelectedConcertState {
   playerState: PlayerState
   mediaFormat: MediaFormat
   isDrawerOpen: boolean
+  concertInitialized: boolean
   loading: boolean
   error: NetworkError | Record<string, never>
 }
