@@ -22,11 +22,7 @@ const selectListStyles: SxProps = {
     border: 'none',
   },
   '& .MuiSelect-icon': {
-    transition: 'transform .2s ease-in-out',
     fill: 'rgb(46, 126, 137)',
-  },
-  '& .MuiSelect-iconOpen': {
-    transform: 'rotate(180deg)',
   },
 }
 
@@ -59,17 +55,22 @@ const menuItemStyles: SxProps = {
 }
 
 const iconContainerStyles: SxProps = {
-  width: { xs: '90px', sm: '75px' },
+  width: { xs: '90px', sm: '75px', md: '90px' },
   display: 'flex',
   alignItems: 'center',
 }
 
 const closeIconStyles: SxProps = {
   cursor: 'pointer',
-  fontSize: { xs: '13px', sm: '15px' },
+  fontSize: { xs: '13px', sm: '15px', md: '18px' },
   stroke: '#2e7e89',
   strokeWidth: '1.5px',
   padding: '5px',
+}
+
+const expandIconStyles: SxProps = {
+  marginRight: '5px',
+  fontSize: { md: '30px' },
 }
 
 const MenuProps = {
@@ -106,17 +107,9 @@ export default function ConcertSelect({
       IconComponent={(props) => (
         <Box sx={iconContainerStyles}>
           {value ? (
-            <CloseIcon
-              color="primary"
-              sx={closeIconStyles}
-              onClick={clearSelection}
-            />
+            <CloseIcon sx={closeIconStyles} onClick={clearSelection} />
           ) : null}
-          <ExpandMoreIcon
-            className={props.className}
-            color="primary"
-            style={{ marginRight: '5px' }}
-          />
+          <ExpandMoreIcon className={props.className} sx={expandIconStyles} />
         </Box>
       )}
       onChange={(event: SelectChangeEvent) => changeHandler(event.target.value)}
