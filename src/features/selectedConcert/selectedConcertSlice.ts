@@ -31,6 +31,7 @@ const initialState: SelectedConcertState = {
   mediaFormat: MediaFormat.MP3,
   isDrawerOpen: false,
   loading: false,
+  concertInitialized: false,
   error: {},
 }
 
@@ -116,6 +117,11 @@ const selectedConcertSlice = createSlice({
       if (!state.currentlyPlayingTrack.playUrl) return
       state.playerState = action.payload
     },
+    setConcertInitialized: (state) => {
+      if (!state.concertInitialized) {
+        state.concertInitialized = true
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -129,6 +135,7 @@ const selectedConcertSlice = createSlice({
         (state, action: PayloadAction<SelectedConcert>) => {
           state.selectedConcert = action.payload
           state.loading = false
+          state.concertInitialized = false
         }
       )
       .addCase(fetchSelectedConcert.rejected, (state, action) => {
@@ -145,6 +152,7 @@ export const {
   playNextTrack,
   playPreviousTrack,
   changeMediaFormat,
+  setConcertInitialized,
 } = selectedConcertSlice.actions
 
 export default selectedConcertSlice.reducer
