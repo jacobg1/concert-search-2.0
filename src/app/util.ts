@@ -28,3 +28,14 @@ export function handleTrackProgressDuration(durationValue: number): string {
 
   return `${calcMinutes}:${addZero(calcSecondsLeft)}`
 }
+
+export function filterHTMLText(text?: string): string {
+  if (!text) return ''
+
+  try {
+    const exp = /(<([^>]+)>)/gi
+    return text.replace(exp, '')
+  } catch {
+    return text
+  }
+}
