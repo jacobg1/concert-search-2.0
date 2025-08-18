@@ -8,8 +8,9 @@ const buttonStyles: SxProps = {
   alignSelf: 'flex-end',
   padding: {
     xs: '10px 20px',
-    md: '10px 26px',
-    lg: '10px 29px',
+    sm: '10px 21px',
+    md: '10px 27px',
+    lg: '10px 30px',
   },
   fontSize: { xs: '12px', sm: '14px' },
 }
