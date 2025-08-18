@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { Typography, Button, type SxProps } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
+import CloseIcon from '@mui/icons-material/Close'
 import { MediaFormat } from '../../../app/interface'
 import { changeMediaFormat } from '../../selectedConcert/selectedConcertSlice'
-import { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../../../app/hooks'
 
 const formatSelectStyles: SxProps = {
@@ -12,8 +13,14 @@ const formatSelectStyles: SxProps = {
   maxWidth: '150px',
   display: { xs: 'none', md: 'flex' },
   justifyContent: 'space-around',
+  alignItems: 'center',
   padding: 0,
   cursor: 'auto',
+  '& .close-icon': {
+    fontSize: '1.3rem',
+    stroke: '#000000',
+    strokeWidth: '1.5px',
+  },
   '&:hover': {
     background: '#bed5ff',
   },
@@ -26,11 +33,20 @@ export default function SongFormatSelect(): JSX.Element {
 
   return (
     <Button variant="contained" size="large" sx={formatSelectStyles}>
-      <EditIcon
-        fontSize="medium"
-        style={{ cursor: 'pointer' }}
-        onClick={() => openMenu(!isOpen)}
-      />
+      {isOpen ? (
+        <CloseIcon
+          className="close-icon"
+          fontSize="medium"
+          style={{ cursor: 'pointer' }}
+          onClick={() => openMenu(!isOpen)}
+        />
+      ) : (
+        <EditIcon
+          fontSize="medium"
+          style={{ cursor: 'pointer' }}
+          onClick={() => openMenu(!isOpen)}
+        />
+      )}
       {!isOpen ? (
         <Typography variant="body1">
           {mediaFormat.toLocaleUpperCase()}

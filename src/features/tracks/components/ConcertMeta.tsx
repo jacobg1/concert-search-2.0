@@ -1,4 +1,5 @@
 import { Typography, Box, Popover, type SxProps } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import { TrackMetadata } from '../trackInterface'
 import { MetaItem } from './MetaItem'
 import { usePopover } from '../../../app/hooks'
@@ -18,6 +19,16 @@ const popoverContainerStyles: SxProps = {
   p: 1,
   border: '2px solid #ffffff',
   cursor: 'default',
+  position: 'relative',
+  '& .close-icon': {
+    paddingTop: '1px',
+    stroke: '#000000',
+    strokeWidth: '1.5px',
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    cursor: 'pointer',
+  },
   '& p': {
     fontSize: '1rem',
     margin: '10px 5px',
@@ -43,8 +54,9 @@ export default function ConcertMeta({
   date,
   numTracks,
 }: TrackMetadata): JSX.Element {
-  const [htmlEl, isOpen, handleOpen, handleClose] =
-    usePopover<HTMLParagraphElement>()
+  const [htmlEl, isOpen, handleOpen, handleClose] = usePopover<
+    HTMLParagraphElement | SVGSVGElement
+  >()
 
   const metaItems = [
     { label: 'Band', value: creator },
@@ -76,6 +88,7 @@ export default function ConcertMeta({
         }}
       >
         <Box sx={popoverContainerStyles}>
+          <CloseIcon className="close-icon" onClick={handleClose} />
           {metaItems.map(({ label, value }) => {
             return value ? (
               <MetaItem key={value} label={label} value={value} />
