@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import {
   Accordion,
   AccordionSummary,
@@ -34,9 +36,11 @@ export default function ConcertAccordion({
   source,
 }: ConcertAccordionProps): JSX.Element {
   const dispatch = useAppDispatch()
-  const playConcert = (concertId: string) => {
+
+  const playConcert = useCallback((concertId: string) => {
     dispatch(fetchSelectedConcert(concertId))
-  }
+  }, [])
+
   return (
     <Accordion
       expanded={expanded === concertId}
