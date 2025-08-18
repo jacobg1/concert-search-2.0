@@ -3,6 +3,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { TrackMetadata } from '../trackInterface'
 import { MetaItem } from './MetaItem'
 import { usePopover } from '../../../app/hooks'
+import { filterHTMLText } from '../../../app/util'
 
 const metaContainerStyles: SxProps = {
   width: '90%',
@@ -25,9 +26,10 @@ const popoverContainerStyles: SxProps = {
     stroke: '#000000',
     strokeWidth: '1.5px',
     position: 'absolute',
-    top: '10px',
-    right: '10px',
+    top: '6px',
+    right: '8px',
     cursor: 'pointer',
+    fontSize: '1.3rem',
   },
   '& p': {
     fontSize: '1rem',
@@ -63,14 +65,14 @@ export default function ConcertMeta({
     { label: 'Date', value: date },
     { label: 'Venue', value: venue },
     { label: 'Tracks', value: numTracks },
-    { label: 'Description', value: description },
+    { label: 'Description', value: filterHTMLText(description) },
     { label: 'Source', value: source },
   ]
 
   return (
     <Box sx={metaContainerStyles}>
       <Typography
-        sx={{ cursor: 'pointer', fontSize: '1.1rem' }}
+        style={{ cursor: 'pointer', fontSize: '1.1rem' }}
         component="p"
         onClick={handleOpen}
       >
