@@ -5,9 +5,13 @@ import { useMediaHandlers, useAudioContext, useResize } from '../../app/hooks'
 
 interface VisualizerProps {
   audioEl: RefObject<HTMLAudioElement>
+  concertInitialized: boolean
 }
 
-function Visualizer({ audioEl }: VisualizerProps): JSX.Element {
+function Visualizer({
+  audioEl,
+  concertInitialized,
+}: VisualizerProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef(0)
   const [, windowWidth] = useResize(1000)
@@ -66,18 +70,19 @@ function Visualizer({ audioEl }: VisualizerProps): JSX.Element {
 
   return (
     <>
-      <Box style={{ width: '90%', textAlign: 'right' }}>
-        <BarChartSharpIcon
-          fontSize="large"
-          style={{ color: 'white', cursor: 'pointer' }}
-          onClick={() => handleSetPaused()}
-        />
+      <Box style={{ width: '91%', textAlign: 'right' }}>
+        {concertInitialized ? (
+          <BarChartSharpIcon
+            fontSize="large"
+            style={{ color: 'white', cursor: 'pointer' }}
+            onClick={() => handleSetPaused()}
+          />
+        ) : null}
       </Box>
-
       <canvas
         ref={canvasRef}
         width={windowWidth * 0.9}
-        height={isPaused ? '0' : '150'}
+        height={isPaused || !concertInitialized ? '0' : '150'}
       >
         Audio Visualizer
       </canvas>

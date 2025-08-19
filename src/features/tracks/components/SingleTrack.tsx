@@ -57,11 +57,13 @@ export default function SingleTrack({
     >
       <ListItemText
         sx={listItemTextSyles}
-        id={title}
+        id={name}
         primary={title || name}
-        secondaryTypographyProps={{
-          component: 'div',
-          sx: songDurationContainer,
+        slotProps={{
+          secondary: {
+            component: 'div',
+            sx: songDurationContainer,
+          },
         }}
         secondary={
           <>

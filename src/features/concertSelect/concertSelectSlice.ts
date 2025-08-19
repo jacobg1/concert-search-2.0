@@ -29,16 +29,31 @@ export const concertSelectSlice = createSlice({
     setFilterDuplicates: (state, action: PayloadAction<boolean>) => {
       state.filterDuplicates = action.payload
     },
+    clearBand: (state) => {
+      state.selectedBand = ''
+      state.selectedYear = ''
+    },
+    clearYear: (state) => {
+      state.selectedYear = ''
+    },
   },
 })
 
-const { loadBandList } = concertSelectSlice.actions
+const { loadBandList, clearBand, clearYear } = concertSelectSlice.actions
 
 export const { selectBand, selectYear, setFilterDuplicates } =
   concertSelectSlice.actions
 
 export const handleLoadBandList = (): AppThunk => (dispatch) => {
   dispatch(loadBandList(artistYearList))
+}
+
+export const handleClearBand = (): AppThunk => (dispatch) => {
+  dispatch(clearBand())
+}
+
+export const handleClearYear = (): AppThunk => (dispatch) => {
+  dispatch(clearYear())
 }
 
 export default concertSelectSlice.reducer

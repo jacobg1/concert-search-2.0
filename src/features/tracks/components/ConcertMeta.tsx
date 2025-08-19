@@ -1,7 +1,9 @@
 import { Typography, Box, Popover, type SxProps } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 import { TrackMetadata } from '../trackInterface'
 import { MetaItem } from './MetaItem'
 import { usePopover } from '../../../app/hooks'
+import { filterHTMLText } from '../../../app/util'
 
 const metaContainerStyles: SxProps = {
   width: '90%',
@@ -18,6 +20,17 @@ const popoverContainerStyles: SxProps = {
   p: 1,
   border: '2px solid #ffffff',
   cursor: 'default',
+  position: 'relative',
+  '& .close-icon': {
+    paddingTop: '1px',
+    stroke: '#000000',
+    strokeWidth: '1.5px',
+    position: 'absolute',
+    top: '6px',
+    right: '8px',
+    cursor: 'pointer',
+    fontSize: '1.3rem',
+  },
   '& p': {
     fontSize: '1rem',
     margin: '10px 5px',
@@ -43,22 +56,23 @@ export default function ConcertMeta({
   date,
   numTracks,
 }: TrackMetadata): JSX.Element {
-  const [htmlEl, isOpen, handleOpen, handleClose] =
-    usePopover<HTMLParagraphElement>()
+  const [htmlEl, isOpen, handleOpen, handleClose] = usePopover<
+    HTMLParagraphElement | SVGSVGElement
+  >()
 
   const metaItems = [
     { label: 'Band', value: creator },
     { label: 'Date', value: date },
     { label: 'Venue', value: venue },
     { label: 'Tracks', value: numTracks },
-    { label: 'Description', value: description },
+    { label: 'Description', value: filterHTMLText(description) },
     { label: 'Source', value: source },
   ]
 
   return (
     <Box sx={metaContainerStyles}>
       <Typography
-        sx={{ cursor: 'pointer', fontSize: '1.1rem' }}
+        style={{ cursor: 'pointer', fontSize: '1.1rem' }}
         component="p"
         onClick={handleOpen}
       >
@@ -76,6 +90,7 @@ export default function ConcertMeta({
         }}
       >
         <Box sx={popoverContainerStyles}>
+          <CloseIcon className="close-icon" onClick={handleClose} />
           {metaItems.map(({ label, value }) => {
             return value ? (
               <MetaItem key={value} label={label} value={value} />

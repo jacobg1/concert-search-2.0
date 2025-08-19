@@ -1,10 +1,16 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { TrackListData } from '../tracks/trackInterface'
 import { MediaFormat, NetworkError, PlayerState } from '../../app/interface'
 import {
   SelectedConcert,
   SelectedConcertState,
 } from './interface/selectedConcertInterface'
+import {
+  findNewTrack,
+  findTrackIndex,
+  findNextTrack,
+  findPreviousTrack,
+  addSongFormat,
+} from '../../app/util'
 
 const { Play, Pause } = PlayerState
 
@@ -31,19 +37,8 @@ const initialState: SelectedConcertState = {
   mediaFormat: MediaFormat.MP3,
   isDrawerOpen: false,
   loading: false,
+  concertInitialized: false,
   error: {},
-}
-
-const findTrackIndex = (
-  trackList: TrackListData[],
-  currentTrackName: string
-): number => {
-  return trackList.findIndex(({ name }) => name === currentTrackName)
-}
-
-// Replace file extension with currently selected media format
-const addSongFormat = (src: string, format: MediaFormat): string => {
-  return src.replace(/\.[^/.]+$/, `.${format}`)
 }
 
 const selectedConcertSlice = createSlice({
@@ -58,16 +53,17 @@ const selectedConcertSlice = createSlice({
       // TODO: show toast when changing format to let user know when it takes effect
       state.mediaFormat = action.payload
     },
-    playNewTrack: (state, action: PayloadAction<string>) => {
+    playNewTrack: (state, action: PayloadAction<string | undefined>) => {
       const {
         selectedConcert: { trackList },
         mediaFormat,
       } = state
-      const trackIndex = findTrackIndex(trackList, action.payload)
+
+      const newTrack = findNewTrack(trackList, action.payload)
 
       state.currentlyPlayingTrack = {
-        currentTrackName: action.payload,
-        playUrl: addSongFormat(trackList[trackIndex].link, mediaFormat),
+        currentTrackName: newTrack.name,
+        playUrl: addSongFormat(newTrack.link, mediaFormat),
       }
       state.playerState = Play
     },
@@ -77,14 +73,10 @@ const selectedConcertSlice = createSlice({
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
       } = state
+
       const trackIndex = findTrackIndex(trackList, currentTrackName)
 
-      // Check whether we are at end of trackList
-      // If so go to first track, otherwise play next track
-      const nextTrack =
-        trackIndex === trackList.length - 1
-          ? trackList[0]
-          : trackList[trackIndex + 1]
+      const nextTrack = findNextTrack(trackList, trackIndex, currentTrackName)
 
       state.currentlyPlayingTrack = {
         currentTrackName: nextTrack.name,
@@ -98,12 +90,14 @@ const selectedConcertSlice = createSlice({
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
       } = state
+
       const trackIndex = findTrackIndex(trackList, currentTrackName)
 
-      const previousTrack =
-        trackIndex === 0
-          ? trackList[trackList.length - 1]
-          : trackList[trackIndex - 1]
+      const previousTrack = findPreviousTrack(
+        trackList,
+        trackIndex,
+        currentTrackName
+      )
 
       state.currentlyPlayingTrack = {
         currentTrackName: previousTrack.name,
@@ -115,6 +109,11 @@ const selectedConcertSlice = createSlice({
       // TODO: handle loading state?
       if (!state.currentlyPlayingTrack.playUrl) return
       state.playerState = action.payload
+    },
+    setConcertInitialized: (state) => {
+      if (!state.concertInitialized) {
+        state.concertInitialized = true
+      }
     },
   },
   extraReducers: (builder) => {
@@ -129,6 +128,8 @@ const selectedConcertSlice = createSlice({
         (state, action: PayloadAction<SelectedConcert>) => {
           state.selectedConcert = action.payload
           state.loading = false
+          state.concertInitialized = initialState.concertInitialized
+          state.playerState = initialState.playerState
         }
       )
       .addCase(fetchSelectedConcert.rejected, (state, action) => {
@@ -145,6 +146,7 @@ export const {
   playNextTrack,
   playPreviousTrack,
   changeMediaFormat,
+  setConcertInitialized,
 } = selectedConcertSlice.actions
 
 export default selectedConcertSlice.reducer

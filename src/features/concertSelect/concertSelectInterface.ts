@@ -9,6 +9,7 @@ export interface ConcertSelectProps {
   disabled: boolean
   autocompleteOptions: { label: string }[]
   changeHandler: (selection: string) => void
+  clearSelection: () => void
 }
 
 export interface ConcertSelectState {

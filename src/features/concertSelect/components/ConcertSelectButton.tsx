@@ -5,10 +5,14 @@ import { SortOrder } from '../../../app/interface'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 
 const buttonStyles: SxProps = {
-  width: '30%',
   alignSelf: 'flex-end',
-  padding: '11.5px 0px',
-  maxWidth: '125px',
+  padding: {
+    xs: '10px 20px',
+    sm: '10px 21px',
+    md: '10px 27px',
+    lg: '10px 30px',
+  },
+  fontSize: { xs: '12px', sm: '14px' },
 }
 
 export default function ConcertSelectButton(): JSX.Element {

@@ -19,10 +19,10 @@ export function RecordIcon(): JSX.Element {
   return (
     <Box sx={iconHolderStyles}>
       <Image
+        priority
         width={200}
         height={180}
         css={css`
-          width: 180px;
           position: absolute;
           top: 50px;
           left: 0;
