@@ -65,7 +65,7 @@ export default function ConcertAccordion({
         {source && (
           <>
             <Typography variant="subtitle1" style={{ marginBottom: '3px' }}>
-              Source!
+              Source
             </Typography>
             <Typography
               variant="body1"

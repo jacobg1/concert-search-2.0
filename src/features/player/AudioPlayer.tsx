@@ -11,7 +11,11 @@ import {
   TrackDirection,
   VolumeChangeHandler,
 } from '../../app/interface'
-import { setPlayerState } from '../selectedConcert/selectedConcertSlice'
+import {
+  playNewTrack,
+  setConcertInitialized,
+  setPlayerState,
+} from '../selectedConcert/selectedConcertSlice'
 import SkipButton from './components/SkipButton'
 import { AudioPlayerProps } from './playerInterface'
 import { AudioElement } from './components/AudioElement'
@@ -74,6 +78,12 @@ export default function AudioPlayer({
 
   const onPlayPauseClick = (): void => {
     if (!audioEl.current) return
+
+    if (!playUrl) {
+      dispatch(setConcertInitialized())
+      dispatch(playNewTrack())
+      return
+    }
 
     if (!isPlaying(audioEl)) {
       dispatch(setPlayerState(Play))
