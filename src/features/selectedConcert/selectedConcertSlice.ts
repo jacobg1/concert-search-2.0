@@ -1,10 +1,16 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { TrackListData } from '../tracks/trackInterface'
 import { MediaFormat, NetworkError, PlayerState } from '../../app/interface'
 import {
   SelectedConcert,
   SelectedConcertState,
 } from './interface/selectedConcertInterface'
+import {
+  findNewTrack,
+  findTrackIndex,
+  findNextTrack,
+  findPreviousTrack,
+  addSongFormat,
+} from '../../app/util'
 
 const { Play, Pause } = PlayerState
 
@@ -33,59 +39,6 @@ const initialState: SelectedConcertState = {
   loading: false,
   concertInitialized: false,
   error: {},
-}
-
-function findTrackIndex(
-  trackList: TrackListData[],
-  currentTrackName: string
-): number {
-  return trackList.findIndex(({ name }) => name === currentTrackName)
-}
-
-function findPreviousTrack(
-  trackList: TrackListData[],
-  trackIndex: number,
-  currentTrackName?: string
-): TrackListData {
-  if (!currentTrackName) return trackList[0]
-
-  const isFirstTrack = trackIndex === 0
-
-  if (isFirstTrack) {
-    return trackList[trackList.length - 1]
-  }
-
-  return trackList[trackIndex - 1]
-}
-
-function findNextTrack(
-  trackList: TrackListData[],
-  trackIndex: number,
-  currentTrackName?: string
-): TrackListData {
-  if (!currentTrackName) return trackList[0]
-
-  const isLastTrack = trackIndex === trackList.length - 1
-
-  if (isLastTrack) return trackList[0]
-
-  return trackList[trackIndex + 1]
-}
-
-function findNewTrack(
-  trackList: TrackListData[],
-  currentTrackName?: string
-): TrackListData {
-  if (!currentTrackName) return trackList[0]
-
-  const trackIndex = findTrackIndex(trackList, currentTrackName)
-
-  return trackList[trackIndex]
-}
-
-// Replace file extension with currently selected media format
-const addSongFormat = (src: string, format: MediaFormat): string => {
-  return src.replace(/\.[^/.]+$/, `.${format}`)
 }
 
 const selectedConcertSlice = createSlice({

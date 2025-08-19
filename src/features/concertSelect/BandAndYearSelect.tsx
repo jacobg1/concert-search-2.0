@@ -11,6 +11,7 @@ import {
 } from './concertSelectSlice'
 import FilterDuplicatesCheckbox from './components/FilterDuplicatesCheckbox'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { getBandOptions, getYearOptions } from '../../app/util'
 
 const boxStyles: SxProps = {
   width: '90%',
@@ -18,20 +19,6 @@ const boxStyles: SxProps = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-}
-
-const formatter = (array: string[]) => array.map((x) => ({ label: x }))
-
-type BandList = Record<string, string[]> | null
-
-function getBandOptions(bandList: BandList) {
-  if (!bandList) return []
-  return formatter(Object.keys(bandList))
-}
-
-function getYearOptions(bandList: BandList, selectedBand?: string) {
-  if (!bandList || !selectedBand) return []
-  return formatter(bandList[selectedBand])
 }
 
 export default function BandAndYearSelect(): JSX.Element | null {

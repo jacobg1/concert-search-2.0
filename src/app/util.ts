@@ -1,3 +1,6 @@
+import { type TrackListData } from '../features/tracks/trackInterface'
+import { MediaFormat, type BandList } from './interface'
+
 function durationFormat(
   durationValue: number
 ): [number, number, (x: number) => string] {
@@ -38,4 +41,69 @@ export function filterHTMLText(text?: string): string {
   } catch {
     return text
   }
+}
+
+const formatter = (array: string[]) => array.map((x) => ({ label: x }))
+
+export function getBandOptions(bandList: BandList) {
+  if (!bandList) return []
+  return formatter(Object.keys(bandList))
+}
+
+export function getYearOptions(bandList: BandList, selectedBand?: string) {
+  if (!bandList || !selectedBand) return []
+  return formatter(bandList[selectedBand])
+}
+
+export function findTrackIndex(
+  trackList: TrackListData[],
+  currentTrackName: string
+): number {
+  return trackList.findIndex(({ name }) => name === currentTrackName)
+}
+
+export function findPreviousTrack(
+  trackList: TrackListData[],
+  trackIndex: number,
+  currentTrackName?: string
+): TrackListData {
+  if (!currentTrackName) return trackList[0]
+
+  const isFirstTrack = trackIndex === 0
+
+  if (isFirstTrack) {
+    return trackList[trackList.length - 1]
+  }
+
+  return trackList[trackIndex - 1]
+}
+
+export function findNextTrack(
+  trackList: TrackListData[],
+  trackIndex: number,
+  currentTrackName?: string
+): TrackListData {
+  if (!currentTrackName) return trackList[0]
+
+  const isLastTrack = trackIndex === trackList.length - 1
+
+  if (isLastTrack) return trackList[0]
+
+  return trackList[trackIndex + 1]
+}
+
+export function findNewTrack(
+  trackList: TrackListData[],
+  currentTrackName?: string
+): TrackListData {
+  if (!currentTrackName) return trackList[0]
+
+  const trackIndex = findTrackIndex(trackList, currentTrackName)
+
+  return trackList[trackIndex]
+}
+
+// Replace file extension with currently selected media format
+export const addSongFormat = (src: string, format: MediaFormat): string => {
+  return src.replace(/\.[^/.]+$/, `.${format}`)
 }

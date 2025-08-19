@@ -53,3 +53,5 @@ export interface MediaHandler {
   action: MediaSessionAction
   handler: () => void
 }
+
+export type BandList = Record<string, string[]> | null
