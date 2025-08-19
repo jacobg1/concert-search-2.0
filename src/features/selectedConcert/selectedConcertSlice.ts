@@ -74,8 +74,10 @@ function findNextTrack(
 
 function findNewTrack(
   trackList: TrackListData[],
-  currentTrackName: string
+  currentTrackName?: string
 ): TrackListData {
+  if (!currentTrackName) return trackList[0]
+
   const trackIndex = findTrackIndex(trackList, currentTrackName)
 
   return trackList[trackIndex]
@@ -98,7 +100,7 @@ const selectedConcertSlice = createSlice({
       // TODO: show toast when changing format to let user know when it takes effect
       state.mediaFormat = action.payload
     },
-    playNewTrack: (state, action: PayloadAction<string>) => {
+    playNewTrack: (state, action: PayloadAction<string | undefined>) => {
       const {
         selectedConcert: { trackList },
         mediaFormat,
