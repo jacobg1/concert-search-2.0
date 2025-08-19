@@ -41,6 +41,7 @@ const drawerStyles: SxProps = {
     height: '100%',
     boxSizing: 'border-box',
     zIndex: 0,
+    minWidth: '320px',
   },
   '& .MuiDrawer-paperAnchorBottom': {
     backgroundColor: '#2e7e89',
