@@ -35,11 +35,50 @@ const initialState: SelectedConcertState = {
   error: {},
 }
 
-const findTrackIndex = (
+function findTrackIndex(
   trackList: TrackListData[],
   currentTrackName: string
-): number => {
+): number {
   return trackList.findIndex(({ name }) => name === currentTrackName)
+}
+
+function findPreviousTrack(
+  trackList: TrackListData[],
+  trackIndex: number,
+  currentTrackName?: string
+): TrackListData {
+  if (!currentTrackName) return trackList[0]
+
+  const isFirstTrack = trackIndex === 0
+
+  if (isFirstTrack) {
+    return trackList[trackList.length - 1]
+  }
+
+  return trackList[trackIndex - 1]
+}
+
+function findNextTrack(
+  trackList: TrackListData[],
+  trackIndex: number,
+  currentTrackName?: string
+): TrackListData {
+  if (!currentTrackName) return trackList[0]
+
+  const isLastTrack = trackIndex === trackList.length - 1
+
+  if (isLastTrack) return trackList[0]
+
+  return trackList[trackIndex + 1]
+}
+
+function findNewTrack(
+  trackList: TrackListData[],
+  currentTrackName: string
+): TrackListData {
+  const trackIndex = findTrackIndex(trackList, currentTrackName)
+
+  return trackList[trackIndex]
 }
 
 // Replace file extension with currently selected media format
@@ -64,11 +103,12 @@ const selectedConcertSlice = createSlice({
         selectedConcert: { trackList },
         mediaFormat,
       } = state
-      const trackIndex = findTrackIndex(trackList, action.payload)
+
+      const newTrack = findNewTrack(trackList, action.payload)
 
       state.currentlyPlayingTrack = {
-        currentTrackName: action.payload,
-        playUrl: addSongFormat(trackList[trackIndex].link, mediaFormat),
+        currentTrackName: newTrack.name,
+        playUrl: addSongFormat(newTrack.link, mediaFormat),
       }
       state.playerState = Play
     },
@@ -78,14 +118,10 @@ const selectedConcertSlice = createSlice({
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
       } = state
+
       const trackIndex = findTrackIndex(trackList, currentTrackName)
 
-      // Check whether we are at end of trackList
-      // If so go to first track, otherwise play next track
-      const nextTrack =
-        trackIndex === trackList.length - 1
-          ? trackList[0]
-          : trackList[trackIndex + 1]
+      const nextTrack = findNextTrack(trackList, trackIndex, currentTrackName)
 
       state.currentlyPlayingTrack = {
         currentTrackName: nextTrack.name,
@@ -99,12 +135,14 @@ const selectedConcertSlice = createSlice({
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
       } = state
+
       const trackIndex = findTrackIndex(trackList, currentTrackName)
 
-      const previousTrack =
-        trackIndex === 0
-          ? trackList[trackList.length - 1]
-          : trackList[trackIndex - 1]
+      const previousTrack = findPreviousTrack(
+        trackList,
+        trackIndex,
+        currentTrackName
+      )
 
       state.currentlyPlayingTrack = {
         currentTrackName: previousTrack.name,
@@ -135,7 +173,8 @@ const selectedConcertSlice = createSlice({
         (state, action: PayloadAction<SelectedConcert>) => {
           state.selectedConcert = action.payload
           state.loading = false
-          state.concertInitialized = false
+          state.concertInitialized = initialState.concertInitialized
+          state.playerState = initialState.playerState
         }
       )
       .addCase(fetchSelectedConcert.rejected, (state, action) => {
