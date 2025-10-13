@@ -7,6 +7,16 @@ const compat = new FlatCompat({
 })
 
 const eslintConfig = [
+  ...compat.extends('next/typescript'),
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
+    ],
+  },
   ...compat.config({
     plugins: ['@typescript-eslint'],
     extends: [
