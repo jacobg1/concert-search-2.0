@@ -5,7 +5,7 @@ export function usePopover<T>(): [
   T | null,
   boolean,
   PopoverHandler<T>,
-  PopoverHandler<T>
+  PopoverHandler<T>,
 ] {
   const [htmlEl, setHtmlEl] = useState<T | null>(null)
   const isOpen = Boolean(htmlEl)

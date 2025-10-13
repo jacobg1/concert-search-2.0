@@ -27,7 +27,7 @@ type SongPosition = [
   setSongPosition: SongPositionHandler,
   resetSongPosition: () => void,
   connectionError: string,
-  setConnectionError: Dispatch<SetStateAction<string>>
+  setConnectionError: Dispatch<SetStateAction<string>>,
 ]
 
 export function useSongPosition(
