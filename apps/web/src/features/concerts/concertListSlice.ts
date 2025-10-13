@@ -30,6 +30,7 @@ export const fetchConcertList = createAsyncThunk<
       sortBy,
       mediaFormat: [OGG, MP3],
     }
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/concerts`,
       {
