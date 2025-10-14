@@ -1,0 +1,31 @@
+service: concert-search
+
+plugins:
+  - serverless-offline
+
+package:
+  individually: true
+  patterns:
+    - "!./**"
+    - ./dist/**
+    - ./package.json
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  environment:
+    NODE_ENV: ${env:NODE_ENV, "production"}
+  httpApi:
+    cors: ${file(./serverless/cors/cors_${env:NODE_ENV, "production"}.yml):cors}
+
+functions:
+  main:
+    handler: dist/main.handler
+    timeout: 29
+    events:
+      - httpApi:
+          method: POST
+          path: '/concerts'
+      - httpApi:
+          method: GET
+          path: '/concerts/{id}'
