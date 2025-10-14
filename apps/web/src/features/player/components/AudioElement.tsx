@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 import { AudioElementProps } from '../playerInterface'
 import { memo } from 'react'
 
+// eslint-disable-next-line react/display-name
 const AudioElementComponent = forwardRef<HTMLAudioElement, AudioElementProps>(
   (props, forwardedRef) => {
     return (
