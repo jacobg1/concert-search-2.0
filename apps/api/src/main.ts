@@ -1,7 +1,11 @@
 import { Logger, NotFoundException } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import type { APIGatewayProxyEventV2, Handler } from 'aws-lambda'
+import type {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResultV2,
+  Handler,
+} from 'aws-lambda'
 import { ConcertService } from './services'
 import { extractReqData, handleResponse, handleError } from './helpers'
 import { HttpRoutes, type RouteConfigObj } from './interface'
@@ -14,12 +18,15 @@ async function bootstrap() {
   return app
 }
 
-const routeConfig: RouteConfigObj<keyof ConcertService> = {
+const routeConfig: RouteConfigObj<keyof ConcertService | undefined> = {
   [HttpRoutes.LIST_CONCERTS]: 'getConcertList',
   [HttpRoutes.GET_CONCERT_BY_ID]: 'getSingleConcert',
 }
 
-export const handler: Handler = async (event: APIGatewayProxyEventV2) => {
+export const handler: Handler<
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResultV2
+> = async (event) => {
   try {
     const { routeKey } = event
 

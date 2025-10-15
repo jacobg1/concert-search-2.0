@@ -1,6 +1,8 @@
 import { HttpStatus } from '@nestjs/common'
+import type { APIGatewayProxyResultV2 } from 'aws-lambda'
+import { getErrorInfo } from './errors'
 
-export function handleResponse(body) {
+export function handleResponse(body: unknown): APIGatewayProxyResultV2 {
   return {
     body: JSON.stringify(body),
     headers: {
@@ -10,16 +12,16 @@ export function handleResponse(body) {
   }
 }
 
-export function handleError(error) {
-  const errorMessage = error?.message || 'Internal Server Error'
+export function handleError(error: unknown) {
+  const { statusCode, message } = getErrorInfo(error)
 
   return {
-    statusCode: error?.statusCode || HttpStatus.INTERNAL_SERVER_ERROR,
+    statusCode,
     isBase64Encoded: false,
     headers: {
       'Content-Type': 'application/json',
       'x-amzn-ErrorType': 'Error',
     },
-    body: JSON.stringify({ message: errorMessage || 'Request Failed' }),
+    body: JSON.stringify({ message }),
   }
 }

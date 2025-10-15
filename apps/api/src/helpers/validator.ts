@@ -2,14 +2,21 @@ import { Logger, BadRequestException } from '@nestjs/common'
 import { plainToClass } from 'class-transformer'
 import { validate } from 'class-validator'
 import { ConcertListDto } from '../dto'
-import { MediaFormat, type ConcertSearchOptions } from '../interface'
+import {
+  MediaFormat,
+  type MediaFormatKey,
+  type ConcertSearchOptions,
+  UnvalidatedInput,
+} from '../interface'
 import { createErrorString } from './errors'
 
 export class ConcertValidator {
   formatValue(value: string[]): MediaFormat[] {
-    return value.map((val) => MediaFormat[val.toLocaleUpperCase()])
+    return value.map(
+      (val) => MediaFormat[val.toLocaleUpperCase() as MediaFormatKey]
+    )
   }
-  async transform(value: ConcertSearchOptions) {
+  async transform(value: UnvalidatedInput) {
     const { mediaFormat, ...rest } = value
 
     const formatObj = {
@@ -31,6 +38,6 @@ export class ConcertValidator {
       throw new BadRequestException(errorString)
     }
 
-    return formatObj
+    return formatObj as ConcertSearchOptions
   }
 }

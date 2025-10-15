@@ -98,7 +98,7 @@ export interface ConcertResponse extends Omit<ConcertData, 'trackList'> {
   files: TrackListData[]
 }
 
-export type ReqObj = Record<string, unknown>
+export type ReqObj = Record<string, unknown> | Record<string, unknown[]>
 
 export interface IArchiveSearch {
   search: (term: string, opt: ArchiveSearchOptions) => Promise<SearchResponse>
@@ -121,3 +121,12 @@ export interface ConcertListInput {
 export interface GetConcertInput {
   pathParameters?: { id?: string }
 }
+
+export interface ErrorInfo {
+  message: string
+  statusCode: number
+}
+
+export type MediaFormatKey = keyof typeof MediaFormat
+
+export type UnvalidatedInput = Partial<ConcertSearchOptions>
