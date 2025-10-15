@@ -2,12 +2,14 @@ import { archiveSearch } from 'archive-search'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { baseOptions, paginateResponse } from './concert.util'
 import type {
-  ConcertSearchOptions,
   SearchResponse,
   PaginatedConcertList,
   ConcertData,
   ArchiveSearchOptions,
   ConcertResponse,
+  IArchiveSearch,
+  ConcertListInput,
+  GetConcertInput,
 } from '../interface'
 import { MediaFormat } from '../interface'
 import { ConcertValidator } from '../helpers'
@@ -16,11 +18,15 @@ const { MP3 } = MediaFormat
 
 @Injectable()
 export class ConcertService {
-  async getConcertList(request: {
-    body: ConcertSearchOptions
-  }): Promise<PaginatedConcertList> {
+  async getConcertList({
+    body,
+  }: ConcertListInput): Promise<PaginatedConcertList> {
+    if (!body) {
+      throw new BadRequestException('Missing body in request')
+    }
+
     const concertValidator = new ConcertValidator()
-    const validatedPayload = await concertValidator.transform(request.body)
+    const validatedPayload = await concertValidator.transform(body)
 
     const { searchTerm, max, sortBy, ...rest } = validatedPayload
 
@@ -30,21 +36,25 @@ export class ConcertService {
       sortBy,
     }
 
-    const searchConcerts: SearchResponse = await archiveSearch.search(
-      searchTerm,
-      searchOptions
-    )
+    const searchConcerts: SearchResponse = await (
+      archiveSearch as IArchiveSearch
+    ).search(searchTerm, searchOptions)
+
     return paginateResponse(searchConcerts, rest)
   }
 
-  async getSingleConcert(request): Promise<ConcertData> {
-    const { id } = request.pathParameters
+  async getSingleConcert({
+    pathParameters,
+  }: GetConcertInput): Promise<ConcertData> {
+    const id = pathParameters?.id
 
     if (!id) {
       throw new BadRequestException('Invalid request')
     }
 
-    const concert: ConcertResponse = await archiveSearch.metaSearch(id)
+    const concert: ConcertResponse = await (
+      archiveSearch as IArchiveSearch
+    ).metaSearch(id)
 
     const { metadata, files } = concert
 

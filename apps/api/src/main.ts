@@ -4,7 +4,7 @@ import { AppModule } from './app.module'
 import type { APIGatewayProxyEventV2, Handler } from 'aws-lambda'
 import { ConcertService } from './services'
 import { extractReqData, handleResponse, handleError } from './helpers'
-import { HttpRoutes } from './interface'
+import { HttpRoutes, type RouteConfigObj } from './interface'
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule, {
@@ -14,7 +14,7 @@ async function bootstrap() {
   return app
 }
 
-const routeConfig = {
+const routeConfig: RouteConfigObj<keyof ConcertService> = {
   [HttpRoutes.LIST_CONCERTS]: 'getConcertList',
   [HttpRoutes.GET_CONCERT_BY_ID]: 'getSingleConcert',
 }

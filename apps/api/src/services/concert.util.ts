@@ -2,7 +2,8 @@ import { BadRequestException } from '@nestjs/common'
 import chunk from 'lodash.chunk'
 import type {
   BaseSearchOptions,
-  ConcertSearchOptions,
+  DateLookupObj,
+  FilterParams,
   PaginatedConcertList,
   SearchResponse,
   SingleConcert,
@@ -19,20 +20,15 @@ const isProperFormat = (
   concertFormats: MediaFormat[],
   mediaFormat: MediaFormat[]
 ) => {
-  return mediaFormat.some((format) => concertFormats.indexOf(format) !== -1)
+  return mediaFormat.some((format) => concertFormats.includes(format))
 }
-
-type FilterParams = Pick<
-  ConcertSearchOptions,
-  'filterDuplicates' | 'mediaFormat'
->
 
 // Apply filters from front-end and paginate
 export function paginateResponse(
   searchResponse: SearchResponse,
   { filterDuplicates, mediaFormat }: FilterParams
 ): PaginatedConcertList {
-  const dateLookup = {}
+  const dateLookup: DateLookupObj = {}
 
   const filterAndDedupe = searchResponse.docs.reduce<SingleConcert[]>(
     (acc, curr) => {

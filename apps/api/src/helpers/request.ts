@@ -1,17 +1,15 @@
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
-import type { RequestData } from '../interface'
+import type { ReqObj } from '../interface'
 
-const parseReqBody = (body: string): Record<string, any> => {
+const parseReqBody = (body: string) => {
   try {
-    return JSON.parse(body)
+    return JSON.parse(body) as ReqObj
   } catch {
     throw new Error('Invalid request body')
   }
 }
 
-export const extractReqData = (
-  event: APIGatewayProxyEventV2
-): RequestData | Record<string, unknown> => {
+export const extractReqData = (event: APIGatewayProxyEventV2): ReqObj => {
   const { body, queryStringParameters, pathParameters } = event
 
   return {

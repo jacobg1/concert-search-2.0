@@ -14,7 +14,7 @@ server.events.on('request:start', ({ request: { method, url } }) => {
 export const handler: Handler = (
   event: APIGatewayProxyEventV2,
   context: Context,
-  callback: Callback<any>
+  callback: Callback
 ) => {
   server.listen()
   return mainHandler(event, context, callback)

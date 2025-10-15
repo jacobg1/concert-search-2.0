@@ -1,24 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
-import request from 'supertest'
-import { AppModule } from './../src/app.module'
+import { INestApplicationContext } from '@nestjs/common'
+import { AppModule } from '../src/app.module'
+import { NestFactory } from '@nestjs/core'
+import { ConcertService } from '../src/services'
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication
+  let app: INestApplicationContext
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile()
-
-    app = moduleFixture.createNestApplication()
-    await app.init()
+    app = await NestFactory.createApplicationContext(AppModule, {
+      logger: ['error', 'log', 'warn'],
+    })
   })
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!')
+  it('concertService properly initializes', () => {
+    const concertService = app.get(ConcertService)
+    expect(concertService).toBeDefined()
+    expect(concertService).toBeInstanceOf(ConcertService)
   })
 })

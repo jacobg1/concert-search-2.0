@@ -98,8 +98,26 @@ export interface ConcertResponse extends Omit<ConcertData, 'trackList'> {
   files: TrackListData[]
 }
 
-export interface RequestData {
+export type ReqObj = Record<string, unknown>
+
+export interface IArchiveSearch {
+  search: (term: string, opt: ArchiveSearchOptions) => Promise<SearchResponse>
+  metaSearch: (id: string) => Promise<ConcertResponse>
+}
+
+export type FilterParams = Pick<
+  ConcertSearchOptions,
+  'filterDuplicates' | 'mediaFormat'
+>
+
+export type DateLookupObj = Record<string, boolean>
+
+export type RouteConfigObj<T> = Record<string, T>
+
+export interface ConcertListInput {
   body?: ConcertSearchOptions
-  queryStringParameters?: { id: string }
-  pathParameters?: Record<string, string>
+}
+
+export interface GetConcertInput {
+  pathParameters?: { id?: string }
 }
