@@ -1,15 +1,15 @@
 import globals from 'globals'
 import { config as baseConfig } from './base.js'
 import eslintNestJs from '@darraghor/eslint-plugin-nestjs-typed'
+import tseslint from 'typescript-eslint'
 
 /**
  * @type {import("eslint").Linter.Config[]}
  * */
 export const nestJsConfig = [
   ...baseConfig,
-  // TODO - get these working
-  // ...tseslint.configs.strictTypeChecked,
-  // ...tseslint.configs.stylisticTypeChecked,
+  ...tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   {
     languageOptions: {
       parserOptions: {
@@ -27,6 +27,7 @@ export const nestJsConfig = [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-extraneous-class': 'off',
     },
   },
   ...eslintNestJs.configs.flatRecommended,
