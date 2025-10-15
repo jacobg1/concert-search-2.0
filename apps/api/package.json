@@ -7,9 +7,8 @@
   "scripts": {
     "build": "rm -rf ./dist && nest build --webpack",
     "build:watch": "npm run build -- --watch",
-    "deploy": "npm run build && serverless deploy --stage prod",
-    "deploy-v2": "npm run build && serverless deploy --stage prod-v2",
-    "deploy:test": "npm run build && serverless deploy --stage test",
+    "deploy": "serverless deploy --stage prod",
+    "deploy:test": "serverless deploy --stage test",
     "dev": "WITH_MOCKS=true npm run build:watch & npm run start",
     "start": "serverless offline start --reloadHandler",
     "test": "jest",
