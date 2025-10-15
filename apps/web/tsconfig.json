@@ -1,24 +1,13 @@
 {
   "extends": "@repo/ts-config/nextjs.json",
 	"compilerOptions": {
-		"noEmit": true,
-		"incremental": true,
-    "jsx": "preserve",
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-		"noUncheckedIndexedAccess": false,
-    "types": [
+		"plugins": [{ "name": "next" }],
+		"types": [
       "node",
       "jest",
       "@testing-library/jest-dom"
     ],
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
+	},
   "include": [
     "app/**/*",
     "build/types/**/*.ts",
