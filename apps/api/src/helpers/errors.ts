@@ -1,0 +1,65 @@
+import { HttpStatus, HttpException } from '@nestjs/common'
+import type { ErrorInfo } from '../interface'
+import { ValidationError } from 'class-validator'
+
+function mapErrorsToString(errors: ValidationError[]): string {
+  return errors.reduce((acc, { constraints, children }) => {
+    if (constraints) {
+      const errorsArray = Object.values(constraints)
+      if (errorsArray.length) acc += errorsArray.join(', ') + ', '
+    }
+
+    if (children?.length) acc += mapErrorsToString(children)
+
+    return acc
+  }, '')
+}
+
+export function createErrorString(errors: ValidationError[]): string {
+  const defaultError = 'Bad Request'
+  try {
+    const errorString = mapErrorsToString(errors)
+    if (errorString) {
+      return errorString.replace(/, $/, '.')
+    }
+    return defaultError
+  } catch {
+    return defaultError
+  }
+}
+
+const defaultErrorMessage = 'Internal Server Error'
+
+const defaultError = {
+  statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+  message: defaultErrorMessage,
+}
+
+function getErrorMessage(resp?: string | object): string {
+  if (!resp || typeof resp === 'string') {
+    return defaultErrorMessage
+  }
+
+  if ('message' in resp && typeof resp.message === 'string') {
+    return resp.message
+  }
+
+  return defaultErrorMessage
+}
+
+export function getErrorInfo(error: unknown): ErrorInfo {
+  try {
+    if (error instanceof HttpException) {
+      const statusCode = error.getStatus()
+      const response = error.getResponse()
+
+      return {
+        statusCode,
+        message: getErrorMessage(response),
+      }
+    }
+    return defaultError
+  } catch {
+    return defaultError
+  }
+}

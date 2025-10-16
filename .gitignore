@@ -27,3 +27,6 @@ yarn-error.log*
 
 .next
 next-env.d.ts
+.turbo
+build
+tsconfig.tsbuildinfo

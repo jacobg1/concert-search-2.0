@@ -1,0 +1,15 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "env": [
+        "NODE_ENV",
+        "METADATA_URL",
+        "ADVANCED_SEARCH_URL"
+      ]
+    }
+  }
+}
