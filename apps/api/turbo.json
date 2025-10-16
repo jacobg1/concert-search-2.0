@@ -5,10 +5,18 @@
       "outputs": ["dist/**"]
     },
     "deploy": {
-      "env": ["SERVERLESS_ACCESS_KEY"]
+      "env": [
+        "NODE_ENV",
+        "AWS_SESSION_TOKEN",
+        "SERVERLESS_ACCESS_KEY"
+      ]
     },
     "deploy:test": {
-      "env": ["SERVERLESS_ACCESS_KEY"]
+      "env": [
+        "NODE_ENV",
+        "AWS_SESSION_TOKEN",
+        "SERVERLESS_ACCESS_KEY"
+      ]
     },
     "dev": {
       "env": [

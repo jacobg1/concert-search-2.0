@@ -6,8 +6,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "start": "turbo run start",
-    "deploy": "turbo run deploy",
-    "deploy:test": "turbo run deploy:test",
+    "deploy": "turbo run deploy --filter=concert-search-api",
+    "deploy:test": "turbo run deploy:test --filter=concert-search-api",
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
     "check-types": "turbo run check-types"
   },
