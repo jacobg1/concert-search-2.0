@@ -6,14 +6,16 @@
     },
     "deploy": {
       "env": [
-        "NODE_ENV",
+        "AWS_ACCESS_KEY_ID",
+        "AWS_SECRET_ACCESS_KEY",
         "AWS_SESSION_TOKEN",
         "SERVERLESS_ACCESS_KEY"
       ]
     },
     "deploy:test": {
       "env": [
-        "NODE_ENV",
+        "AWS_ACCESS_KEY_ID",
+        "AWS_SECRET_ACCESS_KEY",
         "AWS_SESSION_TOKEN",
         "SERVERLESS_ACCESS_KEY"
       ]
