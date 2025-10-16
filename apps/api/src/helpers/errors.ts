@@ -28,33 +28,38 @@ export function createErrorString(errors: ValidationError[]): string {
   }
 }
 
+const defaultErrorMessage = 'Internal Server Error'
+
 const defaultError = {
   statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-  message: 'Internal Server Error',
+  message: defaultErrorMessage,
 }
 
 function getErrorMessage(resp?: string | object): string {
   if (!resp || typeof resp === 'string') {
-    return defaultError.message
+    return defaultErrorMessage
   }
 
   if ('message' in resp && typeof resp.message === 'string') {
     return resp.message
   }
 
-  return defaultError.message
+  return defaultErrorMessage
 }
 
 export function getErrorInfo(error: unknown): ErrorInfo {
-  if (error instanceof HttpException) {
-    const statusCode = error.getStatus()
-    const response = error.getResponse()
+  try {
+    if (error instanceof HttpException) {
+      const statusCode = error.getStatus()
+      const response = error.getResponse()
 
-    return {
-      statusCode,
-      message: getErrorMessage(response),
+      return {
+        statusCode,
+        message: getErrorMessage(response),
+      }
     }
+    return defaultError
+  } catch {
+    return defaultError
   }
-
-  return defaultError
 }

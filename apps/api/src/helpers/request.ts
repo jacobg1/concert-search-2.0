@@ -1,11 +1,12 @@
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 import type { ReqObj } from '../interface'
+import { BadRequestException } from '@nestjs/common'
 
 const parseReqBody = (body: string) => {
   try {
     return JSON.parse(body) as ReqObj
   } catch {
-    throw new Error('Invalid request body')
+    throw new BadRequestException('Invalid request body')
   }
 }
 
