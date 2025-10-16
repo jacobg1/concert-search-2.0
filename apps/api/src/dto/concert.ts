@@ -9,8 +9,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator'
-import { MediaFormat, SortOrder } from '../interface'
-import type { SortBy } from '../interface'
+import { MediaFormat, SortOrder, type SortBy } from '../interface'
 
 class SortByDto {
   @IsOptional()

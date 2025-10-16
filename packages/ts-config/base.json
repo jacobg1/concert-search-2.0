@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2024",
-		"noImplicitAny": true,
-		"strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
   }
 }

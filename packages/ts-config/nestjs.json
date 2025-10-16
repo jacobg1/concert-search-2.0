@@ -1,9 +1,9 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",
   "compilerOptions": {
     "module": "commonjs",
-		"moduleResolution": "node",
+    "moduleResolution": "node",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -11,6 +11,6 @@
     "target": "es2024",
     "sourceMap": true,
     "incremental": true,
-		"strictPropertyInitialization": false,
+    "strictPropertyInitialization": false,
   }
 }
