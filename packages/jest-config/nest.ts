@@ -1,12 +1,14 @@
 import type { Config } from 'jest'
 import { jestConfig } from './base'
 
+const coverageCollect = jestConfig?.collectCoverageFrom ?? []
+
 export const nestJestConfig: Config = {
   ...jestConfig,
   transform: { '^.+\\.(t|j)s$': 'ts-jest' },
   testEnvironment: 'node',
   collectCoverageFrom: [
-    ...(jestConfig?.collectCoverageFrom ?? []),
+    ...coverageCollect,
     '!**/*index.ts',
     '!**/interface/**',
     '!**/mocks/data/**',
