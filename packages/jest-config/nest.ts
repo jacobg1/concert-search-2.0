@@ -12,7 +12,7 @@ export const nestJestConfig: Config = {
     '!**/*index.ts',
     '!**/interface/**',
     '!**/mocks/data/**',
-    '!**/test/mocks/**',
+    '!**/test/utils/**',
   ],
   testPathIgnorePatterns: ['node_modules', '.turbo', 'dist', 'coverage'],
 }
