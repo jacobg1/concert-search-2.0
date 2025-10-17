@@ -28,6 +28,9 @@
     },
     "deploy:test": {
       "dependsOn": ["build"]
-    }
+    },
+		"test": {
+			"dependsOn": ["^test"]
+		}
   }
 }
