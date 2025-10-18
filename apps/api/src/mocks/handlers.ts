@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import { singleConcert, concertList } from '@repo/mock-data/api'
+import { singleConcert, concertList } from '@repo/mock-data/pre-api'
 
 function getUrl(url?: string): string {
   if (!url) throw new Error('missing mock url')

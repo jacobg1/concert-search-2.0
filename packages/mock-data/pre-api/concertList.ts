@@ -38,7 +38,8 @@ export const concertList = {
         mediatype: 'etree',
         source:
           'Bertha Remaster of Master DAT sourceSBD>DAT>CDA>SHN>DAW(Bertha)>CDA>SHN, via Jay Ashley, seeded to Etree by Hub Spencer',
-        title: 'Grateful Dead Live at Boston Garden on 1994-10-01',
+        title:
+          'Grateful Dead Live at (Mock page 1) Boston Garden on 1994-10-01',
       },
       {
         date: '1994-03-21T00:00:00Z',
@@ -844,7 +845,7 @@ export const concertList = {
         mediatype: 'etree',
         source: 'S:DAT>CDR',
         title:
-          'Grateful Dead Live at Autzen Stadium, U. of Oregon on 1994-06-19',
+          'Grateful Dead Live at (Mock page 2) Autzen Stadium, U. of Oregon on 1994-06-19',
       },
       {
         date: '1994-10-13T00:00:00Z',

@@ -1,22 +1,35 @@
 export const singleConcert = {
-  alternate_locations: {
-    servers: [
-      {
-        server: 'dn720301.ca.archive.org',
-        dir: '/0/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
-      },
-    ],
-    workable: [
-      {
-        server: 'dn720301.ca.archive.org',
-        dir: '/0/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
-      },
-    ],
+  metadata: {
+    identifier: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
+    mediatype: 'etree',
+    collection: ['GratefulDead', 'etree', 'stream_only'],
+    creator: 'Grateful Dead',
+    date: '1977-12-31',
+    description:
+      '<div>\n<div class="b1 set">\n<b>Set I</b>\n    <div class="set_info">\n        <span title="Click to edit" style="background-image:none;">The Music Never Stopped<br />\nTennessee Jed<br />\nFiniculi Finicula<br />\nMe & My Uncle<br />\nLoser<br />\nJack Straw<br />\nFriend Of The Devil<br />\nLazy Lightning ><br />\nSupplication</span>\n    </div>\n</div>\n\n<div class="b2 set">\n<b>Set II</b>\n    <div class="set_info">\n        <span title="Click to edit">New Years Countdown<br />\nSugar Magnolia ><br />\nScarlet Begonias ><br />\nFire On The Mountain<br />\nTruckin\' ><br />\nWharf Rat ><br />\nDrums ><br />\nNot Fade Away ><br />\nAround & Around<br /><br />\nEncore:<br />\nOne More Saturday Night ><br />\nCasey Jones</span></div>\n</div>\n\n<div class="b1 set">\n<br /><div class="set_info">\n        <span title="Click to edit"><br /></span></div>\n</div>\n\n<div class="b2 set">\n<b>Comment</b>\n    <div class="set_info">\n        <span title="Click to edit">New Riders Of The Purple Sage opened<br /><br />\nJerry Garcia - Guitar<br />\nBob Weir - Guitar<br />\nKeith Godchaux - Keyboards<br />\nPhil Lesh - Bass<br />\nBill Kreutzmann - Drums<br />\nMickey Hart - Drums<br />\nDonna Jean Godchaux - Vocals</span>\n    </div>\n</div>\n\n</div>',
+    scanner: 'Internet Archive HTML5 Uploader 1.6.4',
+    subject: 'Soundboard;Bear;Jim Blackwood;Jamison Waddell;Jason Chastain',
+    title: 'Grateful Dead Live at Winterland Arena on 1977-12-31',
+    type: 'sound',
+    venue: 'Winterland Arena',
+    year: '1977',
+    uploader: 'test@testing.com',
+    publicdate: '2021-01-02 20:37:00',
+    addeddate: '2021-01-02 20:37:00',
+    coverage: 'San Francisco, CA',
+    source:
+      "Bear's Master Reel > Cassette (Music Never Stopped through Truckin') + Bear's Master Cassette (Wharf Rat through Casey Jones).",
+    lineage:
+      'Cassette (Nakamichi CR-7A) > Tascam DA-3000 > Samplitude Pro X5 > Flac24',
+    taper: 'Bear',
+    transferer:
+      'Transferred and Mastered by Jim Blackwood Speed Correction by Jason Chastain Patched where needed (mostly between song tunings) using shnid=141799 + 20596',
+    runtime: '175:06.451',
+    md5s: "f20b38408c79bae4fb94f66524c071e6 *01 Tuning.flac\r\n712d3093676fad1c139d6fa82abae976 *02 Music Never Stopped.flac\r\na6eb2237dfa18d26e684bce24f008dcb *03 Tennessee Jed.flac\r\n22ef122abbe68fd4d282f60f4f72f92d *04 Funiculi Funicula.flac\r\n6a53f4a937f0f69fe7c7e9e876321045 *05 Me and My Uncle.flac\r\n8e278da56060195b9211996ec13eaa2e *06 Loser.flac\r\n834e1c6f5fe066f163e4a10ab825c358 *07 Jack Straw.flac\r\n854949b9c18e35a3a47ca125a42a1361 *08 Friend of the Devil.flac\r\n8d46580eb4aa37e7282fa18636cfa6b8 *09 Lazy Lightnin'.flac\r\n8df68c03e24effea798d92745c0171b4 *10 Supplication.flac\r\nde0913136f75b7b169d67e5f217e3a87 *11 New Year's Countdown.flac\r\n808b07b43fe45a00a1501508d3410ea4 *12 Sugar Magnolia.flac\r\nef7175619cc1186eee78bed1b1ce05a6 *13 Scarlet Begonias.flac\r\n7523c68c867ffc4321f1e0072ffad8bf *14 Fire on the Mountain.flac\r\n803649a226ef3be58d2aa3c9a0b8b386 *15 Truckin'.flac\r\n1edb4b0f45d8d448e22ee836e1737622 *16 Wharf Rat.flac\r\ncf553ed4b1ea530b58c84d7c8aaa5f2b *17 Drums.flac\r\ne3a18725dd3a426b80972a20f2f34fa8 *18 Not Fade Away.flac\r\n19067c6fe90d75b02e7702713d658d80 *19 Around and Around.flac\r\n0e4a459bc0775c9a469d16797caa7171 *20 One More Saturday Night.flac\r\n950d2fbacce40974e23808d7c79ac21c *21 Casey Jones.flac",
+    notes:
+      'This updated "version three" was created on January 1, 2021.\n\n...and you may ask yourself, how did we get here? Uncharacteristically, we did a couple fixes to make this show right.  The original seed had one of the two tapes channels reversed by accident, so we fixed that.  Upon listening, scholars let us know that while Keith was on the left side of the stage physically, the mix was done to put him in the right channel, therefore our second fix had the mix flipped channels wise. Though it represented the stage position of Keith, it had the drummers and band in the wrong locations.  Thanks for understanding the process and our desire to present the most accurate possible version. This version three also includes a tiny adjustment to the speed. If you have the previous two versions (151250 + 151297), please don\'t continue to share them elsewhere.\n',
+    'access-restricted-item': 'true',
   },
-  created: 1752193508,
-  d1: 'ia601808.us.archive.org',
-  d2: 'ia801808.us.archive.org',
-  dir: '/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
   files: [
     {
       name: '01 Tuning.afpk',
@@ -29,6 +42,7 @@ export const singleConcert = {
       crc32: '7de4d90c',
       sha1: '0544860ec8a5ae28dc74edd8d3881f2f292dce4b',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/01%20Tuning.afpk',
     },
     {
       name: '01 Tuning.flac',
@@ -50,9 +64,10 @@ export const singleConcert = {
       private: 'true',
       'external-identifier':
         'urn:acoustid:be4f329a-2b66-4b73-8c8a-d01e1e9ab2c9',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/01%20Tuning.flac',
     },
     {
-      name: '01 Tuning.mp3',
+      name: 'Mock - 01 Tuning.mp3',
       source: 'derivative',
       creator: 'Grateful Dead',
       title: 'Tuning',
@@ -69,6 +84,7 @@ export const singleConcert = {
       length: '247.56',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/Mock%20-%2001%20Tuning.mp3',
     },
     {
       name: '01 Tuning.png',
@@ -80,6 +96,7 @@ export const singleConcert = {
       md5: '5c4f979084a4d8cc82bd4fed245c6b6a',
       crc32: 'cb2b7213',
       sha1: '69a09e0c9f6379302d94a70c6ff11922c234423b',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/01%20Tuning.png',
     },
     {
       name: '01 Tuning_spectrogram.png',
@@ -92,6 +109,7 @@ export const singleConcert = {
       crc32: '3f9ba622',
       sha1: '09a93e461737a902e66af7ed2b0e3b2a7fffc6eb',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/01%20Tuning_spectrogram.png',
     },
     {
       name: '02 Music Never Stopped.afpk',
@@ -104,6 +122,7 @@ export const singleConcert = {
       crc32: 'f10f0d9e',
       sha1: 'ff498b2a87e66591f759f4838c5b0930cfae53c1',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/02%20Music%20Never%20Stopped.afpk',
     },
     {
       name: '02 Music Never Stopped.flac',
@@ -125,6 +144,7 @@ export const singleConcert = {
       private: 'true',
       'external-identifier':
         'urn:acoustid:31279edd-b10a-4830-99e1-b2b66a7baf4b',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/02%20Music%20Never%20Stopped.flac',
     },
     {
       name: '02 Music Never Stopped.mp3',
@@ -144,6 +164,7 @@ export const singleConcert = {
       length: '519.1',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/02%20Music%20Never%20Stopped.mp3',
     },
     {
       name: '02 Music Never Stopped.png',
@@ -155,6 +176,7 @@ export const singleConcert = {
       md5: '9d70353cb0b7690882b0a9219f421953',
       crc32: '2baf89af',
       sha1: '16c3be0ad641d2e9636854790939b98675fb7717',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/02%20Music%20Never%20Stopped.png',
     },
     {
       name: '02 Music Never Stopped_spectrogram.png',
@@ -167,6 +189,7 @@ export const singleConcert = {
       crc32: 'd042f2ea',
       sha1: 'e3e902fcb9f5c035a21021735cd2fcb28a950d99',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/02%20Music%20Never%20Stopped_spectrogram.png',
     },
     {
       name: '03 Tennessee Jed.afpk',
@@ -179,6 +202,7 @@ export const singleConcert = {
       crc32: 'cbf7b4ee',
       sha1: '7c0dda4c7b413d78f565cfe21859856b02afc077',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/03%20Tennessee%20Jed.afpk',
     },
     {
       name: '03 Tennessee Jed.flac',
@@ -200,6 +224,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:57b7b7fd-fbcb-40de-8d5c-f56729e1bf8a',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/03%20Tennessee%20Jed.flac',
     },
     {
       name: '03 Tennessee Jed.mp3',
@@ -219,6 +244,7 @@ export const singleConcert = {
       length: '569.66',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/03%20Tennessee%20Jed.mp3',
     },
     {
       name: '03 Tennessee Jed.png',
@@ -230,6 +256,7 @@ export const singleConcert = {
       md5: 'a816eecd37111bac7d0a22135203307e',
       crc32: '450579cd',
       sha1: '606eb1cbebdec2298b6b84ea4e820199bd72b1c1',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/03%20Tennessee%20Jed.png',
     },
     {
       name: '03 Tennessee Jed_spectrogram.png',
@@ -242,6 +269,7 @@ export const singleConcert = {
       crc32: 'd17f6931',
       sha1: 'de6180420e460758e09e4ae3a1a30d4eaba5440e',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/03%20Tennessee%20Jed_spectrogram.png',
     },
     {
       name: '04 Funiculi Funicula.afpk',
@@ -254,6 +282,7 @@ export const singleConcert = {
       crc32: '4e416c5e',
       sha1: '2e74b4d792293de813d211e1a9c498e69e1556d7',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/04%20Funiculi%20Funicula.afpk',
     },
     {
       name: '04 Funiculi Funicula.flac',
@@ -275,6 +304,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:447214db-b938-4888-ae3f-602fc5196112',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/04%20Funiculi%20Funicula.flac',
     },
     {
       name: '04 Funiculi Funicula.mp3',
@@ -294,6 +324,7 @@ export const singleConcert = {
       length: '134.42',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/04%20Funiculi%20Funicula.mp3',
     },
     {
       name: '04 Funiculi Funicula.png',
@@ -305,6 +336,7 @@ export const singleConcert = {
       md5: 'ec1dda0b89a5fba445d8d015cc7a5343',
       crc32: 'ae790e31',
       sha1: 'e03d04087de6b48677822e880d4ce8165db6c53c',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/04%20Funiculi%20Funicula.png',
     },
     {
       name: '04 Funiculi Funicula_spectrogram.png',
@@ -317,6 +349,7 @@ export const singleConcert = {
       crc32: '3197c454',
       sha1: '93d92e1fcf9d034882bde1b5ec3393812d2b2ea6',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/04%20Funiculi%20Funicula_spectrogram.png',
     },
     {
       name: '05 Me and My Uncle.afpk',
@@ -329,6 +362,7 @@ export const singleConcert = {
       crc32: 'f28625b7',
       sha1: 'bc1f3d84128fe1479d0a0af476a3a883f0074d30',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/05%20Me%20and%20My%20Uncle.afpk',
     },
     {
       name: '05 Me and My Uncle.flac',
@@ -350,6 +384,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:e43f4da1-8e9f-4ac5-9e96-d4477db6ad69',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/05%20Me%20and%20My%20Uncle.flac',
     },
     {
       name: '05 Me and My Uncle.mp3',
@@ -369,6 +404,7 @@ export const singleConcert = {
       length: '298.39',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/05%20Me%20and%20My%20Uncle.mp3',
     },
     {
       name: '05 Me and My Uncle.png',
@@ -380,6 +416,7 @@ export const singleConcert = {
       md5: 'ae993a91b805603e46f749ba9df86ee0',
       crc32: '608daf1f',
       sha1: 'd3651af5d011e7661930f766355adf6348053703',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/05%20Me%20and%20My%20Uncle.png',
     },
     {
       name: '05 Me and My Uncle_spectrogram.png',
@@ -392,6 +429,7 @@ export const singleConcert = {
       crc32: 'f1b38acc',
       sha1: 'a136dbc8118030746c8ab1de8515f28085eb0b48',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/05%20Me%20and%20My%20Uncle_spectrogram.png',
     },
     {
       name: '06 Loser.afpk',
@@ -404,6 +442,7 @@ export const singleConcert = {
       crc32: 'd646ea02',
       sha1: '990c678e6049bdfc611db6ac38d0d75e8dbe83d1',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/06%20Loser.afpk',
     },
     {
       name: '06 Loser.flac',
@@ -425,6 +464,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:d4f3cda3-7a59-4f49-a2f9-125d564e372e',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/06%20Loser.flac',
     },
     {
       name: '06 Loser.mp3',
@@ -444,6 +484,7 @@ export const singleConcert = {
       length: '648.12',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/06%20Loser.mp3',
     },
     {
       name: '06 Loser.png',
@@ -455,6 +496,7 @@ export const singleConcert = {
       md5: 'd04f916e9fc6b726833d37892020edfb',
       crc32: 'dbebb550',
       sha1: 'd8a86ba9bbcb742ccd97ab770256e4505beacd99',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/06%20Loser.png',
     },
     {
       name: '06 Loser_spectrogram.png',
@@ -467,6 +509,7 @@ export const singleConcert = {
       crc32: '27d8a441',
       sha1: '53dcac8ba3cb1d2f11287a1aaa3253ecc4f0d42a',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/06%20Loser_spectrogram.png',
     },
     {
       name: '07 Jack Straw.afpk',
@@ -479,6 +522,7 @@ export const singleConcert = {
       crc32: '77bb2515',
       sha1: '95e14f1d7d2c4dc7463fa0aa2bca5341d346ddf2',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/07%20Jack%20Straw.afpk',
     },
     {
       name: '07 Jack Straw.flac',
@@ -500,6 +544,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:22f2e799-ad01-41c3-a26c-17eb239eb2bd',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/07%20Jack%20Straw.flac',
     },
     {
       name: '07 Jack Straw.mp3',
@@ -519,6 +564,7 @@ export const singleConcert = {
       length: '430.9',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/07%20Jack%20Straw.mp3',
     },
     {
       name: '07 Jack Straw.png',
@@ -530,6 +576,7 @@ export const singleConcert = {
       md5: 'db02b97fd0766d87b7dd10d926db43af',
       crc32: '6c7e35ff',
       sha1: '5139e7e713af347ddb8c21cb18f9dd83af627d8f',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/07%20Jack%20Straw.png',
     },
     {
       name: '07 Jack Straw_spectrogram.png',
@@ -542,6 +589,7 @@ export const singleConcert = {
       crc32: '15718278',
       sha1: '27429f89d2d9bff74c656a57f09659eee1566131',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/07%20Jack%20Straw_spectrogram.png',
     },
     {
       name: '08 Friend of the Devil.afpk',
@@ -554,6 +602,7 @@ export const singleConcert = {
       crc32: 'ea4bec8a',
       sha1: 'eaf15630eee96d5a1b2cd05302b33ce2e53f13ba',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/08%20Friend%20of%20the%20Devil.afpk',
     },
     {
       name: '08 Friend of the Devil.flac',
@@ -575,6 +624,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:667f6f57-cfc6-4e86-bd24-5311e04af629',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/08%20Friend%20of%20the%20Devil.flac',
     },
     {
       name: '08 Friend of the Devil.mp3',
@@ -594,6 +644,7 @@ export const singleConcert = {
       length: '677.33',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/08%20Friend%20of%20the%20Devil.mp3',
     },
     {
       name: '08 Friend of the Devil.png',
@@ -605,6 +656,7 @@ export const singleConcert = {
       md5: '8bdc2b80d7b86fcc05edffed98075d33',
       crc32: '32726d82',
       sha1: '8f1ab1d618d27bc0277cf942977ca8eeb0ffdf68',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/08%20Friend%20of%20the%20Devil.png',
     },
     {
       name: '08 Friend of the Devil_spectrogram.png',
@@ -617,6 +669,7 @@ export const singleConcert = {
       crc32: '0621ae87',
       sha1: 'df827b754d68416f1fb24c96810348a98094f009',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/08%20Friend%20of%20the%20Devil_spectrogram.png',
     },
     {
       name: "09 Lazy Lightnin'.afpk",
@@ -629,6 +682,7 @@ export const singleConcert = {
       crc32: '218340ef',
       sha1: '67647626764223c789e2b79672bbdf2f57afda9c',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/09%20Lazy%20Lightnin'.afpk",
     },
     {
       name: "09 Lazy Lightnin'.flac",
@@ -650,6 +704,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:7ad686b9-3ec3-4fc6-97fd-6143ce61cf29',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/09%20Lazy%20Lightnin'.flac",
     },
     {
       name: "09 Lazy Lightnin'.mp3",
@@ -669,6 +724,7 @@ export const singleConcert = {
       length: '210.5',
       height: '639',
       width: '640',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/09%20Lazy%20Lightnin'.mp3",
     },
     {
       name: "09 Lazy Lightnin'.png",
@@ -680,6 +736,7 @@ export const singleConcert = {
       md5: '5d210515f1d69392bfc5568e53e17aef',
       crc32: '3ca9888f',
       sha1: 'a6e54e0a1c8debc86f1bdcbc793936e289864a00',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/09%20Lazy%20Lightnin'.png",
     },
     {
       name: "09 Lazy Lightnin'_spectrogram.png",
@@ -692,6 +749,7 @@ export const singleConcert = {
       crc32: '3a37560a',
       sha1: '6e91d06223073d66057c4d11117d06a15a7f3471',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/09%20Lazy%20Lightnin'_spectrogram.png",
     },
     {
       name: '10 Supplication.afpk',
@@ -704,6 +762,7 @@ export const singleConcert = {
       crc32: '28c0b918',
       sha1: 'f25cc278a3a0f72592f39023fe84c787d0ae66e2',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/10%20Supplication.afpk',
     },
     {
       name: '10 Supplication.flac',
@@ -725,6 +784,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:7ffd36ec-debb-41f3-bb0e-a6acf90f69a8',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/10%20Supplication.flac',
     },
     {
       name: '10 Supplication.mp3',
@@ -744,6 +804,7 @@ export const singleConcert = {
       length: '331.13',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/10%20Supplication.mp3',
     },
     {
       name: '10 Supplication.png',
@@ -755,6 +816,7 @@ export const singleConcert = {
       md5: '6c71f72f5a7fb304a6872601f6822377',
       crc32: '6652beef',
       sha1: 'c97bdff2b0d1b515a61fb3b70cedb7ebf3723a36',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/10%20Supplication.png',
     },
     {
       name: '10 Supplication_spectrogram.png',
@@ -767,6 +829,7 @@ export const singleConcert = {
       crc32: 'e5d3a7d4',
       sha1: '0ff9b910c8f962ba3b0fcb5a96b8c16dbc7223b8',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/10%20Supplication_spectrogram.png',
     },
     {
       name: "11 New Year's Countdown.afpk",
@@ -779,6 +842,7 @@ export const singleConcert = {
       crc32: '0f85308d',
       sha1: '8e5ebd95606f74b59f4fa5b4ff8eb19aa5823f9a',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/11%20New%20Year's%20Countdown.afpk",
     },
     {
       name: "11 New Year's Countdown.flac",
@@ -800,6 +864,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:a1835e24-b8d7-4271-87b4-50fa18c2cc00',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/11%20New%20Year's%20Countdown.flac",
     },
     {
       name: "11 New Year's Countdown.mp3",
@@ -819,6 +884,7 @@ export const singleConcert = {
       length: '237.53',
       height: '639',
       width: '640',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/11%20New%20Year's%20Countdown.mp3",
     },
     {
       name: "11 New Year's Countdown.png",
@@ -830,6 +896,7 @@ export const singleConcert = {
       md5: '88881d2f17b3aa84f3fcf4fbde18de29',
       crc32: '6aafb186',
       sha1: '0d9e20bbd293e255693340b95c6dcbe154389569',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/11%20New%20Year's%20Countdown.png",
     },
     {
       name: "11 New Year's Countdown_spectrogram.png",
@@ -842,6 +909,7 @@ export const singleConcert = {
       crc32: '4bbf9ab5',
       sha1: '9504c1cae1d40cd410d9d3e66f12d923631151bf',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/11%20New%20Year's%20Countdown_spectrogram.png",
     },
     {
       name: '12 Sugar Magnolia.afpk',
@@ -854,6 +922,7 @@ export const singleConcert = {
       crc32: 'd755d328',
       sha1: '1414cf3b8bdbe41572dd979304d36ddf1923cdde',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/12%20Sugar%20Magnolia.afpk',
     },
     {
       name: '12 Sugar Magnolia.flac',
@@ -875,6 +944,7 @@ export const singleConcert = {
       private: 'true',
       'external-identifier':
         'urn:acoustid:0b7c42fa-9176-4f38-b525-2305f0aad6fa',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/12%20Sugar%20Magnolia.flac',
     },
     {
       name: '12 Sugar Magnolia.mp3',
@@ -894,6 +964,7 @@ export const singleConcert = {
       length: '657.79',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/12%20Sugar%20Magnolia.mp3',
     },
     {
       name: '12 Sugar Magnolia.png',
@@ -905,6 +976,7 @@ export const singleConcert = {
       md5: '1f9d89cd38b764f135abb6cb8afefde7',
       crc32: '81f6867b',
       sha1: 'ea115cf1a9b0137b08a82a5e1fbe6dac1504db9a',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/12%20Sugar%20Magnolia.png',
     },
     {
       name: '12 Sugar Magnolia_spectrogram.png',
@@ -917,6 +989,7 @@ export const singleConcert = {
       crc32: 'f71d6fea',
       sha1: 'c7714c5c95a4d66415b5b9f05067848e0e4dfbb9',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/12%20Sugar%20Magnolia_spectrogram.png',
     },
     {
       name: '13 Scarlet Begonias.afpk',
@@ -929,6 +1002,7 @@ export const singleConcert = {
       crc32: '8a752312',
       sha1: 'e64e31f186af551ce581fc79d27332bb81daa3f5',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/13%20Scarlet%20Begonias.afpk',
     },
     {
       name: '13 Scarlet Begonias.flac',
@@ -950,6 +1024,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:657eaa57-380d-4bc4-a99f-524f2f2e3f36',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/13%20Scarlet%20Begonias.flac',
     },
     {
       name: '13 Scarlet Begonias.mp3',
@@ -969,6 +1044,7 @@ export const singleConcert = {
       length: '524.5',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/13%20Scarlet%20Begonias.mp3',
     },
     {
       name: '13 Scarlet Begonias.png',
@@ -980,6 +1056,7 @@ export const singleConcert = {
       md5: '1d5f89fae56f825c8f6d631f6ed29bb2',
       crc32: 'a727c8e6',
       sha1: '4ba2262943c3f7ff23d90889ebf145341b9f986a',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/13%20Scarlet%20Begonias.png',
     },
     {
       name: '13 Scarlet Begonias_spectrogram.png',
@@ -992,6 +1069,7 @@ export const singleConcert = {
       crc32: '1256c01f',
       sha1: 'fefdae54abe230c15060398af8cf09786edb05f3',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/13%20Scarlet%20Begonias_spectrogram.png',
     },
     {
       name: '14 Fire on the Mountain.afpk',
@@ -1004,6 +1082,7 @@ export const singleConcert = {
       crc32: '19f6a770',
       sha1: '246cab4b6ccd9ba75b518f579c81851a1e635954',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/14%20Fire%20on%20the%20Mountain.afpk',
     },
     {
       name: '14 Fire on the Mountain.flac',
@@ -1025,6 +1104,7 @@ export const singleConcert = {
       private: 'true',
       'external-identifier':
         'urn:acoustid:d04ce125-7067-48e6-b522-a9a185871492',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/14%20Fire%20on%20the%20Mountain.flac',
     },
     {
       name: '14 Fire on the Mountain.mp3',
@@ -1044,6 +1124,7 @@ export const singleConcert = {
       length: '719.06',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/14%20Fire%20on%20the%20Mountain.mp3',
     },
     {
       name: '14 Fire on the Mountain.png',
@@ -1055,6 +1136,7 @@ export const singleConcert = {
       md5: '8729dd714df7c90efa4952a91ffdc004',
       crc32: 'f133dae8',
       sha1: 'c19d2b88104ba1882406de0d3851cd5fa258e014',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/14%20Fire%20on%20the%20Mountain.png',
     },
     {
       name: '14 Fire on the Mountain_spectrogram.png',
@@ -1067,6 +1149,7 @@ export const singleConcert = {
       crc32: 'f35c2d4e',
       sha1: 'c9d431e6134e724ca636c02ddedd27aa877275c9',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/14%20Fire%20on%20the%20Mountain_spectrogram.png',
     },
     {
       name: "15 Truckin'.afpk",
@@ -1079,6 +1162,7 @@ export const singleConcert = {
       crc32: 'f3b0ffc5',
       sha1: '4979619a402fa21787b24e70b768fb4c33181fab',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/15%20Truckin'.afpk",
     },
     {
       name: "15 Truckin'.flac",
@@ -1100,6 +1184,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:7a1b63f1-488c-4c8d-b391-21643ef4ea88',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/15%20Truckin'.flac",
     },
     {
       name: "15 Truckin'.mp3",
@@ -1119,6 +1204,7 @@ export const singleConcert = {
       length: '1083.02',
       height: '639',
       width: '640',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/15%20Truckin'.mp3",
     },
     {
       name: "15 Truckin'.png",
@@ -1130,6 +1216,7 @@ export const singleConcert = {
       md5: '08dd24c6b7ad336286bbd0f3d86beaec',
       crc32: 'b2d121e5',
       sha1: 'af0854203ea090f0a86cf101579586a5ee3868a3',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/15%20Truckin'.png",
     },
     {
       name: "15 Truckin'_spectrogram.png",
@@ -1142,6 +1229,7 @@ export const singleConcert = {
       crc32: 'c0f04ac7',
       sha1: '91c0d6909e44258192be3c77257a6f98c5a95075',
       private: 'true',
+      link: "https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/15%20Truckin'_spectrogram.png",
     },
     {
       name: '16 Wharf Rat.afpk',
@@ -1154,6 +1242,7 @@ export const singleConcert = {
       crc32: 'eeab1ad9',
       sha1: '5b861baf7c3af8117e809ff7bf1b28c04b0006b4',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/16%20Wharf%20Rat.afpk',
     },
     {
       name: '16 Wharf Rat.flac',
@@ -1175,6 +1264,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:06290232-f59d-4696-89cd-3557ce049df0',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/16%20Wharf%20Rat.flac',
     },
     {
       name: '16 Wharf Rat.mp3',
@@ -1194,6 +1284,7 @@ export const singleConcert = {
       length: '612.38',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/16%20Wharf%20Rat.mp3',
     },
     {
       name: '16 Wharf Rat.png',
@@ -1205,6 +1296,7 @@ export const singleConcert = {
       md5: 'c893f0fea90e4fc2d535aaa42403ab2c',
       crc32: '0adc8738',
       sha1: '127fd7c5f2476346d7b37f6150f3732c768aee71',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/16%20Wharf%20Rat.png',
     },
     {
       name: '16 Wharf Rat_spectrogram.png',
@@ -1217,6 +1309,7 @@ export const singleConcert = {
       crc32: 'f819d043',
       sha1: 'da63d5ff7e2d6a074935f8ec58cc44362da757e8',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/16%20Wharf%20Rat_spectrogram.png',
     },
     {
       name: '17 Drums.afpk',
@@ -1229,6 +1322,7 @@ export const singleConcert = {
       crc32: '7a9c7be7',
       sha1: '3a86ff118ee38665f1468cddefa3847aaeeffd9d',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/17%20Drums.afpk',
     },
     {
       name: '17 Drums.flac',
@@ -1250,6 +1344,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:7ac211b9-3b90-4afd-a7d5-06224bb95e8a',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/17%20Drums.flac',
     },
     {
       name: '17 Drums.mp3',
@@ -1269,6 +1364,7 @@ export const singleConcert = {
       length: '349.75',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/17%20Drums.mp3',
     },
     {
       name: '17 Drums.png',
@@ -1280,6 +1376,7 @@ export const singleConcert = {
       md5: '69cf85196eecd330957e19aac35a06e4',
       crc32: 'c5683b8b',
       sha1: '40869e90933dbd26a3aedb8b1e893cb4152a1897',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/17%20Drums.png',
     },
     {
       name: '17 Drums_spectrogram.png',
@@ -1292,6 +1389,7 @@ export const singleConcert = {
       crc32: '5c06287d',
       sha1: '5b73a04b63c704088cd577120e2b35e974e01e11',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/17%20Drums_spectrogram.png',
     },
     {
       name: '18 Not Fade Away.afpk',
@@ -1304,6 +1402,7 @@ export const singleConcert = {
       crc32: '02912eb4',
       sha1: '4429e6b7d9100dcd4fb9ed358c150366e0a34dbb',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/18%20Not%20Fade%20Away.afpk',
     },
     {
       name: '18 Not Fade Away.flac',
@@ -1325,6 +1424,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:d1f4468a-0124-4758-9f25-9710c5063b43',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/18%20Not%20Fade%20Away.flac',
     },
     {
       name: '18 Not Fade Away.mp3',
@@ -1344,6 +1444,7 @@ export const singleConcert = {
       length: '889.08',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/18%20Not%20Fade%20Away.mp3',
     },
     {
       name: '18 Not Fade Away.png',
@@ -1355,6 +1456,7 @@ export const singleConcert = {
       md5: 'fcd44d2bf8f11bc2df798fcf4ef1e915',
       crc32: '6a903a12',
       sha1: 'f91c15c7d2a1a9d3d559c9815dd729a15f7c2fb7',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/18%20Not%20Fade%20Away.png',
     },
     {
       name: '18 Not Fade Away_spectrogram.png',
@@ -1367,6 +1469,7 @@ export const singleConcert = {
       crc32: 'f0b8d164',
       sha1: 'a3391ec35de21a0cb2a82eb61323c52dcf1a3119',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/18%20Not%20Fade%20Away_spectrogram.png',
     },
     {
       name: '19 Around and Around.afpk',
@@ -1379,6 +1482,7 @@ export const singleConcert = {
       crc32: '6a029773',
       sha1: 'bfca4937607d57d7711fa483e5fe543e2b677125',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/19%20Around%20and%20Around.afpk',
     },
     {
       name: '19 Around and Around.flac',
@@ -1400,6 +1504,7 @@ export const singleConcert = {
       private: 'true',
       'external-identifier':
         'urn:acoustid:996db094-fa58-4da5-ab78-7bc258bf2109',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/19%20Around%20and%20Around.flac',
     },
     {
       name: '19 Around and Around.mp3',
@@ -1419,6 +1524,7 @@ export const singleConcert = {
       length: '580.06',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/19%20Around%20and%20Around.mp3',
     },
     {
       name: '19 Around and Around.png',
@@ -1430,6 +1536,7 @@ export const singleConcert = {
       md5: 'e579a67a7bdc917f48d38e3ce5ba1fbb',
       crc32: '79f5754d',
       sha1: '2027e02cf482126dabb93424ff70e3c32064643a',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/19%20Around%20and%20Around.png',
     },
     {
       name: '19 Around and Around_spectrogram.png',
@@ -1442,6 +1549,7 @@ export const singleConcert = {
       crc32: '1caa0051',
       sha1: '4645ee188cb389053a3f8ef00ef13c0c86a97c74',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/19%20Around%20and%20Around_spectrogram.png',
     },
     {
       name: '20 One More Saturday Night.afpk',
@@ -1454,6 +1562,7 @@ export const singleConcert = {
       crc32: '7c3ab1f7',
       sha1: '5e716e2871cba7c5ccf1b2534847bcfa5f143bed',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/20%20One%20More%20Saturday%20Night.afpk',
     },
     {
       name: '20 One More Saturday Night.flac',
@@ -1475,6 +1584,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:a89a96f6-a531-4b31-8fcb-77012266d20d',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/20%20One%20More%20Saturday%20Night.flac',
     },
     {
       name: '20 One More Saturday Night.mp3',
@@ -1494,6 +1604,7 @@ export const singleConcert = {
       length: '307.15',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/20%20One%20More%20Saturday%20Night.mp3',
     },
     {
       name: '20 One More Saturday Night.png',
@@ -1505,6 +1616,7 @@ export const singleConcert = {
       md5: '58ed1389b5518bc4df75a97fbf58b425',
       crc32: '9f93ef23',
       sha1: 'cd45cae6a522a3565392f03054b51a202d4e0ea4',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/20%20One%20More%20Saturday%20Night.png',
     },
     {
       name: '20 One More Saturday Night_spectrogram.png',
@@ -1517,6 +1629,7 @@ export const singleConcert = {
       crc32: 'f8f54120',
       sha1: '3ad1293cfed94b5058d46eda4df05b86f8f0deb4',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/20%20One%20More%20Saturday%20Night_spectrogram.png',
     },
     {
       name: '21 Casey Jones.afpk',
@@ -1529,6 +1642,7 @@ export const singleConcert = {
       crc32: 'afdec8a4',
       sha1: '6c4344c8010cf6ae93259c7d8e9ea77b9dec6dbd',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/21%20Casey%20Jones.afpk',
     },
     {
       name: '21 Casey Jones.flac',
@@ -1550,6 +1664,7 @@ export const singleConcert = {
       'external-identifier':
         'urn:acoustid:eb8e300f-bbe2-4474-840f-7c3363e8b24d',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/21%20Casey%20Jones.flac',
     },
     {
       name: '21 Casey Jones.mp3',
@@ -1569,6 +1684,7 @@ export const singleConcert = {
       length: '479.74',
       height: '639',
       width: '640',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/21%20Casey%20Jones.mp3',
     },
     {
       name: '21 Casey Jones.png',
@@ -1580,6 +1696,7 @@ export const singleConcert = {
       md5: 'ad05ed3b57ebe573cad2746ff32df092',
       crc32: '5ecb6bd4',
       sha1: '94984a2823a32308c3dedf10a70c6fbb14ad72d5',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/21%20Casey%20Jones.png',
     },
     {
       name: '21 Casey Jones_spectrogram.png',
@@ -1592,6 +1709,7 @@ export const singleConcert = {
       crc32: 'fec64745',
       sha1: '1675f4d7132ac0002310929cda52e2b52d2e56b3',
       private: 'true',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/21%20Casey%20Jones_spectrogram.png',
     },
     {
       name: '__ia_thumb.jpg',
@@ -1603,6 +1721,7 @@ export const singleConcert = {
       sha1: '15aadac4d3b5abc940164cea560f6c224601be8e',
       format: 'Item Tile',
       rotation: '0',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/__ia_thumb.jpg',
     },
     {
       name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648.ffp',
@@ -1613,6 +1732,7 @@ export const singleConcert = {
       crc32: 'eca50463',
       sha1: 'fe3fe129fc2aa9879ff07b3bdddce15a2bd2e209',
       format: 'Flac FingerPrint',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648.ffp',
     },
     {
       name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648.md5',
@@ -1623,6 +1743,7 @@ export const singleConcert = {
       crc32: 'f200ada7',
       sha1: 'd9eecb24cca2f668c71652ef3b9c5dfb3f3e0b92',
       format: 'Checksums',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648.md5',
     },
     {
       name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648.txt',
@@ -1633,6 +1754,7 @@ export const singleConcert = {
       crc32: '3e47af54',
       sha1: '2566acef7b843bb5bf4dd1061cfead08c7d11b2c',
       format: 'Text',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648.txt',
     },
     {
       name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648_archive.torrent',
@@ -1645,33 +1767,7 @@ export const singleConcert = {
       sha1: 'd0130e873aab6428942157795196ab65e6c8e5b2',
       format: 'Archive BitTorrent',
       private: 'true',
-    },
-    {
-      name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648_files.xml',
-      source: 'original',
-      format: 'Metadata',
-      md5: 'c8998d67e1245e2f7f8d0e75d8e6fba1',
-      summation: 'md5',
-    },
-    {
-      name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648_meta.sqlite',
-      source: 'original',
-      mtime: '1668393905',
-      size: '61440',
-      md5: '3a63c034c2f37a3008f37e85c0d5fbe6',
-      crc32: '8186865c',
-      sha1: '946ed3364dc4702a56a8057fa13f5731a2e456f8',
-      format: 'Metadata',
-    },
-    {
-      name: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648_meta.xml',
-      source: 'original',
-      mtime: '1668394154',
-      size: '5168',
-      md5: '482fb8d0348db2a54f608eb3046f934e',
-      crc32: 'b0f73d2c',
-      sha1: '48045ac095d8a7607f71e9475a97fc5d02572efd',
-      format: 'Metadata',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648_archive.torrent',
     },
     {
       name: 'gd77-12-31.png',
@@ -1682,6 +1778,7 @@ export const singleConcert = {
       crc32: '18ae8ba2',
       sha1: '8ca01cdb95b8604f6fad671ccd5e91655ec7c99f',
       format: 'PNG',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/gd77-12-31.png',
     },
     {
       name: 'gd77-12-31_thumb.jpg',
@@ -1693,43 +1790,7 @@ export const singleConcert = {
       md5: '6bc972dd9342b41aa6eb21495ab0c3c4',
       crc32: '6ff6bbfc',
       sha1: '9e18617e03cccec79cf2fce3f24213deedd76423',
+      link: 'https://ia601808.us.archive.org/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648/gd77-12-31_thumb.jpg',
     },
   ],
-  files_count: 115,
-  item_last_updated: 1668394154,
-  item_size: 1299662193,
-  metadata: {
-    identifier: 'gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
-    mediatype: 'etree',
-    collection: ['GratefulDead', 'etree', 'stream_only'],
-    creator: 'Grateful Dead',
-    date: '1977-12-31',
-    description:
-      '<div>\n<div class="b1 set">\n<b>Set I</b>\n    <div class="set_info">\n        <span title="Click to edit" style="background-image:none;">The Music Never Stopped<br />\nTennessee Jed<br />\nFiniculi Finicula<br />\nMe & My Uncle<br />\nLoser<br />\nJack Straw<br />\nFriend Of The Devil<br />\nLazy Lightning ><br />\nSupplication</span>\n    </div>\n</div>\n\n<div class="b2 set">\n<b>Set II</b>\n    <div class="set_info">\n        <span title="Click to edit">New Years Countdown<br />\nSugar Magnolia ><br />\nScarlet Begonias ><br />\nFire On The Mountain<br />\nTruckin\' ><br />\nWharf Rat ><br />\nDrums ><br />\nNot Fade Away ><br />\nAround & Around<br /><br />\nEncore:<br />\nOne More Saturday Night ><br />\nCasey Jones</span></div>\n</div>\n\n<div class="b1 set">\n<br /><div class="set_info">\n        <span title="Click to edit"><br /></span></div>\n</div>\n\n<div class="b2 set">\n<b>Comment</b>\n    <div class="set_info">\n        <span title="Click to edit">New Riders Of The Purple Sage opened<br /><br />\nJerry Garcia - Guitar<br />\nBob Weir - Guitar<br />\nKeith Godchaux - Keyboards<br />\nPhil Lesh - Bass<br />\nBill Kreutzmann - Drums<br />\nMickey Hart - Drums<br />\nDonna Jean Godchaux - Vocals</span>\n    </div>\n</div>\n\n</div>',
-    scanner: 'Internet Archive HTML5 Uploader 1.6.4',
-    subject: 'Soundboard;Bear;Jim Blackwood;Jamison Waddell;Jason Chastain',
-    title: 'Grateful Dead Live at Winterland Arena on 1977-12-31',
-    type: 'sound',
-    venue: 'Winterland Arena',
-    year: '1977',
-    uploader: 'mvernon54@yahoo.com',
-    publicdate: '2021-01-02 20:37:00',
-    addeddate: '2021-01-02 20:37:00',
-    coverage: 'San Francisco, CA',
-    source:
-      "Bear's Master Reel > Cassette (Music Never Stopped through Truckin') + Bear's Master Cassette (Wharf Rat through Casey Jones).",
-    lineage:
-      'Cassette (Nakamichi CR-7A) > Tascam DA-3000 > Samplitude Pro X5 > Flac24',
-    taper: 'Bear',
-    transferer:
-      'Transferred and Mastered by Jim Blackwood Speed Correction by Jason Chastain Patched where needed (mostly between song tunings) using shnid=141799 + 20596',
-    runtime: '175:06.451',
-    md5s: "f20b38408c79bae4fb94f66524c071e6 *01 Tuning.flac\r\n712d3093676fad1c139d6fa82abae976 *02 Music Never Stopped.flac\r\na6eb2237dfa18d26e684bce24f008dcb *03 Tennessee Jed.flac\r\n22ef122abbe68fd4d282f60f4f72f92d *04 Funiculi Funicula.flac\r\n6a53f4a937f0f69fe7c7e9e876321045 *05 Me and My Uncle.flac\r\n8e278da56060195b9211996ec13eaa2e *06 Loser.flac\r\n834e1c6f5fe066f163e4a10ab825c358 *07 Jack Straw.flac\r\n854949b9c18e35a3a47ca125a42a1361 *08 Friend of the Devil.flac\r\n8d46580eb4aa37e7282fa18636cfa6b8 *09 Lazy Lightnin'.flac\r\n8df68c03e24effea798d92745c0171b4 *10 Supplication.flac\r\nde0913136f75b7b169d67e5f217e3a87 *11 New Year's Countdown.flac\r\n808b07b43fe45a00a1501508d3410ea4 *12 Sugar Magnolia.flac\r\nef7175619cc1186eee78bed1b1ce05a6 *13 Scarlet Begonias.flac\r\n7523c68c867ffc4321f1e0072ffad8bf *14 Fire on the Mountain.flac\r\n803649a226ef3be58d2aa3c9a0b8b386 *15 Truckin'.flac\r\n1edb4b0f45d8d448e22ee836e1737622 *16 Wharf Rat.flac\r\ncf553ed4b1ea530b58c84d7c8aaa5f2b *17 Drums.flac\r\ne3a18725dd3a426b80972a20f2f34fa8 *18 Not Fade Away.flac\r\n19067c6fe90d75b02e7702713d658d80 *19 Around and Around.flac\r\n0e4a459bc0775c9a469d16797caa7171 *20 One More Saturday Night.flac\r\n950d2fbacce40974e23808d7c79ac21c *21 Casey Jones.flac",
-    notes:
-      'This updated "version three" was created on January 1, 2021.\n\n...and you may ask yourself, how did we get here? Uncharacteristically, we did a couple fixes to make this show right.  The original seed had one of the two tapes channels reversed by accident, so we fixed that.  Upon listening, scholars let us know that while Keith was on the left side of the stage physically, the mix was done to put him in the right channel, therefore our second fix had the mix flipped channels wise. Though it represented the stage position of Keith, it had the drummers and band in the wrong locations.  Thanks for understanding the process and our desire to present the most accurate possible version. This version three also includes a tiny adjustment to the speed. If you have the previous two versions (151250 + 151297), please don\'t continue to share them elsewhere.\n',
-    'access-restricted-item': 'true',
-  },
-  server: 'ia601808.us.archive.org',
-  uniq: 698267596,
-  workable_servers: ['ia601808.us.archive.org', 'ia801808.us.archive.org'],
 }

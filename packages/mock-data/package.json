@@ -4,6 +4,8 @@
   "private": true,
 	"type": "module",
   "exports": {
-    "./api": "./api.ts"
+    "./pre-api": "./pre-api",
+		"./post-api": "./post-api",
+		"./ui": "./ui"
   }
 }
