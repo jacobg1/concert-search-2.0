@@ -5,7 +5,6 @@ export const jestConfig: Config = {
   displayName: { name: ':)', color: 'green' },
   collectCoverage: true,
   collectCoverageFrom: [
-    '**/*.{ts,tsx}',
     '!**/node_modules/**',
     '!**/*.d.ts',
     '!**/jest*',
@@ -15,10 +14,10 @@ export const jestConfig: Config = {
   ],
   coverageThreshold: {
     global: {
-      branches: 10,
-      functions: 3,
-      lines: 30,
-      statements: 30,
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
     },
   },
 }

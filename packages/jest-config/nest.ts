@@ -11,7 +11,6 @@ export const nestJestConfig: Config = {
     ...coverageCollect,
     '!**/*index.ts',
     '!**/interface/**',
-    '!**/mocks/data/**',
     '!**/test/utils/**',
   ],
   testPathIgnorePatterns: ['node_modules', '.turbo', 'dist', 'coverage'],
