@@ -23,10 +23,10 @@
         "ADVANCED_SEARCH_URL"
       ]
     },
-		"test": {
+    "test": {
       "env": ["API_BASE_URL"]
     },
-		"test:watch": {
+    "test:watch": {
       "env": ["API_BASE_URL"]
     }
   }

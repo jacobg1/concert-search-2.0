@@ -29,10 +29,10 @@
     "deploy:test": {
       "dependsOn": ["build"]
     },
-		"test": {
-			"dependsOn": ["^test"]
-		},
-		"test:watch": {
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "test:watch": {
       "persistent": true,
       "cache": false
     }

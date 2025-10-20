@@ -2,10 +2,10 @@
   "name": "@repo/mock-data",
   "version": "1.0.0",
   "private": true,
-	"type": "module",
+  "type": "module",
   "exports": {
     "./pre-api": "./pre-api",
-		"./post-api": "./post-api",
-		"./ui": "./ui"
+    "./post-api": "./post-api",
+    "./ui": "./ui"
   }
 }
