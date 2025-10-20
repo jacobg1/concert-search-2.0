@@ -24,10 +24,10 @@
       "dependsOn": ["^check-types"]
     },
     "deploy": {
-      "dependsOn": ["build"]
+      "dependsOn": ["test", "build"]
     },
     "deploy:test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["test", "build"]
     },
     "test": {
       "dependsOn": ["^test"]
