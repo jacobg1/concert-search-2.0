@@ -7,7 +7,6 @@ import type {
   ConcertData,
   ArchiveSearchOptions,
   ConcertResponse,
-  IArchiveSearch,
   ConcertListInput,
   GetConcertInput,
 } from '../interface'
@@ -36,9 +35,10 @@ export class ConcertService {
       sortBy,
     }
 
-    const searchConcerts: SearchResponse = await (
-      archiveSearch as IArchiveSearch
-    ).search(searchTerm, searchOptions)
+    const searchConcerts = (await archiveSearch.search(
+      searchTerm,
+      searchOptions
+    )) as SearchResponse
 
     return paginateResponse(searchConcerts, rest)
   }
@@ -52,9 +52,7 @@ export class ConcertService {
       throw new BadRequestException('Invalid request')
     }
 
-    const concert: ConcertResponse = await (
-      archiveSearch as IArchiveSearch
-    ).metaSearch(id)
+    const concert = (await archiveSearch.metaSearch(id)) as ConcertResponse
 
     const { metadata, files } = concert
 
