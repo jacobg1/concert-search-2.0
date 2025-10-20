@@ -71,7 +71,7 @@ export interface SearchResponse {
   docs: SingleConcert[]
 }
 
-interface TrackMetaData {
+export interface TrackMetaData {
   title: string
   creator: string
   description: string

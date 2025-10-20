@@ -5,6 +5,7 @@ import {
   type ConcertData,
   type PaginatedConcertList,
   type ConcertSearchOptions,
+  type TrackMetaData,
 } from '../../src/interface'
 
 export function isDefinedAs(typeName: string, val?: unknown): void {
@@ -44,7 +45,7 @@ export function testSingleConcert({ trackList, metadata }: ConcertData): void {
   const metadataFields = ['creator', 'date', 'description', 'venue', 'source']
 
   for (const field of metadataFields) {
-    expect(metadata[field as keyof typeof metadata]).toBeDefined()
+    expect(metadata[field as keyof TrackMetaData]).toBeDefined()
   }
 }
 
