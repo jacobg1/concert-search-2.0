@@ -12,7 +12,7 @@
     "dev": "WITH_MOCKS=true npm run build:watch & npm run start",
     "start": "serverless offline start --reloadHandler",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --collectCoverage=false",
     "lint": "eslint .",
     "check-types": "tsc --noEmit"
   },

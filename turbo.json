@@ -31,6 +31,10 @@
     },
 		"test": {
 			"dependsOn": ["^test"]
-		}
+		},
+		"test:watch": {
+      "persistent": true,
+      "cache": false
+    }
   }
 }

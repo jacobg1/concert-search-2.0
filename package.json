@@ -10,7 +10,8 @@
     "deploy:test": "turbo run deploy:test --filter=concert-search-api",
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
     "check-types": "turbo run check-types",
-    "test": "turbo run test"
+    "test": "turbo run test",
+		"test:watch": "turbo run test:watch"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
