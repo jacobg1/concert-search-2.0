@@ -32,6 +32,13 @@ export const nestJsConfig = [
   },
   ...eslintNestJs.configs.flatRecommended,
   {
-    ignores: ['**/eslint.config.mjs', '**/webpack.config.js', '**/dist'],
+    ignores: [
+      '**/node_modules',
+      '**/eslint.config.mjs',
+      '**/webpack.config.js',
+      '**/dist',
+      '**/coverage',
+      '**/.turbo',
+    ],
   },
 ]
