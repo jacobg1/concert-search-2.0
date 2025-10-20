@@ -22,6 +22,12 @@
         "METADATA_URL",
         "ADVANCED_SEARCH_URL"
       ]
+    },
+		"test": {
+      "env": ["API_BASE_URL"]
+    },
+		"test:watch": {
+      "env": ["API_BASE_URL"]
     }
   }
 }

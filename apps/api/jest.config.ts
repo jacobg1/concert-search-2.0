@@ -15,6 +15,7 @@ const config: Config = {
       statements: 40,
     },
   },
+  setupFiles: ['dotenv/config'],
 }
 
 export default config
