@@ -87,6 +87,7 @@ export interface TrackListData {
   original: string
   length: string
   link: string
+  title: string
 }
 
 export interface ConcertData {
@@ -99,11 +100,6 @@ export interface ConcertResponse extends Omit<ConcertData, 'trackList'> {
 }
 
 export type ReqObj = Record<string, unknown> | Record<string, unknown[]>
-
-export interface IArchiveSearch {
-  search: (term: string, opt: ArchiveSearchOptions) => Promise<SearchResponse>
-  metaSearch: (id: string) => Promise<ConcertResponse>
-}
 
 export type FilterParams = Pick<
   ConcertSearchOptions,
