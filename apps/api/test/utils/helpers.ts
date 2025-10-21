@@ -1,3 +1,4 @@
+import type { APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
 import {
   MediaFormat,
   SortOrder,
@@ -76,4 +77,17 @@ export function testConcertList(list: PaginatedConcertList): void {
       expect(format).toContain(MediaFormat.OGG)
     })
   })
+}
+
+const expectedHeaders = {
+  'Content-Type': 'application/json',
+}
+
+export function testLambdaResponse(
+  response: APIGatewayProxyStructuredResultV2
+) {
+  expect(response).toBeDefined()
+  expect(response.statusCode).toBe(200)
+  expect(response.headers).toEqual(expectedHeaders)
+  isDefinedAs('string', response.body)
 }
