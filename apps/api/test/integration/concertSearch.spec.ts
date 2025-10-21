@@ -19,6 +19,7 @@ describe('Concert Search Integration', () => {
   let concertService: ConcertService
 
   beforeAll(() => {
+    nock.disableNetConnect()
     jest.restoreAllMocks()
   })
 
@@ -29,6 +30,10 @@ describe('Concert Search Integration', () => {
 
   afterEach(() => {
     nock.cleanAll()
+  })
+
+  afterAll(() => {
+    nock.enableNetConnect()
   })
 
   it('concertService properly initializes', () => {
