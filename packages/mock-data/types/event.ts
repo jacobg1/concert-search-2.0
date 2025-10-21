@@ -1,3 +1,5 @@
+import type { APIGatewayProxyEventV2, Context } from 'aws-lambda'
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export type MockPathParams = Record<string, string | undefined>
@@ -7,11 +9,17 @@ export interface CreateMockEventInput {
   route: string
   method: HttpMethod
   pathParameters?: MockPathParams
-  body?: Record<string, unknown>
+  body?: unknown
 }
 
-export interface CreateMockEventContextInput
+export interface CreateMockRequestContextInput
   extends Pick<CreateMockEventInput, 'method'> {
   rawPath: string
   routeKey: string
 }
+
+export type CreateMockEventFunc = (
+  args: CreateMockEventInput
+) => APIGatewayProxyEventV2
+
+export type CreateMockContextFunc = () => Context
