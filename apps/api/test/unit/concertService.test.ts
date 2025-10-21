@@ -60,7 +60,7 @@ describe('ConcertService Unit Tests', () => {
       pathParameters: { id: mockConcertId },
     })
 
-    expect(mockMetaSearch).toHaveBeenCalledWith('8')
+    expect(mockMetaSearch).toHaveBeenCalledWith(mockConcertId)
 
     testSingleConcert(resp)
   })

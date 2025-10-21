@@ -23,7 +23,6 @@ export class ConcertService {
     if (!body) {
       throw new BadRequestException('Missing body in request')
     }
-    console.log('test code change')
 
     const concertValidator = new ConcertValidator()
     const validatedPayload = await concertValidator.transform(body)
