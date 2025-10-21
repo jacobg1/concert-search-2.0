@@ -1,7 +1,8 @@
 import type {
   MockPathParams,
-  CreateMockEventContextInput,
-  CreateMockEventInput,
+  CreateMockRequestContextInput,
+  CreateMockEventFunc,
+  CreateMockContextFunc,
 } from '../types'
 
 const mockHeaders = {
@@ -23,11 +24,11 @@ function createMockPath(mockPath: string, mockPathParams: MockPathParams) {
   return `${mockPath}/${createPathFromParams}`
 }
 
-function createMockEventContext({
+function createMockRequestContext({
   method,
   rawPath,
   routeKey,
-}: CreateMockEventContextInput) {
+}: CreateMockRequestContextInput) {
   return {
     accountId: 'offlineContext_accountId',
     apiId: 'offlineContext_apiId',
@@ -38,6 +39,7 @@ function createMockEventContext({
       path: rawPath,
       protocol: 'HTTP/1.1',
       sourceIp: '127.0.0.1',
+      userAgent: 'test-user-agent',
     },
     operationName: undefined,
     requestId: 'offlineContext_resourceId',
@@ -48,30 +50,49 @@ function createMockEventContext({
   }
 }
 
-export function createMockEvent({
+export const createMockEvent: CreateMockEventFunc = ({
   path,
   route,
   method,
   pathParameters,
   body,
-}: CreateMockEventInput) {
+}) => {
   const rawPath = pathParameters ? createMockPath(path, pathParameters) : path
   const mockBody = body ? JSON.stringify(body) : null
   const routeKey = `${method} ${route}`
-  const mockEventContext = createMockEventContext({ method, rawPath, routeKey })
+  const mockRequestContext = createMockRequestContext({
+    method,
+    rawPath,
+    routeKey,
+  })
 
   return {
+    ...(pathParameters && { pathParameters }),
+    ...(mockBody && { body: mockBody }),
+    headers: mockHeaders,
+    requestContext: mockRequestContext,
+    routeKey,
+    rawPath,
     cookies: [],
     isBase64Encoded: false,
-    queryStringParameters: null,
     rawQueryString: '',
-    rawPath,
-    pathParameters: pathParameters ?? null,
-    headers: mockHeaders,
-    body: mockBody,
-    requestContext: mockEventContext,
-    routeKey,
-    stageVariables: null,
     version: '2.0',
+  }
+}
+
+export const createMockContext: CreateMockContextFunc = () => {
+  return {
+    awsRequestId: '4353645634634',
+    callbackWaitsForEmptyEventLoop: true,
+    functionName: 'test',
+    functionVersion: '$LATEST',
+    invokedFunctionArn: 'offline_invokedFunctionArn_for_test',
+    logGroupName: 'offline_logGroupName_for_test',
+    logStreamName: 'offline_logStreamName_for_test',
+    memoryLimitInMB: '5',
+    done: () => null,
+    fail: () => null,
+    succeed: () => null,
+    getRemainingTimeInMillis: () => 123,
   }
 }
