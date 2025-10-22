@@ -9,6 +9,7 @@ import {
   type TrackMetaData,
 } from '../../src/interface'
 import { HttpException } from '@nestjs/common'
+import type { TestError, ExpectedResponse, ExpectedException } from '../types'
 
 export function isDefinedAs(typeName: string, val?: unknown): void {
   expect(val).toBeDefined()
@@ -80,22 +81,33 @@ export function testConcertList(list: PaginatedConcertList): void {
   })
 }
 
-const expectedHeaders = {
+export const expectedHeaders = {
   'Content-Type': 'application/json',
 }
 
-export function testLambdaResponse(
-  response: APIGatewayProxyStructuredResultV2
-) {
-  expect(response).toBeDefined()
-  expect(response.statusCode).toBe(200)
-  expect(response.headers).toEqual(expectedHeaders)
-  isDefinedAs('string', response.body)
+export const expectedErrorHeaders = {
+  ...expectedHeaders,
+  'x-amzn-ErrorType': 'Error',
 }
 
-interface TestError {
-  message?: string
-  statusCode: number
+function getTestBody(body?: string) {
+  if (typeof body === 'string') {
+    return JSON.parse(body) as Record<string, unknown>
+  }
+  return body
+}
+
+export function testLambdaResponse(
+  { statusCode, headers, body }: APIGatewayProxyStructuredResultV2,
+  { expectedBody, expectedHeaders, expectedStatusCode }: ExpectedResponse
+) {
+  expect(statusCode).toBe(expectedStatusCode)
+  expect(headers).toEqual(expectedHeaders)
+  isDefinedAs('string', body)
+
+  if (expectedBody) {
+    expect(getTestBody(body)).toEqual(expectedBody)
+  }
 }
 
 function getTestExceptionInfo(error: unknown): TestError {
@@ -110,11 +122,6 @@ function getTestExceptionInfo(error: unknown): TestError {
   }
 
   throw new Error('Invalid exception')
-}
-
-interface ExpectedException {
-  msg: string
-  status: number
 }
 
 export function testException(

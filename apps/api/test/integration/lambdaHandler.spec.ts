@@ -8,9 +8,11 @@ import {
   testSingleConcert,
   testLambdaResponse,
   testConcertList,
+  expectedHeaders,
 } from '../utils'
 import { handler } from '../../src/main'
 import type { ConcertData, PaginatedConcertList } from '../../src/interface'
+import { HttpStatus } from '@nestjs/common'
 
 const mockConcertId = '001'
 const mockSearchTerm = 'handler test'
@@ -47,7 +49,10 @@ describe('Lambda Handler Integration', () => {
       mockCallback
     )) as APIGatewayProxyStructuredResultV2
 
-    testLambdaResponse(response)
+    testLambdaResponse(response, {
+      expectedStatusCode: HttpStatus.OK,
+      expectedHeaders,
+    })
 
     if (!response.body) {
       throw new Error('Invalid handler response body')
@@ -76,7 +81,10 @@ describe('Lambda Handler Integration', () => {
       mockCallback
     )) as APIGatewayProxyStructuredResultV2
 
-    testLambdaResponse(response)
+    testLambdaResponse(response, {
+      expectedStatusCode: HttpStatus.OK,
+      expectedHeaders,
+    })
 
     if (!response.body) {
       throw new Error('Invalid handler response body')
