@@ -122,6 +122,7 @@ export function testException(
   exception: unknown,
   { msg, status }: ExpectedException
 ) {
+  expect(err).toBeDefined()
   expect(err).toBeInstanceOf(exception)
 
   const { message, statusCode } = getTestExceptionInfo(err)
