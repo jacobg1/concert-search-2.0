@@ -9,10 +9,10 @@ const config: Config = {
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}', ...coverageCollect],
   coverageThreshold: {
     global: {
-      branches: 20,
-      functions: 33,
-      lines: 40,
-      statements: 40,
+      branches: 50,
+      functions: 66,
+      lines: 65,
+      statements: 65,
     },
   },
   setupFiles: ['dotenv/config'],
