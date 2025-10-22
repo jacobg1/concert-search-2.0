@@ -8,14 +8,16 @@ import {
   getMockInput,
   testConcertList,
   testSingleConcert,
+  testException,
 } from '../utils'
-import { getErrorInfo } from '../../src/helpers'
 
 const mockSearch = jest.spyOn(archiveSearch, 'search')
 const mockMetaSearch = jest.spyOn(archiveSearch, 'metaSearch')
 
 const mockConcertId = '4'
 const mockSearchTerm = 'TestSearch'
+
+const wrongError = 'Wrong error'
 
 describe('ConcertService Unit Tests', () => {
   let app: INestApplicationContext
@@ -40,7 +42,7 @@ describe('ConcertService Unit Tests', () => {
     const mockInput = getMockInput(mockSearchTerm)
 
     const resp = await concertService.getConcertList({
-      body: getMockInput(mockSearchTerm),
+      body: mockInput,
     })
 
     expect(mockSearch).toHaveBeenCalledWith(mockSearchTerm, {
@@ -52,6 +54,51 @@ describe('ConcertService Unit Tests', () => {
     expect(resp.length).toBeGreaterThan(0)
 
     testConcertList(resp)
+  })
+
+  it('getConcertList throws an error if no body is defined', async () => {
+    const expectedError = 'Missing body in request'
+
+    mockSearch.mockReturnThis()
+
+    try {
+      await concertService.getConcertList({
+        body: undefined,
+      })
+      throw new Error(wrongError)
+    } catch (err: unknown) {
+      testException(err, BadRequestException, {
+        msg: expectedError,
+        status: 400,
+      })
+    }
+
+    expect(mockSearch).not.toHaveBeenCalled()
+  })
+
+  it('getConcertList throws an error if api call fails', async () => {
+    const expectedError = 'Request Failed'
+
+    mockSearch.mockRejectedValue(new Error(expectedError))
+
+    const mockInput = getMockInput(mockSearchTerm)
+
+    try {
+      await concertService.getConcertList({
+        body: mockInput,
+      })
+
+      throw new Error(wrongError)
+    } catch (err: unknown) {
+      expect(err).toBeInstanceOf(Error)
+      expect((err as Error).message).toBe(expectedError)
+    }
+
+    expect(mockSearch).toHaveBeenCalledWith(mockSearchTerm, {
+      ...baseOptions,
+      max: mockInput.max,
+      sortBy: mockInput.sortBy,
+    })
   })
 
   it('getSingleConcert properly retrieves a single concert', async () => {
@@ -66,39 +113,41 @@ describe('ConcertService Unit Tests', () => {
     testSingleConcert(resp)
   })
 
-  it('getConcertList properly retrieves a concert list', async () => {
-    mockSearch.mockResolvedValue(concertList)
-
-    const mockInput = getMockInput(mockSearchTerm)
-
-    const resp = await concertService.getConcertList({
-      body: getMockInput(mockSearchTerm),
-    })
-
-    expect(mockSearch).toHaveBeenCalledWith(mockSearchTerm, {
-      ...baseOptions,
-      max: mockInput.max,
-      sortBy: mockInput.sortBy,
-    })
-
-    expect(resp.length).toBeGreaterThan(0)
-
-    testConcertList(resp)
-  })
-
   it('getSingleConcert throws an error if no concert id is provided', async () => {
+    const expectedError = 'Invalid request'
+
     mockMetaSearch.mockReturnThis()
 
     try {
       await concertService.getSingleConcert({
         pathParameters: { id: undefined },
       })
+      throw new Error(wrongError)
     } catch (err: unknown) {
-      expect(err).toBeInstanceOf(BadRequestException)
-
-      const errorInfo = getErrorInfo(err)
-      expect(errorInfo.statusCode).toBe(400)
-      expect(errorInfo.message).toBe('Invalid request')
+      testException(err, BadRequestException, {
+        msg: expectedError,
+        status: 400,
+      })
     }
+
+    expect(mockMetaSearch).not.toHaveBeenCalled()
+  })
+
+  it('getSingleConcert throws an error if api call fails', async () => {
+    const expectedError = 'Request Failed'
+
+    mockMetaSearch.mockRejectedValue(new Error(expectedError))
+
+    try {
+      await concertService.getSingleConcert({
+        pathParameters: { id: mockConcertId },
+      })
+      throw new Error(wrongError)
+    } catch (err: unknown) {
+      expect(err).toBeInstanceOf(Error)
+      expect((err as Error).message).toBe(expectedError)
+    }
+
+    expect(mockMetaSearch).toHaveBeenCalledWith(mockConcertId)
   })
 })

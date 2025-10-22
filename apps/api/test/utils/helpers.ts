@@ -8,6 +8,7 @@ import {
   type ConcertSearchOptions,
   type TrackMetaData,
 } from '../../src/interface'
+import { HttpException } from '@nestjs/common'
 
 export function isDefinedAs(typeName: string, val?: unknown): void {
   expect(val).toBeDefined()
@@ -90,4 +91,41 @@ export function testLambdaResponse(
   expect(response.statusCode).toBe(200)
   expect(response.headers).toEqual(expectedHeaders)
   isDefinedAs('string', response.body)
+}
+
+interface TestError {
+  message?: string
+  statusCode: number
+}
+
+function getTestExceptionInfo(error: unknown): TestError {
+  if (error instanceof HttpException) {
+    const statusCode = error.getStatus()
+    const response = error.getResponse()
+
+    return {
+      statusCode,
+      message: (response as TestError).message ?? '',
+    }
+  }
+
+  throw new Error('Invalid exception')
+}
+
+interface ExpectedException {
+  msg: string
+  status: number
+}
+
+export function testException(
+  err: unknown,
+  exception: unknown,
+  { msg, status }: ExpectedException
+) {
+  expect(err).toBeInstanceOf(exception)
+
+  const { message, statusCode } = getTestExceptionInfo(err)
+
+  expect(statusCode).toBe(status)
+  expect(message).toBe(msg)
 }
