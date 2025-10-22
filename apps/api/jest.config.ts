@@ -9,13 +9,15 @@ const config: Config = {
   collectCoverageFrom: ['**/src/**/*.{ts,tsx}', ...coverageCollect],
   coverageThreshold: {
     global: {
-      branches: 20,
-      functions: 33,
-      lines: 40,
-      statements: 40,
+      branches: 40,
+      functions: 55,
+      lines: 60,
+      statements: 60,
     },
   },
   setupFiles: ['dotenv/config'],
+  setupFilesAfterEnv: ['./test/config/setup.ts'],
+  globalTeardown: './test/config/teardown.ts',
 }
 
 export default config
