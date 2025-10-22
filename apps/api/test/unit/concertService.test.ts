@@ -1,6 +1,6 @@
 import { archiveSearch } from 'archive-search'
 import { concertList, singleConcert } from '@repo/mock-data/post-api'
-import { INestApplicationContext } from '@nestjs/common'
+import { BadRequestException, INestApplicationContext } from '@nestjs/common'
 import { AppModule } from '../../src/app.module'
 import { baseOptions, ConcertService } from '../../src/services'
 import {
@@ -9,6 +9,7 @@ import {
   testConcertList,
   testSingleConcert,
 } from '../utils'
+import { getErrorInfo } from '../../src/helpers'
 
 const mockSearch = jest.spyOn(archiveSearch, 'search')
 const mockMetaSearch = jest.spyOn(archiveSearch, 'metaSearch')
@@ -63,5 +64,41 @@ describe('ConcertService Unit Tests', () => {
     expect(mockMetaSearch).toHaveBeenCalledWith(mockConcertId)
 
     testSingleConcert(resp)
+  })
+
+  it('getConcertList properly retrieves a concert list', async () => {
+    mockSearch.mockResolvedValue(concertList)
+
+    const mockInput = getMockInput(mockSearchTerm)
+
+    const resp = await concertService.getConcertList({
+      body: getMockInput(mockSearchTerm),
+    })
+
+    expect(mockSearch).toHaveBeenCalledWith(mockSearchTerm, {
+      ...baseOptions,
+      max: mockInput.max,
+      sortBy: mockInput.sortBy,
+    })
+
+    expect(resp.length).toBeGreaterThan(0)
+
+    testConcertList(resp)
+  })
+
+  it('getSingleConcert throws an error if no concert id is provided', async () => {
+    mockMetaSearch.mockReturnThis()
+
+    try {
+      await concertService.getSingleConcert({
+        pathParameters: { id: undefined },
+      })
+    } catch (err: unknown) {
+      expect(err).toBeInstanceOf(BadRequestException)
+
+      const errorInfo = getErrorInfo(err)
+      expect(errorInfo.statusCode).toBe(400)
+      expect(errorInfo.message).toBe('Invalid request')
+    }
   })
 })
