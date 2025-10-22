@@ -6,7 +6,7 @@
   "exports": {
     "./pre-api": "./pre-api",
     "./post-api": "./post-api",
-		"./event": "./event",
+    "./event": "./event",
     "./ui": "./ui"
   }
 }
