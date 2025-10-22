@@ -21,7 +21,6 @@ const mockCallback = () => null
 
 describe('Lambda Handler Integration', () => {
   beforeAll(() => {
-    nock.disableNetConnect()
     jest.restoreAllMocks()
   })
 
@@ -29,8 +28,34 @@ describe('Lambda Handler Integration', () => {
     nock.cleanAll()
   })
 
-  afterAll(() => {
-    nock.enableNetConnect()
+  it('lambda handler can get a list of concerts', async () => {
+    nock(getApiBaseUrl())
+      .get('/advancedsearch.php')
+      .query(({ q }) => !!q?.includes(mockSearchTerm))
+      .reply(200, concertList)
+
+    const mockEvent = createMockEvent({
+      method: 'POST',
+      route: concertsRoute,
+      path: concertsRoute,
+      body: getMockInput(mockSearchTerm),
+    })
+
+    const response = (await handler(
+      mockEvent,
+      mockContext,
+      mockCallback
+    )) as APIGatewayProxyStructuredResultV2
+
+    testLambdaResponse(response)
+
+    if (!response.body) {
+      throw new Error('Invalid handler response body')
+    }
+
+    const concertListData = JSON.parse(response.body) as PaginatedConcertList
+
+    testConcertList(concertListData)
   })
 
   it('lambda handler can get a single concert', async () => {
@@ -60,35 +85,5 @@ describe('Lambda Handler Integration', () => {
     const concertData = JSON.parse(response.body) as ConcertData
 
     testSingleConcert(concertData)
-  })
-
-  it('lambda handler can get', async () => {
-    nock(getApiBaseUrl())
-      .get('/advancedsearch.php')
-      .query(({ q }) => !!q?.includes(mockSearchTerm))
-      .reply(200, concertList)
-
-    const mockEvent = createMockEvent({
-      method: 'POST',
-      route: concertsRoute,
-      path: concertsRoute,
-      body: getMockInput(mockSearchTerm),
-    })
-
-    const response = (await handler(
-      mockEvent,
-      mockContext,
-      mockCallback
-    )) as APIGatewayProxyStructuredResultV2
-
-    testLambdaResponse(response)
-
-    if (!response.body) {
-      throw new Error('Invalid handler response body')
-    }
-
-    const concertListData = JSON.parse(response.body) as PaginatedConcertList
-
-    testConcertList(concertListData)
   })
 })
