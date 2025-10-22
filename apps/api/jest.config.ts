@@ -16,6 +16,8 @@ const config: Config = {
     },
   },
   setupFiles: ['dotenv/config'],
+  setupFilesAfterEnv: ['./test/config/setup.ts'],
+  globalTeardown: './test/config/teardown.ts',
 }
 
 export default config
