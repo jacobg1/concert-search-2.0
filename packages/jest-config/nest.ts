@@ -10,6 +10,8 @@ export const nestJestConfig: Config = {
   collectCoverageFrom: [
     ...coverageCollect,
     '!**/*index.ts',
+    '!**/*.module.ts',
+    '!**/dto/**',
     '!**/interface/**',
     '!**/test/utils/**',
   ],
