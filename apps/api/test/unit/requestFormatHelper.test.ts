@@ -4,7 +4,7 @@ import {
   getMockInput,
   testException,
   testLambdaResponse,
-} from '../../test/utils'
+} from '../utils'
 import { extractReqData, handleResponse, handleError } from '../../src/helpers'
 import { createMockEvent } from '@repo/mock-data/event'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
@@ -16,7 +16,7 @@ const concertsRoute = '/concerts'
 
 const mockPathInput = { id: mockConcertId }
 
-describe('Concert Helper Tests', () => {
+describe('Request Format Helper Tests', () => {
   it('extractReqData works properly', () => {
     const resultOne = extractReqData(
       createMockEvent({
