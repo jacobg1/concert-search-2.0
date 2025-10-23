@@ -18,10 +18,6 @@ describe('Concert Search Integration', () => {
   let app: INestApplicationContext
   let concertService: ConcertService
 
-  beforeAll(() => {
-    jest.restoreAllMocks()
-  })
-
   beforeEach(async () => {
     app = await bootstrap(AppModule)
     concertService = app.get(ConcertService)

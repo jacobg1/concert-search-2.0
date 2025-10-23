@@ -30,6 +30,10 @@ describe('ConcertService Unit Tests', () => {
     concertService = app.get(ConcertService)
   })
 
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
   afterAll(() => {
     jest.restoreAllMocks()
   })
