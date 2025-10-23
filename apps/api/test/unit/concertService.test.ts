@@ -17,8 +17,6 @@ const mockMetaSearch = jest.spyOn(archiveSearch, 'metaSearch')
 const mockConcertId = '4'
 const mockSearchTerm = 'TestSearch'
 
-const wrongError = 'Wrong error'
-
 describe('ConcertService Unit Tests', () => {
   let app: INestApplicationContext
   let concertService: ConcertService
