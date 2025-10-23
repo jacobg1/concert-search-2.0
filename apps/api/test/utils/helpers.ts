@@ -1,4 +1,3 @@
-import type { APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
 import {
   MediaFormat,
   SortOrder,
@@ -9,7 +8,12 @@ import {
   type TrackMetaData,
 } from '../../src/interface'
 import { HttpException } from '@nestjs/common'
-import type { TestError, ExpectedResponse, ExpectedException } from '../types'
+import type {
+  TestError,
+  ExpectedResponse,
+  ExpectedException,
+  TestLambdaResponse,
+} from '../types'
 
 export function isDefinedAs(typeName: string, val?: unknown): void {
   expect(val).toBeDefined()
@@ -98,7 +102,7 @@ function getTestBody(body?: string) {
 }
 
 export function testLambdaResponse(
-  { statusCode, headers, body }: APIGatewayProxyStructuredResultV2,
+  { statusCode, headers, body }: TestLambdaResponse,
   { expectedBody, expectedHeaders, expectedStatusCode }: ExpectedResponse
 ) {
   expect(statusCode).toBe(expectedStatusCode)
