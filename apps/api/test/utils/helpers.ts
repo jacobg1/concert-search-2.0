@@ -124,6 +124,14 @@ function getTestExceptionInfo(error: unknown): TestError {
   throw new Error('Invalid exception')
 }
 
+export function testErrorInfo(
+  { message, statusCode }: TestError,
+  { msg, status }: ExpectedException
+) {
+  expect(statusCode).toBe(status)
+  expect(message).toBe(msg)
+}
+
 export function testException(
   err: unknown,
   exception: unknown,
@@ -132,8 +140,7 @@ export function testException(
   expect(err).toBeDefined()
   expect(err).toBeInstanceOf(exception)
 
-  const { message, statusCode } = getTestExceptionInfo(err)
+  const errorInfo = getTestExceptionInfo(err)
 
-  expect(statusCode).toBe(status)
-  expect(message).toBe(msg)
+  testErrorInfo(errorInfo, { msg, status })
 }
