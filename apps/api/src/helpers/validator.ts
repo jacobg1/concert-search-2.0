@@ -1,12 +1,12 @@
 import { Logger, BadRequestException } from '@nestjs/common'
-import { plainToClass } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 import { validate } from 'class-validator'
 import { ConcertListDto } from '../dto'
 import {
   MediaFormat,
   type MediaFormatKey,
   type ConcertSearchOptions,
-  UnvalidatedInput,
+  type UnvalidatedInput,
 } from '../interface'
 import { createErrorString } from './errors'
 
@@ -24,7 +24,7 @@ export class ConcertValidator {
       ...rest,
     }
 
-    const instance = plainToClass(ConcertListDto, formatObj)
+    const instance = plainToInstance(ConcertListDto, formatObj)
 
     const errors = await validate(instance, {
       whitelist: true,
