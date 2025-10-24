@@ -1,4 +1,5 @@
 import nock from 'nock'
+import { server } from '../../src/mocks/node'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 import { concertList, singleConcert } from '@repo/mock-data/pre-api'
 import { createMockEvent, createMockContext } from '@repo/mock-data/event'
@@ -12,6 +13,7 @@ import {
   expectedErrorHeaders,
 } from '../utils'
 import { handler } from '../../src/main'
+import { handler as mockHandler } from '../../src/mocks/mockMain'
 import type { ConcertData, PaginatedConcertList } from '../../src/interface'
 import { HttpStatus, Logger } from '@nestjs/common'
 import type { TestLambdaResponse } from '../types'
@@ -24,6 +26,7 @@ const mockContext = createMockContext()
 const mockCallback = () => null
 
 const errorLogMock = jest.spyOn(Logger, 'error')
+const serverListenMock = jest.spyOn(server, 'listen')
 
 describe('Lambda Handler Integration', () => {
   afterEach(() => {
@@ -141,5 +144,41 @@ describe('Lambda Handler Integration', () => {
     })
 
     expect(errorLogMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('mock lambda handler returns proper response', async () => {
+    serverListenMock.mockReturnThis()
+
+    nock(getApiBaseUrl())
+      .get(`/metadata/${mockConcertId}`)
+      .reply(200, singleConcert)
+
+    const mockEvent = createMockEvent({
+      method: 'GET',
+      route: `${concertsRoute}/{id}`,
+      path: concertsRoute,
+      pathParameters: { id: mockConcertId },
+    })
+
+    const response = (await mockHandler(
+      mockEvent,
+      mockContext,
+      mockCallback
+    )) as TestLambdaResponse
+
+    testLambdaResponse(response, {
+      expectedStatusCode: HttpStatus.OK,
+      expectedHeaders,
+    })
+
+    if (!response.body) {
+      throw new Error('Invalid handler response body')
+    }
+
+    const concertData = JSON.parse(response.body) as ConcertData
+
+    testSingleConcert(concertData)
+
+    expect(serverListenMock).toHaveBeenCalledTimes(1)
   })
 })
