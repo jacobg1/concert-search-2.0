@@ -6,7 +6,7 @@ const mockConcertId = '001'
 const mockConcertUrl = `${getFromEnv('API_BASE_URL')}/metadata/${mockConcertId}`
 const mockConcertListUrl = getFromEnv('ADVANCED_SEARCH_URL')
 
-describe('Mocks Tests', () => {
+describe('Mock Handlers Tests', () => {
   const prevEnv = process.env
 
   beforeEach(() => {
