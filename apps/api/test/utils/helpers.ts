@@ -159,3 +159,24 @@ export function filterDuplicates3d<T extends object>(
     []
   )
 }
+
+export function getFromEnv(key: string): string {
+  const val = process.env[key]
+  if (!val) {
+    throw new Error(`Missing env var: ${key}`)
+  }
+  return val
+}
+
+export function getMockPath(key: string): string {
+  const val = getFromEnv(key)
+  return `GET ${val}`
+}
+
+export async function getJsonResponse<T extends object>(response?: Response) {
+  const json = await response?.text()
+  if (!json) {
+    throw new Error('Failed to get json response')
+  }
+  return JSON.parse(json) as T
+}
