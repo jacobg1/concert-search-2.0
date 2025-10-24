@@ -148,3 +148,14 @@ export function testException(
 
   testErrorInfo(errorInfo, { msg, status })
 }
+
+export function filterDuplicates3d<T extends object>(
+  arrayOfArrays: T[][],
+  key: keyof T,
+  value: unknown
+) {
+  return arrayOfArrays.reduce(
+    (acc, curr) => [...acc, ...curr.filter((item) => item[key] === value)],
+    []
+  )
+}
