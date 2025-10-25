@@ -10,9 +10,9 @@ const config: Config = {
   coverageThreshold: {
     global: {
       branches: 100,
-      functions: 90,
-      lines: 90,
-      statements: 90,
+      functions: 100,
+      lines: 100,
+      statements: 100,
     },
   },
   setupFiles: ['dotenv/config'],
