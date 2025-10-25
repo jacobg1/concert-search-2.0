@@ -15,6 +15,8 @@ describe('Mock Utils Tests', () => {
       } as Request,
     }
 
+    mockConsoleLog.mockReturnThis()
+
     logMockRequest(input)
 
     expect(mockConsoleLog).toHaveBeenCalledWith(
