@@ -9,6 +9,7 @@ export interface CreateMockEventInput {
   route: string
   method: HttpMethod
   pathParameters?: MockPathParams
+  queryStringParameters?: MockPathParams
   body?: unknown
 }
 

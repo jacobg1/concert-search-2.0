@@ -55,6 +55,7 @@ export const createMockEvent: CreateMockEventFunc = ({
   route,
   method,
   pathParameters,
+  queryStringParameters,
   body,
 }) => {
   const rawPath = pathParameters ? createMockPath(path, pathParameters) : path
@@ -68,6 +69,7 @@ export const createMockEvent: CreateMockEventFunc = ({
 
   return {
     ...(pathParameters && { pathParameters }),
+    ...(queryStringParameters && { queryStringParameters }),
     ...(mockBody && { body: mockBody }),
     headers: mockHeaders,
     requestContext: mockRequestContext,

@@ -28,11 +28,11 @@ export function createErrorString(errors: ValidationError[]): string {
   }
 }
 
-const defaultErrorMessage = 'Internal Server Error'
+const defaultErrorMessage = 'Unknown Application Error'
 
 const defaultError = {
   statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-  message: defaultErrorMessage,
+  message: 'Internal Server Error',
 }
 
 function getErrorMessage(resp?: string | object): string {
