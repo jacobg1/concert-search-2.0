@@ -1,7 +1,7 @@
 import { concertList } from '@repo/mock-data/post-api'
 import { paginateResponse } from '../../src/services'
 import { MediaFormat, type SearchResponse } from '../../src/interface'
-import { filterDuplicates3d, testConcertList, testException } from '../utils'
+import { filterDuplicates2d, testConcertList, testException } from '../utils'
 import { BadRequestException } from '@nestjs/common'
 
 const duplicateConcertDate = '1994-10-01T00:00:00Z'
@@ -24,7 +24,7 @@ describe('Concert Util Test', () => {
         mediaFormat: [MediaFormat.MP3, MediaFormat.OGG],
       })
 
-      const duplicates = filterDuplicates3d(
+      const duplicates = filterDuplicates2d(
         paginatedResponse,
         'date',
         duplicateConcertDate

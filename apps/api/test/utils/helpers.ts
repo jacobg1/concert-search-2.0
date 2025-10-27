@@ -149,7 +149,7 @@ export function testException(
   testErrorInfo(errorInfo, { msg, status })
 }
 
-export function filterDuplicates3d<T extends object>(
+export function filterDuplicates2d<T extends object>(
   arrayOfArrays: T[][],
   key: keyof T,
   value: unknown
