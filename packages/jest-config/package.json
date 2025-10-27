@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./base": "./base.ts",
-    "./nest": "./nest.ts"
+    "./nest": "./nest.ts",
+		"./next": "./next.ts"
   }
 }
