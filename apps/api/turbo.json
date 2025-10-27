@@ -26,10 +26,18 @@
       ]
     },
     "test": {
-      "env": ["API_BASE_URL"]
+      "env": [
+        "API_BASE_URL",
+        "METADATA_URL",
+        "ADVANCED_SEARCH_URL"
+			]
     },
     "test:watch": {
-      "env": ["API_BASE_URL"]
+      "env": [
+        "API_BASE_URL",
+        "METADATA_URL",
+        "ADVANCED_SEARCH_URL"
+      ]
     }
   }
 }
