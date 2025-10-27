@@ -1,4 +1,3 @@
-import type { APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
 import {
   MediaFormat,
   SortOrder,
@@ -9,6 +8,12 @@ import {
   type TrackMetaData,
 } from '../../src/interface'
 import { HttpException } from '@nestjs/common'
+import type {
+  TestError,
+  ExpectedResponse,
+  ExpectedException,
+  TestLambdaResponse,
+} from '../types'
 
 export function isDefinedAs(typeName: string, val?: unknown): void {
   expect(val).toBeDefined()
@@ -80,22 +85,33 @@ export function testConcertList(list: PaginatedConcertList): void {
   })
 }
 
-const expectedHeaders = {
+export const expectedHeaders = {
   'Content-Type': 'application/json',
 }
 
-export function testLambdaResponse(
-  response: APIGatewayProxyStructuredResultV2
-) {
-  expect(response).toBeDefined()
-  expect(response.statusCode).toBe(200)
-  expect(response.headers).toEqual(expectedHeaders)
-  isDefinedAs('string', response.body)
+export const expectedErrorHeaders = {
+  ...expectedHeaders,
+  'x-amzn-ErrorType': 'Error',
 }
 
-interface TestError {
-  message?: string
-  statusCode: number
+function getTestBody(body?: string) {
+  if (typeof body === 'string') {
+    return JSON.parse(body) as Record<string, unknown>
+  }
+  return body
+}
+
+export function testLambdaResponse(
+  { statusCode, headers, body }: TestLambdaResponse,
+  { expectedBody, expectedHeaders, expectedStatusCode }: ExpectedResponse
+) {
+  expect(statusCode).toBe(expectedStatusCode)
+  expect(headers).toEqual(expectedHeaders)
+  isDefinedAs('string', body)
+
+  if (expectedBody) {
+    expect(getTestBody(body)).toEqual(expectedBody)
+  }
 }
 
 function getTestExceptionInfo(error: unknown): TestError {
@@ -112,9 +128,12 @@ function getTestExceptionInfo(error: unknown): TestError {
   throw new Error('Invalid exception')
 }
 
-interface ExpectedException {
-  msg: string
-  status: number
+export function testErrorInfo(
+  { message, statusCode }: TestError,
+  { msg, status }: ExpectedException
+) {
+  expect(statusCode).toBe(status)
+  expect(message).toBe(msg)
 }
 
 export function testException(
@@ -122,10 +141,42 @@ export function testException(
   exception: unknown,
   { msg, status }: ExpectedException
 ) {
+  expect(err).toBeDefined()
   expect(err).toBeInstanceOf(exception)
 
-  const { message, statusCode } = getTestExceptionInfo(err)
+  const errorInfo = getTestExceptionInfo(err)
 
-  expect(statusCode).toBe(status)
-  expect(message).toBe(msg)
+  testErrorInfo(errorInfo, { msg, status })
+}
+
+export function filterDuplicates2d<T extends object>(
+  arrayOfArrays: T[][],
+  key: keyof T,
+  value: unknown
+) {
+  return arrayOfArrays.reduce(
+    (acc, curr) => [...acc, ...curr.filter((item) => item[key] === value)],
+    []
+  )
+}
+
+export function getFromEnv(key: string): string {
+  const val = process.env[key]
+  if (!val) {
+    throw new Error(`Missing env var: ${key}`)
+  }
+  return val
+}
+
+export function getMockPath(key: string): string {
+  const val = getFromEnv(key)
+  return `GET ${val}`
+}
+
+export async function getJsonResponse<T extends object>(response?: Response) {
+  const json = await response?.text()
+  if (!json) {
+    throw new Error('Failed to get json response')
+  }
+  return JSON.parse(json) as T
 }

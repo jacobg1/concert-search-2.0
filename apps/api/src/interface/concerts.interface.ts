@@ -1,15 +1,11 @@
 export interface SingleConcert {
-  description: string
   identifier: string
-  mediatype: string
-  title: string
-  year: number
   date: string
-  coverage: string
-  creator: string
-  downloads: number
+  description: string
   format: MediaFormat[]
+  mediatype: string
   source: string
+  title: string
 }
 
 export type PaginatedConcertList = SingleConcert[][]

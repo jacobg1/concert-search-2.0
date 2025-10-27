@@ -6,10 +6,9 @@ import type {
   Handler,
 } from 'aws-lambda'
 import { server } from './node'
+import { logMockRequest } from '../../src/helpers'
 
-server.events.on('request:start', ({ request: { method, url } }) => {
-  console.log('MSW intercepted:', method, url)
-})
+server.events.on('request:start', logMockRequest)
 
 export const handler: Handler = (
   event: APIGatewayProxyEventV2,

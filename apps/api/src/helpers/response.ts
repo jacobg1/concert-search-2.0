@@ -1,8 +1,10 @@
 import { HttpStatus } from '@nestjs/common'
-import type { APIGatewayProxyResultV2 } from 'aws-lambda'
+import type { APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
 import { getErrorInfo } from './errors'
 
-export function handleResponse(body: unknown): APIGatewayProxyResultV2 {
+export function handleResponse(
+  body: unknown
+): APIGatewayProxyStructuredResultV2 {
   return {
     body: JSON.stringify(body),
     headers: {
@@ -12,7 +14,7 @@ export function handleResponse(body: unknown): APIGatewayProxyResultV2 {
   }
 }
 
-export function handleError(error: unknown) {
+export function handleError(error: unknown): APIGatewayProxyStructuredResultV2 {
   const { statusCode, message } = getErrorInfo(error)
 
   return {
