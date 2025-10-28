@@ -5,15 +5,14 @@
     "types": [
       "node",
       "jest",
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
     ],
   },
   "include": [
-    "app/**/*",
-    "build/types/**/*.ts",
+    "./app/**/*",
     "next-env.d.ts",
-    "src/**/*",
-    ".next/types/**/*.ts"
+    "./src/**/*",
+		"./test/**/*",
   ],
   "exclude": [
     "node_modules"

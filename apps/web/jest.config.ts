@@ -4,7 +4,6 @@ import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
 
 const createNextConfig = nextJest({ dir: './' })
-
 const coverageCollect = nextJestConfig.collectCoverageFrom ?? []
 
 const config: Config = {
