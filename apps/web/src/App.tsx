@@ -8,7 +8,9 @@ import { theme } from './app/theme'
 import { AppStyles } from './AppStyles'
 import { ErrorDisplay } from './ErrorDisplay'
 import { Provider } from 'react-redux'
-import { store } from './app/store'
+import { setupStore } from './app/store'
+
+const store = setupStore()
 
 function App(): JSX.Element {
   return (
