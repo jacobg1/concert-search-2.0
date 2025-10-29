@@ -10,7 +10,10 @@ const config: Config = {
   ...nextJestConfig,
   collectCoverageFrom: [
     '**/src/**/*.{ts,tsx}',
-    '**/*Interface.{ts,tsx}',
+    '!**/*Interface.{ts,tsx}',
+    '!**/background.ts',
+    '!**/store.ts',
+    '!**/theme.ts',
     ...coverageCollect,
   ],
   setupFilesAfterEnv: ['./test/config/setup.ts'],
