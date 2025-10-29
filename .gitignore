@@ -20,3 +20,4 @@ next-env.d.ts
 build
 tsconfig.tsbuildinfo
 node_modules
+.swc
