@@ -115,6 +115,9 @@ const selectedConcertSlice = createSlice({
         state.concertInitialized = true
       }
     },
+    clearSelectedConcertError: (state) => {
+      state.error = {}
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -147,6 +150,7 @@ export const {
   playPreviousTrack,
   changeMediaFormat,
   setConcertInitialized,
+  clearSelectedConcertError,
 } = selectedConcertSlice.actions
 
 export default selectedConcertSlice.reducer

@@ -2,8 +2,10 @@ import { Box, Snackbar, Typography, type SxProps } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp'
-import { useEffect, useState } from 'react'
-import { useAppSelector } from './app/hooks'
+import { useAppDispatch, useAppSelector } from './app/hooks'
+import { clearConcertListError } from './features/concerts/concertListSlice'
+import { clearSelectedConcertError } from './features/selectedConcert/selectedConcertSlice'
+import { getIsOpen } from './app/util'
 
 const snackbarStyles = {
   left: '15px',
@@ -29,21 +31,15 @@ const boxStyles: SxProps = {
 }
 
 export function ErrorDisplay(): JSX.Element {
+  const dispatch = useAppDispatch()
+
   const { error: listError } = useAppSelector((state) => state.concertList)
   const { error: concertError } = useAppSelector(
     (state) => state.individualConcert
   )
-  const [open, setOpen] = useState<boolean>(false)
-
-  useEffect(() => {
-    const hasError =
-      (listError && Object.keys(listError).length !== 0) ||
-      (concertError && Object.keys(concertError).length !== 0)
-    setOpen(hasError)
-  }, [listError, concertError])
 
   return (
-    <Snackbar style={snackbarStyles} open={open}>
+    <Snackbar style={snackbarStyles} open={getIsOpen(listError, concertError)}>
       <Box sx={boxStyles}>
         <Box display="inline-flex">
           <ErrorOutlineSharpIcon fontSize="medium" />
@@ -55,7 +51,11 @@ export function ErrorDisplay(): JSX.Element {
           size="medium"
           aria-label="close"
           color="inherit"
-          onClick={() => setOpen(false)}
+          data-testid="close-error-button"
+          onClick={() => {
+            dispatch(clearConcertListError())
+            dispatch(clearSelectedConcertError())
+          }}
         >
           <CloseIcon color="inherit" fontSize="medium" />
         </IconButton>
