@@ -2,16 +2,11 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import App from '../../src/App'
 import { AppHeader } from '../../src/AppHeader'
-import { defaultAppState } from '../utils/mocks'
 import { AppStyles } from '../../src/AppStyles'
 import { theme } from '../../src/app/theme'
 import { contextRender, htmlContainer } from '../utils'
 import { ErrorDisplay } from '../../src/ErrorDisplay'
-import type {
-  TrackListData,
-  TrackMetadata,
-} from '../../src/features/tracks/trackInterface'
-import { NetworkError } from '../../src/app/interface'
+import type { SelectedConcertState, ConcertListState } from '../../src/features'
 
 const testTrack = { name: 'test track' }
 
@@ -21,17 +16,12 @@ describe('App', () => {
     expect(getByText('Concert Search')).toBeInTheDocument()
   })
 
-  it('Back button shows when concert has been selected', async () => {
+  it('Back button shows when concert has been selected', () => {
     const { getByTestId } = contextRender(<AppHeader />, {
       preloadedState: {
-        ...defaultAppState,
         individualConcert: {
-          ...defaultAppState.individualConcert,
-          selectedConcert: {
-            trackList: [testTrack as TrackListData],
-            metadata: {} as TrackMetadata,
-          },
-        },
+          selectedConcert: { trackList: [testTrack] },
+        } as SelectedConcertState,
       },
     })
 
@@ -58,11 +48,9 @@ describe('App', () => {
       {
         container: htmlContainer,
         preloadedState: {
-          ...defaultAppState,
           individualConcert: {
-            ...defaultAppState.individualConcert,
             isDrawerOpen: true,
-          },
+          } as SelectedConcertState,
         },
       }
     )
@@ -76,11 +64,9 @@ describe('App', () => {
 
     const { getByTestId, queryByTestId } = contextRender(<ErrorDisplay />, {
       preloadedState: {
-        ...defaultAppState,
         concertList: {
-          ...defaultAppState.concertList,
-          error: { message: 'test error' } as NetworkError,
-        },
+          error: { message: 'test error' },
+        } as ConcertListState,
       },
     })
 
