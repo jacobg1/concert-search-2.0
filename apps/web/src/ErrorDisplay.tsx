@@ -5,7 +5,7 @@ import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp'
 import { useAppDispatch, useAppSelector } from './app/hooks'
 import { clearConcertListError } from './features/concerts/concertListSlice'
 import { clearSelectedConcertError } from './features/selectedConcert/selectedConcertSlice'
-import { getIsOpen } from './app/util'
+import { hasNetworkError } from './app/util'
 
 const snackbarStyles = {
   left: '15px',
@@ -39,7 +39,10 @@ export function ErrorDisplay(): JSX.Element {
   )
 
   return (
-    <Snackbar style={snackbarStyles} open={getIsOpen(listError, concertError)}>
+    <Snackbar
+      style={snackbarStyles}
+      open={hasNetworkError(listError, concertError)}
+    >
       <Box sx={boxStyles}>
         <Box display="inline-flex">
           <ErrorOutlineSharpIcon fontSize="medium" />

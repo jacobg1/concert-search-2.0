@@ -108,7 +108,7 @@ export const addSongFormat = (src: string, format: MediaFormat): string => {
   return src.replace(/\.[^/.]+$/, `.${format}`)
 }
 
-export function getIsOpen(
+export function hasNetworkError(
   listError: NetworkError | Record<string, never>,
   concertError: NetworkError | Record<string, never>
 ): boolean {
