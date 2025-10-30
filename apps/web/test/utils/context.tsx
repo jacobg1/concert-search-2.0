@@ -1,5 +1,6 @@
 import React, { type ReactElement, type PropsWithChildren } from 'react'
 import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from '@mui/material/styles'
 import { Provider } from 'react-redux'
 import { setupStore } from '../../src/app/store'
@@ -30,4 +31,12 @@ export function contextRender(
     store,
     ...render(elem, { wrapper: ContextProviders, ...restOfOptions }),
   }
+}
+
+export function userRender(
+  elem: ReactElement,
+  opts: ContextRenderOptions = {}
+) {
+  const user = userEvent.setup()
+  return { user, ...render(elem, opts) }
 }
