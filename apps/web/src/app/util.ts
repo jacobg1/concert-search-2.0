@@ -1,5 +1,5 @@
-import { type TrackListData } from '../features/tracks/trackInterface'
-import { MediaFormat, type BandList } from './interface'
+import type { TrackListData } from '../features/tracks/trackInterface'
+import { MediaFormat, type NetworkError, type BandList } from './interface'
 
 function durationFormat(
   durationValue: number
@@ -106,4 +106,14 @@ export function findNewTrack(
 // Replace file extension with currently selected media format
 export const addSongFormat = (src: string, format: MediaFormat): string => {
   return src.replace(/\.[^/.]+$/, `.${format}`)
+}
+
+export function hasNetworkError(
+  listError: NetworkError | Record<string, never>,
+  concertError: NetworkError | Record<string, never>
+): boolean {
+  return (
+    (listError && Object.keys(listError).length !== 0) ||
+    (concertError && Object.keys(concertError).length !== 0)
+  )
 }

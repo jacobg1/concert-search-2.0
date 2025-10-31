@@ -1,11 +1,11 @@
 {
   "extends": "@repo/ts-config/nextjs.json",
   "compilerOptions": {
-  "plugins": [{ "name": "next" }],
+    "plugins": [{ "name": "next" }],
     "types": [
       "node",
       "jest",
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
     ],
   },
   "include": [
@@ -13,6 +13,7 @@
     "build/types/**/*.ts",
     "next-env.d.ts",
     "src/**/*",
+    "test/**/*",
     ".next/types/**/*.ts"
   ],
   "exclude": [
