@@ -69,7 +69,7 @@ export default function SingleTrack({
           <>
             {isSelectedTrack && <PlayingText />}
             <Typography component="span" variant="subtitle2">
-              {length ?? handleTrackDuration(length)}
+              {length ? handleTrackDuration(length) : null}
             </Typography>
           </>
         }

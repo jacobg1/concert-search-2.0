@@ -86,6 +86,9 @@ const concertListSlice = createSlice({
     setBandAndYear: (state, action: PayloadAction<SearchParams>) => {
       state.concertQuery = action.payload
     },
+    clearConcertListError: (state) => {
+      state.error = {}
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -108,5 +111,7 @@ const concertListSlice = createSlice({
   },
 })
 
-export const { setPageNumber, setBandAndYear } = concertListSlice.actions
+export const { setPageNumber, setBandAndYear, clearConcertListError } =
+  concertListSlice.actions
+
 export default concertListSlice.reducer

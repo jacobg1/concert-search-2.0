@@ -11,6 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
+    "test:api": "turbo run test --filter=concert-search-api",
+    "test:ui": "turbo run test --filter=concert-search-web",
     "test:watch": "turbo run test:watch"
   },
   "devDependencies": {
