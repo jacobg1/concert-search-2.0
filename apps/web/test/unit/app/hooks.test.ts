@@ -1,5 +1,6 @@
-import { renderHook } from '@testing-library/react'
-import { useResize } from '../../../src/app/hooks'
+import { act, renderHook } from '@testing-library/react'
+import { usePopover, useResize } from '../../../src/app/hooks'
+import { createTestEvent } from '../../utils'
 
 const oldWindow = { ...window }
 
@@ -34,5 +35,31 @@ describe('Hooks', () => {
         expect(width).toBe(maxWidth)
       }
     }
+  })
+
+  it('usePopover works properly', () => {
+    const testTarget = 'test target'
+    const testEvent = createTestEvent(testTarget)
+
+    const { result } = renderHook(() => usePopover<HTMLButtonElement>())
+
+    const [htmlElOne, isOpenOne, handleOpen, handleClose] = result.current
+
+    expect(htmlElOne).toBe(null)
+    expect(isOpenOne).toBe(false)
+
+    act(() => handleOpen(testEvent))
+
+    const [htmlElTwo, isOpenTwo] = result.current
+
+    expect(htmlElTwo).toBe(testTarget)
+    expect(isOpenTwo).toBe(true)
+
+    act(() => handleClose(testEvent))
+
+    const [htmlElThree, isOpenThree] = result.current
+
+    expect(htmlElThree).toBe(null)
+    expect(isOpenThree).toBe(false)
   })
 })
