@@ -7,3 +7,10 @@ Object.assign(navigator, {
     metadata: {},
   },
 })
+
+Object.assign(window, {
+  innerHeight: 300,
+  innerWidth: 300,
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+})
