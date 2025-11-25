@@ -1,6 +1,8 @@
 import { act, renderHook } from '@testing-library/react'
-import { usePopover, useResize } from '../../../src/app/hooks'
+import { usePopover, useResize, useVolumeChange } from '../../../src/app/hooks'
 import { createTestEvent } from '../../utils'
+import { PlayerState } from '../../../src/app/interface'
+import type { RefObject } from 'react'
 
 const oldWindow = { ...window }
 
@@ -61,5 +63,15 @@ describe('Hooks', () => {
 
     expect(htmlElThree).toBe(null)
     expect(isOpenThree).toBe(false)
+  })
+
+  it('useVolumeChange works properly', () => {
+    const mockAudioEl = {
+      current: { volume: 100 },
+    } as RefObject<HTMLAudioElement>
+
+    renderHook(() => useVolumeChange(mockAudioEl, 1000, PlayerState.Play))
+
+    expect(mockAudioEl.current?.volume).toBe(10)
   })
 })
