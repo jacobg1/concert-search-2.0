@@ -14,6 +14,7 @@ const config: Config = {
     '!**/background.ts',
     '!**/store.ts',
     '!**/theme.ts',
+    '!**/useRedux.ts',
     ...coverageCollect,
   ],
   setupFilesAfterEnv: ['./test/config/setup.ts'],
