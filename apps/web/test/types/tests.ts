@@ -19,7 +19,12 @@ export interface UseSongDurationArgs {
 export interface CreateMockAudioElProps {
   volume?: number
   duration?: number
-  onloadedmetadata?: null
+  currentTime?: number
+  paused?: boolean
+  played?: boolean
+  onloadedmetadata?: jest.Mock
+  ontimeupdate?: jest.Mock
+  onstalled?: jest.Mock
   play?: () => Promise<void>
   pause?: () => void
 }
