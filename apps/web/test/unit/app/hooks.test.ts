@@ -1,4 +1,3 @@
-import type { RefObject } from 'react'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import {
   usePlayPause,
@@ -7,7 +6,11 @@ import {
   useSongDuration,
   useVolumeChange,
 } from '../../../src/app/hooks'
-import { checkMediaSession, createTestEvent } from '../../utils'
+import {
+  checkMediaSession,
+  createTestEvent,
+  createMockAudioEl,
+} from '../../utils'
 import { PlayerState, SessionState } from '../../../src/app/interface'
 import type { UsePlayPauseArgs, UseSongDurationArgs } from '../../types'
 
@@ -22,13 +25,6 @@ const resolve = () => Promise.resolve()
 
 const mockPlay = jest.fn(resolve)
 const mockPause = jest.fn(resolve)
-
-const mockAudioEl = {
-  current: {
-    play: mockPlay,
-    pause: mockPause,
-  } as unknown as HTMLMediaElement,
-}
 
 describe('Hooks', () => {
   it('useResize works properly', () => {
@@ -88,9 +84,7 @@ describe('Hooks', () => {
   })
 
   it('useVolumeChange works properly', () => {
-    const mockAudioEl = {
-      current: { volume: 100 },
-    } as RefObject<HTMLAudioElement>
+    const mockAudioEl = createMockAudioEl({ volume: 100 })
 
     renderHook(() => useVolumeChange(mockAudioEl, 1000, PlayerState.Play))
 
@@ -99,13 +93,7 @@ describe('Hooks', () => {
 
   it('useSongDuration works properly', () => {
     const mockDuration = 1000
-
-    const mockAudioEl = {
-      current: {
-        duration: mockDuration,
-        onloadedmetadata: null,
-      },
-    } as RefObject<HTMLAudioElement>
+    const mockAudioEl = createMockAudioEl({ duration: mockDuration })
 
     const { result } = renderHook(() =>
       useSongDuration(mockAudioEl, 'mock://url')
@@ -120,13 +108,7 @@ describe('Hooks', () => {
 
   it('useSongDuration resets duration when url is undefined', () => {
     const mockDuration = 100
-
-    const mockAudioEl = {
-      current: {
-        duration: mockDuration,
-        onloadedmetadata: null,
-      },
-    } as RefObject<HTMLAudioElement>
+    const mockAudioEl = createMockAudioEl({ duration: mockDuration })
 
     const { result, rerender } = renderHook<number, UseSongDurationArgs>(
       ({ url }) => useSongDuration(mockAudioEl, url),
@@ -143,6 +125,11 @@ describe('Hooks', () => {
   })
 
   it('usePlayPause works properly', async () => {
+    const mockAudioEl = createMockAudioEl({
+      play: mockPlay,
+      pause: mockPause,
+    })
+
     const { rerender } = renderHook<void, UsePlayPauseArgs>(
       ({ url, state }) => usePlayPause(mockAudioEl, url, state),
       { initialProps }
@@ -171,6 +158,11 @@ describe('Hooks', () => {
   })
 
   it('usePlayPause properly handles errors', async () => {
+    const mockAudioEl = createMockAudioEl({
+      play: mockPlay,
+      pause: mockPause,
+    })
+
     mockPlay.mockRejectedValue(new Error('test error'))
 
     renderHook<void, UsePlayPauseArgs>(
