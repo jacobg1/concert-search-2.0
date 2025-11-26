@@ -1,5 +1,10 @@
 import { act, renderHook } from '@testing-library/react'
-import { usePopover, useResize, useVolumeChange } from '../../../src/app/hooks'
+import {
+  usePopover,
+  useResize,
+  useSongDuration,
+  useVolumeChange,
+} from '../../../src/app/hooks'
 import { createTestEvent } from '../../utils'
 import { PlayerState } from '../../../src/app/interface'
 import type { RefObject } from 'react'
@@ -73,5 +78,52 @@ describe('Hooks', () => {
     renderHook(() => useVolumeChange(mockAudioEl, 1000, PlayerState.Play))
 
     expect(mockAudioEl.current?.volume).toBe(10)
+  })
+
+  it('useSongDuration works properly', () => {
+    const mockDuration = 1000
+
+    const mockAudioEl = {
+      current: {
+        duration: mockDuration,
+        onloadedmetadata: null,
+      },
+    } as RefObject<HTMLAudioElement>
+
+    const { result } = renderHook(() =>
+      useSongDuration(mockAudioEl, 'mock://url')
+    )
+
+    expect(result.current).toBe(0)
+
+    act(() => mockAudioEl?.current?.onloadedmetadata?.({} as Event))
+
+    expect(result.current).toBe(mockDuration)
+  })
+
+  it('useSongDuration resets duration when url is undefined', () => {
+    const mockDuration = 100
+
+    const mockAudioEl = {
+      current: {
+        duration: mockDuration,
+        onloadedmetadata: null,
+      },
+    } as RefObject<HTMLAudioElement>
+
+    const { result, rerender } = renderHook<number, { url?: string }>(
+      ({ url }) => useSongDuration(mockAudioEl, url),
+      { initialProps: { url: 'mock://url' } }
+    )
+
+    expect(result.current).toBe(0)
+
+    act(() => mockAudioEl?.current?.onloadedmetadata?.({} as Event))
+
+    expect(result.current).toBe(mockDuration)
+
+    rerender({ url: undefined })
+
+    expect(result.current).toBe(0)
   })
 })
