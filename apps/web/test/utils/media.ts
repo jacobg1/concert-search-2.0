@@ -1,6 +1,7 @@
 import type { RefObject } from 'react'
-import type { MediaHandler } from '../../src/app/interface'
+import type { MediaHandler, PlayerState } from '../../src/app/interface'
 import type { CreateMockAudioElProps } from '../types'
+import type { AppStore } from '../../src/app/store'
 
 export function findAction(
   action: MediaHandler['action'],
@@ -33,4 +34,12 @@ export function createMockAudioEl(
       ...props,
     },
   } as unknown as RefObject<HTMLMediaElement>
+}
+
+export function getPlayerState(store: AppStore): PlayerState {
+  const {
+    individualConcert: { playerState },
+  } = store.getState()
+
+  return playerState
 }

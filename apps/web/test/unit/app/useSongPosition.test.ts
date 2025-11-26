@@ -1,24 +1,20 @@
 import { act } from '@testing-library/react'
 import { useSongPosition } from '../../../src/app/hooks'
-import { contextRenderHook, createMockAudioEl } from '../../utils'
+import {
+  contextRenderHook,
+  createMockAudioEl,
+  getPlayerState,
+} from '../../utils'
 import { PlayerState, SongPosition } from '../../../src/app/interface'
 import type { SelectedConcertState } from '../../../src/features'
 
 const mockUrl = 'mock://url'
-
-const resolve = () => Promise.resolve()
-
-const mockPlay = jest.fn(resolve)
-const mockPause = jest.fn(resolve)
+const mockPlay = jest.fn(() => Promise.resolve())
+const mockPause = jest.fn(() => Promise.resolve())
 
 describe('useSongPosition', () => {
-  beforeAll(() => {
-    jest.useFakeTimers()
-  })
-
-  afterAll(() => {
-    jest.useRealTimers()
-  })
+  beforeAll(() => jest.useFakeTimers())
+  afterAll(() => jest.useRealTimers())
 
   it('useSongPosition properly returns song position', () => {
     const mockCurrentTime = 300
@@ -60,28 +56,16 @@ describe('useSongPosition', () => {
       }
     )
 
-    const {
-      individualConcert: { playerState: initialState },
-    } = store.getState()
-
-    expect(initialState).toBe(PlayerState.Play)
+    expect(getPlayerState(store)).toBe(PlayerState.Play)
 
     act(() => mockAudioEl.current?.onstalled?.({} as Event))
 
-    const {
-      individualConcert: { playerState: pausedState },
-    } = store.getState()
-
-    expect(pausedState).toBe(PlayerState.Pause)
+    expect(getPlayerState(store)).toBe(PlayerState.Pause)
     expect(mockPause).toHaveBeenCalledTimes(1)
 
     jest.runOnlyPendingTimers()
 
-    const {
-      individualConcert: { playerState: playedState },
-    } = store.getState()
-
-    expect(playedState).toBe(PlayerState.Play)
+    expect(getPlayerState(store)).toBe(PlayerState.Play)
     expect(mockPlay).toHaveBeenCalledTimes(1)
   })
 })
