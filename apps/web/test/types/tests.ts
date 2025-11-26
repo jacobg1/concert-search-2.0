@@ -15,3 +15,11 @@ export interface UsePlayPauseArgs {
 export interface UseSongDurationArgs {
   url?: string
 }
+
+export interface CreateMockAudioElProps {
+  volume?: number
+  duration?: number
+  onloadedmetadata?: null
+  play?: () => Promise<void>
+  pause?: () => void
+}
