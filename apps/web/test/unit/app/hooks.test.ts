@@ -1,19 +1,36 @@
-import { act, renderHook } from '@testing-library/react'
+import type { RefObject } from 'react'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import {
+  usePlayPause,
   usePopover,
   useResize,
   useSongDuration,
   useVolumeChange,
 } from '../../../src/app/hooks'
-import { createTestEvent } from '../../utils'
-import { PlayerState } from '../../../src/app/interface'
-import type { RefObject } from 'react'
+import { checkMediaSession, createTestEvent } from '../../utils'
+import { PlayerState, SessionState } from '../../../src/app/interface'
+import type { UsePlayPauseArgs, UseSongDurationArgs } from '../../types'
 
-const oldWindow = { ...window }
+const mockUrl = 'mock://url'
+
+const initialProps = {
+  url: mockUrl,
+  state: PlayerState.Play,
+}
+
+const resolve = () => Promise.resolve()
+
+const mockPlay = jest.fn(resolve)
+const mockPause = jest.fn(resolve)
+
+const mockAudioEl = {
+  current: {
+    play: mockPlay,
+    pause: mockPause,
+  } as unknown as HTMLMediaElement,
+}
 
 describe('Hooks', () => {
-  beforeEach(() => Object.assign(window, oldWindow))
-
   it('useResize works properly', () => {
     const maxWidth = 900
 
@@ -111,19 +128,60 @@ describe('Hooks', () => {
       },
     } as RefObject<HTMLAudioElement>
 
-    const { result, rerender } = renderHook<number, { url?: string }>(
+    const { result, rerender } = renderHook<number, UseSongDurationArgs>(
       ({ url }) => useSongDuration(mockAudioEl, url),
-      { initialProps: { url: 'mock://url' } }
+      { initialProps: { url: mockUrl } }
     )
 
     expect(result.current).toBe(0)
 
     act(() => mockAudioEl?.current?.onloadedmetadata?.({} as Event))
-
     expect(result.current).toBe(mockDuration)
 
-    rerender({ url: undefined })
-
+    act(() => rerender({ url: undefined }))
     expect(result.current).toBe(0)
+  })
+
+  it('usePlayPause works properly', async () => {
+    const { rerender } = renderHook<void, UsePlayPauseArgs>(
+      ({ url, state }) => usePlayPause(mockAudioEl, url, state),
+      { initialProps }
+    )
+
+    await waitFor(() => checkMediaSession(SessionState.Playing))
+    expect(mockPlay).toHaveBeenCalledTimes(1)
+
+    act(() => rerender({ url: mockUrl, state: PlayerState.Pause }))
+
+    checkMediaSession(SessionState.Paused)
+    expect(mockPause).toHaveBeenCalledTimes(1)
+  })
+
+  it('usePlayPause does nothing if no audio element is defined', () => {
+    const mockAudioEl = { current: null }
+
+    renderHook<void, UsePlayPauseArgs>(
+      ({ url, state }) => usePlayPause(mockAudioEl, url, state),
+      { initialProps }
+    )
+
+    checkMediaSession(SessionState.Paused)
+    expect(mockPlay).not.toHaveBeenCalled()
+    expect(mockPause).not.toHaveBeenCalled()
+  })
+
+  it('usePlayPause properly handles errors', async () => {
+    mockPlay.mockRejectedValue(new Error('test error'))
+
+    renderHook<void, UsePlayPauseArgs>(
+      ({ url, state }) => usePlayPause(mockAudioEl, url, state),
+      { initialProps }
+    )
+
+    await mockPlay.withImplementation(resolve, resolve)
+
+    checkMediaSession(SessionState.Paused)
+    expect(mockPlay).toHaveBeenCalledTimes(1)
+    expect(mockPause).not.toHaveBeenCalled()
   })
 })
