@@ -7,9 +7,11 @@ import {
 import { mediaHandlers } from '../../../src/app/mediaHandlers'
 import { findAction, checkMediaSession } from '../../utils'
 
+const resolve = () => Promise.resolve()
+
 const mockDispatch = jest.fn()
-const mockPlay = jest.fn(() => Promise.resolve())
-const mockPause = jest.fn(() => Promise.resolve())
+const mockPlay = jest.fn(resolve)
+const mockPause = jest.fn(resolve)
 
 const mockAudioEl = {
   current: {
@@ -23,10 +25,6 @@ describe('Media Handlers', () => {
 
   beforeAll(() => {
     handlers = mediaHandlers(mockAudioEl, mockDispatch)
-  })
-
-  beforeEach(() => {
-    navigator.mediaSession.playbackState = SessionState.Paused
   })
 
   it('mediaHandlers function properly creates handlers', () => {
@@ -69,13 +67,8 @@ describe('Media Handlers', () => {
 
     play.handler()
 
-    await mockPlay.withImplementation(
-      () => Promise.resolve(),
-      async () => {
-        await mockPlay()
-        checkMediaSession(SessionState.Playing)
-      }
-    )
+    await mockPlay.withImplementation(resolve, resolve)
+    checkMediaSession(SessionState.Playing)
 
     pause.handler()
     checkMediaSession(SessionState.Paused)
@@ -88,23 +81,14 @@ describe('Media Handlers', () => {
 
     play.handler()
 
-    await mockPlay.withImplementation(
-      () => Promise.resolve(),
-      async () => {
-        await mockPlay()
-        checkMediaSession(SessionState.Playing)
-      }
-    )
+    await mockPlay.withImplementation(resolve, resolve)
+    checkMediaSession(SessionState.Playing)
 
     mockPlay.mockRejectedValue(new Error('test error'))
 
     play.handler()
 
-    await mockPlay.withImplementation(
-      () => Promise.resolve(),
-      () => mockPlay()
-    )
-
+    await mockPlay.withImplementation(resolve, resolve)
     checkMediaSession(SessionState.Paused)
   })
 })
