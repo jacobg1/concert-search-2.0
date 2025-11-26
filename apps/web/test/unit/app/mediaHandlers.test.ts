@@ -1,5 +1,9 @@
 import { RefObject } from 'react'
-import type { MediaHandler } from '../../../src/app/interface'
+import {
+  PlayerState,
+  SessionState,
+  type MediaHandler,
+} from '../../../src/app/interface'
 import { mediaHandlers } from '../../../src/app/mediaHandlers'
 import { findAction, checkMediaSession } from '../../utils'
 
@@ -22,7 +26,7 @@ describe('Media Handlers', () => {
   })
 
   beforeEach(() => {
-    navigator.mediaSession.playbackState = 'paused'
+    navigator.mediaSession.playbackState = SessionState.Paused
   })
 
   it('mediaHandlers function properly creates handlers', () => {
@@ -58,10 +62,10 @@ describe('Media Handlers', () => {
   })
 
   it('mediaSession playbackState is set properly by action handlers', async () => {
-    const play = findAction('play', handlers)
-    const pause = findAction('pause', handlers)
+    const play = findAction(PlayerState.Play, handlers)
+    const pause = findAction(PlayerState.Pause, handlers)
 
-    checkMediaSession('paused')
+    checkMediaSession(SessionState.Paused)
 
     play.handler()
 
@@ -69,18 +73,18 @@ describe('Media Handlers', () => {
       () => Promise.resolve(),
       async () => {
         await mockPlay()
-        checkMediaSession('playing')
+        checkMediaSession(SessionState.Playing)
       }
     )
 
     pause.handler()
-    checkMediaSession('paused')
+    checkMediaSession(SessionState.Paused)
   })
 
   it('play handler handles errors properly', async () => {
-    const play = findAction('play', handlers)
+    const play = findAction(PlayerState.Play, handlers)
 
-    checkMediaSession('paused')
+    checkMediaSession(SessionState.Paused)
 
     play.handler()
 
@@ -88,7 +92,7 @@ describe('Media Handlers', () => {
       () => Promise.resolve(),
       async () => {
         await mockPlay()
-        checkMediaSession('playing')
+        checkMediaSession(SessionState.Playing)
       }
     )
 
@@ -101,6 +105,6 @@ describe('Media Handlers', () => {
       () => mockPlay()
     )
 
-    checkMediaSession('paused')
+    checkMediaSession(SessionState.Paused)
   })
 })
