@@ -22,7 +22,12 @@ export function createMockAudioEl(
     current: {
       volume: 50,
       duration: 40,
-      onloadedmetadata: null,
+      currentTime: 20,
+      paused: true,
+      played: false,
+      onloadedmetadata: jest.fn(),
+      ontimeupdate: jest.fn(),
+      onstalled: jest.fn(),
       play: () => Promise.resolve(),
       pause: () => Promise.resolve(),
       ...props,
