@@ -1,16 +1,24 @@
 import { act } from '@testing-library/react'
 import { useSongPosition } from '../../../src/app/hooks'
 import {
+  checkMediaSession,
   contextRenderHook,
   createMockAudioEl,
   getPlayerState,
 } from '../../utils'
-import { PlayerState, SongPosition } from '../../../src/app/interface'
+import {
+  PlayerState,
+  SessionState,
+  SongPosition,
+} from '../../../src/app/interface'
 import type { SelectedConcertState } from '../../../src/features'
+import type { RenderHookArgs } from '../../types'
 
 const mockUrl = 'mock://url'
 const mockPlay = jest.fn(() => Promise.resolve())
 const mockPause = jest.fn(() => Promise.resolve())
+
+const initialSongPosition = 0
 
 describe('useSongPosition', () => {
   beforeAll(() => jest.useFakeTimers())
@@ -24,17 +32,37 @@ describe('useSongPosition', () => {
       currentTime: mockCurrentTime,
     })
 
-    const { result } = contextRenderHook<SongPosition, undefined>(() =>
-      useSongPosition(mockAudioEl, mockUrl, PlayerState.Play)
-    )
+    const { result, rerender } = contextRenderHook<
+      SongPosition,
+      RenderHookArgs
+    >(({ audioEl, url, state }) => useSongPosition(audioEl, url, state), {
+      initialProps: {
+        audioEl: mockAudioEl,
+        url: mockUrl,
+        state: PlayerState.Play,
+      },
+    })
 
-    const [initialPosition] = result.current
-    expect(initialPosition).toBe(0)
+    expect(result.current[0]).toBe(initialSongPosition)
 
     act(() => mockAudioEl.current?.ontimeupdate?.({} as Event))
+    expect(result.current[0]).toBe(mockCurrentTime)
 
-    const [newPosition] = result.current
-    expect(newPosition).toBe(mockCurrentTime)
+    const missingTimeEl = createMockAudioEl({
+      played: true,
+      currentTime: undefined,
+    })
+
+    act(() =>
+      rerender({
+        audioEl: missingTimeEl,
+        url: mockUrl,
+        state: PlayerState.Play,
+      })
+    )
+
+    act(() => missingTimeEl.current?.ontimeupdate?.({} as Event))
+    expect(result.current[0]).toBe(0)
   })
 
   it('useSongPosition properly pauses song when onstalled event is called', () => {
@@ -67,5 +95,102 @@ describe('useSongPosition', () => {
 
     expect(getPlayerState(store)).toBe(PlayerState.Play)
     expect(mockPlay).toHaveBeenCalledTimes(1)
+  })
+
+  it('setSongPosition properly sets the song position', async () => {
+    const mockCurrentTime = 700
+    const mockSongPosition = 900
+
+    const mockAudioEl = createMockAudioEl({
+      play: mockPlay,
+      pause: mockPause,
+      currentTime: mockCurrentTime,
+    })
+
+    const { result } = contextRenderHook<SongPosition, undefined>(() =>
+      useSongPosition(mockAudioEl, mockUrl, PlayerState.Play)
+    )
+
+    const [position, setSongPosition] = result.current
+
+    checkMediaSession(SessionState.Paused)
+
+    expect(position).toBe(initialSongPosition)
+    expect(mockAudioEl.current?.currentTime).toBe(mockCurrentTime)
+
+    await act(async () => setSongPosition(mockSongPosition))
+
+    checkMediaSession(SessionState.Playing)
+
+    expect(result.current[0]).toBe(mockSongPosition)
+    expect(mockAudioEl.current?.currentTime).toBe(mockSongPosition)
+
+    expect(mockPause).toHaveBeenCalledTimes(1)
+    expect(mockPlay).toHaveBeenCalledTimes(1)
+  })
+
+  it('restSongPosition properly resets the song position', () => {
+    const mockSongPosition = 900
+
+    const mockAudioEl = createMockAudioEl({
+      play: mockPlay,
+      pause: mockPause,
+      currentTime: 500,
+    })
+
+    const { result } = contextRenderHook<SongPosition, undefined>(() =>
+      useSongPosition(mockAudioEl, mockUrl, PlayerState.Play)
+    )
+
+    const [, setSongPosition, resetSongPosition] = result.current
+
+    act(() => setSongPosition(mockSongPosition))
+    expect(result.current[0]).toBe(mockSongPosition)
+    expect(mockAudioEl.current?.currentTime).toBe(mockSongPosition)
+
+    act(() => resetSongPosition())
+    expect(result.current[0]).toBe(initialSongPosition)
+    expect(mockAudioEl.current?.currentTime).toBe(initialSongPosition)
+  })
+
+  it('resetSongPosition does nothing if audio element is undefined', () => {
+    const mockSongPosition = 80
+
+    const mockAudioEl = createMockAudioEl({
+      play: mockPlay,
+      pause: mockPause,
+      currentTime: 500,
+    })
+
+    const { result, rerender } = contextRenderHook<
+      SongPosition,
+      RenderHookArgs
+    >(({ audioEl, url, state }) => useSongPosition(audioEl, url, state), {
+      initialProps: {
+        audioEl: mockAudioEl,
+        url: mockUrl,
+        state: PlayerState.Play,
+      },
+    })
+
+    const [, setSongPosition] = result.current
+
+    act(() => setSongPosition(mockSongPosition))
+    expect(result.current[0]).toBe(mockSongPosition)
+    expect(mockAudioEl.current?.currentTime).toBe(mockSongPosition)
+
+    act(() =>
+      rerender({
+        audioEl: { current: null },
+        url: mockUrl,
+        state: PlayerState.Play,
+      })
+    )
+
+    const [, , resetSongPosition] = result.current
+
+    act(() => resetSongPosition())
+    expect(result.current[0]).toBe(mockSongPosition)
+    expect(mockAudioEl.current?.currentTime).toBe(mockSongPosition)
   })
 })
