@@ -12,7 +12,11 @@ import {
   createMockAudioEl,
 } from '../../utils'
 import { PlayerState, SessionState } from '../../../src/app/interface'
-import type { UsePlayPauseArgs, UseSongDurationArgs } from '../../types'
+import type {
+  RenderDurationHookArgs,
+  UsePlayPauseArgs,
+  UseSongDurationArgs,
+} from '../../types'
 
 const mockUrl = 'mock://url'
 
@@ -20,6 +24,8 @@ const initialProps = {
   url: mockUrl,
   state: PlayerState.Play,
 }
+
+const initialSongDuration = 0
 
 const resolve = () => Promise.resolve()
 
@@ -95,15 +101,27 @@ describe('Hooks', () => {
     const mockDuration = 1000
     const mockAudioEl = createMockAudioEl({ duration: mockDuration })
 
-    const { result } = renderHook(() =>
-      useSongDuration(mockAudioEl, 'mock://url')
+    const { result, rerender } = renderHook<number, RenderDurationHookArgs>(
+      ({ audioEl, url }) => useSongDuration(audioEl, url),
+      {
+        initialProps: {
+          audioEl: mockAudioEl,
+          url: mockUrl,
+        },
+      }
     )
 
-    expect(result.current).toBe(0)
+    expect(result.current).toBe(initialSongDuration)
 
     act(() => mockAudioEl?.current?.onloadedmetadata?.({} as Event))
-
     expect(result.current).toBe(mockDuration)
+
+    const missingDurationEl = createMockAudioEl({ duration: undefined })
+
+    act(() => rerender({ audioEl: missingDurationEl, url: mockUrl }))
+    act(() => missingDurationEl?.current?.onloadedmetadata?.({} as Event))
+
+    expect(result.current).toBe(initialSongDuration)
   })
 
   it('useSongDuration resets duration when url is undefined', () => {
@@ -115,13 +133,13 @@ describe('Hooks', () => {
       { initialProps: { url: mockUrl } }
     )
 
-    expect(result.current).toBe(0)
+    expect(result.current).toBe(initialSongDuration)
 
     act(() => mockAudioEl?.current?.onloadedmetadata?.({} as Event))
     expect(result.current).toBe(mockDuration)
 
     act(() => rerender({ url: undefined }))
-    expect(result.current).toBe(0)
+    expect(result.current).toBe(initialSongDuration)
   })
 
   it('usePlayPause works properly', async () => {
