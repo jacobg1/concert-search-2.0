@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { Provider } from 'react-redux'
 import { type AppStore, setupStore } from '../../src/app/store'
 import { theme } from '../../src/app/theme'
-import type { ContextRenderOptions } from '../types'
+import type { ContextRenderOptions, ContextRenderHookOptions } from '../types'
 
 export const htmlContainer = document.body.appendChild(
   document.createElement('html')
@@ -43,7 +43,7 @@ export function contextRenderHook<Result, Args>(
     preloadedState,
     store = setupStore(preloadedState),
     ...restOfOptions
-  }: ContextRenderOptions = {}
+  }: ContextRenderHookOptions<Args> = {}
 ) {
   return {
     store,
