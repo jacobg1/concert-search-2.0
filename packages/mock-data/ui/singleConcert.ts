@@ -29,6 +29,7 @@ export const singleConcert = {
     notes:
       'This updated "version three" was created on January 1, 2021.\n\n...and you may ask yourself, how did we get here? Uncharacteristically, we did a couple fixes to make this show right.  The original seed had one of the two tapes channels reversed by accident, so we fixed that.  Upon listening, scholars let us know that while Keith was on the left side of the stage physically, the mix was done to put him in the right channel, therefore our second fix had the mix flipped channels wise. Though it represented the stage position of Keith, it had the drummers and band in the wrong locations.  Thanks for understanding the process and our desire to present the most accurate possible version. This version three also includes a tiny adjustment to the speed. If you have the previous two versions (151250 + 151297), please don\'t continue to share them elsewhere.\n',
     'access-restricted-item': 'true',
+    numTracks: '12',
   },
   trackList: [
     {
