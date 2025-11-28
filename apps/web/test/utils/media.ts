@@ -17,7 +17,7 @@ export function checkMediaSession(expected: MediaSessionPlaybackState) {
 }
 
 export function createMockAudioEl(
-  props: CreateMockAudioElProps
+  props?: CreateMockAudioElProps
 ): RefObject<HTMLMediaElement> {
   return {
     current: {
@@ -26,6 +26,7 @@ export function createMockAudioEl(
       currentTime: 20,
       paused: true,
       played: false,
+      onplay: jest.fn(),
       onloadedmetadata: jest.fn(),
       ontimeupdate: jest.fn(),
       onstalled: jest.fn(),
