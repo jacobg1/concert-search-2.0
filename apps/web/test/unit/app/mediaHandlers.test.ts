@@ -1,4 +1,4 @@
-import { act, type RefObject } from 'react'
+import type { RefObject } from 'react'
 import {
   PlayerState,
   SessionState,
@@ -12,7 +12,7 @@ import {
   contextRenderHook,
 } from '../../utils'
 import { useMediaHandlers, useMediaSession } from '../../../src/app/hooks'
-import { renderHook } from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react'
 import { singleConcert } from '@repo/mock-data/ui'
 
 const resolve = () => Promise.resolve()
