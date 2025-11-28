@@ -44,3 +44,9 @@ export interface CreateMockAudioElProps {
   play?: () => Promise<void>
   pause?: () => void
 }
+
+export interface MediaMetadataArgs {
+  album?: string
+  artist?: string
+  title?: string
+}
