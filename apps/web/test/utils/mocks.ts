@@ -1,4 +1,5 @@
 import { MediaFormat, PlayerState, SortOrder } from '../../src/app/interface'
+import type { MediaMetadataArgs } from '../types'
 
 export const defaultAppState = {
   individualConcert: {
@@ -32,4 +33,87 @@ export const defaultAppState = {
     selectedYear: '',
     filterDuplicates: true,
   },
+}
+
+export class MockMediaMetadata {
+  public album = ''
+  public artist = ''
+  public title = ''
+
+  constructor({ album, artist, title }: MediaMetadataArgs) {
+    if (album) this.album = album
+    if (artist) this.artist = artist
+    if (title) this.title = title
+  }
+}
+
+// Just a placeholder for now since this class
+// is only used as a function argument
+export class MockAudioDestination {
+  public init = false
+
+  constructor() {
+    this.init = true
+  }
+}
+
+export class MockAnalyzerNode {
+  public _fftSize: number = 0
+  public frequencyBinCount: number = 8
+
+  connect(): void {
+    return
+  }
+
+  disconnect(): void {
+    return
+  }
+
+  getByteFrequencyData(): void {
+    return
+  }
+
+  get fftSize() {
+    return this._fftSize
+  }
+
+  set fftSize(val: number) {
+    this._fftSize = val
+  }
+}
+
+export class MockSourceNode {
+  readonly mediaElement: HTMLMediaElement | null = null
+
+  connect(): void {
+    return
+  }
+
+  disconnect(): void {
+    return
+  }
+
+  constructor(el: HTMLAudioElement) {
+    this.mediaElement = el
+  }
+}
+
+export class MockAudioContext {
+  public destination: MockAudioDestination | null = null
+
+  constructor() {
+    this.destination = new MockAudioDestination()
+  }
+
+  createMediaElementSource(el: HTMLAudioElement) {
+    return new MockSourceNode(el)
+  }
+
+  createAnalyser(): MockAnalyzerNode {
+    return new MockAnalyzerNode()
+  }
+
+  async resume(): Promise<void> {
+    return
+  }
 }
