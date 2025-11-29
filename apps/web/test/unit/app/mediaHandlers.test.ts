@@ -1,4 +1,3 @@
-import type { RefObject } from 'react'
 import {
   PlayerState,
   SessionState,
@@ -38,10 +37,7 @@ describe('Media Handlers', () => {
   })
 
   it('mediaHandlers returns an empty array if no audio ref is passed in', () => {
-    const emptyHandlers = mediaHandlers(
-      { current: null } as unknown as RefObject<HTMLMediaElement>,
-      mockDispatch
-    )
+    const emptyHandlers = mediaHandlers({ current: null }, mockDispatch)
     expect(emptyHandlers.length).toBe(0)
   })
 
