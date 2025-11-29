@@ -1,4 +1,4 @@
-import { PlayerState } from '../../src/app/interface'
+import { type IAudioContext, PlayerState } from '../../src/app/interface'
 import type { RefObject } from 'react'
 import type { RootState, AppStore } from '../../src/app/store'
 import type { RenderHookOptions, RenderOptions } from '@testing-library/react'
@@ -49,4 +49,16 @@ export interface MediaMetadataArgs {
   album?: string
   artist?: string
   title?: string
+}
+
+interface AudioContextSpies {
+  source: jest.SpyInstance
+  analyser: jest.SpyInstance
+}
+
+export interface TestAudioContextArgs {
+  current: IAudioContext
+  unmount: () => void
+  connect: AudioContextSpies
+  disconnect: AudioContextSpies
 }
