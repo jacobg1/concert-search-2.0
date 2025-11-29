@@ -63,3 +63,5 @@ export type SongPosition = [
   connectionError: string,
   setConnectionError: Dispatch<SetStateAction<string>>,
 ]
+
+export type IAudioContext = [audioBufferLength: number, analyser?: AnalyserNode]
