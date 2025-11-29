@@ -18,7 +18,7 @@ beforeEach(() => {
     innerWidth: 300,
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    webkitAudioContext: jest.fn(),
+    webkitAudioContext: MockAudioContext,
   })
 
   Object.assign(global, {
