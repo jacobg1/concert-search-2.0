@@ -3,13 +3,10 @@ import {
   createMockAudioEl,
   MockAnalyzerNode,
   MockSourceNode,
-  MockAudioDestination,
   MockAudioContext,
+  testAudioContext,
 } from '../../utils'
 import { useAudioContext } from '../../../src/app/hooks'
-
-const fftSize = 256
-const frequencyBinCount = 8
 
 const sourceConnect = jest.spyOn(MockSourceNode.prototype, 'connect')
 const sourceDisconnect = jest.spyOn(MockSourceNode.prototype, 'disconnect')
@@ -19,7 +16,6 @@ const analyserDisconnect = jest.spyOn(MockAnalyzerNode.prototype, 'disconnect')
 
 const contextResume = jest.spyOn(MockAudioContext.prototype, 'resume')
 
-const destination = new MockAudioDestination()
 const mockAudioEl = createMockAudioEl()
 
 describe('useAudioContext', () => {
@@ -29,25 +25,73 @@ describe('useAudioContext', () => {
 
   it('useAudioContext properly returns analyzer node', async () => {
     const {
-      result: {
-        current: [binCount, analyser],
-      },
+      result: { current },
       unmount,
     } = renderHook(() => useAudioContext(mockAudioEl))
 
     await act(() => mockAudioEl.current?.onplay?.({} as Event))
 
     expect(contextResume).toHaveBeenCalledTimes(1)
-    expect(analyser).toBeDefined()
-    expect(analyser).toBeInstanceOf(MockAnalyzerNode)
-    expect(analyser?.fftSize).toBe(fftSize)
-    expect(binCount).toBe(frequencyBinCount)
-    expect(sourceConnect).toHaveBeenCalledWith(analyser)
-    expect(analyserConnect).toHaveBeenCalledWith(destination)
+
+    testAudioContext({
+      unmount,
+      current,
+      connect: {
+        source: sourceConnect,
+        analyser: analyserConnect,
+      },
+      disconnect: {
+        source: sourceDisconnect,
+        analyser: analyserDisconnect,
+      },
+    })
+  })
+
+  it('useAudioContext does nothing if no audio element is defined', () => {
+    const {
+      result: {
+        current: [binCount, analyser],
+      },
+      unmount,
+    } = renderHook(() => useAudioContext({ current: null }))
+
+    expect(binCount).toBe(0)
+    expect(analyser).not.toBeDefined()
+    expect(sourceConnect).not.toHaveBeenCalled()
+    expect(analyserConnect).not.toHaveBeenCalled()
 
     unmount()
 
-    expect(sourceDisconnect).toHaveBeenCalledWith(analyser)
-    expect(analyserDisconnect).toHaveBeenCalledWith(destination)
+    expect(sourceDisconnect).not.toHaveBeenCalled()
+    expect(analyserDisconnect).not.toHaveBeenCalled()
+  })
+
+  it('useAudioContext works with legacy webkitAudioContext', async () => {
+    Object.assign(global, {
+      ...global,
+      AudioContext: undefined,
+    })
+
+    const {
+      result: { current },
+      unmount,
+    } = renderHook(() => useAudioContext(mockAudioEl))
+
+    await act(() => mockAudioEl.current?.onplay?.({} as Event))
+
+    expect(contextResume).toHaveBeenCalledTimes(1)
+
+    testAudioContext({
+      current,
+      unmount,
+      connect: {
+        source: sourceConnect,
+        analyser: analyserConnect,
+      },
+      disconnect: {
+        source: sourceDisconnect,
+        analyser: analyserDisconnect,
+      },
+    })
   })
 })
