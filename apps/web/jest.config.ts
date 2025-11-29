@@ -20,10 +20,10 @@ const config: Config = {
   setupFilesAfterEnv: ['./test/config/setup.ts'],
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 25,
-      lines: 55,
-      statements: 55,
+      branches: 90,
+      functions: 50,
+      lines: 70,
+      statements: 70,
     },
   },
 }
