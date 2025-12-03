@@ -1,5 +1,5 @@
 import { MediaFormat, PlayerState, SortOrder } from '../../src/app/interface'
-import type { MediaMetadataArgs } from '../types'
+import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
 
 export const defaultAppState = {
   individualConcert: {
@@ -115,5 +115,23 @@ export class MockAudioContext {
 
   async resume(): Promise<void> {
     return
+  }
+}
+
+export function getMockSingleTrackProps({
+  playNewTrack,
+  isPlaying,
+  title,
+  length,
+}: MockSingleTrackProps) {
+  const name = 'test name'
+  const currentTrackName = isPlaying ? name : 'current'
+
+  return {
+    name,
+    currentTrackName,
+    playNewTrack,
+    ...(title && { title }),
+    ...(length && { length }),
   }
 }
