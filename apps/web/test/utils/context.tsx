@@ -61,3 +61,11 @@ export function userRender(
   const user = userEvent.setup()
   return { user, ...render(elem, opts) }
 }
+
+export function userRenderContext(
+  elem: ReactElement,
+  opts: ContextRenderOptions = {}
+) {
+  const user = userEvent.setup()
+  return { user, ...contextRender(elem, opts) }
+}
