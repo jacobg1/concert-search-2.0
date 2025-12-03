@@ -62,3 +62,10 @@ export interface TestAudioContextArgs {
   connect: AudioContextSpies
   disconnect: AudioContextSpies
 }
+
+export interface MockSingleTrackProps {
+  playNewTrack: jest.Mock
+  isPlaying: boolean
+  title?: string
+  length?: string
+}
