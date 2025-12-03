@@ -1,9 +1,19 @@
 import { render } from '@testing-library/react'
 import { PlayingText } from '../../../src/features/tracks/components/PlayingText'
 import { CloseEditIcon } from '../../../src/features/tracks/components/CloseEditIcon'
-import { userRender } from '../../utils'
+import {
+  contextRender,
+  getMockSingleTrackProps,
+  userRender,
+  userRenderContext,
+} from '../../utils'
 import { MetaItem } from '../../../src/features/tracks/components/MetaItem'
 import ConcertMeta from '../../../src/features/tracks/components/ConcertMeta'
+import SingleTrack from '../../../src/features/tracks/components/SingleTrack'
+import SongFormatSelect from '../../../src/features/tracks/components/SongFormatSelect'
+import { MediaFormat } from '../../../src/app/interface'
+import TrackListDisplay from '../../../src/features/tracks/TrackListDisplay'
+import { singleConcert } from '@repo/mock-data/ui'
 
 const mockMetadata = {
   title: 'test title',
@@ -79,5 +89,82 @@ describe('Tracks Feature', () => {
 
     expect(queryByText('Source')).toBeNull()
     expect(queryByText(mockMetadata.source, { exact: false })).toBeNull()
+  })
+
+  it('SingleTrack renders a single track properly', async () => {
+    const testTitle = 'test title'
+    const testLength = '02:20'
+    const isPlayingTest = 'Playing...'
+    const playTrackMock = jest.fn()
+
+    const testProps = getMockSingleTrackProps({
+      playNewTrack: playTrackMock,
+      isPlaying: false,
+      title: testTitle,
+      length: testLength,
+    })
+
+    const { user, getByText, queryByText, rerender } = userRender(
+      <SingleTrack {...testProps} />
+    )
+
+    expect(getByText(testLength)).toBeVisible()
+    await user.click(getByText(testTitle))
+    expect(playTrackMock).toHaveBeenCalledTimes(1)
+
+    const propsWithoutTitle = getMockSingleTrackProps({
+      playNewTrack: playTrackMock,
+      isPlaying: false,
+    })
+
+    rerender(<SingleTrack {...propsWithoutTitle} />)
+    expect(getByText(propsWithoutTitle.name)).toBeVisible()
+    expect(queryByText(testLength)).toBeNull()
+
+    const currentlyPlayingProps = getMockSingleTrackProps({
+      playNewTrack: playTrackMock,
+      isPlaying: true,
+    })
+
+    rerender(<SingleTrack {...currentlyPlayingProps} />)
+    expect(getByText(isPlayingTest)).toBeVisible()
+  })
+
+  it('SongFormatSelect allows you to select the song format', async () => {
+    const mp3Format = MediaFormat.MP3.toLocaleUpperCase()
+    const oggFormat = MediaFormat.OGG.toLocaleUpperCase()
+
+    const { user, getByText, getByTestId } = userRenderContext(
+      <SongFormatSelect />
+    )
+
+    const initialFormat = getByText(mp3Format)
+    expect(initialFormat).toBeVisible()
+    expect(initialFormat).toHaveStyle({ fontWeight: '400' })
+
+    await user.click(getByTestId('EditIcon'))
+
+    expect(getByText(mp3Format)).toHaveStyle({ fontWeight: '700' })
+
+    const newFormat = getByText(oggFormat)
+    expect(newFormat).toBeVisible()
+    expect(newFormat).toHaveStyle({ fontWeight: '400' })
+
+    await user.click(newFormat)
+    expect(getByText(oggFormat)).toHaveStyle({ fontWeight: '700' })
+  })
+
+  it('TrackListDisplay renders a tracklist', () => {
+    const { getByText } = contextRender(
+      <TrackListDisplay
+        trackList={singleConcert.trackList}
+        currentTrackName={singleConcert.trackList[0].name}
+        playNewTrack={jest.fn()}
+      />
+    )
+
+    for (const { title } of singleConcert.trackList) {
+      expect(getByText(title)).toBeVisible()
+    }
   })
 })
