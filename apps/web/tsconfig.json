@@ -9,14 +9,11 @@
     ],
   },
   "include": [
-    "app/**/*",
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
     "build/types/**/*.ts",
-    "next-env.d.ts",
-    "src/**/*",
-    "test/**/*",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

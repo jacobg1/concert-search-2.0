@@ -167,7 +167,6 @@ describe('Util', () => {
     const err = { message: 'request failed' } as NetworkError
 
     expect(hasNetworkError({}, {})).toBe(false)
-
     expect(hasNetworkError(err, {})).toBe(true)
     expect(hasNetworkError({}, err)).toBe(true)
     expect(hasNetworkError(err, err)).toBe(true)

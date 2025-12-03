@@ -15,9 +15,8 @@ export const mediaHandlers = (
     {
       action: 'play',
       handler: () => {
-        if (!audioEl.current) return
         audioEl.current
-          .play()
+          ?.play()
           .then(() => {
             navigator.mediaSession.playbackState = 'playing'
           })

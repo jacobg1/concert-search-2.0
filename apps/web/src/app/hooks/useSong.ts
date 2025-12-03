@@ -1,11 +1,11 @@
-import { Dispatch, RefObject, SetStateAction, useEffect, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 import { setPlayerState } from '../../features/selectedConcert/selectedConcertSlice'
-import { PlayerState, SessionState, SongPositionHandler } from '../interface'
+import { PlayerState, SessionState, type SongPosition } from '../interface'
 import { useAppDispatch } from './useRedux'
 
 export function useSongDuration(
   audioEl: RefObject<HTMLAudioElement>,
-  playUrl: string
+  playUrl?: string
 ): number {
   const [duration, setDuration] = useState(0)
 
@@ -21,14 +21,6 @@ export function useSongDuration(
 
   return duration
 }
-
-type SongPosition = [
-  position: number,
-  setSongPosition: SongPositionHandler,
-  resetSongPosition: () => void,
-  connectionError: string,
-  setConnectionError: Dispatch<SetStateAction<string>>,
-]
 
 export function useSongPosition(
   audioEl: RefObject<HTMLAudioElement>,

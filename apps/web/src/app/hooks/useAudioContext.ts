@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, RefObject } from 'react'
-
-type IAudioContext = [audioBufferLength: number, analyser?: AnalyserNode]
+import type { IAudioContext } from '../interface'
 
 // Initial analyser set up. Needs to only run once.
 export function useAudioContext(

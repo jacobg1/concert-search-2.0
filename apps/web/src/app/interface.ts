@@ -55,3 +55,13 @@ export interface MediaHandler {
 }
 
 export type BandList = Record<string, string[]> | null
+
+export type SongPosition = [
+  position: number,
+  setSongPosition: SongPositionHandler,
+  resetSongPosition: () => void,
+  connectionError: string,
+  setConnectionError: Dispatch<SetStateAction<string>>,
+]
+
+export type IAudioContext = [audioBufferLength: number, analyser?: AnalyserNode]
