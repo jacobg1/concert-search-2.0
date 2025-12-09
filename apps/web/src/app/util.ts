@@ -1,5 +1,7 @@
+import type { UnknownAction } from '@reduxjs/toolkit'
 import type { TrackListData } from '../features/tracks/trackInterface'
 import { MediaFormat, type NetworkError, type BandList } from './interface'
+import type { AppDispatch, AppThunk } from './store'
 
 function durationFormat(
   durationValue: number
@@ -116,4 +118,14 @@ export function hasNetworkError(
     (listError && Object.keys(listError).length !== 0) ||
     (concertError && Object.keys(concertError).length !== 0)
   )
+}
+
+export function withDispatch(
+  dispatch: AppDispatch,
+  cb: (...args: string[]) => UnknownAction | AppThunk
+) {
+  return (selection?: string) => {
+    if (selection) return dispatch(cb(selection))
+    return cb()
+  }
 }
