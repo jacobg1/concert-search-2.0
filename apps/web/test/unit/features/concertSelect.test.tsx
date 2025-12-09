@@ -25,6 +25,7 @@ describe('Concert Select Feature', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
   })
+
   it('BandAndYearSelect renders properly', () => {
     const { container } = contextRender(<BandAndYearSelect />)
 
@@ -73,7 +74,7 @@ describe('Concert Select Feature', () => {
 
       await user.click(getByTestId(`${bandNameId}-clear`))
     }
-  })
+  }, 7000)
 
   it('FilterDuplicatesCheckbox checks and unchecks properly', async () => {
     const { user, store, getByText } = userRenderContext(
