@@ -11,7 +11,7 @@ import {
 } from './concertSelectSlice'
 import FilterDuplicatesCheckbox from './components/FilterDuplicatesCheckbox'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { getBandOptions, getYearOptions } from '../../app/util'
+import { getBandOptions, getYearOptions, withDispatch } from '../../app/util'
 
 const boxStyles: SxProps = {
   width: '90%',
@@ -40,8 +40,8 @@ export default function BandAndYearSelect(): JSX.Element | null {
           value: selectedBand,
           disabled: false,
           autocompleteOptions: getBandOptions(bandList),
-          changeHandler: (selection: string) => dispatch(selectBand(selection)),
-          clearSelection: () => dispatch(handleClearBand()),
+          changeHandler: withDispatch(dispatch, selectBand),
+          clearSelection: withDispatch(dispatch, handleClearBand),
         },
         {
           id: 'select-concert-year',
@@ -49,8 +49,8 @@ export default function BandAndYearSelect(): JSX.Element | null {
           value: selectedYear,
           disabled: !selectedBand,
           autocompleteOptions: getYearOptions(bandList, selectedBand),
-          changeHandler: (selection: string) => dispatch(selectYear(selection)),
-          clearSelection: () => dispatch(handleClearYear()),
+          changeHandler: withDispatch(dispatch, selectYear),
+          clearSelection: withDispatch(dispatch, handleClearYear),
         },
       ]
     },
