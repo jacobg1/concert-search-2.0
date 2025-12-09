@@ -1,16 +1,33 @@
-import { render } from '@testing-library/react'
-import { userRender } from '../../utils'
+import { render, waitFor } from '@testing-library/react'
+import {
+  contextRender,
+  defaultAppState,
+  userRender,
+  userRenderContext,
+} from '../../utils'
 import { RecordIcon } from '../../../src/features/concerts/components/RecordIcon'
 import PlayConcertButton from '../../../src/features/concerts/components/PlayConcertButton'
 import ConcertPagination from '../../../src/features/concerts/components/ConcertPagination'
+import ConcertAccordion from '../../../src/features/concerts/components/ConcertAccordion'
+import ConcertListDisplay from '../../../src/features/concerts/ConcertListDisplay'
+import { concertList } from '@repo/mock-data/ui'
 
 const handlePageChangeMock = jest.fn()
 const paginationLabel = 'pagination navigation'
 const secondPage = 2
 
+const mockAccordionProps = {
+  identifier: 'test-id',
+  title: 'test title',
+  description: 'test description',
+  expanded: 'test-id2',
+  source: 'test source',
+  handleChange: jest.fn(),
+}
+
 describe('Concerts Feature', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   it('RecordIcon renders properly', () => {
@@ -60,5 +77,116 @@ describe('Concerts Feature', () => {
       expect.objectContaining({ type: 'click' }),
       secondPage
     )
+  })
+
+  it('ConcertAccordion properly renders concert info', async () => {
+    const { title, identifier, source, description, handleChange } =
+      mockAccordionProps
+
+    const { user, getByText, rerender } = userRenderContext(
+      <ConcertAccordion {...mockAccordionProps} />
+    )
+
+    await user.click(getByText(title))
+
+    expect(handleChange).toHaveBeenCalledWith(identifier)
+
+    rerender(
+      <ConcertAccordion {...{ ...mockAccordionProps, expanded: identifier }} />
+    )
+
+    expect(getByText(source)).toBeVisible()
+    expect(getByText(description)).toBeVisible()
+  })
+
+  it('ConcertAccordion allows user to play a concert', async () => {
+    const fetchMock = jest.spyOn(global, 'fetch')
+    const { identifier } = mockAccordionProps
+
+    const { user, getByText } = userRenderContext(
+      <ConcertAccordion {...mockAccordionProps} />
+    )
+
+    await user.click(getByText('Play'))
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/concerts/${identifier}`,
+      { method: 'GET' }
+    )
+  })
+
+  it('ConcertListDisplay shows record icon before initial search is made', () => {
+    const { getByAltText } = contextRender(<ConcertListDisplay />)
+    expect(getByAltText('record-icon')).toBeVisible()
+  })
+
+  it('ConcertListDisplay shows loading spinner while search is loading', () => {
+    const { getByRole } = contextRender(<ConcertListDisplay />, {
+      preloadedState: {
+        concertList: {
+          ...defaultAppState.concertList,
+          loading: true,
+        },
+      },
+    })
+    expect(getByRole('progressbar')).toBeVisible()
+  })
+
+  it('ConcertListDisplay renders a list of concerts', async () => {
+    const { user, getByText, queryByText } = userRenderContext(
+      <ConcertListDisplay />,
+      {
+        preloadedState: {
+          concertList: {
+            ...defaultAppState.concertList,
+            concerts: concertList,
+          },
+        },
+      }
+    )
+
+    const [firstPage] = concertList
+
+    for (const concert of firstPage) {
+      expect(getByText(concert.title)).toBeVisible()
+    }
+
+    const [{ title, source, description }] = firstPage
+
+    await user.click(getByText(title))
+
+    await waitFor(() => {
+      expect(getByText(source)).toBeVisible()
+      expect(getByText(description)).toBeVisible()
+    })
+
+    await user.click(getByText(title))
+
+    await waitFor(() => {
+      expect(queryByText(source)).toBeNull()
+      expect(queryByText(description)).toBeNull()
+    })
+  })
+
+  it('ConcertListDisplay can change pages', async () => {
+    const { user, getByText, getByTestId } = userRenderContext(
+      <ConcertListDisplay />,
+      {
+        preloadedState: {
+          concertList: {
+            ...defaultAppState.concertList,
+            concerts: concertList,
+          },
+        },
+      }
+    )
+
+    await user.click(getByTestId('NavigateNextIcon'))
+
+    const [, secondPage] = concertList
+
+    for (const concert of secondPage) {
+      expect(getByText(concert.title)).toBeVisible()
+    }
   })
 })
