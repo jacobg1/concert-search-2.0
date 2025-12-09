@@ -24,9 +24,9 @@ export interface ConcertPaginationProps {
 export interface SingleConcertMeta {
   description: string
   identifier: string
-  mediatype: string
+  mediatype?: string
   title: string
-  year: number
+  year?: number
   source: string
 }
 
