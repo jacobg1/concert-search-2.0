@@ -24,5 +24,10 @@ beforeEach(() => {
   Object.assign(global, {
     MediaMetadata: MockMediaMetadata,
     AudioContext: MockAudioContext,
+    fetch: jest.fn(),
+  })
+
+  Object.assign(process.env, {
+    NEXT_PUBLIC_BASE_URL: 'http://testing',
   })
 })

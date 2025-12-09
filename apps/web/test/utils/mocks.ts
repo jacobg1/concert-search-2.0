@@ -135,3 +135,26 @@ export function getMockSingleTrackProps({
     ...(length && { length }),
   }
 }
+
+export function mockConcertListPayload(
+  selectedBand: string,
+  selectedYear?: string
+) {
+  const body = {
+    searchTerm: selectedYear
+      ? `${selectedBand}+AND+year%3A${selectedYear}`
+      : selectedBand,
+    max: 1000,
+    filterDuplicates: true,
+    sortBy: { downloads: SortOrder.DESC },
+    mediaFormat: [MediaFormat.OGG, MediaFormat.MP3],
+  }
+
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  }
+}
