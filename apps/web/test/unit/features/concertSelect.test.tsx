@@ -1,5 +1,12 @@
 import BandAndYearSelect from '../../../src/features/concertSelect/BandAndYearSelect'
-import { contextRender, getInput, userRenderContext } from '../../utils'
+import ConcertSelectButton from '../../../src/features/concertSelect/components/ConcertSelectButton'
+import FilterDuplicatesCheckbox from '../../../src/features/concertSelect/components/FilterDuplicatesCheckbox'
+import {
+  contextRender,
+  getInput,
+  mockConcertListPayload,
+  userRenderContext,
+} from '../../utils'
 
 const bandNameId = 'select-band-name'
 const concertYearId = 'select-concert-year'
@@ -7,7 +14,17 @@ const concertYearId = 'select-concert-year'
 const bandNameSelector = `#${bandNameId}`
 const concertYearSelector = `#${concertYearId}`
 
+const mockConcertSelectState = {
+  selectedBand: 'test',
+  selectedYear: '2020',
+  filterDuplicates: true,
+  bandList: { test: ['2020'] },
+}
+
 describe('Concert Select Feature', () => {
+  beforeEach(() => {
+    jest.restoreAllMocks()
+  })
   it('BandAndYearSelect renders properly', () => {
     const { container } = contextRender(<BandAndYearSelect />)
 
@@ -56,5 +73,36 @@ describe('Concert Select Feature', () => {
 
       await user.click(getByTestId(`${bandNameId}-clear`))
     }
+  })
+
+  it('FilterDuplicatesCheckbox checks and unchecks properly', async () => {
+    const { user, store, getByText } = userRenderContext(
+      <FilterDuplicatesCheckbox />
+    )
+
+    expect(store.getState().concertSelect.filterDuplicates).toBe(true)
+    await user.click(getByText('Filter duplicates'))
+
+    expect(store.getState().concertSelect.filterDuplicates).toBe(false)
+    await user.click(getByText('Filter duplicates'))
+
+    expect(store.getState().concertSelect.filterDuplicates).toBe(true)
+  })
+
+  it('ConcertSelectButton dispatches fetch concert list action', async () => {
+    const fetchMock = jest.spyOn(global, 'fetch')
+
+    const { selectedBand, selectedYear } = mockConcertSelectState
+
+    const { user, getByText } = userRenderContext(<ConcertSelectButton />, {
+      preloadedState: { concertSelect: mockConcertSelectState },
+    })
+
+    await user.click(getByText('Search'))
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/concerts`,
+      mockConcertListPayload(selectedBand, selectedYear)
+    )
   })
 })
