@@ -107,7 +107,11 @@ export default function ConcertSelect({
       IconComponent={(props) => (
         <Box sx={iconContainerStyles}>
           {value ? (
-            <CloseIcon sx={closeIconStyles} onClick={clearSelection} />
+            <CloseIcon
+              sx={closeIconStyles}
+              onClick={clearSelection}
+              data-testid={`${id}-clear`}
+            />
           ) : null}
           <ExpandMoreIcon className={props.className} sx={expandIconStyles} />
         </Box>
