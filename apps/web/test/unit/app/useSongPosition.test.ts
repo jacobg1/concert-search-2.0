@@ -1,4 +1,4 @@
-import { act } from '@testing-library/react'
+import { act, waitFor } from '@testing-library/react'
 import { useSongPosition } from '../../../src/app/hooks'
 import {
   checkMediaSession,
@@ -53,13 +53,11 @@ describe('useSongPosition', () => {
       currentTime: undefined,
     })
 
-    act(() =>
-      rerender({
-        audioEl: missingTimeEl,
-        url: mockUrl,
-        state: PlayerState.Play,
-      })
-    )
+    rerender({
+      audioEl: missingTimeEl,
+      url: mockUrl,
+      state: PlayerState.Play,
+    })
 
     act(() => missingTimeEl.current?.ontimeupdate?.({} as Event))
     expect(result.current[0]).toBe(0)
@@ -113,20 +111,19 @@ describe('useSongPosition', () => {
 
     const [position, setSongPosition] = result.current
 
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
 
     expect(position).toBe(initialSongPosition)
     expect(mockAudioEl.current?.currentTime).toBe(mockCurrentTime)
 
-    await act(async () => setSongPosition(mockSongPosition))
-
-    checkMediaSession(SessionState.Playing)
+    act(() => setSongPosition(mockSongPosition))
 
     expect(result.current[0]).toBe(mockSongPosition)
     expect(mockAudioEl.current?.currentTime).toBe(mockSongPosition)
-
     expect(mockPause).toHaveBeenCalledTimes(1)
     expect(mockPlay).toHaveBeenCalledTimes(1)
+
+    await checkMediaSession(SessionState.Playing)
   })
 
   it('restSongPosition properly resets the song position', () => {
@@ -179,13 +176,11 @@ describe('useSongPosition', () => {
     expect(result.current[0]).toBe(mockSongPosition)
     expect(mockAudioEl.current?.currentTime).toBe(mockSongPosition)
 
-    act(() =>
-      rerender({
-        audioEl: { current: null },
-        url: mockUrl,
-        state: PlayerState.Play,
-      })
-    )
+    rerender({
+      audioEl: { current: null },
+      url: mockUrl,
+      state: PlayerState.Play,
+    })
 
     const [, , resetSongPosition] = result.current
 

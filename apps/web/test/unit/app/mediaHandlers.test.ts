@@ -11,7 +11,7 @@ import {
   contextRenderHook,
 } from '../../utils'
 import { useMediaHandlers, useMediaSession } from '../../../src/app/hooks'
-import { act, renderHook } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { singleConcert } from '@repo/mock-data/ui'
 
 const resolve = () => Promise.resolve()
@@ -65,37 +65,37 @@ describe('Media Handlers', () => {
     const play = findAction(PlayerState.Play, handlers)
     const pause = findAction(PlayerState.Pause, handlers)
 
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
 
     play.handler()
 
-    await mockPlay.withImplementation(resolve, resolve)
-    checkMediaSession(SessionState.Playing)
+    await checkMediaSession(SessionState.Playing)
 
     pause.handler()
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
   })
 
   it('play handler handles errors properly', async () => {
     const play = findAction(PlayerState.Play, handlers)
 
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
 
     play.handler()
 
-    await mockPlay.withImplementation(resolve, resolve)
-    checkMediaSession(SessionState.Playing)
+    await checkMediaSession(SessionState.Playing)
 
     mockPlay.mockRejectedValue(new Error('test error'))
 
     play.handler()
 
-    await mockPlay.withImplementation(resolve, resolve)
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
   })
 
   it('useMediaHandlers works properly', () => {
-    const setHandlerSpy = jest.spyOn(navigator.mediaSession, 'setActionHandler')
+    const setHandlerSpy = jest.spyOn(
+      navigator.mediaSession,
+      'setActionHandler'
+    )
 
     contextRenderHook(() => useMediaHandlers(mockAudioEl))
 
@@ -133,12 +133,10 @@ describe('Media Handlers', () => {
 
     expect(navigator.mediaSession.metadata).toEqual(expectedMetadata)
 
-    act(() => {
-      rerender({
-        mockMetadata: metadata,
-        mockTrackList: trackList,
-        currentTrackName: mockTrackName,
-      })
+    rerender({
+      mockMetadata: metadata,
+      mockTrackList: trackList,
+      currentTrackName: mockTrackName,
     })
 
     expect(navigator.mediaSession.metadata).toEqual({

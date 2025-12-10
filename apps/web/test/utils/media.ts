@@ -2,6 +2,7 @@ import type { RefObject } from 'react'
 import type { MediaHandler, PlayerState } from '../../src/app/interface'
 import type { CreateMockAudioElProps } from '../types'
 import type { AppStore } from '../../src/app/store'
+import { waitFor } from '@testing-library/react'
 
 export function findAction(
   action: MediaHandler['action'],
@@ -12,8 +13,12 @@ export function findAction(
   return findAction
 }
 
-export function checkMediaSession(expected: MediaSessionPlaybackState) {
-  expect(navigator.mediaSession.playbackState).toBe(expected)
+export async function checkMediaSession(
+  expected: MediaSessionPlaybackState
+) {
+  return waitFor(() => {
+    expect(navigator.mediaSession.playbackState).toBe(expected)
+  })
 }
 
 export function createMockAudioEl(

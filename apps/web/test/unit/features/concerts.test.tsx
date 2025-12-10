@@ -92,7 +92,9 @@ describe('Concerts Feature', () => {
     expect(handleChange).toHaveBeenCalledWith(identifier)
 
     rerender(
-      <ConcertAccordion {...{ ...mockAccordionProps, expanded: identifier }} />
+      <ConcertAccordion
+        {...{ ...mockAccordionProps, expanded: identifier }}
+      />
     )
 
     expect(getByText(source)).toBeVisible()
@@ -133,7 +135,7 @@ describe('Concerts Feature', () => {
   })
 
   it('ConcertListDisplay renders a list of concerts', async () => {
-    const { user, getByText, queryByText } = userRenderContext(
+    const { user, getByText, queryByText, findByText } = userRenderContext(
       <ConcertListDisplay />,
       {
         preloadedState: {
@@ -155,17 +157,13 @@ describe('Concerts Feature', () => {
 
     await user.click(getByText(title))
 
-    await waitFor(() => {
-      expect(getByText(source)).toBeVisible()
-      expect(getByText(description)).toBeVisible()
-    })
+    expect(await findByText(source)).toBeVisible()
+    expect(await findByText(description)).toBeVisible()
 
     await user.click(getByText(title))
 
-    await waitFor(() => {
-      expect(queryByText(source)).toBeNull()
-      expect(queryByText(description)).toBeNull()
-    })
+    await waitFor(() => expect(queryByText(source)).toBeNull())
+    await waitFor(() => expect(queryByText(description)).toBeNull())
   })
 
   it('ConcertListDisplay can change pages', async () => {
