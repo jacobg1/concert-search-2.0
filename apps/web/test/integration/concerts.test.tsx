@@ -1,35 +1,61 @@
-import { userRenderContext } from '../utils'
+import { mockFetch, searchConcerts, userRender } from '../utils'
 import App from '../../src/App'
 import { concertList } from '@repo/mock-data/ui'
+
+const errorCloseButton = 'close-error-button'
+const errorIconId = 'ErrorOutlineSharpIcon'
+const nextPageIcon = 'NavigateNextIcon'
 
 describe('Concert List Integration', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
   })
 
-  it('Concert list renders correctly', async () => {
-    // TODO - better mocking
+  it('Concert list renders a list of concerts', async () => {
     const fetchMock = jest.spyOn(global, 'fetch')
 
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve(concertList),
-    } as Response)
+    mockFetch(fetchMock, concertList, true)
 
-    const { user, findByText, getAllByRole, getByText } =
-      userRenderContext(<App />)
+    const { user, getByText, getAllByRole, getByTestId } = userRender(
+      <App />
+    )
 
-    const [firstInput] = getAllByRole('combobox')
+    await searchConcerts(user, { getByText, getAllByRole })
 
-    await user.click(firstInput)
+    const [firstPage, secondPage] = concertList
 
-    const [, firstBandOption] = getAllByRole('option')
+    for (const concert of firstPage) {
+      expect(getByText(concert.title)).toBeVisible()
+    }
 
-    await user.click(firstBandOption)
-    await user.click(getByText('Search'))
+    await user.click(getByTestId(nextPageIcon))
 
-    const [{ title }] = concertList[0]
+    for (const concert of secondPage) {
+      expect(getByText(concert.title)).toBeVisible()
+    }
+  })
 
-    expect(await findByText(title)).toBeVisible()
+  it('Concert list shows an error message if fetching concert list fails', async () => {
+    const fetchMock = jest.spyOn(global, 'fetch')
+
+    const mockError = {
+      statusCode: 500,
+      message: 'request failed',
+      error: 'request failed',
+    }
+
+    mockFetch(fetchMock, mockError, false)
+
+    const { user, findByTestId, getAllByRole, getByText } = userRender(
+      <App />
+    )
+
+    await searchConcerts(user, { getByText, getAllByRole })
+
+    expect(await findByTestId(errorIconId)).toBeVisible()
+
+    await user.click(await findByTestId(errorCloseButton))
+
+    expect(await findByTestId(errorIconId)).not.toBeVisible()
   })
 })
