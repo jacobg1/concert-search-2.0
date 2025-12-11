@@ -1,4 +1,8 @@
-import { MediaFormat, PlayerState, SortOrder } from '../../src/app/interface'
+import {
+  MediaFormat,
+  PlayerState,
+  SortOrder,
+} from '../../src/app/interface'
 import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
 
 export const defaultAppState = {
@@ -157,4 +161,15 @@ export function mockConcertListPayload(
     },
     body: JSON.stringify(body),
   }
+}
+
+export function mockFetch(
+  fetchMock: jest.SpyInstance,
+  response: unknown,
+  success: boolean
+) {
+  fetchMock.mockResolvedValue({
+    ok: success,
+    json: () => Promise.resolve(response),
+  } as Response)
 }
