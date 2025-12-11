@@ -1,7 +1,9 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import { concertList } from '@repo/mock-data/ui'
 import {
   contextRender,
   defaultAppState,
+  testConcertListItem,
   userRender,
   userRenderContext,
 } from '../../utils'
@@ -10,7 +12,6 @@ import PlayConcertButton from '../../../src/features/concerts/components/PlayCon
 import ConcertPagination from '../../../src/features/concerts/components/ConcertPagination'
 import ConcertAccordion from '../../../src/features/concerts/components/ConcertAccordion'
 import ConcertListDisplay from '../../../src/features/concerts/ConcertListDisplay'
-import { concertList } from '@repo/mock-data/ui'
 
 const handlePageChangeMock = jest.fn()
 const paginationLabel = 'pagination navigation'
@@ -135,7 +136,7 @@ describe('Concerts Feature', () => {
   })
 
   it('ConcertListDisplay renders a list of concerts', async () => {
-    const { user, getByText, queryByText, findByText } = userRenderContext(
+    const { user, queryByText, findByText } = userRenderContext(
       <ConcertListDisplay />,
       {
         preloadedState: {
@@ -148,43 +149,33 @@ describe('Concerts Feature', () => {
     )
 
     const [firstPage] = concertList
+    const [firstConcert] = firstPage
 
-    for (const concert of firstPage) {
-      expect(getByText(concert.title)).toBeVisible()
-    }
-
-    const [{ title, source, description }] = firstPage
-
-    await user.click(getByText(title))
-
-    expect(await findByText(source)).toBeVisible()
-    expect(await findByText(description)).toBeVisible()
-
-    await user.click(getByText(title))
-
-    await waitFor(() => expect(queryByText(source)).toBeNull())
-    await waitFor(() => expect(queryByText(description)).toBeNull())
+    await testConcertListItem(user, firstConcert, {
+      findByText,
+      queryByText,
+    })
   })
 
   it('ConcertListDisplay can change pages', async () => {
-    const { user, getByText, getByTestId } = userRenderContext(
-      <ConcertListDisplay />,
-      {
+    const { user, findByText, queryByText, getByTestId } =
+      userRenderContext(<ConcertListDisplay />, {
         preloadedState: {
           concertList: {
             ...defaultAppState.concertList,
             concerts: concertList,
           },
         },
-      }
-    )
+      })
 
     await user.click(getByTestId('NavigateNextIcon'))
 
     const [, secondPage] = concertList
+    const [firstConcert] = secondPage
 
-    for (const concert of secondPage) {
-      expect(getByText(concert.title)).toBeVisible()
-    }
+    await testConcertListItem(user, firstConcert, {
+      findByText,
+      queryByText,
+    })
   })
 })
