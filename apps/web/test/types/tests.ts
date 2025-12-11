@@ -1,7 +1,14 @@
 import { type IAudioContext, PlayerState } from '../../src/app/interface'
 import type { RefObject } from 'react'
 import type { RootState, AppStore } from '../../src/app/store'
-import type { RenderHookOptions, RenderOptions } from '@testing-library/react'
+import type {
+  ByRoleMatcher,
+  ByRoleOptions,
+  Matcher,
+  RenderHookOptions,
+  RenderOptions,
+  SelectorMatcherOptions,
+} from '@testing-library/react'
 
 export interface ContextRenderOptions extends RenderOptions {
   preloadedState?: Partial<RootState>
@@ -69,3 +76,13 @@ export interface MockSingleTrackProps {
   title?: string
   length?: string
 }
+
+export type GetByText = (
+  id: Matcher,
+  options?: SelectorMatcherOptions | undefined
+) => HTMLElement
+
+export type GetAllByRole = (
+  role: ByRoleMatcher,
+  options?: ByRoleOptions | undefined
+) => HTMLElement[]
