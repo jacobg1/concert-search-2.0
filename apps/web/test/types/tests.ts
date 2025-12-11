@@ -8,6 +8,7 @@ import type {
   RenderHookOptions,
   RenderOptions,
   SelectorMatcherOptions,
+  waitForOptions,
 } from '@testing-library/react'
 
 export interface ContextRenderOptions extends RenderOptions {
@@ -77,12 +78,46 @@ export interface MockSingleTrackProps {
   length?: string
 }
 
-export type GetByText = (
+type GetByText = (
   id: Matcher,
   options?: SelectorMatcherOptions | undefined
 ) => HTMLElement
 
-export type GetAllByRole = (
+type GetAllByRole = (
   role: ByRoleMatcher,
   options?: ByRoleOptions | undefined
 ) => HTMLElement[]
+
+type FindByText = (
+  id: Matcher,
+  options?: SelectorMatcherOptions | undefined,
+  waitForElementOptions?: waitForOptions | undefined
+) => Promise<HTMLElement>
+
+type QueryByText = (
+  id: Matcher,
+  options?: SelectorMatcherOptions | undefined
+) => HTMLElement | null
+
+interface Matchers {
+  getByText: GetByText
+  getAllByRole: GetAllByRole
+  findByText: FindByText
+  queryByText: QueryByText
+}
+
+export type SearchConcertMatchers = Pick<
+  Matchers,
+  'getByText' | 'getAllByRole'
+>
+
+export type ConcertListItemMatchers = Pick<
+  Matchers,
+  'findByText' | 'queryByText'
+>
+
+export interface ConcertListItemText {
+  title: string
+  description: string
+  source: string
+}
