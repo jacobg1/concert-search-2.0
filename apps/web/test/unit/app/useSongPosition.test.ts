@@ -1,4 +1,4 @@
-import { act, waitFor } from '@testing-library/react'
+import { act } from '@testing-library/react'
 import { useSongPosition } from '../../../src/app/hooks'
 import {
   checkMediaSession,
