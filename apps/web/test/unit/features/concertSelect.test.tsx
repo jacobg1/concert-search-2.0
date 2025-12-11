@@ -95,9 +95,14 @@ describe('Concert Select Feature', () => {
 
     const { selectedBand, selectedYear } = mockConcertSelectState
 
-    const { user, getByText } = userRenderContext(<ConcertSelectButton />, {
-      preloadedState: { concertSelect: mockConcertSelectState },
-    })
+    const { user, getByText } = userRenderContext(
+      <ConcertSelectButton />,
+      {
+        preloadedState: {
+          concertSelect: mockConcertSelectState,
+        },
+      }
+    )
 
     await user.click(getByText('Search'))
 
