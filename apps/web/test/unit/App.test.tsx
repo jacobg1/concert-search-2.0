@@ -1,4 +1,5 @@
 import React from 'react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../../src/App'
 import { AppHeader } from '../../src/AppHeader'
@@ -6,13 +7,16 @@ import { AppStyles } from '../../src/AppStyles'
 import { theme } from '../../src/app/theme'
 import { contextRender, htmlContainer } from '../utils'
 import { ErrorDisplay } from '../../src/ErrorDisplay'
-import type { SelectedConcertState, ConcertListState } from '../../src/features'
+import type {
+  SelectedConcertState,
+  ConcertListState,
+} from '../../src/features'
 
 const testTrack = { name: 'test track' }
 
 describe('App', () => {
   it('App component renders properly', () => {
-    const { getByText } = contextRender(<App />)
+    const { getByText } = render(<App />)
     expect(getByText('Concert Search')).toBeInTheDocument()
   })
 
@@ -62,13 +66,16 @@ describe('App', () => {
   it('error display works properly', async () => {
     const user = userEvent.setup()
 
-    const { getByTestId, queryByTestId } = contextRender(<ErrorDisplay />, {
-      preloadedState: {
-        concertList: {
-          error: { message: 'test error' },
-        } as ConcertListState,
-      },
-    })
+    const { getByTestId, queryByTestId } = contextRender(
+      <ErrorDisplay />,
+      {
+        preloadedState: {
+          concertList: {
+            error: { message: 'test error' },
+          } as ConcertListState,
+        },
+      }
+    )
 
     const closeErrorButton = getByTestId('close-error-button')
     expect(closeErrorButton).toBeInTheDocument()
