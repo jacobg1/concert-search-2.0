@@ -1,19 +1,29 @@
-import { mockFetch, searchConcerts, userRender } from '../utils'
-import App from '../../src/App'
 import { concertList } from '@repo/mock-data/ui'
+import App from '../../src/App'
+import {
+  closeErrorModal,
+  mockFetch,
+  searchConcerts,
+  userRender,
+} from '../utils'
 
-const errorCloseButton = 'close-error-button'
-const errorIconId = 'ErrorOutlineSharpIcon'
 const nextPageIcon = 'NavigateNextIcon'
+
+const mockError = {
+  statusCode: 500,
+  message: 'request failed',
+  error: 'request failed',
+}
+
+let fetchMock: jest.SpyInstance
 
 describe('Concert List Integration', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
+    fetchMock = jest.spyOn(global, 'fetch')
   })
 
   it('Concert list renders a list of concerts', async () => {
-    const fetchMock = jest.spyOn(global, 'fetch')
-
     mockFetch(fetchMock, concertList, true)
 
     const { user, getByText, getAllByRole, getByTestId } = userRender(
@@ -36,14 +46,6 @@ describe('Concert List Integration', () => {
   })
 
   it('Concert list shows an error message if fetching concert list fails', async () => {
-    const fetchMock = jest.spyOn(global, 'fetch')
-
-    const mockError = {
-      statusCode: 500,
-      message: 'request failed',
-      error: 'request failed',
-    }
-
     mockFetch(fetchMock, mockError, false)
 
     const { user, findByTestId, getAllByRole, getByText } = userRender(
@@ -51,11 +53,25 @@ describe('Concert List Integration', () => {
     )
 
     await searchConcerts(user, { getByText, getAllByRole })
+    await closeErrorModal(user, false, { findByTestId })
+  })
 
-    expect(await findByTestId(errorIconId)).toBeVisible()
+  it('Can retry search if initial search fails', async () => {
+    mockFetch(fetchMock, mockError, false)
 
-    await user.click(await findByTestId(errorCloseButton))
+    const { user, findByTestId, getAllByRole, getByText } = userRender(
+      <App />
+    )
 
-    expect(await findByTestId(errorIconId)).not.toBeVisible()
+    await searchConcerts(user, { getByText, getAllByRole })
+    await closeErrorModal(user, true, { findByTestId })
+
+    mockFetch(fetchMock, concertList, true)
+
+    await searchConcerts(user, { getByText, getAllByRole })
+
+    const [firstPage] = concertList[0]
+
+    expect(getByText(firstPage.title)).toBeVisible()
   })
 })

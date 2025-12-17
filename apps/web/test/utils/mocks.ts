@@ -184,9 +184,13 @@ const errorIconId = 'ErrorOutlineSharpIcon'
 
 export async function closeErrorModal(
   user: UserEvent,
+  leaveOpen: boolean,
   { findByTestId }: CloseErrorModalMatchers
 ) {
   expect(await findByTestId(errorIconId)).toBeVisible()
-  await user.click(await findByTestId(errorCloseButton))
-  expect(await findByTestId(errorIconId)).not.toBeVisible()
+
+  if (!leaveOpen) {
+    await user.click(await findByTestId(errorCloseButton))
+    expect(await findByTestId(errorIconId)).not.toBeVisible()
+  }
 }
