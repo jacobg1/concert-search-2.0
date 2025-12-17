@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import { PlayingText } from '../../../src/features/tracks/components/PlayingText'
 import { CloseEditIcon } from '../../../src/features/tracks/components/CloseEditIcon'
 import {
@@ -27,8 +27,8 @@ const mockMetadata = {
 
 describe('Tracks Feature', () => {
   it('PlayingText properly renders text', () => {
-    const { getByText } = render(<PlayingText />)
-    expect(getByText('Playing...')).toBeVisible()
+    render(<PlayingText />)
+    expect(screen.getByText('Playing...')).toBeVisible()
   })
 
   it('CloseEditIcon works properly', async () => {
@@ -38,13 +38,12 @@ describe('Tracks Feature', () => {
     ]) {
       const mockOpenMenu = jest.fn()
 
-      const { getByTestId, user, unmount } = userRender(
+      const { user } = userRender(
         <CloseEditIcon isOpen={isOpen} openMenu={mockOpenMenu} />
       )
 
-      await user.click(getByTestId(iconName))
+      await user.click(screen.getByTestId(iconName))
       expect(mockOpenMenu).toHaveBeenCalledTimes(1)
-      unmount()
     }
   })
 
@@ -54,14 +53,16 @@ describe('Tracks Feature', () => {
       value: 'test value',
     }
 
-    const { getByText } = render(<MetaItem {...testData} />)
+    const { label, value } = testData
 
-    expect(getByText(testData.label)).toBeVisible()
-    expect(getByText(testData.value, { exact: false })).toBeVisible()
+    render(<MetaItem {...testData} />)
+
+    expect(screen.getByText(label)).toBeVisible()
+    expect(screen.getByText(value, { exact: false })).toBeVisible()
   })
 
   it('ConcertMeta properly shows metadata items', async () => {
-    const { user, getByText } = userRender(<ConcertMeta {...mockMetadata} />)
+    const { user } = userRender(<ConcertMeta {...mockMetadata} />)
 
     const labels = [
       { label: 'Band', value: mockMetadata.creator },
@@ -72,23 +73,25 @@ describe('Tracks Feature', () => {
       { label: 'Source', value: mockMetadata.source },
     ]
 
-    await user.click(getByText(mockMetadata.title))
+    await user.click(screen.getByText(mockMetadata.title))
 
     for (const { label, value } of labels) {
-      expect(getByText(label)).toBeVisible()
-      expect(getByText(value, { exact: false })).toBeVisible()
+      expect(screen.getByText(label)).toBeVisible()
+      expect(screen.getByText(value, { exact: false })).toBeVisible()
     }
   })
 
   it('ConcertMeta does not render metaitem if value is undefined', async () => {
-    const { user, getByText, queryByText } = userRender(
+    const { title, source } = mockMetadata
+
+    const { user } = userRender(
       <ConcertMeta {...mockMetadata} source={undefined} />
     )
 
-    await user.click(getByText(mockMetadata.title))
+    await user.click(screen.getByText(title))
 
-    expect(queryByText('Source')).toBeNull()
-    expect(queryByText(mockMetadata.source, { exact: false })).toBeNull()
+    expect(screen.queryByText('Source')).toBeNull()
+    expect(screen.queryByText(source, { exact: false })).toBeNull()
   })
 
   it('SingleTrack renders a single track properly', async () => {
@@ -104,12 +107,10 @@ describe('Tracks Feature', () => {
       length: testLength,
     })
 
-    const { user, getByText, queryByText, rerender } = userRender(
-      <SingleTrack {...testProps} />
-    )
+    const { user, rerender } = userRender(<SingleTrack {...testProps} />)
 
-    expect(getByText(testLength)).toBeVisible()
-    await user.click(getByText(testTitle))
+    expect(screen.getByText(testLength)).toBeVisible()
+    await user.click(screen.getByText(testTitle))
     expect(playTrackMock).toHaveBeenCalledTimes(1)
 
     const propsWithoutTitle = getMockSingleTrackProps({
@@ -118,8 +119,8 @@ describe('Tracks Feature', () => {
     })
 
     rerender(<SingleTrack {...propsWithoutTitle} />)
-    expect(getByText(propsWithoutTitle.name)).toBeVisible()
-    expect(queryByText(testLength)).toBeNull()
+    expect(screen.getByText(propsWithoutTitle.name)).toBeVisible()
+    expect(screen.queryByText(testLength)).toBeNull()
 
     const currentlyPlayingProps = getMockSingleTrackProps({
       playNewTrack: playTrackMock,
@@ -127,35 +128,33 @@ describe('Tracks Feature', () => {
     })
 
     rerender(<SingleTrack {...currentlyPlayingProps} />)
-    expect(getByText(isPlayingTest)).toBeVisible()
+    expect(screen.getByText(isPlayingTest)).toBeVisible()
   })
 
   it('SongFormatSelect allows you to select the song format', async () => {
     const mp3Format = MediaFormat.MP3.toLocaleUpperCase()
     const oggFormat = MediaFormat.OGG.toLocaleUpperCase()
 
-    const { user, getByText, getByTestId } = userRenderContext(
-      <SongFormatSelect />
-    )
+    const { user } = userRenderContext(<SongFormatSelect />)
 
-    const initialFormat = getByText(mp3Format)
+    const initialFormat = screen.getByText(mp3Format)
     expect(initialFormat).toBeVisible()
     expect(initialFormat).toHaveStyle({ fontWeight: '400' })
 
-    await user.click(getByTestId('EditIcon'))
+    await user.click(screen.getByTestId('EditIcon'))
 
-    expect(getByText(mp3Format)).toHaveStyle({ fontWeight: '700' })
+    expect(screen.getByText(mp3Format)).toHaveStyle({ fontWeight: '700' })
 
-    const newFormat = getByText(oggFormat)
+    const newFormat = screen.getByText(oggFormat)
     expect(newFormat).toBeVisible()
     expect(newFormat).toHaveStyle({ fontWeight: '400' })
 
     await user.click(newFormat)
-    expect(getByText(oggFormat)).toHaveStyle({ fontWeight: '700' })
+    expect(screen.getByText(oggFormat)).toHaveStyle({ fontWeight: '700' })
   })
 
   it('TrackListDisplay renders a tracklist', () => {
-    const { getByText } = contextRender(
+    contextRender(
       <TrackListDisplay
         trackList={singleConcert.trackList}
         currentTrackName={singleConcert.trackList[0].name}
@@ -164,7 +163,7 @@ describe('Tracks Feature', () => {
     )
 
     for (const { title } of singleConcert.trackList) {
-      expect(getByText(title)).toBeVisible()
+      expect(screen.getByText(title)).toBeVisible()
     }
   })
 })
