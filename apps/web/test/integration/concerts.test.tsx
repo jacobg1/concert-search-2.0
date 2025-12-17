@@ -1,4 +1,5 @@
 import { concertList } from '@repo/mock-data/ui'
+import { screen } from '@testing-library/react'
 import App from '../../src/App'
 import {
   closeErrorModal,
@@ -26,52 +27,46 @@ describe('Concert List Integration', () => {
   it('Concert list renders a list of concerts', async () => {
     mockFetch(fetchMock, concertList, true)
 
-    const { user, getByText, getAllByRole, getByTestId } = userRender(
-      <App />
-    )
+    const { user } = userRender(<App />)
 
-    await searchConcerts(user, { getByText, getAllByRole })
+    await searchConcerts(user)
 
     const [firstPage, secondPage] = concertList
 
     for (const concert of firstPage) {
-      expect(getByText(concert.title)).toBeVisible()
+      expect(screen.getByText(concert.title)).toBeVisible()
     }
 
-    await user.click(getByTestId(nextPageIcon))
+    await user.click(screen.getByTestId(nextPageIcon))
 
     for (const concert of secondPage) {
-      expect(getByText(concert.title)).toBeVisible()
+      expect(screen.getByText(concert.title)).toBeVisible()
     }
   })
 
   it('Concert list shows an error message if fetching concert list fails', async () => {
     mockFetch(fetchMock, mockError, false)
 
-    const { user, findByTestId, getAllByRole, getByText } = userRender(
-      <App />
-    )
+    const { user } = userRender(<App />)
 
-    await searchConcerts(user, { getByText, getAllByRole })
-    await closeErrorModal(user, false, { findByTestId })
+    await searchConcerts(user)
+    await closeErrorModal(user, false)
   })
 
   it('Can retry search if initial search fails', async () => {
     mockFetch(fetchMock, mockError, false)
 
-    const { user, findByTestId, getAllByRole, getByText } = userRender(
-      <App />
-    )
+    const { user } = userRender(<App />)
 
-    await searchConcerts(user, { getByText, getAllByRole })
-    await closeErrorModal(user, true, { findByTestId })
+    await searchConcerts(user)
+    await closeErrorModal(user, true)
 
     mockFetch(fetchMock, concertList, true)
 
-    await searchConcerts(user, { getByText, getAllByRole })
+    await searchConcerts(user)
 
     const [firstPage] = concertList[0]
 
-    expect(getByText(firstPage.title)).toBeVisible()
+    expect(screen.getByText(firstPage.title)).toBeVisible()
   })
 })

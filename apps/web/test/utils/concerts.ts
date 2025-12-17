@@ -1,38 +1,30 @@
-import { waitFor } from '@testing-library/react'
+import { waitFor, screen } from '@testing-library/react'
 import type { UserEvent } from '@testing-library/user-event'
-import type {
-  ConcertListItemMatchers,
-  ConcertListItemText,
-  SearchConcertMatchers,
-} from '../types'
+import type { ConcertListItemText } from '../types'
 
 const search = 'Search'
 
-export async function searchConcerts(
-  user: UserEvent,
-  { getByText, getAllByRole }: SearchConcertMatchers
-) {
-  const [firstInput] = getAllByRole('combobox')
+export async function searchConcerts(user: UserEvent) {
+  const [firstInput] = screen.getAllByRole('combobox')
 
   await user.click(firstInput)
 
-  const [, firstBandOption] = getAllByRole('option')
+  const [, firstBandOption] = screen.getAllByRole('option')
   await user.click(firstBandOption)
-  await user.click(getByText(search))
+  await user.click(screen.getByText(search))
 }
 
 export async function testConcertListItem(
   user: UserEvent,
-  { title, source, description }: ConcertListItemText,
-  { findByText, queryByText }: ConcertListItemMatchers
+  { title, source, description }: ConcertListItemText
 ) {
-  await user.click(await findByText(title))
+  await user.click(await screen.findByText(title))
 
-  expect(await findByText(source)).toBeVisible()
-  expect(await findByText(description)).toBeVisible()
+  expect(await screen.findByText(source)).toBeVisible()
+  expect(await screen.findByText(description)).toBeVisible()
 
-  await user.click(await findByText(title))
+  await user.click(await screen.findByText(title))
 
-  await waitFor(() => expect(queryByText(source)).toBeNull())
-  await waitFor(() => expect(queryByText(description)).toBeNull())
+  await waitFor(() => expect(screen.queryByText(source)).toBeNull())
+  await waitFor(() => expect(screen.queryByText(description)).toBeNull())
 }

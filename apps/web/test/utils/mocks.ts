@@ -1,9 +1,6 @@
 import type { UserEvent } from '@testing-library/user-event'
-import type {
-  CloseErrorModalMatchers,
-  MediaMetadataArgs,
-  MockSingleTrackProps,
-} from '../types'
+import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
+import { screen } from '@testing-library/react'
 import {
   MediaFormat,
   PlayerState,
@@ -184,13 +181,12 @@ const errorIconId = 'ErrorOutlineSharpIcon'
 
 export async function closeErrorModal(
   user: UserEvent,
-  leaveOpen: boolean,
-  { findByTestId }: CloseErrorModalMatchers
+  leaveOpen: boolean
 ) {
-  expect(await findByTestId(errorIconId)).toBeVisible()
+  expect(await screen.findByTestId(errorIconId)).toBeVisible()
 
   if (!leaveOpen) {
-    await user.click(await findByTestId(errorCloseButton))
-    expect(await findByTestId(errorIconId)).not.toBeVisible()
+    await user.click(await screen.findByTestId(errorCloseButton))
+    expect(await screen.findByTestId(errorIconId)).not.toBeVisible()
   }
 }

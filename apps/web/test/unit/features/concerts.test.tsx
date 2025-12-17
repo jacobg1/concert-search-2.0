@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { concertList } from '@repo/mock-data/ui'
 import {
   contextRender,
@@ -32,27 +32,27 @@ describe('Concerts Feature', () => {
   })
 
   it('RecordIcon renders properly', () => {
-    const { getByAltText } = render(<RecordIcon />)
-    expect(getByAltText('record-icon')).toBeVisible()
+    render(<RecordIcon />)
+    expect(screen.getByAltText('record-icon')).toBeVisible()
   })
 
   it('PlayConcertButton calls playConcert when clicked', async () => {
     const mockConcertId = '12345'
     const playConcertMock = jest.fn()
 
-    const { user, getByText } = userRender(
+    const { user } = userRender(
       <PlayConcertButton
         concertId={mockConcertId}
         playConcert={playConcertMock}
       />
     )
 
-    await user.click(getByText('Play'))
+    await user.click(screen.getByText('Play'))
     expect(playConcertMock).toHaveBeenCalledWith(mockConcertId)
   })
 
   it("ConcertPagination doesn't show if there's only one page of results", () => {
-    const { queryByLabelText } = render(
+    render(
       <ConcertPagination
         count={1}
         pageNumber={1}
@@ -60,11 +60,11 @@ describe('Concerts Feature', () => {
       />
     )
 
-    expect(queryByLabelText(paginationLabel)).toBeNull()
+    expect(screen.queryByLabelText(paginationLabel)).toBeNull()
   })
 
   it('ConcertPagination changes page properly', async () => {
-    const { user, getByText } = userRender(
+    const { user } = userRender(
       <ConcertPagination
         count={2}
         pageNumber={1}
@@ -72,7 +72,7 @@ describe('Concerts Feature', () => {
       />
     )
 
-    await user.click(getByText(secondPage.toString()))
+    await user.click(screen.getByText(secondPage.toString()))
 
     expect(handlePageChangeMock).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'click' }),
@@ -84,11 +84,11 @@ describe('Concerts Feature', () => {
     const { title, identifier, source, description, handleChange } =
       mockAccordionProps
 
-    const { user, getByText, rerender } = userRenderContext(
+    const { user, rerender } = userRenderContext(
       <ConcertAccordion {...mockAccordionProps} />
     )
 
-    await user.click(getByText(title))
+    await user.click(screen.getByText(title))
 
     expect(handleChange).toHaveBeenCalledWith(identifier)
 
@@ -98,19 +98,19 @@ describe('Concerts Feature', () => {
       />
     )
 
-    expect(getByText(source)).toBeVisible()
-    expect(getByText(description)).toBeVisible()
+    expect(screen.getByText(source)).toBeVisible()
+    expect(screen.getByText(description)).toBeVisible()
   })
 
   it('ConcertAccordion allows user to play a concert', async () => {
     const fetchMock = jest.spyOn(global, 'fetch')
     const { identifier } = mockAccordionProps
 
-    const { user, getByText } = userRenderContext(
+    const { user } = userRenderContext(
       <ConcertAccordion {...mockAccordionProps} />
     )
 
-    await user.click(getByText('Play'))
+    await user.click(screen.getByText('Play'))
 
     expect(fetchMock).toHaveBeenCalledWith(
       `${process.env.NEXT_PUBLIC_BASE_URL}/concerts/${identifier}`,
@@ -119,12 +119,12 @@ describe('Concerts Feature', () => {
   })
 
   it('ConcertListDisplay shows record icon before initial search is made', () => {
-    const { getByAltText } = contextRender(<ConcertListDisplay />)
-    expect(getByAltText('record-icon')).toBeVisible()
+    contextRender(<ConcertListDisplay />)
+    expect(screen.getByAltText('record-icon')).toBeVisible()
   })
 
   it('ConcertListDisplay shows loading spinner while search is loading', () => {
-    const { getByRole } = contextRender(<ConcertListDisplay />, {
+    contextRender(<ConcertListDisplay />, {
       preloadedState: {
         concertList: {
           ...defaultAppState.concertList,
@@ -132,50 +132,40 @@ describe('Concerts Feature', () => {
         },
       },
     })
-    expect(getByRole('progressbar')).toBeVisible()
+    expect(screen.getByRole('progressbar')).toBeVisible()
   })
 
   it('ConcertListDisplay renders a list of concerts', async () => {
-    const { user, queryByText, findByText } = userRenderContext(
-      <ConcertListDisplay />,
-      {
-        preloadedState: {
-          concertList: {
-            ...defaultAppState.concertList,
-            concerts: concertList,
-          },
+    const { user } = userRenderContext(<ConcertListDisplay />, {
+      preloadedState: {
+        concertList: {
+          ...defaultAppState.concertList,
+          concerts: concertList,
         },
-      }
-    )
+      },
+    })
 
     const [firstPage] = concertList
     const [firstConcert] = firstPage
 
-    await testConcertListItem(user, firstConcert, {
-      findByText,
-      queryByText,
-    })
+    await testConcertListItem(user, firstConcert)
   })
 
   it('ConcertListDisplay can change pages', async () => {
-    const { user, findByText, queryByText, getByTestId } =
-      userRenderContext(<ConcertListDisplay />, {
-        preloadedState: {
-          concertList: {
-            ...defaultAppState.concertList,
-            concerts: concertList,
-          },
+    const { user } = userRenderContext(<ConcertListDisplay />, {
+      preloadedState: {
+        concertList: {
+          ...defaultAppState.concertList,
+          concerts: concertList,
         },
-      })
+      },
+    })
 
-    await user.click(getByTestId('NavigateNextIcon'))
+    await user.click(screen.getByTestId('NavigateNextIcon'))
 
     const [, secondPage] = concertList
     const [firstConcert] = secondPage
 
-    await testConcertListItem(user, firstConcert, {
-      findByText,
-      queryByText,
-    })
+    await testConcertListItem(user, firstConcert)
   })
 })
