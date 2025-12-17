@@ -1,9 +1,14 @@
+import type { UserEvent } from '@testing-library/user-event'
+import type {
+  CloseErrorModalMatchers,
+  MediaMetadataArgs,
+  MockSingleTrackProps,
+} from '../types'
 import {
   MediaFormat,
   PlayerState,
   SortOrder,
 } from '../../src/app/interface'
-import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
 
 export const defaultAppState = {
   individualConcert: {
@@ -168,8 +173,20 @@ export function mockFetch(
   response: unknown,
   success: boolean
 ) {
-  fetchMock.mockResolvedValue({
+  fetchMock.mockResolvedValueOnce({
     ok: success,
     json: () => Promise.resolve(response),
   } as Response)
+}
+
+const errorCloseButton = 'close-error-button'
+const errorIconId = 'ErrorOutlineSharpIcon'
+
+export async function closeErrorModal(
+  user: UserEvent,
+  { findByTestId }: CloseErrorModalMatchers
+) {
+  expect(await findByTestId(errorIconId)).toBeVisible()
+  await user.click(await findByTestId(errorCloseButton))
+  expect(await findByTestId(errorIconId)).not.toBeVisible()
 }
