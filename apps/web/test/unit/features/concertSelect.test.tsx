@@ -4,6 +4,7 @@ import FilterDuplicatesCheckbox from '../../../src/features/concertSelect/compon
 import {
   contextRender,
   getInput,
+  getInputText,
   mockConcertListPayload,
   userRenderContext,
 } from '../../utils'
@@ -29,18 +30,10 @@ describe('Concert Select Feature', () => {
   it('BandAndYearSelect renders properly', () => {
     const { container } = contextRender(<BandAndYearSelect />)
 
-    const { textContent: bandTextContent } = getInput(
-      container,
-      bandNameSelector
-    )
-
+    const bandTextContent = getInputText(container, bandNameSelector)
     expect(bandTextContent).toBe('Select a band')
 
-    const { textContent: yearTextContent } = getInput(
-      container,
-      concertYearSelector
-    )
-
+    const yearTextContent = getInputText(container, concertYearSelector)
     expect(yearTextContent).toBe('Select year (optional)')
   })
 
@@ -72,6 +65,7 @@ describe('Concert Select Feature', () => {
       expect(getByText(selectedBand)).toBeVisible()
       expect(getByText(selectedYear)).toBeVisible()
 
+      await user.click(getByTestId(`${concertYearId}-clear`))
       await user.click(getByTestId(`${bandNameId}-clear`))
     }
   }, 7000)
