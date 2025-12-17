@@ -5,6 +5,7 @@ import type {
   ByRoleMatcher,
   ByRoleOptions,
   Matcher,
+  MatcherOptions,
   RenderHookOptions,
   RenderOptions,
   SelectorMatcherOptions,
@@ -99,10 +100,17 @@ type QueryByText = (
   options?: SelectorMatcherOptions | undefined
 ) => HTMLElement | null
 
+type FindByTestId = (
+  id: Matcher,
+  options?: MatcherOptions | undefined,
+  waitForElementOptions?: waitForOptions | undefined
+) => Promise<HTMLElement>
+
 interface Matchers {
   getByText: GetByText
   getAllByRole: GetAllByRole
   findByText: FindByText
+  findByTestId: FindByTestId
   queryByText: QueryByText
 }
 
@@ -120,4 +128,8 @@ export interface ConcertListItemText {
   title: string
   description: string
   source: string
+}
+
+export interface CloseErrorModalMatchers {
+  findByTestId: Matchers['findByTestId']
 }
