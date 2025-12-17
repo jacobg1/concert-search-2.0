@@ -1,4 +1,7 @@
-export function getInput(container: HTMLElement, selector: string): Element {
+export function getInput(
+  container: HTMLElement,
+  selector: string
+): Element {
   const input = container.querySelector(selector)
 
   if (!input) {
@@ -6,4 +9,13 @@ export function getInput(container: HTMLElement, selector: string): Element {
   }
 
   return input
+}
+
+export function getInputText(
+  container: HTMLElement,
+  selector: string
+): string | null {
+  const input = getInput(container, selector)
+  if (!input.textContent) return null
+  return input.textContent
 }
