@@ -28,8 +28,11 @@ export function handleTrackDuration(durationValue: string): string {
   return `${addZero(calcMinutes)}:${addZero(calcSecondsLeft)}`
 }
 
-export function handleTrackProgressDuration(durationValue: number): string {
-  const [calcMinutes, calcSecondsLeft, addZero] = durationFormat(durationValue)
+export function handleTrackProgressDuration(
+  durationValue: number
+): string {
+  const [calcMinutes, calcSecondsLeft, addZero] =
+    durationFormat(durationValue)
 
   return `${calcMinutes}:${addZero(calcSecondsLeft)}`
 }
@@ -106,7 +109,10 @@ export function findNewTrack(
 }
 
 // Replace file extension with currently selected media format
-export const addSongFormat = (src: string, format: MediaFormat): string => {
+export const addSongFormat = (
+  src: string,
+  format: MediaFormat
+): string => {
   return src.replace(/\.[^/.]+$/, `.${format}`)
 }
 
@@ -125,7 +131,6 @@ export function withDispatch(
   cb: (...args: string[]) => UnknownAction | AppThunk
 ) {
   return (selection?: string) => {
-    if (selection) return dispatch(cb(selection))
-    return cb()
+    return dispatch(selection ? cb(selection) : cb())
   }
 }
