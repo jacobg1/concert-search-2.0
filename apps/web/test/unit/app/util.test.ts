@@ -15,6 +15,7 @@ import {
   handleTrackDuration,
   handleTrackProgressDuration,
   hasNetworkError,
+  withDispatch,
 } from '../../../src/app/util'
 import type { TrackListData } from '../../../src/features'
 import { defaultAppState } from '../../utils'
@@ -30,6 +31,11 @@ const mockTrackList = [
 const { name: firstTrackName } = mockTrackList[0]
 const { name: secondTrackName } = mockTrackList[1]
 const { name: lastTrackName } = mockTrackList[2]
+
+const testSelection = 'test'
+
+const mockDispatch = jest.fn()
+const mockCallback = jest.fn()
 
 describe('Util', () => {
   afterEach(() => {
@@ -170,5 +176,15 @@ describe('Util', () => {
     expect(hasNetworkError(err, {})).toBe(true)
     expect(hasNetworkError({}, err)).toBe(true)
     expect(hasNetworkError(err, err)).toBe(true)
+  })
+
+  it('withDispatch works whether or not selection is defined', () => {
+    for (const selection in [testSelection, undefined]) {
+      withDispatch(mockDispatch, mockCallback)(selection)
+
+      expect(mockDispatch).toHaveBeenCalled()
+      expect(mockCallback).toHaveBeenCalled()
+      if (selection) expect(mockCallback).toHaveBeenCalledWith(selection)
+    }
   })
 })
