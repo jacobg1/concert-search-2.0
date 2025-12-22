@@ -1,6 +1,7 @@
 import {
   type BandList,
   type NetworkError,
+  IconDirection,
   MediaFormat,
 } from '../../../src/app/interface'
 import {
@@ -18,7 +19,7 @@ import {
   withDispatch,
 } from '../../../src/app/util'
 import type { TrackListData } from '../../../src/features'
-import { defaultAppState } from '../../utils'
+import { defaultAppState, expectedRotation } from '../../utils'
 
 const undefinedBand = undefined as unknown as BandList
 
@@ -186,5 +187,10 @@ describe('Util', () => {
       expect(mockCallback).toHaveBeenCalled()
       if (selection) expect(mockCallback).toHaveBeenCalledWith(selection)
     }
+  })
+
+  it('expectedRotation returns the correct rotation', () => {
+    expect(expectedRotation(IconDirection.Left)).toBe('0')
+    expect(expectedRotation(IconDirection.Right)).toBe('180deg')
   })
 })

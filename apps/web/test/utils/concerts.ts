@@ -1,4 +1,5 @@
 import { waitFor, screen } from '@testing-library/react'
+import { IconDirection } from '../../src/app/interface'
 import type { UserEvent } from '@testing-library/user-event'
 import type { ConcertListItemText } from '../types'
 
@@ -27,4 +28,9 @@ export async function testConcertListItem(
 
   await waitFor(() => expect(screen.queryByText(source)).toBeNull())
   await waitFor(() => expect(screen.queryByText(description)).toBeNull())
+}
+
+export const expectedRotation = (dir: IconDirection) => {
+  if (dir === IconDirection.Left) return '0'
+  else return '180deg'
 }
