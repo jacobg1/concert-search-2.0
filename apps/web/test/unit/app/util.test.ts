@@ -180,7 +180,7 @@ describe('Util', () => {
   })
 
   it('withDispatch works whether or not selection is defined', () => {
-    for (const selection in [testSelection, undefined]) {
+    for (const selection of [testSelection, undefined]) {
       withDispatch(mockDispatch, mockCallback)(selection)
 
       expect(mockDispatch).toHaveBeenCalled()
