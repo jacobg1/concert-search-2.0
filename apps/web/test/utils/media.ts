@@ -13,9 +13,7 @@ export function findAction(
   return findAction
 }
 
-export async function checkMediaSession(
-  expected: MediaSessionPlaybackState
-) {
+export function checkMediaSession(expected: MediaSessionPlaybackState) {
   return waitFor(() => {
     expect(navigator.mediaSession.playbackState).toBe(expected)
   })
