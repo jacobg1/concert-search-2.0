@@ -1,7 +1,10 @@
 import { type IAudioContext, PlayerState } from '../../src/app/interface'
 import type { RefObject } from 'react'
 import type { RootState, AppStore } from '../../src/app/store'
-import type { RenderHookOptions, RenderOptions } from '@testing-library/react'
+import type {
+  RenderHookOptions,
+  RenderOptions,
+} from '@testing-library/react'
 
 export interface ContextRenderOptions extends RenderOptions {
   preloadedState?: Partial<RootState>
@@ -68,4 +71,10 @@ export interface MockSingleTrackProps {
   isPlaying: boolean
   title?: string
   length?: string
+}
+
+export interface ConcertListItemText {
+  title: string
+  description: string
+  source: string
 }

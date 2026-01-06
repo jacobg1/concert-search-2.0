@@ -25,6 +25,9 @@ const VolumeButton = ({
     </Button>
   )
 }
+
+const sliderId = 'volume-slider'
+
 export default function VolumeSlider({
   volume,
   handleVolumeChange,
@@ -50,7 +53,13 @@ export default function VolumeSlider({
             value={volume}
             min={0}
             max={100}
+            data-testid={sliderId}
             onChange={handleVolumeChange}
+            slotProps={{
+              thumb: {
+                'aria-label': `${sliderId}-thumb`,
+              },
+            }}
           />
         </Stack>
       </Popper>

@@ -1,6 +1,7 @@
 import {
   type BandList,
   type NetworkError,
+  IconDirection,
   MediaFormat,
 } from '../../../src/app/interface'
 import {
@@ -15,9 +16,10 @@ import {
   handleTrackDuration,
   handleTrackProgressDuration,
   hasNetworkError,
+  withDispatch,
 } from '../../../src/app/util'
 import type { TrackListData } from '../../../src/features'
-import { defaultAppState } from '../../utils'
+import { defaultAppState, expectedRotation } from '../../utils'
 
 const undefinedBand = undefined as unknown as BandList
 
@@ -30,6 +32,11 @@ const mockTrackList = [
 const { name: firstTrackName } = mockTrackList[0]
 const { name: secondTrackName } = mockTrackList[1]
 const { name: lastTrackName } = mockTrackList[2]
+
+const testSelection = 'test'
+
+const mockDispatch = jest.fn()
+const mockCallback = jest.fn()
 
 describe('Util', () => {
   afterEach(() => {
@@ -170,5 +177,20 @@ describe('Util', () => {
     expect(hasNetworkError(err, {})).toBe(true)
     expect(hasNetworkError({}, err)).toBe(true)
     expect(hasNetworkError(err, err)).toBe(true)
+  })
+
+  it('withDispatch works whether or not selection is defined', () => {
+    for (const selection of [testSelection, undefined]) {
+      withDispatch(mockDispatch, mockCallback)(selection)
+
+      expect(mockDispatch).toHaveBeenCalled()
+      expect(mockCallback).toHaveBeenCalled()
+      if (selection) expect(mockCallback).toHaveBeenCalledWith(selection)
+    }
+  })
+
+  it('expectedRotation returns the correct rotation', () => {
+    expect(expectedRotation(IconDirection.Left)).toBe('0')
+    expect(expectedRotation(IconDirection.Right)).toBe('180deg')
   })
 })

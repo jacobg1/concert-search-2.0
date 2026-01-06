@@ -1,4 +1,4 @@
-import { act, renderHook, waitFor } from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react'
 import {
   usePlayPause,
   usePopover,
@@ -101,15 +101,15 @@ describe('Hooks', () => {
     const mockDuration = 1000
     const mockAudioEl = createMockAudioEl({ duration: mockDuration })
 
-    const { result, rerender } = renderHook<number, RenderDurationHookArgs>(
-      ({ audioEl, url }) => useSongDuration(audioEl, url),
-      {
-        initialProps: {
-          audioEl: mockAudioEl,
-          url: mockUrl,
-        },
-      }
-    )
+    const { result, rerender } = renderHook<
+      number,
+      RenderDurationHookArgs
+    >(({ audioEl, url }) => useSongDuration(audioEl, url), {
+      initialProps: {
+        audioEl: mockAudioEl,
+        url: mockUrl,
+      },
+    })
 
     expect(result.current).toBe(initialSongDuration)
 
@@ -118,7 +118,7 @@ describe('Hooks', () => {
 
     const missingDurationEl = createMockAudioEl({ duration: undefined })
 
-    act(() => rerender({ audioEl: missingDurationEl, url: mockUrl }))
+    rerender({ audioEl: missingDurationEl, url: mockUrl })
     act(() => missingDurationEl?.current?.onloadedmetadata?.({} as Event))
 
     expect(result.current).toBe(initialSongDuration)
@@ -138,7 +138,7 @@ describe('Hooks', () => {
     act(() => mockAudioEl?.current?.onloadedmetadata?.({} as Event))
     expect(result.current).toBe(mockDuration)
 
-    act(() => rerender({ url: undefined }))
+    rerender({ url: undefined })
     expect(result.current).toBe(initialSongDuration)
   })
 
@@ -153,16 +153,16 @@ describe('Hooks', () => {
       { initialProps }
     )
 
-    await waitFor(() => checkMediaSession(SessionState.Playing))
+    await checkMediaSession(SessionState.Playing)
     expect(mockPlay).toHaveBeenCalledTimes(1)
 
-    act(() => rerender({ url: mockUrl, state: PlayerState.Pause }))
+    rerender({ url: mockUrl, state: PlayerState.Pause })
 
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
     expect(mockPause).toHaveBeenCalledTimes(1)
   })
 
-  it('usePlayPause does nothing if no audio element is defined', () => {
+  it('usePlayPause does nothing if no audio element is defined', async () => {
     const mockAudioEl = { current: null }
 
     renderHook<void, UsePlayPauseArgs>(
@@ -170,7 +170,7 @@ describe('Hooks', () => {
       { initialProps }
     )
 
-    checkMediaSession(SessionState.Paused)
+    await checkMediaSession(SessionState.Paused)
     expect(mockPlay).not.toHaveBeenCalled()
     expect(mockPause).not.toHaveBeenCalled()
   })
@@ -188,10 +188,9 @@ describe('Hooks', () => {
       { initialProps }
     )
 
-    await mockPlay.withImplementation(resolve, resolve)
-
-    checkMediaSession(SessionState.Paused)
     expect(mockPlay).toHaveBeenCalledTimes(1)
     expect(mockPause).not.toHaveBeenCalled()
+
+    await checkMediaSession(SessionState.Paused)
   })
 })

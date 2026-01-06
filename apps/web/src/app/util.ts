@@ -1,5 +1,7 @@
+import type { UnknownAction } from '@reduxjs/toolkit'
 import type { TrackListData } from '../features/tracks/trackInterface'
 import { MediaFormat, type NetworkError, type BandList } from './interface'
+import type { AppDispatch, AppThunk } from './store'
 
 function durationFormat(
   durationValue: number
@@ -26,8 +28,11 @@ export function handleTrackDuration(durationValue: string): string {
   return `${addZero(calcMinutes)}:${addZero(calcSecondsLeft)}`
 }
 
-export function handleTrackProgressDuration(durationValue: number): string {
-  const [calcMinutes, calcSecondsLeft, addZero] = durationFormat(durationValue)
+export function handleTrackProgressDuration(
+  durationValue: number
+): string {
+  const [calcMinutes, calcSecondsLeft, addZero] =
+    durationFormat(durationValue)
 
   return `${calcMinutes}:${addZero(calcSecondsLeft)}`
 }
@@ -104,7 +109,10 @@ export function findNewTrack(
 }
 
 // Replace file extension with currently selected media format
-export const addSongFormat = (src: string, format: MediaFormat): string => {
+export const addSongFormat = (
+  src: string,
+  format: MediaFormat
+): string => {
   return src.replace(/\.[^/.]+$/, `.${format}`)
 }
 
@@ -116,4 +124,13 @@ export function hasNetworkError(
     (listError && Object.keys(listError).length !== 0) ||
     (concertError && Object.keys(concertError).length !== 0)
   )
+}
+
+export function withDispatch(
+  dispatch: AppDispatch,
+  cb: (...args: string[]) => UnknownAction | AppThunk
+) {
+  return (selection?: string) => {
+    return dispatch(selection ? cb(selection) : cb())
+  }
 }

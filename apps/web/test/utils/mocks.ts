@@ -1,5 +1,11 @@
-import { MediaFormat, PlayerState, SortOrder } from '../../src/app/interface'
+import type { UserEvent } from '@testing-library/user-event'
 import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
+import { screen } from '@testing-library/react'
+import {
+  MediaFormat,
+  PlayerState,
+  SortOrder,
+} from '../../src/app/interface'
 
 export const defaultAppState = {
   individualConcert: {
@@ -133,5 +139,54 @@ export function getMockSingleTrackProps({
     playNewTrack,
     ...(title && { title }),
     ...(length && { length }),
+  }
+}
+
+export function mockConcertListPayload(
+  selectedBand: string,
+  selectedYear?: string
+) {
+  const body = {
+    searchTerm: selectedYear
+      ? `${selectedBand}+AND+year%3A${selectedYear}`
+      : selectedBand,
+    max: 1000,
+    filterDuplicates: true,
+    sortBy: { downloads: SortOrder.DESC },
+    mediaFormat: [MediaFormat.OGG, MediaFormat.MP3],
+  }
+
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  }
+}
+
+export function mockFetch(
+  fetchMock: jest.SpyInstance,
+  response: unknown,
+  success: boolean
+) {
+  fetchMock.mockResolvedValueOnce({
+    ok: success,
+    json: () => Promise.resolve(response),
+  } as Response)
+}
+
+const errorCloseButton = 'close-error-button'
+const errorIconId = 'ErrorOutlineSharpIcon'
+
+export async function closeErrorModal(
+  user: UserEvent,
+  leaveOpen: boolean
+) {
+  expect(await screen.findByTestId(errorIconId)).toBeVisible()
+
+  if (!leaveOpen) {
+    await user.click(await screen.findByTestId(errorCloseButton))
+    expect(await screen.findByTestId(errorIconId)).not.toBeVisible()
   }
 }

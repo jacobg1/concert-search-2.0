@@ -1,23 +1,26 @@
 import React from 'react'
-import userEvent from '@testing-library/user-event'
+import { screen, render } from '@testing-library/react'
 import App from '../../src/App'
 import { AppHeader } from '../../src/AppHeader'
 import { AppStyles } from '../../src/AppStyles'
 import { theme } from '../../src/app/theme'
-import { contextRender, htmlContainer } from '../utils'
+import { contextRender, htmlContainer, userRenderContext } from '../utils'
 import { ErrorDisplay } from '../../src/ErrorDisplay'
-import type { SelectedConcertState, ConcertListState } from '../../src/features'
+import type {
+  SelectedConcertState,
+  ConcertListState,
+} from '../../src/features'
 
 const testTrack = { name: 'test track' }
 
 describe('App', () => {
   it('App component renders properly', () => {
-    const { getByText } = contextRender(<App />)
-    expect(getByText('Concert Search')).toBeInTheDocument()
+    render(<App />)
+    expect(screen.getByText('Concert Search')).toBeInTheDocument()
   })
 
   it('Back button shows when concert has been selected', () => {
-    const { getByTestId } = contextRender(<AppHeader />, {
+    contextRender(<AppHeader />, {
       preloadedState: {
         individualConcert: {
           selectedConcert: { trackList: [testTrack] },
@@ -25,7 +28,7 @@ describe('App', () => {
       },
     })
 
-    expect(getByTestId('ArrowLeftSharpIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('ArrowLeftSharpIcon')).toBeInTheDocument()
   })
 
   it('App styles component sets the correct style when concert drawer is closed', () => {
@@ -60,9 +63,7 @@ describe('App', () => {
   })
 
   it('error display works properly', async () => {
-    const user = userEvent.setup()
-
-    const { getByTestId, queryByTestId } = contextRender(<ErrorDisplay />, {
+    const { user } = userRenderContext(<ErrorDisplay />, {
       preloadedState: {
         concertList: {
           error: { message: 'test error' },
@@ -70,11 +71,10 @@ describe('App', () => {
       },
     })
 
-    const closeErrorButton = getByTestId('close-error-button')
+    const closeErrorButton = screen.getByTestId('close-error-button')
     expect(closeErrorButton).toBeInTheDocument()
 
-    await user.click(getByTestId('close-error-button'))
-
-    expect(queryByTestId('close-error-button')).not.toBeVisible()
+    await user.click(screen.getByTestId('close-error-button'))
+    expect(screen.queryByTestId('close-error-button')).not.toBeVisible()
   })
 })

@@ -12,7 +12,7 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs22.x
+  runtime: nodejs20.x
   environment:
     NODE_ENV: ${env:NODE_ENV, "production"}
   httpApi:
