@@ -62,3 +62,13 @@ export async function testAudioElement(
   audioEl.current.dispatchEvent(new Event("ended"))
   expect(nextTrackMock).toHaveBeenCalled()
 }
+
+export function getProgressBar(container: HTMLElement): Element {
+  const progressBar = container.querySelector('#progressBar')
+
+  if (!progressBar) {
+    throw new Error('Failed to select progress bar')
+  }
+
+  return progressBar
+}
