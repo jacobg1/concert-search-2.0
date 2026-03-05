@@ -78,3 +78,5 @@ export interface ConcertListItemText {
   description: string
   source: string
 }
+
+export type TestMockAudioEl = RefObject<HTMLMediaElement> | null
