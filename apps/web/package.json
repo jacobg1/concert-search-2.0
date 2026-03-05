@@ -8,7 +8,7 @@
     "start": "npx serve@latest ./build -p 8080",
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --collectCoverage=true",
     "test:watch": "jest --watch --collectCoverage=false"
   },
   "browserslist": {

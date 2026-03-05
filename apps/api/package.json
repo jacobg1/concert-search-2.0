@@ -9,7 +9,7 @@
     "build:watch": "npm run build -- --watch",
     "deploy": "serverless deploy --stage prod",
     "deploy:test": "serverless deploy --stage test",
-    "dev": "WITH_MOCKS=true npm run build:watch & npm run start",
+    "dev": "WITH_MOCKS=true npm run build:watch & NODE_ENV=development npm run start",
     "start": "serverless offline start --reloadHandler",
     "test": "jest",
     "test:watch": "jest --watch --collectCoverage=false",
