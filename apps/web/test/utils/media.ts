@@ -72,3 +72,9 @@ export function getProgressBar(container: HTMLElement): Element {
 
   return progressBar
 }
+
+export function getCanvasHeight(container: HTMLElement): number {
+  const getCanvas = container.querySelector("canvas")
+  if (!getCanvas) return 0
+  return getCanvas.height
+}
