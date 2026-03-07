@@ -7,21 +7,21 @@ const handleNextTrackMock = jest.fn()
 const mockSrc = "mock.mp3"
 const undefinedSrc = ""
 
-let mockAudioEl: TestMockAudioEl
+let mockAudioElement: TestMockAudioEl
 
 describe("AudioElement", () => {
   beforeEach(() => {
-    mockAudioEl = createMockAudioEl({ volume: 100 })
+    mockAudioElement = createMockAudioEl()
   })
 
   afterEach(() => {
-    mockAudioEl = null
+    mockAudioElement = null
   })
 
   it("properly renders html audio element", () => {
     const { container } = render(
       <AudioElement
-        ref={mockAudioEl}
+        ref={mockAudioElement}
         src={mockSrc}
         handleNextTrack={handleNextTrackMock}
       />
@@ -29,7 +29,7 @@ describe("AudioElement", () => {
 
     testAudioElement(
       container,
-      mockAudioEl,
+      mockAudioElement,
       handleNextTrackMock,
       `http://localhost/${mockSrc}`
     )
@@ -38,7 +38,7 @@ describe("AudioElement", () => {
   it("properly renders html audio element before song is selected", () => {
     const { container } = render(
       <AudioElement
-        ref={mockAudioEl}
+        ref={mockAudioElement}
         src={undefinedSrc}
         handleNextTrack={handleNextTrackMock}
       />
@@ -46,7 +46,7 @@ describe("AudioElement", () => {
 
     testAudioElement(
       container,
-      mockAudioEl,
+      mockAudioElement,
       handleNextTrackMock,
       undefinedSrc
     )
