@@ -1,5 +1,5 @@
 import { type IAudioContext, PlayerState } from '../../src/app/interface'
-import type { RefObject } from 'react'
+import type { MemoExoticComponent, RefObject } from 'react'
 import type { RootState, AppStore } from '../../src/app/store'
 import type {
   RenderHookOptions,
@@ -80,3 +80,17 @@ export interface ConcertListItemText {
 }
 
 export type TestMockAudioEl = RefObject<HTMLMediaElement> | null
+
+interface VisualizerProps {
+  audioEl: RefObject<HTMLAudioElement>
+  concertInitialized: boolean
+}
+
+type VisualizerComponent = MemoExoticComponent<(
+  { audioEl, concertInitialized, }: VisualizerProps
+) => React.ReactNode>
+
+export interface TestVisualizerProps {
+  Component: VisualizerComponent
+  concertInitialized: boolean
+}
