@@ -7,8 +7,6 @@ import {
   userRenderContext
 } from '../../utils'
 import Visualizer from '../../../src/features/visualizer/Visualizer'
-import React from 'react'
-
 
 const mockRequestAnimationFrame = jest.spyOn(window, 'requestAnimationFrame')
 const mockCancelAnimationFrame = jest.spyOn(window, 'cancelAnimationFrame')
