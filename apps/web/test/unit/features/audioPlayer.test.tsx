@@ -1,15 +1,36 @@
 import { render, screen } from '@testing-library/react'
-import { userRender, getProgressBar, userRenderContext } from '../../utils'
+import {
+  userRender,
+  getProgressBar,
+  userRenderContext,
+  createMockAudioEl,
+  contextRender
+} from '../../utils'
 import { PlayerState, TrackDirection } from '../../../src/app/interface'
 import PlayOrPause from '../../../src/features/player/components/PlayOrPause'
 import ProgressBar from '../../../src/features/player/components/ProgressBar'
 import SkipButton from '../../../src/features/player/components/SkipButton'
 import VolumeSlider from '../../../src/features/player/components/VolumeSlider'
+import AudioPlayer from '../../../src/features/player/AudioPlayer'
 
 const skipButtonHandler = jest.fn()
 const setSongPosition = jest.fn()
+const handleNextTrack = jest.fn()
+const handlePreviousTrack = jest.fn()
+
+const mockPlay = jest.spyOn(HTMLMediaElement.prototype, 'play')
+const mockPause = jest.spyOn(HTMLMediaElement.prototype, 'pause')
+const mockAudioElement = createMockAudioEl()
 
 describe('Audio Player Feature', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('PlayOrPause properly toggles play or pause', async () => {
     const playPauseMock = jest.fn()
 
@@ -122,5 +143,38 @@ describe('Audio Player Feature', () => {
 
     await user.click(getProgressBar(container))
     expect(setSongPosition).toHaveBeenCalled()
+  })
+
+  it("AudioPlayer renders properly in both play and pause state", () => {
+    const audioPlayerTests = [
+      {
+        playerState: PlayerState.Pause,
+        testId: "PlayArrowSharpIcon",
+        mock: () => mockPause.mockReturnValue(),
+      },
+      {
+        playerState: PlayerState.Play,
+        testId: "PauseSharpIcon",
+        mock: () => mockPlay.mockResolvedValue(),
+      }
+    ]
+
+    for (const { mock, playerState, testId } of audioPlayerTests) {
+      mock()
+
+      contextRender(
+        <AudioPlayer
+          position={100}
+          handleNextTrack={handleNextTrack}
+          setSongPosition={setSongPosition}
+          playerState={playerState}
+          audioEl={mockAudioElement}
+          handlePreviousTrack={handlePreviousTrack}
+          playUrl="test.mp3"
+        />
+      )
+
+      expect(screen.getByTestId(testId)).toBeVisible()
+    }
   })
 })
