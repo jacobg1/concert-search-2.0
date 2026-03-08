@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import React from 'react'
 import {
   userRender,
   getProgressBar,
@@ -12,14 +13,19 @@ import ProgressBar from '../../../src/features/player/components/ProgressBar'
 import SkipButton from '../../../src/features/player/components/SkipButton'
 import VolumeSlider from '../../../src/features/player/components/VolumeSlider'
 import AudioPlayer from '../../../src/features/player/AudioPlayer'
+import { useVolumeChange } from '../../../src/app/hooks'
+
+jest.mock('../../../src/app/hooks/useVolumeChange')
 
 const skipButtonHandler = jest.fn()
 const setSongPosition = jest.fn()
 const handleNextTrack = jest.fn()
 const handlePreviousTrack = jest.fn()
+const useVolumeChangeMock = useVolumeChange as jest.Mock
 
 const mockPlay = jest.spyOn(HTMLMediaElement.prototype, 'play')
 const mockPause = jest.spyOn(HTMLMediaElement.prototype, 'pause')
+const mockUseState = jest.spyOn(React, 'useState')
 const mockAudioElement = createMockAudioEl()
 
 describe('Audio Player Feature', () => {
@@ -176,5 +182,30 @@ describe('Audio Player Feature', () => {
 
       expect(screen.getByTestId(testId)).toBeVisible()
     }
+  })
+
+  it("AudioPlayer can change volume", async () => {
+    const setVolumeMock = jest.fn()
+
+    mockPlay.mockResolvedValue()
+    useVolumeChangeMock.mockReturnThis()
+    mockUseState.mockReturnValueOnce([25, setVolumeMock])
+    
+    const { user } = userRenderContext(
+      <AudioPlayer
+        position={100}
+        handleNextTrack={handleNextTrack}
+        setSongPosition={setSongPosition}
+        playerState={PlayerState.Play}
+        audioEl={mockAudioElement}
+        handlePreviousTrack={handlePreviousTrack}
+        playUrl="test.mp3"
+      />
+    )
+
+    await user.click(screen.getByLabelText("volume-control"))
+    await user.click(screen.getByTestId("volume-slider"))
+
+    expect(setVolumeMock).toHaveBeenCalled()
   })
 })
