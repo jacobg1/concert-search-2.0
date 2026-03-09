@@ -40,12 +40,14 @@ export interface CreateMockAudioElProps {
   duration?: number
   currentTime?: number
   paused?: boolean
-  played?: boolean
+  played?: boolean,
+  ended?: boolean,
+  readyState?: number,
   onloadedmetadata?: jest.Mock
   ontimeupdate?: jest.Mock
   onstalled?: jest.Mock
   play?: () => Promise<void>
-  pause?: () => void
+  pause?: () => void,
 }
 
 export interface MediaMetadataArgs {
