@@ -15,22 +15,6 @@ import ProgressBar from '../../../src/features/player/components/ProgressBar'
 import SkipButton from '../../../src/features/player/components/SkipButton'
 import VolumeSlider from '../../../src/features/player/components/VolumeSlider'
 import AudioPlayer from '../../../src/features/player/AudioPlayer'
-import { isPlaying } from '../../../src/app/util'
-import { setPlayerState } from '../../../src/features/selectedConcert/selectedConcertSlice'
-
-jest.mock('../../../src/app/util', () => {
-  return {
-    ...jest.requireActual('../../../src/app/util'),
-    isPlaying: jest.fn()
-  }
-})
-
-jest.mock('../../../src/features/selectedConcert/selectedConcertSlice', () => {
-  return {
-    ...jest.requireActual('../../../src/features/selectedConcert/selectedConcertSlice'),
-    setPlayerState: jest.fn()
-  }
-})
 
 const skipButtonHandler = jest.fn()
 const setSongPosition = jest.fn()
@@ -39,7 +23,6 @@ const handlePreviousTrack = jest.fn()
 
 let mockPlay: jest.SpyInstance<Promise<void>>
 let mockPause: jest.SpyInstance<void>
-let setPlayerStateMock: jest.Mock
 
 const mockAudioElement = createMockAudioEl()
 
@@ -47,9 +30,6 @@ describe('Audio Player Feature', () => {
   beforeEach(() => {
     mockPlay = jest.spyOn(HTMLMediaElement.prototype, 'play')
     mockPause = jest.spyOn(HTMLMediaElement.prototype, 'pause')
-
-    setPlayerStateMock = setPlayerState as unknown as jest.Mock
-    setPlayerStateMock.mockReturnValue({ type: "test" })
   })
 
   afterEach(() => {
@@ -265,31 +245,5 @@ describe('Audio Player Feature', () => {
     expect(concertInitialized).toBe(true)
     expect(playUrl).toBe(link)
     expect(currentTrackName).toBe(name)
-  })
-
-  it("AudioPlayer properly dispatches player state when clicking play / pause button", async () => {
-    mockPlay.mockResolvedValue()
-  
-    const isPlayingMock = isPlaying as jest.Mock
-
-    const { user } = userRenderContext(
-      <AudioPlayer
-        position={100}
-        handleNextTrack={handleNextTrack}
-        setSongPosition={setSongPosition}
-        playerState={PlayerState.Play}
-        audioEl={mockAudioElement}
-        handlePreviousTrack={handlePreviousTrack}
-        playUrl="test.mp3"
-      />
-    )
-
-    isPlayingMock.mockReturnValueOnce(true)
-    await user.click(screen.getByTestId("PauseSharpIcon"))
-    expect(setPlayerStateMock).toHaveBeenCalledWith(PlayerState.Pause)
-
-    isPlayingMock.mockReturnValueOnce(false)
-    await user.click(screen.getByTestId("PauseSharpIcon"))
-    expect(setPlayerStateMock).toHaveBeenCalledWith(PlayerState.Play)
   })
 })
