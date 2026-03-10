@@ -61,7 +61,6 @@ export default function AudioPlayer({
     }
   }
 
-
   return (
     <Box my={3} sx={audioPlayerStyles}>
       <ProgressBar
