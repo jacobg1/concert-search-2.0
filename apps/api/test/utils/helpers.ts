@@ -45,8 +45,7 @@ export function testSingleConcert({ trackList, metadata }: ConcertData): void {
     expect(title).toBeDefined()
     expect(link).toBeDefined()
     expect(length).toBeDefined()
-    // TODO - more comprehensive test for link
-    expect(link).toContain('https://')
+    expect(link).toContain('localhost:3007')
   })
 
   const metadataFields = ['creator', 'date', 'description', 'venue', 'source']
