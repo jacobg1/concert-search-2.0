@@ -141,7 +141,7 @@ export function withDispatch(
   }
 }
 
-function isPlaying(el: RefObject<HTMLAudioElement>): boolean {
+export function isPlaying(el: RefObject<HTMLAudioElement>): boolean {
   if (!el.current) return false
   return !!(
     el.current.currentTime > 0 &&
