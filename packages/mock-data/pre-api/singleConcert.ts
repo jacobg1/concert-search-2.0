@@ -2,21 +2,21 @@ export const singleConcert = {
   alternate_locations: {
     servers: [
       {
-        server: 'dn720301.ca.archive.org',
+        server: 'localhost:3007',
         dir: '/0/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
       },
     ],
     workable: [
       {
-        server: 'dn720301.ca.archive.org',
+        server: 'localhost:3007',
         dir: '/0/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
       },
     ],
   },
   created: 1752193508,
-  d1: 'ia601808.us.archive.org',
-  d2: 'ia801808.us.archive.org',
-  dir: '/29/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
+  d1: 'localhost:3007',
+  d2: 'localhost:3007',
+  dir: '/images/medium',
   files: [
     {
       name: '01 Tuning.afpk',
@@ -52,7 +52,7 @@ export const singleConcert = {
         'urn:acoustid:be4f329a-2b66-4b73-8c8a-d01e1e9ab2c9',
     },
     {
-      name: 'Mock - 01 Tuning.mp3',
+      name: 'test-audio.mp3',
       source: 'derivative',
       creator: 'Grateful Dead',
       title: 'Tuning',
@@ -1729,7 +1729,7 @@ export const singleConcert = {
       'This updated "version three" was created on January 1, 2021.\n\n...and you may ask yourself, how did we get here? Uncharacteristically, we did a couple fixes to make this show right.  The original seed had one of the two tapes channels reversed by accident, so we fixed that.  Upon listening, scholars let us know that while Keith was on the left side of the stage physically, the mix was done to put him in the right channel, therefore our second fix had the mix flipped channels wise. Though it represented the stage position of Keith, it had the drummers and band in the wrong locations.  Thanks for understanding the process and our desire to present the most accurate possible version. This version three also includes a tiny adjustment to the speed. If you have the previous two versions (151250 + 151297), please don\'t continue to share them elsewhere.\n',
     'access-restricted-item': 'true',
   },
-  server: 'ia601808.us.archive.org',
+  server: 'localhost:3007',
   uniq: 698267596,
-  workable_servers: ['ia601808.us.archive.org', 'ia801808.us.archive.org'],
+  workable_servers: ['localhost:3007', 'localhost:3007'],
 }
