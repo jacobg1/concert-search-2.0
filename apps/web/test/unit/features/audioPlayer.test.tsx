@@ -1,13 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { singleConcert } from '@repo/mock-data/ui'
 import {
   userRender,
   getProgressBar,
   userRenderContext,
   createMockAudioEl,
   contextRender,
-  defaultAppState
 } from '../../utils'
 import { PlayerState, TrackDirection } from '../../../src/app/interface'
 import PlayOrPause from '../../../src/features/player/components/PlayOrPause'
@@ -206,44 +204,5 @@ describe('Audio Player Feature', () => {
     await user.click(screen.getByTestId("volume-slider"))
 
     expect(setVolumeMock).toHaveBeenCalled()
-  })
-
-  it("AudioPlayer - if no track is selected, clicking play starts the first track", async () => {
-    mockPlay.mockResolvedValue()
-
-    const { user, store } = userRenderContext(
-      <AudioPlayer
-        position={100}
-        handleNextTrack={handleNextTrack}
-        setSongPosition={setSongPosition}
-        playerState={PlayerState.Play}
-        audioEl={mockAudioElement}
-        handlePreviousTrack={handlePreviousTrack}
-        playUrl=""
-      />,
-      {
-        preloadedState: {
-          individualConcert: {
-            ...defaultAppState.individualConcert,
-            selectedConcert: singleConcert
-          }
-        }
-      }
-    )
-
-    await user.click(screen.getByTestId("PauseSharpIcon"))
-
-    const {
-      individualConcert: {
-        concertInitialized,
-        currentlyPlayingTrack: { playUrl, currentTrackName }
-      }
-    } = store.getState()
-
-    const [{ link, name }] = singleConcert.trackList
-
-    expect(concertInitialized).toBe(true)
-    expect(playUrl).toBe(link)
-    expect(currentTrackName).toBe(name)
   })
 })

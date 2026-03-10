@@ -1,15 +1,28 @@
 import { screen } from '@testing-library/react'
-import { IconDirection } from '../../../src/app/interface'
+import { IconDirection, PlayerState } from '../../../src/app/interface'
 import { BackButton } from '../../../src/features/selectedConcert/components/BackButton'
 import {
   contextRender,
+  defaultAppState,
   expectedRotation,
   userRenderContext,
 } from '../../utils'
+import SelectedConcertDisplay from '../../../src/features/selectedConcert/SelectedConcertDisplay'
+import { singleConcert } from '@repo/mock-data/ui'
 
 const arrowIconId = 'ArrowLeftSharpIcon'
 
+let mockPlay: jest.SpyInstance<Promise<void>>
+
 describe('Selected Concert', () => {
+  beforeEach(() => {
+    mockPlay = jest.spyOn(HTMLMediaElement.prototype, 'play')
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
   it('BackButton properly renders left and right arrow based on direction', () => {
     for (const dir of Object.values(IconDirection)) {
       const rotation = expectedRotation(dir)
@@ -42,5 +55,34 @@ describe('Selected Concert', () => {
     } = store.getState()
 
     expect(drawerOpen).toBe(true)
+  })
+
+  it("SelectedConcertDisplay - if no track is selected, clicking play starts the first track", async () => {
+    mockPlay.mockResolvedValue()
+
+    const { user, store } = userRenderContext(<SelectedConcertDisplay />, {
+      preloadedState: {
+        individualConcert: {
+          ...defaultAppState.individualConcert,
+          playerState: PlayerState.Play,
+          selectedConcert: singleConcert
+        }
+      }
+    })
+
+    await user.click(screen.getByTestId("PauseSharpIcon"))
+
+    const {
+      individualConcert: {
+        concertInitialized,
+        currentlyPlayingTrack: { playUrl, currentTrackName }
+      }
+    } = store.getState()
+
+    const [{ link, name }] = singleConcert.trackList
+
+    expect(concertInitialized).toBe(true)
+    expect(playUrl).toBe(link)
+    expect(currentTrackName).toBe(name)
   })
 })
