@@ -1,18 +1,25 @@
 import { screen } from '@testing-library/react'
-import { concertList } from '@repo/mock-data/ui'
+import { concertList, singleConcert } from '@repo/mock-data/ui'
 import { mockFetch, searchConcerts, userRender } from '../utils'
 import App from '../../src/App'
 
 let fetchMock: jest.SpyInstance
+let mockPlay: jest.SpyInstance<Promise<void>>
+let mockPause: jest.SpyInstance<void>
 
 describe('Selected Concert Integration', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
+
     fetchMock = jest.spyOn(global, 'fetch')
+    mockPlay = jest.spyOn(HTMLMediaElement.prototype, 'play')
+    mockPause = jest.spyOn(HTMLMediaElement.prototype, 'pause')
   })
 
-  it('Can find a concert and play a track', async () => {
+  it('Can find and view a concert', async () => {
+    mockPause.mockReturnValue()
     mockFetch(fetchMock, concertList, true)
+    mockFetch(fetchMock, singleConcert, true)
 
     const { user } = userRender(<App />)
 
@@ -24,6 +31,8 @@ describe('Selected Concert Integration', () => {
     await user.click(firstConcert)
     expect(fetchMock).toHaveBeenCalledTimes(2)
 
-    // TODO add mocking and finish tests
+    singleConcert.trackList.forEach(({ title }) => {
+      expect(screen.getByText(title))
+    })
   })
 })
