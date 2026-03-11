@@ -16,8 +16,7 @@ import AudioPlayer from '../../../src/features/player/AudioPlayer'
 
 const skipButtonHandler = jest.fn()
 const setSongPosition = jest.fn()
-const handleNextTrack = jest.fn()
-const handlePreviousTrack = jest.fn()
+const nextOrPrevTrack = jest.fn()
 
 let mockPlay: jest.SpyInstance<Promise<void>>
 let mockPause: jest.SpyInstance<void>
@@ -168,11 +167,10 @@ describe('Audio Player Feature', () => {
       contextRender(
         <AudioPlayer
           position={100}
-          handleNextTrack={handleNextTrack}
+          nextOrPrevTrack={nextOrPrevTrack}
           setSongPosition={setSongPosition}
           playerState={playerState}
           audioEl={mockAudioElement}
-          handlePreviousTrack={handlePreviousTrack}
           playUrl="test.mp3"
         />
       )
@@ -191,11 +189,10 @@ describe('Audio Player Feature', () => {
     const { user } = userRenderContext(
       <AudioPlayer
         position={100}
-        handleNextTrack={handleNextTrack}
+        nextOrPrevTrack={nextOrPrevTrack}
         setSongPosition={setSongPosition}
         playerState={PlayerState.Play}
         audioEl={mockAudioElement}
-        handlePreviousTrack={handlePreviousTrack}
         playUrl="test.mp3"
       />
     )
@@ -204,5 +201,23 @@ describe('Audio Player Feature', () => {
     await user.click(screen.getByTestId("volume-slider"))
 
     expect(setVolumeMock).toHaveBeenCalled()
+  })
+
+  it("AudioPlayer onEnded event calls next track method", () => {
+    mockPlay.mockResolvedValue()
+    
+    contextRender(
+      <AudioPlayer
+        position={100}
+        nextOrPrevTrack={nextOrPrevTrack}
+        setSongPosition={setSongPosition}
+        playerState={PlayerState.Play}
+        audioEl={mockAudioElement}
+        playUrl="test.mp3"
+      />
+    )
+
+    mockAudioElement.current?.dispatchEvent(new Event("ended"))
+    expect(nextOrPrevTrack).toHaveBeenCalled()
   })
 })
