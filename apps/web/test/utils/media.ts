@@ -1,6 +1,6 @@
 import type { RefObject } from 'react'
-import type { MediaHandler, PlayerState } from '../../src/app/interface'
-import type { CreateMockAudioElProps, TestMockAudioEl } from '../types'
+import type { MediaHandler, PlayerState, SongPosition } from '../../src/app/interface'
+import type { CreateMockAudioElProps, MockSongPosition, TestMockAudioEl } from '../types'
 import type { AppStore } from '../../src/app/store'
 import { waitFor } from '@testing-library/react'
 
@@ -79,4 +79,20 @@ export function getCanvasHeight(container: HTMLElement): number {
   const getCanvas = container.querySelector("canvas")
   if (!getCanvas) return 0
   return getCanvas.height
+}
+
+export function getMockSongPosition({
+  position,
+  setSongPosition,
+  resetSongPosition,
+  connectionError,
+  setConnectionError
+}: MockSongPosition = {}): SongPosition {
+  return [
+    position || 0,
+    setSongPosition || jest.fn(),
+    resetSongPosition || jest.fn(),
+    connectionError || "",
+    setConnectionError || jest.fn(),
+  ]
 }

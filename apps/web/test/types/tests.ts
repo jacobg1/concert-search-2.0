@@ -96,3 +96,11 @@ export interface TestVisualizerProps {
   Component: VisualizerComponent
   concertInitialized: boolean
 }
+
+export interface MockSongPosition {
+  position?: number,
+  setSongPosition?: jest.Mock,
+  resetSongPosition?: jest.Mock,
+  connectionError?: string,
+  setConnectionError?: jest.Mock
+}
