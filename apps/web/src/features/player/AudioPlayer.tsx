@@ -40,8 +40,7 @@ const containerStyles: SxProps = {
 }
 
 export default function AudioPlayer({
-  handleNextTrack,
-  handlePreviousTrack,
+  nextOrPrevTrack,
   setSongPosition,
   playerState,
   position,
@@ -69,18 +68,18 @@ export default function AudioPlayer({
         setSongPosition={setSongPosition}
       />
       <Stack sx={containerStyles}>
-        <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
+        <SkipButton direction={Prev} clickHandler={nextOrPrevTrack} />
         <PlayOrPause
           isPlaying={playerState === PlayerState.Play}
           onPlayPauseClick={() => onPlayPauseClick(dispatch, audioEl, playUrl)}
         />
-        <SkipButton direction={Next} clickHandler={handleNextTrack} />
+        <SkipButton direction={Next} clickHandler={nextOrPrevTrack} />
         <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
       </Stack>
       <AudioElement
         ref={audioEl}
         src={playUrl}
-        handleNextTrack={handleNextTrack}
+        handleNextTrack={() => nextOrPrevTrack(TrackDirection.Next)}
       />
     </Box>
   )

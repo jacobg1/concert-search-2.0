@@ -1,12 +1,14 @@
 import type { UnknownAction } from '@reduxjs/toolkit'
 import type { TrackListData } from '../features/tracks/trackInterface'
-import { MediaFormat, type NetworkError, type BandList, PlayerState } from './interface'
+import { MediaFormat, type NetworkError, type BandList, PlayerState, TrackDirection } from './interface'
 import type { AppDispatch, AppThunk } from './store'
 import type { RefObject } from 'react'
 import {
   setConcertInitialized,
   playNewTrack,
-  setPlayerState
+  setPlayerState,
+  playNextTrack,
+  playPreviousTrack
 } from '../features/selectedConcert/selectedConcertSlice'
 
 function durationFormat(
@@ -168,5 +170,38 @@ export function onPlayPauseClick(
     dispatch(setPlayerState(PlayerState.Play))
   } else {
     dispatch(setPlayerState(PlayerState.Pause))
+  }
+}
+
+export function handleNextOrPreviousTrack(
+  dispatch: AppDispatch,
+  audioElement: RefObject<HTMLAudioElement>,
+  resetSongPosition: () => void,
+) {
+  return (nextOrPrev: TrackDirection): void => {
+    if (!audioElement.current) return
+
+    dispatch(setConcertInitialized())
+    resetSongPosition()
+
+    if (nextOrPrev === TrackDirection.Next) {
+      dispatch(playNextTrack())
+    } else {
+      dispatch(playPreviousTrack())
+    }
+  }
+}
+
+export function handlePlayNewTrack(
+  dispatch: AppDispatch,
+  audioElement: RefObject<HTMLAudioElement>,
+  resetSongPosition: () => void
+) {
+  return (name: string) => {
+    if (!audioElement.current) return
+
+    dispatch(setConcertInitialized())
+    resetSongPosition()
+    dispatch(playNewTrack(name))
   }
 }
