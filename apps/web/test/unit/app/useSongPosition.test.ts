@@ -63,6 +63,28 @@ describe('useSongPosition', () => {
     expect(result.current[0]).toBe(0)
   })
 
+  it("useSongPosition doesn't change player state if no url is defined", () => {
+    const mockAudioEl = createMockAudioEl({ paused: false })
+
+    const { store } = contextRenderHook<SongPosition, undefined>(
+      () => useSongPosition(mockAudioEl, mockUrl, PlayerState.Pause),
+      {
+        preloadedState: {
+          individualConcert: {
+            currentlyPlayingTrack: { playUrl: "" },
+            playerState: PlayerState.Pause,
+          } as SelectedConcertState,
+        },
+      }
+    )
+
+    expect(getPlayerState(store)).toBe(PlayerState.Pause)
+    act(() => mockAudioEl.current?.onstalled?.({} as Event))
+
+    jest.runOnlyPendingTimers()
+    expect(getPlayerState(store)).toBe(PlayerState.Pause)
+  })
+
   it('useSongPosition properly pauses song when onstalled event is called', () => {
     const mockAudioEl = createMockAudioEl({
       play: mockPlay,
