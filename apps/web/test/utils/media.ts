@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react'
 import type { RefObject } from 'react'
 import type { MediaHandler, PlayerState, SongPosition } from '../../src/app/interface'
 import type { CreateMockAudioElProps, MockSongPosition, TestMockAudioEl } from '../types'
@@ -95,4 +96,12 @@ export function getMockSongPosition({
     connectionError || "",
     setConnectionError || jest.fn(),
   ]
+}
+
+export function testPlayingTrack(trackName: string): void {
+  const playingTrack = screen.getByText("Playing...")
+  const { parentElement } = playingTrack
+
+  const name = parentElement?.parentElement?.firstChild?.textContent
+  expect(name).toBe(trackName)
 }
