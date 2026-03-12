@@ -1,18 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import {
-  userRender,
-  getProgressBar,
-  userRenderContext,
-  createMockAudioEl,
-  contextRender,
-} from '../../utils'
 import { PlayerState, TrackDirection } from '../../../src/app/interface'
+import AudioPlayer from '../../../src/features/player/AudioPlayer'
 import PlayOrPause from '../../../src/features/player/components/PlayOrPause'
 import ProgressBar from '../../../src/features/player/components/ProgressBar'
 import SkipButton from '../../../src/features/player/components/SkipButton'
 import VolumeSlider from '../../../src/features/player/components/VolumeSlider'
-import AudioPlayer from '../../../src/features/player/AudioPlayer'
+import {
+  contextRender,
+  createMockAudioEl,
+  getProgressBar,
+  userRender,
+  userRenderContext,
+} from '../../utils'
 
 const skipButtonHandler = jest.fn()
 const setSongPosition = jest.fn()
@@ -185,7 +185,7 @@ describe('Audio Player Feature', () => {
 
     mockUseState.mockReturnValueOnce([25, setVolumeMock])
     mockPlay.mockResolvedValue()
-    
+
     const { user } = userRenderContext(
       <AudioPlayer
         position={100}
@@ -205,7 +205,7 @@ describe('Audio Player Feature', () => {
 
   it("AudioPlayer onEnded event calls next track method", () => {
     mockPlay.mockResolvedValue()
-    
+
     contextRender(
       <AudioPlayer
         position={100}
