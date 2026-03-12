@@ -6,6 +6,7 @@ import {
   contextRender,
   defaultAppState,
   expectedRotation,
+  formatTrackList,
   getMockSongPosition,
   userRenderContext,
 } from '../../utils'
@@ -25,6 +26,8 @@ const arrowIconId = 'ArrowLeftSharpIcon'
 
 let mockPlay: jest.SpyInstance<Promise<void>>
 let mockPause: jest.SpyInstance<void>
+
+const formattedConcert = formatTrackList(singleConcert)
 
 describe('Selected Concert Feature', () => {
   beforeEach(() => {
@@ -83,7 +86,7 @@ describe('Selected Concert Feature', () => {
         individualConcert: {
           ...defaultAppState.individualConcert,
           playerState: PlayerState.Play,
-          selectedConcert: singleConcert
+          selectedConcert: formattedConcert
         }
       }
     })
@@ -97,7 +100,7 @@ describe('Selected Concert Feature', () => {
       }
     } = store.getState()
 
-    const [{ link, name }] = singleConcert.trackList
+    const [{ link, name }] = formattedConcert.trackList
 
     expect(concertInitialized).toBe(true)
     expect(playUrl).toBe(link)
@@ -121,7 +124,7 @@ describe('Selected Concert Feature', () => {
       preloadedState: {
         individualConcert: {
           ...defaultAppState.individualConcert,
-          selectedConcert: singleConcert
+          selectedConcert: formattedConcert
         }
       }
     })

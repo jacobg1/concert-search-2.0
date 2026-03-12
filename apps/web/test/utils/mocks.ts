@@ -6,6 +6,7 @@ import {
   PlayerState,
   SortOrder,
 } from '../../src/app/interface'
+import type { SelectedConcert } from '../../src/features'
 
 export const defaultAppState = {
   individualConcert: {
@@ -188,5 +189,18 @@ export async function closeErrorModal(
   if (!leaveOpen) {
     await user.click(await screen.findByTestId(errorCloseButton))
     expect(await screen.findByTestId(errorIconId)).not.toBeVisible()
+  }
+}
+
+export function formatTrackList({
+  trackList,
+  ...restOfTracks
+}: SelectedConcert): SelectedConcert {
+  return {
+    ...restOfTracks,
+    trackList: trackList.map((track) => ({
+      ...track,
+      link: 'test.mp3'
+    }))
   }
 }
