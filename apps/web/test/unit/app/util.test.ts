@@ -4,6 +4,7 @@ import {
   IconDirection,
   MediaFormat,
   PlayerState,
+  TrackDirection,
 } from '../../../src/app/interface'
 import {
   addSongFormat,
@@ -14,6 +15,8 @@ import {
   findTrackIndex,
   getBandOptions,
   getYearOptions,
+  handleNextOrPreviousTrack,
+  handlePlayNewTrack,
   handleTrackDuration,
   handleTrackProgressDuration,
   hasNetworkError,
@@ -246,5 +249,31 @@ describe('Util', () => {
       2,
       selectedConcertAction("playNewTrack")
     )
+  })
+
+  it("handleNextOrPreviousTrack does nothing if audio element is null", () => {
+    const resetSongPositionMock = jest.fn()
+
+    const nextOrPrev = handleNextOrPreviousTrack(
+      mockDispatch,
+      { current: null },
+      resetSongPositionMock
+    )
+
+    nextOrPrev(TrackDirection.Next)
+    expect(resetSongPositionMock).not.toHaveBeenCalled()
+  })
+
+  it("handlePlayNewTrack does nothing if audio element is null", () => {
+    const resetSongPositionMock = jest.fn()
+
+    const playNewTrack = handlePlayNewTrack(
+      mockDispatch,
+      { current: null },
+      resetSongPositionMock
+    )
+
+    playNewTrack(testSelection)
+    expect(resetSongPositionMock).not.toHaveBeenCalled()
   })
 })
