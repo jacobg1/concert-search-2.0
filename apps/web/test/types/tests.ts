@@ -1,5 +1,5 @@
 import { type IAudioContext, PlayerState } from '../../src/app/interface'
-import type { RefObject } from 'react'
+import type { MemoExoticComponent, RefObject } from 'react'
 import type { RootState, AppStore } from '../../src/app/store'
 import type {
   RenderHookOptions,
@@ -40,12 +40,14 @@ export interface CreateMockAudioElProps {
   duration?: number
   currentTime?: number
   paused?: boolean
-  played?: boolean
+  played?: boolean,
+  ended?: boolean,
+  readyState?: number,
   onloadedmetadata?: jest.Mock
   ontimeupdate?: jest.Mock
   onstalled?: jest.Mock
   play?: () => Promise<void>
-  pause?: () => void
+  pause?: () => void,
 }
 
 export interface MediaMetadataArgs {
@@ -77,4 +79,28 @@ export interface ConcertListItemText {
   title: string
   description: string
   source: string
+}
+
+export type TestMockAudioEl = RefObject<HTMLMediaElement> | null
+
+interface VisualizerProps {
+  audioEl: RefObject<HTMLAudioElement>
+  concertInitialized: boolean
+}
+
+type VisualizerComponent = MemoExoticComponent<(
+  { audioEl, concertInitialized, }: VisualizerProps
+) => React.ReactNode>
+
+export interface TestVisualizerProps {
+  Component: VisualizerComponent
+  concertInitialized: boolean
+}
+
+export interface MockSongPosition {
+  position?: number,
+  setSongPosition?: jest.Mock,
+  resetSongPosition?: jest.Mock,
+  connectionError?: string,
+  setConnectionError?: jest.Mock
 }

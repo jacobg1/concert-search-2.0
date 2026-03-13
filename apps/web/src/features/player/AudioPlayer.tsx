@@ -1,4 +1,4 @@
-import { RefObject, useState } from 'react'
+import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import PlayOrPause from './components/PlayOrPause'
@@ -9,15 +9,10 @@ import ProgressBar from './components/ProgressBar'
 import {
   PlayerState,
   TrackDirection,
-  VolumeChangeHandler,
+  type VolumeChangeHandler,
 } from '../../app/interface'
-import {
-  playNewTrack,
-  setConcertInitialized,
-  setPlayerState,
-} from '../selectedConcert/selectedConcertSlice'
 import SkipButton from './components/SkipButton'
-import { AudioPlayerProps } from './playerInterface'
+import type { AudioPlayerProps } from './playerInterface'
 import { AudioElement } from './components/AudioElement'
 import {
   useSongDuration,
@@ -25,8 +20,8 @@ import {
   useVolumeChange,
   useAppDispatch,
 } from '../../app/hooks'
+import { onPlayPauseClick } from '../../app/util'
 
-const { Play, Pause } = PlayerState
 const { Next, Prev } = TrackDirection
 
 const audioPlayerStyles: SxProps = {
@@ -45,8 +40,7 @@ const containerStyles: SxProps = {
 }
 
 export default function AudioPlayer({
-  handleNextTrack,
-  handlePreviousTrack,
+  nextOrPrevTrack,
   setSongPosition,
   playerState,
   position,
@@ -66,32 +60,6 @@ export default function AudioPlayer({
     }
   }
 
-  const isPlaying = (el: RefObject<HTMLAudioElement>): boolean => {
-    if (!el.current) return false
-    return !!(
-      el.current.currentTime > 0 &&
-      !el.current.paused &&
-      !el.current.ended &&
-      el.current.readyState > 2
-    )
-  }
-
-  const onPlayPauseClick = (): void => {
-    if (!audioEl.current) return
-
-    if (!playUrl) {
-      dispatch(setConcertInitialized())
-      dispatch(playNewTrack())
-      return
-    }
-
-    if (!isPlaying(audioEl)) {
-      dispatch(setPlayerState(Play))
-    } else {
-      dispatch(setPlayerState(Pause))
-    }
-  }
-
   return (
     <Box my={3} sx={audioPlayerStyles}>
       <ProgressBar
@@ -100,18 +68,18 @@ export default function AudioPlayer({
         setSongPosition={setSongPosition}
       />
       <Stack sx={containerStyles}>
-        <SkipButton direction={Prev} clickHandler={handlePreviousTrack} />
+        <SkipButton direction={Prev} clickHandler={nextOrPrevTrack} />
         <PlayOrPause
           isPlaying={playerState === PlayerState.Play}
-          onPlayPauseClick={onPlayPauseClick}
+          onPlayPauseClick={() => onPlayPauseClick(dispatch, audioEl, playUrl)}
         />
-        <SkipButton direction={Next} clickHandler={handleNextTrack} />
+        <SkipButton direction={Next} clickHandler={nextOrPrevTrack} />
         <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
       </Stack>
       <AudioElement
         ref={audioEl}
         src={playUrl}
-        handleNextTrack={handleNextTrack}
+        handleNextTrack={() => nextOrPrevTrack(TrackDirection.Next)}
       />
     </Box>
   )

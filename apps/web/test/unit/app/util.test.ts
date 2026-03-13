@@ -3,6 +3,8 @@ import {
   type NetworkError,
   IconDirection,
   MediaFormat,
+  PlayerState,
+  TrackDirection,
 } from '../../../src/app/interface'
 import {
   addSongFormat,
@@ -13,13 +15,25 @@ import {
   findTrackIndex,
   getBandOptions,
   getYearOptions,
+  handleNextOrPreviousTrack,
+  handlePlayNewTrack,
   handleTrackDuration,
   handleTrackProgressDuration,
   hasNetworkError,
+  isPlaying,
+  onPlayPauseClick,
   withDispatch,
 } from '../../../src/app/util'
 import type { TrackListData } from '../../../src/features'
-import { defaultAppState, expectedRotation } from '../../utils'
+import {
+  createMockAudioEl,
+  defaultAppState,
+  expectedRotation,
+  getPlayPauseAction,
+  selectedConcertAction,
+} from '../../utils'
+
+const { Play, Pause } = PlayerState
 
 const undefinedBand = undefined as unknown as BandList
 
@@ -192,5 +206,74 @@ describe('Util', () => {
   it('expectedRotation returns the correct rotation', () => {
     expect(expectedRotation(IconDirection.Left)).toBe('0')
     expect(expectedRotation(IconDirection.Right)).toBe('180deg')
+  })
+
+  it("isPlaying returns false if audio element is not defined", () => {
+    expect(isPlaying({ current: null })).toBe(false)
+  })
+
+  it("onPlayPauseClick does nothing if audio element is not defined", () => {
+    onPlayPauseClick(mockDispatch, { current: null })
+    expect(mockDispatch).not.toHaveBeenCalled()
+  })
+
+  it("onPlayPauseClick properly dispatches player state", () => {
+    for (const [i, state] of [Play, Pause].entries()) {
+      const isPaused = state === Pause
+      const expectedState = isPaused ? Play : Pause
+
+      const mockAudioElement = createMockAudioEl({ 
+        currentTime: 100,
+        readyState: 3,
+        paused: isPaused,
+      }) 
+
+      onPlayPauseClick(mockDispatch, mockAudioElement, "test.mp3")
+
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        i + 1,
+        getPlayPauseAction(expectedState)
+      )
+    }
+  })
+
+  it("onPlayPauseClick initializes concert and starts first track", () => {
+    onPlayPauseClick(mockDispatch, createMockAudioEl())
+
+    expect(mockDispatch).toHaveBeenNthCalledWith(
+      1,
+      selectedConcertAction("setConcertInitialized")
+    )
+
+    expect(mockDispatch).toHaveBeenNthCalledWith(
+      2,
+      selectedConcertAction("playNewTrack")
+    )
+  })
+
+  it("handleNextOrPreviousTrack does nothing if audio element is null", () => {
+    const resetSongPositionMock = jest.fn()
+
+    const nextOrPrev = handleNextOrPreviousTrack(
+      mockDispatch,
+      { current: null },
+      resetSongPositionMock
+    )
+
+    nextOrPrev(TrackDirection.Next)
+    expect(resetSongPositionMock).not.toHaveBeenCalled()
+  })
+
+  it("handlePlayNewTrack does nothing if audio element is null", () => {
+    const resetSongPositionMock = jest.fn()
+
+    const playNewTrack = handlePlayNewTrack(
+      mockDispatch,
+      { current: null },
+      resetSongPositionMock
+    )
+
+    playNewTrack(testSelection)
+    expect(resetSongPositionMock).not.toHaveBeenCalled()
   })
 })

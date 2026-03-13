@@ -8,8 +8,7 @@ import {
 } from '../../app/interface'
 
 export interface AudioPlayerProps {
-  handleNextTrack: () => void
-  handlePreviousTrack: () => void
+  nextOrPrevTrack: (nextOrPrev: TrackDirection) => void
   setSongPosition: SongPositionHandler
   position: number
   playerState: PlayerState
@@ -41,7 +40,7 @@ export interface DurationLabelProps {
 }
 
 export interface NextOrPreviousTrackProps {
-  clickHandler: () => void
+  clickHandler: (nextOrPrev: TrackDirection) => void
   direction: TrackDirection
 }
 

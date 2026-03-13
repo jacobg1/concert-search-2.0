@@ -22,7 +22,7 @@ export default function SkipButton({
       size="small"
       aria-label={`${direction}-track`}
       sx={buttonStyles}
-      onClick={clickHandler}
+      onClick={() => clickHandler(direction)}
     >
       {direction === Prev ? <SkipPreviousSharpIcon /> : <SkipNextSharpIcon />}
     </Button>

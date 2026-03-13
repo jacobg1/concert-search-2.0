@@ -15,23 +15,15 @@ import ErrorOutlineSharpIcon from '@mui/icons-material/ErrorOutlineSharp'
 import TrackListDisplay from '../tracks/TrackListDisplay'
 import ConcertMeta from '../tracks/components/ConcertMeta'
 import AudioPlayer from '../player/AudioPlayer'
-import {
-  playNextTrack,
-  playPreviousTrack,
-  playNewTrack,
-  setConcertInitialized,
-} from './selectedConcertSlice'
-import { TrackDirection } from '../../app/interface'
 import { ButtonContainer } from './components/ButtonContainer'
 import Visualizer from '../visualizer/Visualizer'
+import { handlePlayNewTrack, handleNextOrPreviousTrack } from '../../app/util'
 import {
   useAppSelector,
   useAppDispatch,
   useMediaSession,
   useSongPosition,
 } from '../../app/hooks'
-
-const { Next, Prev } = TrackDirection
 
 const drawerStyles: SxProps = {
   height: '100%',
@@ -108,27 +100,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   useMediaSession(metadata, trackList, currentTrackName)
 
-  const handleNextOrPreviousTrack =
-    (nextOrPrev: TrackDirection) => (): void => {
-      if (!audioEl.current) return
-
-      dispatch(setConcertInitialized())
-      resetSongPosition()
-
-      if (nextOrPrev === Next) {
-        dispatch(playNextTrack())
-      } else {
-        dispatch(playPreviousTrack())
-      }
-    }
-
-  const handlePlayNewTrack = (name: string): void => {
-    if (!audioEl.current) return
-
-    dispatch(setConcertInitialized())
-    resetSongPosition()
-    dispatch(playNewTrack(name))
-  }
+  const nextOrPrevTrack = handleNextOrPreviousTrack(dispatch, audioEl, resetSongPosition)
+  const playNewTrack = handlePlayNewTrack(dispatch, audioEl, resetSongPosition)
 
   return (
     <Drawer
@@ -164,7 +137,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 <TrackListDisplay
                   trackList={trackList}
                   currentTrackName={currentTrackName}
-                  playNewTrack={handlePlayNewTrack}
+                  playNewTrack={playNewTrack}
                 />
                 <AudioPlayer
                   audioEl={audioEl}
@@ -172,8 +145,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   playerState={playerState}
                   position={position}
                   setSongPosition={setSongPosition}
-                  handleNextTrack={handleNextOrPreviousTrack(Next)}
-                  handlePreviousTrack={handleNextOrPreviousTrack(Prev)}
+                  nextOrPrevTrack={nextOrPrevTrack}
                 />
               </>
             ) : null}
@@ -182,6 +154,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
       </Stack>
       <Snackbar
         open={!!connectionError}
+        hidden={!connectionError}
         autoHideDuration={4000}
         slotProps={{ transition: { appear: false } }}
         onClose={() => setConnectionError('')}

@@ -1,7 +1,15 @@
 import type { UnknownAction } from '@reduxjs/toolkit'
 import type { TrackListData } from '../features/tracks/trackInterface'
-import { MediaFormat, type NetworkError, type BandList } from './interface'
+import { MediaFormat, type NetworkError, type BandList, PlayerState, TrackDirection } from './interface'
 import type { AppDispatch, AppThunk } from './store'
+import type { RefObject } from 'react'
+import {
+  setConcertInitialized,
+  playNewTrack,
+  setPlayerState,
+  playNextTrack,
+  playPreviousTrack
+} from '../features/selectedConcert/selectedConcertSlice'
 
 function durationFormat(
   durationValue: number
@@ -132,5 +140,68 @@ export function withDispatch(
 ) {
   return (selection?: string) => {
     return dispatch(selection ? cb(selection) : cb())
+  }
+}
+
+export function isPlaying(el: RefObject<HTMLAudioElement>): boolean {
+  if (!el.current) return false
+  return !!(
+    el.current.currentTime > 0 &&
+    !el.current.paused &&
+    !el.current.ended &&
+    el.current.readyState > 2
+  )
+}
+
+export function onPlayPauseClick(
+  dispatch: AppDispatch,
+  audioElement: RefObject<HTMLAudioElement>,
+  playUrl?: string
+): void {
+  if (!audioElement.current) return
+
+  if (!playUrl) {
+    dispatch(setConcertInitialized())
+    dispatch(playNewTrack())
+    return
+  }
+
+  if (!isPlaying(audioElement)) {
+    dispatch(setPlayerState(PlayerState.Play))
+  } else {
+    dispatch(setPlayerState(PlayerState.Pause))
+  }
+}
+
+export function handleNextOrPreviousTrack(
+  dispatch: AppDispatch,
+  audioElement: RefObject<HTMLAudioElement>,
+  resetSongPosition: () => void,
+) {
+  return (nextOrPrev: TrackDirection): void => {
+    if (!audioElement.current) return
+
+    dispatch(setConcertInitialized())
+    resetSongPosition()
+
+    if (nextOrPrev === TrackDirection.Next) {
+      dispatch(playNextTrack())
+    } else {
+      dispatch(playPreviousTrack())
+    }
+  }
+}
+
+export function handlePlayNewTrack(
+  dispatch: AppDispatch,
+  audioElement: RefObject<HTMLAudioElement>,
+  resetSongPosition: () => void
+) {
+  return (name: string) => {
+    if (!audioElement.current) return
+
+    dispatch(setConcertInitialized())
+    resetSongPosition()
+    dispatch(playNewTrack(name))
   }
 }
