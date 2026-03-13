@@ -1,21 +1,19 @@
+import { concertList } from '@repo/mock-data/ui'
 import { screen } from '@testing-library/react'
-import { concertList, singleConcert } from '@repo/mock-data/ui'
+import App from '../../src/App'
 import {
-  formatTrackList,
+  formattedTrackList,
   mockFetch,
   searchConcerts,
   testPlayingTrack,
   userRender,
 } from '../utils'
-import App from '../../src/App'
 
 let fetchMock: jest.SpyInstance
 let mockPlay: jest.SpyInstance<Promise<void>>
 let mockPause: jest.SpyInstance<void>
 
 const errorText = "Oops! Something went wrong, please update search and try again."
-
-const formattedConcert = formatTrackList(singleConcert)
 
 describe('Selected Concert Integration', () => {
   beforeEach(() => {
@@ -29,7 +27,7 @@ describe('Selected Concert Integration', () => {
   it('Can find and view a concert', async () => {
     mockPause.mockReturnValue()
     mockFetch(fetchMock, concertList, true)
-    mockFetch(fetchMock, formattedConcert, true)
+    mockFetch(fetchMock, formattedTrackList, true)
 
     const { user } = userRender(<App />)
 
@@ -41,14 +39,14 @@ describe('Selected Concert Integration', () => {
     await user.click(firstConcert)
     expect(fetchMock).toHaveBeenCalledTimes(2)
 
-    formattedConcert.trackList.forEach(({ title }) => {
+    formattedTrackList.trackList.forEach(({ title }) => {
       expect(screen.getByText(title))
     })
   })
 
   it('Can find and view a concert', async () => {
     mockFetch(fetchMock, concertList, true)
-    mockFetch(fetchMock, formattedConcert, true)
+    mockFetch(fetchMock, formattedTrackList, true)
 
     mockPause.mockReturnValue()
     mockPlay.mockResolvedValue()
@@ -58,15 +56,15 @@ describe('Selected Concert Integration', () => {
     await searchConcerts(user)
     const [firstConcert] = screen.getAllByText('Play')
     await user.click(firstConcert)
-   
-    formattedConcert.trackList.forEach(({ title }) => {
+
+    formattedTrackList.trackList.forEach(({ title }) => {
       expect(screen.getByText(title))
     })
   })
 
   it('Play, Pause, Next and Prev track work properly', async () => {
     mockFetch(fetchMock, concertList, true)
-    mockFetch(fetchMock, formattedConcert, true)
+    mockFetch(fetchMock, formattedTrackList, true)
 
     mockPause.mockReturnValue()
     mockPlay.mockResolvedValue()
@@ -77,7 +75,7 @@ describe('Selected Concert Integration', () => {
     const [firstConcert] = screen.getAllByText('Play')
 
     await user.click(firstConcert)
-    const [firstTrack, secondTrack] = formattedConcert.trackList
+    const [firstTrack, secondTrack] = formattedTrackList.trackList
 
     await user.click(screen.getByText(firstTrack.title))
 
@@ -93,7 +91,7 @@ describe('Selected Concert Integration', () => {
 
   it("Error text shows if single concert search fails", async () => {
     mockFetch(fetchMock, concertList, true)
-    mockFetch(fetchMock, formattedConcert, false)
+    mockFetch(fetchMock, formattedTrackList, false)
 
     mockPause.mockReturnValue()
     mockPlay.mockResolvedValue()

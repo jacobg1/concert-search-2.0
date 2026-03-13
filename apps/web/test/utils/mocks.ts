@@ -1,12 +1,13 @@
-import type { UserEvent } from '@testing-library/user-event'
-import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
+import { singleConcert } from '@repo/mock-data/ui'
 import { screen } from '@testing-library/react'
+import type { UserEvent } from '@testing-library/user-event'
 import {
   MediaFormat,
   PlayerState,
   SortOrder,
 } from '../../src/app/interface'
 import type { SelectedConcert } from '../../src/features'
+import type { MediaMetadataArgs, MockSingleTrackProps } from '../types'
 
 export const defaultAppState = {
   individualConcert: {
@@ -192,7 +193,7 @@ export async function closeErrorModal(
   }
 }
 
-export function formatTrackList({
+function formatTrackList({
   trackList,
   ...restOfTracks
 }: SelectedConcert): SelectedConcert {
@@ -204,3 +205,5 @@ export function formatTrackList({
     }))
   }
 }
+
+export const formattedTrackList = formatTrackList(singleConcert)

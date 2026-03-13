@@ -1,17 +1,16 @@
 import { screen } from '@testing-library/react'
-import { singleConcert } from '@repo/mock-data/ui'
+import { useSongPosition } from '../../../src/app/hooks'
 import { IconDirection, PlayerState } from '../../../src/app/interface'
 import { BackButton } from '../../../src/features/selectedConcert/components/BackButton'
+import SelectedConcertDisplay from '../../../src/features/selectedConcert/SelectedConcertDisplay'
 import {
   contextRender,
   defaultAppState,
   expectedRotation,
-  formatTrackList,
+  formattedTrackList,
   getMockSongPosition,
   userRenderContext,
 } from '../../utils'
-import { useSongPosition } from '../../../src/app/hooks'
-import SelectedConcertDisplay from '../../../src/features/selectedConcert/SelectedConcertDisplay'
 
 jest.mock('../../../src/app/hooks', () => {
   return {
@@ -26,8 +25,6 @@ const arrowIconId = 'ArrowLeftSharpIcon'
 
 let mockPlay: jest.SpyInstance<Promise<void>>
 let mockPause: jest.SpyInstance<void>
-
-const formattedConcert = formatTrackList(singleConcert)
 
 describe('Selected Concert Feature', () => {
   beforeEach(() => {
@@ -86,7 +83,7 @@ describe('Selected Concert Feature', () => {
         individualConcert: {
           ...defaultAppState.individualConcert,
           playerState: PlayerState.Play,
-          selectedConcert: formattedConcert
+          selectedConcert: formattedTrackList
         }
       }
     })
@@ -100,7 +97,7 @@ describe('Selected Concert Feature', () => {
       }
     } = store.getState()
 
-    const [{ link, name }] = formattedConcert.trackList
+    const [{ link, name }] = formattedTrackList.trackList
 
     expect(concertInitialized).toBe(true)
     expect(playUrl).toBe(link)
@@ -124,7 +121,7 @@ describe('Selected Concert Feature', () => {
       preloadedState: {
         individualConcert: {
           ...defaultAppState.individualConcert,
-          selectedConcert: formattedConcert
+          selectedConcert: formattedTrackList
         }
       }
     })
