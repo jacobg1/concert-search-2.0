@@ -4,7 +4,6 @@ import { offline } from './offline';
 
 mockServer.events.on('request:start', logMockRequest)
 
-
 mockServer.listen()
 
 offline.listen(3000);
