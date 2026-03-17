@@ -7,6 +7,7 @@
     "./pre-api": "./pre-api",
     "./post-api": "./post-api",
     "./event": "./event",
-    "./ui": "./ui"
+    "./ui": "./ui",
+    "./types": "./types"
   }
 }
