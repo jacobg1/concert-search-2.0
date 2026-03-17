@@ -1,8 +1,9 @@
 import type {
-  MockPathParams,
-  CreateMockRequestContextInput,
-  CreateMockEventFunc,
   CreateMockContextFunc,
+  CreateMockEventFunc,
+  CreateMockRequestContextInput,
+  LambdaQs,
+  MockPathParams,
 } from '../types'
 
 const mockHeaders = {
@@ -69,7 +70,7 @@ export const createMockEvent: CreateMockEventFunc = ({
 
   return {
     ...(pathParameters && { pathParameters }),
-    ...(queryStringParameters && { queryStringParameters }),
+    ...(queryStringParameters && { queryStringParameters } as LambdaQs),
     ...(mockBody && { body: mockBody }),
     headers: mockHeaders,
     requestContext: mockRequestContext,

@@ -1,6 +1,7 @@
-import type { APIGatewayProxyEventV2, Context } from 'aws-lambda'
+import type { APIGatewayProxyEventQueryStringParameters, APIGatewayProxyEventV2, Context } from 'aws-lambda'
+import type { Request } from 'express'
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export type MockPathParams = Record<string, string | undefined>
 
@@ -9,7 +10,7 @@ export interface CreateMockEventInput {
   route: string
   method: HttpMethod
   pathParameters?: MockPathParams
-  queryStringParameters?: MockPathParams
+  queryStringParameters?: Request['query']
   body?: unknown
 }
 
@@ -24,3 +25,7 @@ export type CreateMockEventFunc = (
 ) => APIGatewayProxyEventV2
 
 export type CreateMockContextFunc = () => Context
+
+export interface LambdaQs {
+  queryStringParameters: APIGatewayProxyEventQueryStringParameters
+}
