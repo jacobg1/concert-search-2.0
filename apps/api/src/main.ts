@@ -1,14 +1,14 @@
 import { Logger, NotFoundException } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
 import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
   Handler,
 } from 'aws-lambda'
-import { ConcertService } from './services'
-import { extractReqData, handleResponse, handleError } from './helpers'
+import { AppModule } from './app.module'
+import { extractReqData, handleError, handleResponse } from './helpers'
 import { HttpRoutes, type RouteConfigObj } from './interface'
+import { ConcertService } from './services'
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule, {
