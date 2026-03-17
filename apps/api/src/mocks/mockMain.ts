@@ -1,20 +1,12 @@
-import { handler as mainHandler } from '../main'
-import type {
-  APIGatewayProxyEventV2,
-  Callback,
-  Context,
-  Handler,
-} from 'aws-lambda'
-import { server } from './node'
-import { logMockRequest } from '../../src/helpers'
+import { logMockRequest } from '../../src/helpers';
+import { mockServer } from './node';
+import { offline } from './offline';
 
-server.events.on('request:start', logMockRequest)
+mockServer.events.on('request:start', logMockRequest)
 
-export const handler: Handler = (
-  event: APIGatewayProxyEventV2,
-  context: Context,
-  callback: Callback
-) => {
-  server.listen()
-  return mainHandler(event, context, callback)
-}
+
+mockServer.listen()
+
+offline.listen(3000);
+
+export * from '../main';
