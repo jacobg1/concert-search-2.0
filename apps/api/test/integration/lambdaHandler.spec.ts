@@ -21,6 +21,7 @@ import {
 const mockConcertId = '001'
 const mockSearchTerm = 'handler test'
 const concertsRoute = '/concerts'
+const singleConcertRoute = '/concerts/{id}'
 
 const mockContext = createMockContext()
 const mockCallback = () => null
@@ -80,8 +81,8 @@ describe('Lambda Handler Integration', () => {
 
     const mockEvent = createMockEvent({
       method: 'GET',
-      route: `${concertsRoute}/{id}`,
-      path: concertsRoute,
+      route: singleConcertRoute,
+      path: `${concertsRoute}/${mockConcertId}`,
       pathParameters: { id: mockConcertId },
     })
 
@@ -161,7 +162,7 @@ describe('Lambda Handler Integration', () => {
     const mockEvent = createMockEvent({
       method: 'GET',
       route: `${concertsRoute}/{id}`,
-      path: concertsRoute,
+      path: `${concertsRoute}/${mockConcertId}`,
       pathParameters: { id: mockConcertId },
     })
 
