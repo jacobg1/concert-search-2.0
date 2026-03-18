@@ -1,9 +1,14 @@
-import { createMockEvent } from '@repo/mock-data/event'
-import type { OfflineConfig, OfflineParams } from '../interface'
+import { createMockEvent } from '@repo/mock-data/event';
+import type { OfflineConfig, OfflineParams } from '../interface';
+
+const checkFirstLetter = (
+  str: string | string[],
+  comp: string
+): boolean => str[0] === comp;
 
 function doesUrlMatch(configUrlArray: string[], urlArray: string[]): boolean {
   return configUrlArray.every((item, index) => {
-    if (item[0] === ':') return true
+    if (checkFirstLetter(item, ":")) return true
     return urlArray[index] === item
   })
 }
@@ -29,14 +34,29 @@ export function findConfigUrl(
 
 export function createOfflineEvent(
   { method, route, lambdaRoute }: OfflineConfig,
-  { body, query }: OfflineParams
+  { body, query, params }: OfflineParams
 ) {
   return createMockEvent({
     method,
     route: lambdaRoute,
     path: route,
-    pathParameters: { id: '234324' }, // TODO
+    pathParameters: params,
     ...(body && { body }),
     ...(query && { queryStringParameters: query })
   })
+}
+
+export function getPathParams(
+  offlineRoute: string,
+  route: string[]
+): Record<string, string> {
+  return formatUrl(offlineRoute).reduce((acc, curr, i) => {
+    if (checkFirstLetter(curr, ":")) {
+      return {
+        ...acc,
+        [curr.replace(":", "")]: route[i]
+      }
+    }
+    return acc
+  }, {})
 }

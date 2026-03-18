@@ -3,7 +3,7 @@ import { json } from 'body-parser'
 import express, { type Request, type Response } from 'express'
 import type { OfflineConfig } from '../interface'
 import { handler } from '../main'
-import { createOfflineEvent, findConfigUrl } from './utils'
+import { createOfflineEvent, findConfigUrl, getPathParams } from './utils'
 
 const offline = express()
 
@@ -25,7 +25,6 @@ const config: OfflineConfig[] = [
   },
 ]
 
-
 offline.all('/{*route}', async (req: Request, res: Response) => {
   try {
     const {
@@ -45,8 +44,13 @@ offline.all('/{*route}', async (req: Request, res: Response) => {
       throw Error('Invalid Route')
     }
 
+    const params = getPathParams(configUrl.route, route)
+
     const response = await handler(
-      createOfflineEvent(configUrl, { query, body }),
+      createOfflineEvent(
+        configUrl,
+        { params, query, body }
+      ),
       createMockContext(),
       cb
     )
