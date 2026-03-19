@@ -1,6 +1,6 @@
-import { logMockRequest } from '../../src/helpers';
 import { mockServer } from './node';
 import { offline } from './offline';
+import { logMockRequest } from './utils';
 
 mockServer.events.on('request:start', logMockRequest)
 
