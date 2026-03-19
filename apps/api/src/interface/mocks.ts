@@ -1,5 +1,6 @@
 import type { HttpMethod } from '@repo/mock-data/types'
 import type { Request } from 'express'
+import type { ConcertSearchOptions } from './concerts.interface'
 
 export interface OfflineConfig {
   route: string,
@@ -8,7 +9,7 @@ export interface OfflineConfig {
 }
 
 export interface OfflineParams {
-  body?: Record<string, unknown>,
+  body?: ConcertSearchOptions,
   query?: Request['query'],
   params?: Record<string, string>
 }
