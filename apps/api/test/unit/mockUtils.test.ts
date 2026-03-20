@@ -1,6 +1,8 @@
+import type { Request as ExpressRequest, NextFunction, Response } from 'express'
 import { HttpMethods } from 'msw'
 import type { OfflineConfig } from '../../src/interface'
 import {
+  allowCrossDomain,
   createOfflineEvent,
   findConfigUrl,
   getPathParams,
@@ -128,5 +130,31 @@ describe('Mock Utils Tests', () => {
     expect(
       findConfigUrl(mockConfig, [...mockRouteParams, 'invalid'], GET)
     ).toBeUndefined()
+  })
+
+  it('allowCrossDomain sets the appropriate headers', () => {
+    const setHeaderMock = jest.fn()
+    const nextMock = jest.fn()
+    const mockRes = { header: setHeaderMock }
+
+    const middleware = allowCrossDomain()
+
+    middleware(
+      {} as ExpressRequest,
+      mockRes as unknown as Response,
+      nextMock as NextFunction
+    )
+
+    const expectedHeaders = [
+      "Access-Control-Allow-Origin",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Headers"
+    ]
+
+    for (const [i, header] of expectedHeaders.entries()) {
+      expect(setHeaderMock).toHaveBeenNthCalledWith(i + 1, header, "*")
+    }
+
+    expect(nextMock).toHaveBeenCalled()
   })
 })
