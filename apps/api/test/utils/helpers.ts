@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/common'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import {
   MediaFormat,
   SortOrder,
@@ -191,5 +191,19 @@ export function testCorsHeaders(headers: Headers): void {
     const formatHeader = header.toLocaleLowerCase()
     expect(headers.has(formatHeader)).toBe(true)
     expect(headers.get(formatHeader)).toBe('*')
+  }
+}
+
+export function testOfflineResponse(response: Response, success: boolean): void {
+  expect(response.ok).toBe(success)
+  expect(response.body).toBeDefined()
+  testCorsHeaders(response.headers)
+
+  if (success) {
+    expect(response.status).toBe(HttpStatus.OK)
+    expect(response.statusText).toBe('OK')
+  } else {
+    expect(response.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
+    expect(response.statusText).toBe('Internal Server Error')
   }
 }
