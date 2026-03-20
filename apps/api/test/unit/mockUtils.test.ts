@@ -14,15 +14,16 @@ const mockConsoleLog = jest.spyOn(console, 'log')
 
 const expectedId = '123'
 const mockRouteParams = ['mock', expectedId]
+const params = { testId: expectedId }
 
 const mockConfig: OfflineConfig[] = [
   {
-    route: '/mock/:testId',
+    configPath: '/mock/:testId',
     method: GET,
     lambdaRoute: '/mock/{testId}'
   },
   {
-    route: '/mock',
+    configPath: '/mock',
     method: POST,
     lambdaRoute: '/mock'
   },
@@ -56,32 +57,57 @@ describe('Mock Utils Tests', () => {
 
   it('getPathParams returns the proper object', () => {
     expect(
-      getPathParams(firstMock.route, mockRouteParams)
-    ).toStrictEqual({ testId: expectedId })
+      getPathParams(firstMock.configPath, mockRouteParams)
+    ).toStrictEqual(params)
   })
 
   it('createOfflineEvent creates the correct event', () => {
     const mockInput = getMockInput('util test')
-    const { route, method, lambdaRoute } = secondMock
+    const { configPath, method, lambdaRoute } = secondMock
 
     const {
-      body,
-      rawPath,
-      routeKey,
-      requestContext: { http }
+      requestContext: { http, ...context },
+      ...event
     } = createOfflineEvent(
-      { method, route, lambdaRoute },
+      { method, configPath, lambdaRoute },
       { body: mockInput }
     )
 
-    const parsedBody = JSON.parse(body as string)
+    const parsedBody = JSON.parse(event.body as string)
 
-    expect(body).toBeDefined()
+    expect(event.body).toBeDefined()
     expect(parsedBody).toStrictEqual(mockInput)
-    expect(routeKey).toBe(`${method} ${route}`)
-    expect(rawPath).toBe(route)
+    expect(event.routeKey).toBe(`${method} ${lambdaRoute}`)
+    expect(context.routeKey).toBe(`${method} ${lambdaRoute}`)
+    expect(event.rawPath).toBe(configPath)
     expect(http.method).toBe(method)
-    expect(http.path).toBe(route)
+    expect(http.path).toBe(configPath)
+  })
+
+  it("createOfflineEvent properly handles path params and query string params", () => {
+    const { configPath, method, lambdaRoute } = firstMock
+
+    const testQuery = { test: '123', test2: '346', test3: '678' }
+    const rawQuery = 'test=123&test2=346&test3=678'
+
+    const expectedPath = `/mock/${expectedId}`
+
+    const {
+      requestContext: { http, ...context },
+      ...event
+    } = createOfflineEvent(
+      { method, configPath, lambdaRoute },
+      { query: testQuery, params }
+    )
+
+    expect(event.routeKey).toBe(`${method} ${lambdaRoute}`)
+    expect(context.routeKey).toBe(`${method} ${lambdaRoute}`)
+    expect(event.rawPath).toBe(expectedPath)
+    expect(event.rawQueryString).toBe(rawQuery)
+    expect(event.pathParameters).toStrictEqual(params)
+    expect(event.queryStringParameters).toStrictEqual(testQuery)
+    expect(http.method).toBe(method)
+    expect(http.path).toBe(expectedPath)
   })
 
   it('findConfigUrl find the correct configuration entry', () => {
