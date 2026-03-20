@@ -1,3 +1,4 @@
+import type { Request } from 'express'
 import type {
   CreateMockContextFunc,
   CreateMockEventFunc,
@@ -14,15 +15,21 @@ const mockHeaders = {
   referer: 'http://localhost:8080/',
 }
 
-function createMockPath(mockPath: string, mockPathParams: MockPathParams) {
-  const createPathFromParams = Object.values(mockPathParams).reduce(
-    (acc, curr, index, self) => {
-      const sep = index !== self.length - 1 ? '/' : ''
-      return (acc += curr + sep)
-    },
-    ''
-  )
-  return `${mockPath}/${createPathFromParams}`
+function createMockPath(mockPath: string, mockPathParams: MockPathParams): string {
+  const splitPath = mockPath.split('/')
+
+  return splitPath.reduce((acc, curr) => {
+    if (!curr) return acc
+
+    if (curr[0] === ':') {
+      const key = curr.replace(':', '')
+      acc += `/${mockPathParams[key]}`
+    } else {
+      acc += `/${curr}`
+    }
+
+    return acc
+  }, '')
 }
 
 function createMockRequestContext({
@@ -51,6 +58,16 @@ function createMockRequestContext({
   }
 }
 
+function createRawQueryString(query?: Request['query']): string {
+  if (!query) return ''
+
+  return Object.entries(query).reduce((acc, [key, val], i) => {
+    if (i !== 0) acc += '&'
+    acc += `${key}=${val}`
+    return acc
+  }, '')
+}
+
 export const createMockEvent: CreateMockEventFunc = ({
   path,
   route,
@@ -60,6 +77,7 @@ export const createMockEvent: CreateMockEventFunc = ({
   body,
 }) => {
   const rawPath = pathParameters ? createMockPath(path, pathParameters) : path
+  const rawQueryString = createRawQueryString(queryStringParameters)
   const mockBody = body ? JSON.stringify(body) : null
   const routeKey = `${method} ${route}`
   const mockRequestContext = createMockRequestContext({
@@ -78,7 +96,7 @@ export const createMockEvent: CreateMockEventFunc = ({
     rawPath,
     cookies: [],
     isBase64Encoded: false,
-    rawQueryString: '',
+    rawQueryString,
     version: '2.0',
   }
 }
