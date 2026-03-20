@@ -3,7 +3,7 @@ import type { Request } from 'express'
 import type { ConcertSearchOptions } from './concerts.interface'
 
 export interface OfflineConfig {
-  route: string,
+  configPath: string,
   lambdaRoute: string,
   method: HttpMethod
 }
