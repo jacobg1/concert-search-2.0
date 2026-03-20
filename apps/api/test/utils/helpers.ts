@@ -1,17 +1,17 @@
+import { HttpException } from '@nestjs/common'
 import {
   MediaFormat,
   SortOrder,
-  type SingleConcert,
   type ConcertData,
-  type PaginatedConcertList,
   type ConcertSearchOptions,
+  type PaginatedConcertList,
+  type SingleConcert,
   type TrackMetaData,
 } from '../../src/interface'
-import { HttpException } from '@nestjs/common'
 import type {
-  TestError,
-  ExpectedResponse,
   ExpectedException,
+  ExpectedResponse,
+  TestError,
   TestLambdaResponse,
 } from '../types'
 
@@ -178,4 +178,18 @@ export async function getJsonResponse<T extends object>(response?: Response) {
     throw new Error('Failed to get json response')
   }
   return JSON.parse(json) as T
+}
+
+export const expectedCorsHeaders = [
+  'Access-Control-Allow-Origin',
+  'Access-Control-Allow-Methods',
+  'Access-Control-Allow-Headers'
+]
+
+export function testCorsHeaders(headers: Headers): void {
+  for (const header of expectedCorsHeaders) {
+    const formatHeader = header.toLocaleLowerCase()
+    expect(headers.has(formatHeader)).toBe(true)
+    expect(headers.get(formatHeader)).toBe('*')
+  }
 }

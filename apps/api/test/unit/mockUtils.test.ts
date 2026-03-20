@@ -8,7 +8,7 @@ import {
   getPathParams,
   logMockRequest,
 } from '../../src/mocks/utils'
-import { getMockInput } from '../utils'
+import { expectedCorsHeaders, getMockInput } from '../utils'
 
 const { GET, POST, DELETE } = HttpMethods
 
@@ -149,13 +149,7 @@ describe('Mock Utils Tests', () => {
       nextMock as NextFunction
     )
 
-    const expectedHeaders = [
-      'Access-Control-Allow-Origin',
-      'Access-Control-Allow-Methods',
-      'Access-Control-Allow-Headers'
-    ]
-
-    for (const [i, header] of expectedHeaders.entries()) {
+    for (const [i, header] of expectedCorsHeaders.entries()) {
       expect(setHeaderMock).toHaveBeenNthCalledWith(i + 1, header, '*')
     }
 
