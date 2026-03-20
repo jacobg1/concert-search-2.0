@@ -1,29 +1,21 @@
 import { createMockContext } from '@repo/mock-data/event'
 import { json } from 'body-parser'
 import express, { type Request, type Response } from 'express'
-import type { OfflineConfig } from '../interface'
 import { handler } from '../main'
-import { createOfflineEvent, findConfigUrl, getPathParams } from './utils'
+import { cb, jsonContent, offlineConfig } from './config'
+import {
+  allowCrossDomain,
+  createOfflineEvent,
+  findConfigUrl,
+  getPathParams,
+} from './utils'
 
 const offline = express()
 
+offline.use(allowCrossDomain())
 offline.use(json())
 
-const cb = () => null
-const jsonContent = { 'Content-Type': 'application/json' }
-
-const config: OfflineConfig[] = [
-  {
-    route: '/concerts/:id',
-    method: 'GET',
-    lambdaRoute: '/concerts/{id}'
-  },
-  {
-    route: '/concerts',
-    method: 'POST',
-    lambdaRoute: '/concerts'
-  },
-]
+offline.options('/{*route}', (_: Request, res: Response) => res.end())
 
 offline.all('/{*route}', async (req: Request, res: Response) => {
   try {
@@ -38,13 +30,13 @@ offline.all('/{*route}', async (req: Request, res: Response) => {
       throw new Error('Invalid Route')
     }
 
-    const configUrl = findConfigUrl(config, route, method)
+    const configUrl = findConfigUrl(offlineConfig, route, method)
 
     if (!configUrl) {
       throw Error('Invalid Route')
     }
 
-    const params = getPathParams(configUrl.route, route)
+    const params = getPathParams(configUrl.configPath, route)
 
     const response = await handler(
       createOfflineEvent(
