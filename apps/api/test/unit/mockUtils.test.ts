@@ -1,6 +1,6 @@
 import type { Request as ExpressRequest, NextFunction, Response } from 'express'
 import { HttpMethods } from 'msw'
-import type { OfflineConfig } from '../../src/interface'
+import type { ConcertSearchOptions, OfflineConfig } from '../../src/interface'
 import {
   allowCrossDomain,
   createOfflineEvent,
@@ -75,7 +75,11 @@ describe('Mock Utils Tests', () => {
       { body: mockInput }
     )
 
-    const parsedBody = JSON.parse(event.body as string)
+    if (!event.body) {
+      throw new Error('Missing event body')
+    }
+
+    const parsedBody = JSON.parse(event.body) as ConcertSearchOptions
 
     expect(event.body).toBeDefined()
     expect(parsedBody).toStrictEqual(mockInput)
@@ -86,7 +90,7 @@ describe('Mock Utils Tests', () => {
     expect(http.path).toBe(configPath)
   })
 
-  it("createOfflineEvent properly handles path params and query string params", () => {
+  it('createOfflineEvent properly handles path params and query string params', () => {
     const { configPath, method, lambdaRoute } = firstMock
 
     const testQuery = { test: '123', test2: '346', test3: '678' }
@@ -146,13 +150,13 @@ describe('Mock Utils Tests', () => {
     )
 
     const expectedHeaders = [
-      "Access-Control-Allow-Origin",
-      "Access-Control-Allow-Methods",
-      "Access-Control-Allow-Headers"
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Headers'
     ]
 
     for (const [i, header] of expectedHeaders.entries()) {
-      expect(setHeaderMock).toHaveBeenNthCalledWith(i + 1, header, "*")
+      expect(setHeaderMock).toHaveBeenNthCalledWith(i + 1, header, '*')
     }
 
     expect(nextMock).toHaveBeenCalled()
