@@ -1,6 +1,7 @@
 import type { Request as ExpressRequest, NextFunction, Response } from 'express'
 import { HttpMethods } from 'msw'
 import type { ConcertSearchOptions, OfflineConfig } from '../../src/interface'
+import { cb } from '../../src/mocks/config'
 import {
   allowCrossDomain,
   createOfflineEvent,
@@ -11,8 +12,6 @@ import {
 import { expectedCorsHeaders, getMockInput } from '../utils'
 
 const { GET, POST, DELETE } = HttpMethods
-
-const mockConsoleLog = jest.spyOn(console, 'log')
 
 const expectedId = '123'
 const mockRouteParams = ['mock', expectedId]
@@ -34,11 +33,13 @@ const mockConfig: OfflineConfig[] = [
 const [firstMock, secondMock] = mockConfig
 
 describe('Mock Utils Tests', () => {
-  afterAll(() => {
+  afterEach(() => {
     jest.restoreAllMocks()
   })
 
   it('logMockRequest works properly', () => {
+    const mockConsoleLog = jest.spyOn(console, 'log')
+
     const input = {
       request: {
         method: GET,
@@ -154,5 +155,9 @@ describe('Mock Utils Tests', () => {
     }
 
     expect(nextMock).toHaveBeenCalled()
+  })
+
+  it('Mock callback works properly', () => {
+    expect(cb()).toBeNull()
   })
 })
