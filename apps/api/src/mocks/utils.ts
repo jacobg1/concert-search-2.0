@@ -1,4 +1,5 @@
 import { createMockEvent } from '@repo/mock-data/event';
+import type { Request as ExpressRequest, NextFunction, Response } from 'express';
 import type { OfflineConfig, OfflineParams } from '../interface';
 
 const checkFirstLetter = (
@@ -22,10 +23,10 @@ export function findConfigUrl(
   urlArray: string[],
   reqMethod: string
 ): OfflineConfig | undefined {
-  return config.find(({ route, method }) => {
+  return config.find(({ configPath, method }) => {
     if (method !== reqMethod) return false
 
-    const splitUrl = formatUrl(route)
+    const splitUrl = formatUrl(configPath)
     if (splitUrl.length !== urlArray.length) return false
 
     return doesUrlMatch(splitUrl, urlArray)
@@ -33,13 +34,13 @@ export function findConfigUrl(
 }
 
 export function createOfflineEvent(
-  { method, route, lambdaRoute }: OfflineConfig,
+  { method, configPath, lambdaRoute }: OfflineConfig,
   { body, query, params }: OfflineParams
 ) {
   return createMockEvent({
     method,
     route: lambdaRoute,
-    path: route,
+    path: configPath,
     pathParameters: params,
     ...(body && { body }),
     ...(query && { queryStringParameters: query })
@@ -48,13 +49,13 @@ export function createOfflineEvent(
 
 export function getPathParams(
   offlineRoute: string,
-  route: string[]
+  routeData: string[]
 ): Record<string, string> {
   return formatUrl(offlineRoute).reduce((acc, curr, i) => {
     if (checkFirstLetter(curr, ":")) {
       return {
         ...acc,
-        [curr.replace(":", "")]: route[i]
+        [curr.replace(":", "")]: routeData[i]
       }
     }
     return acc
@@ -67,4 +68,13 @@ export const logMockRequest = ({
   request: Request
 }) => {
   console.log('MSW intercepted:', method, url)
+}
+
+export function allowCrossDomain() {
+  return (_: ExpressRequest, res: Response, next: NextFunction) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    next()
+  }
 }
