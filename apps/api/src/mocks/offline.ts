@@ -27,14 +27,10 @@ offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
       params: { route }
     } = req
 
-    if (typeof route === 'string') {
-      throw new Error('Invalid Route')
-    }
-
     const configUrl = findConfigUrl(offlineConfig, route, method)
 
     if (!configUrl) {
-      throw Error('Invalid Route')
+      throw Error('Route Not Found')
     }
 
     const params = getPathParams(configUrl.configPath, route)
@@ -63,7 +59,7 @@ offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
       return
     }
 
-    res.send()
+    throw new Error('Invalid Api Response')
   } catch (err: unknown) {
     console.log(err)
     res.status(500).send({ message: 'Internal Server Error' })

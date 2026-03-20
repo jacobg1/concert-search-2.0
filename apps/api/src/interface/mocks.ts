@@ -14,7 +14,7 @@ export interface OfflineParams {
   params?: Record<string, string>
 }
 
-interface Route { route: string }
+interface Route { route: string[] }
 type OfflineApiInput = ConcertSearchOptions | undefined
 type OfflineResponse = unknown
 
