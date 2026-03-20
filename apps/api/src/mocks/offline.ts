@@ -1,6 +1,7 @@
 import { createMockContext } from '@repo/mock-data/event'
 import { json } from 'body-parser'
 import express, { type Request, type Response } from 'express'
+import type { OfflineRequest } from '../interface'
 import { handler } from '../main'
 import { cb, jsonContent, offlineConfig } from './config'
 import {
@@ -17,7 +18,7 @@ offline.use(json())
 
 offline.options('/{*route}', (_: Request, res: Response) => res.end())
 
-offline.all('/{*route}', async (req: Request, res: Response) => {
+offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
   try {
     const {
       method,
@@ -63,7 +64,7 @@ offline.all('/{*route}', async (req: Request, res: Response) => {
     }
 
     res.send()
-  } catch (err) {
+  } catch (err: unknown) {
     console.log(err)
     res.status(500).send({ message: 'Internal Server Error' })
   }

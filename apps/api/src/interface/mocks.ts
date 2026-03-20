@@ -13,3 +13,13 @@ export interface OfflineParams {
   query?: Request['query'],
   params?: Record<string, string>
 }
+
+interface Route { route: string }
+type OfflineApiInput = ConcertSearchOptions | undefined
+type OfflineResponse = unknown
+
+export type OfflineRequest = Request<
+  Route,
+  OfflineResponse,
+  OfflineApiInput
+>
