@@ -1,12 +1,12 @@
-import { getMockPath, getFromEnv, getJsonResponse } from '../utils'
 import { handlers } from '../../src/mocks/handlers'
+import { getFromEnv, getJsonResponse, getMockPath } from '../utils'
 
 const mockRequestId = '12345'
 const mockConcertId = '001'
 const mockConcertUrl = `${getFromEnv('API_BASE_URL')}/metadata/${mockConcertId}`
 const mockConcertListUrl = getFromEnv('ADVANCED_SEARCH_URL')
 
-describe('Mock Handlers Tests', () => {
+describe('Mock Handlers Integration', () => {
   const prevEnv = process.env
 
   beforeEach(() => {
