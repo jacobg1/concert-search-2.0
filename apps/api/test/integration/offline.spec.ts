@@ -7,6 +7,7 @@ import * as main from '../../src/main'
 import { jsonContent } from '../../src/mocks/config'
 import { offline } from '../../src/mocks/offline'
 import {
+  fetchSingleConcert,
   getApiBaseUrl,
   getMockInput,
   testConcertList,
@@ -60,11 +61,8 @@ describe('Offline Api Integration', () => {
       .get(`/metadata/${mockConcertId}`)
       .reply(HttpStatus.OK, singleConcert)
 
-    const response = await fetch(
-      `${offlineUrl}/concerts/${mockConcertId}`,
-      {
-        method: HttpMethods.GET,
-      }
+    const response = await fetchSingleConcert(
+      `${offlineUrl}/concerts/${mockConcertId}`
     )
 
     testOfflineResponse(response, true)
@@ -75,11 +73,8 @@ describe('Offline Api Integration', () => {
     const mockLog = jest.spyOn(console, 'log')
     mockLog.mockReturnThis()
 
-    const response = await fetch(
+    const response = await fetchSingleConcert(
       `${offlineUrl}/invalid/${mockConcertId}`,
-      {
-        method: HttpMethods.GET,
-      }
     )
 
     testOfflineResponse(response, false)
@@ -94,11 +89,8 @@ describe('Offline Api Integration', () => {
     const handlerSpy = jest.spyOn(main, 'handler')
     handlerSpy.mockImplementation(() => undefined)
 
-    const response = await fetch(
-      `${offlineUrl}/concerts/${mockConcertId}`,
-      {
-        method: HttpMethods.GET,
-      }
+    const response = await fetchSingleConcert(
+      `${offlineUrl}/concerts/${mockConcertId}`
     )
 
     testOfflineResponse(response, true)
@@ -115,11 +107,8 @@ describe('Offline Api Integration', () => {
 
     handlerSpy.mockResolvedValue(testResponse)
 
-    const response = await fetch(
-      `${offlineUrl}/concerts/${mockConcertId}`,
-      {
-        method: HttpMethods.GET,
-      }
+    const response = await fetchSingleConcert(
+      `${offlineUrl}/concerts/${mockConcertId}`
     )
 
     testOfflineResponse(response, true)
@@ -158,6 +147,7 @@ describe('Offline Api Integration', () => {
         method: HttpMethods.OPTIONS,
       }
     )
+
     testOfflineResponse(response, true)
   })
 })

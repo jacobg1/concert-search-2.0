@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
+import { HttpMethods } from 'msw'
 import {
   MediaFormat,
   SortOrder,
@@ -206,4 +207,11 @@ export function testOfflineResponse(response: Response, success: boolean): void 
     expect(response.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR)
     expect(response.statusText).toBe('Internal Server Error')
   }
+}
+
+export function fetchSingleConcert(url: string): Promise<Response> {
+  return fetch(
+    url,
+    { method: HttpMethods.GET }
+  )
 }
