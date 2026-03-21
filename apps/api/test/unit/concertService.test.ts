@@ -1,14 +1,14 @@
-import { archiveSearch } from 'archive-search'
+import { BadRequestException, HttpStatus, type INestApplicationContext } from '@nestjs/common'
 import { concertList, singleConcert } from '@repo/mock-data/post-api'
-import { BadRequestException, INestApplicationContext } from '@nestjs/common'
+import { archiveSearch } from 'archive-search'
 import { AppModule } from '../../src/app.module'
 import { baseOptions, ConcertService } from '../../src/services'
 import {
   bootstrap,
   getMockInput,
   testConcertList,
-  testSingleConcert,
   testException,
+  testSingleConcert,
 } from '../utils'
 
 const mockSearch = jest.spyOn(archiveSearch, 'search')
@@ -75,7 +75,7 @@ describe('ConcertService Unit Tests', () => {
 
     testException(testError, BadRequestException, {
       msg: expectedError,
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
 
     expect(mockSearch).not.toHaveBeenCalled()
@@ -100,7 +100,7 @@ describe('ConcertService Unit Tests', () => {
 
     testException(testError, BadRequestException, {
       msg: expectedError,
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
 
     expect(mockSearch).toHaveBeenCalledWith(mockSearchTerm, {
@@ -135,7 +135,7 @@ describe('ConcertService Unit Tests', () => {
 
     testException(testError, BadRequestException, {
       msg: 'Invalid request',
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
 
     expect(mockMetaSearch).not.toHaveBeenCalled()
@@ -158,7 +158,7 @@ describe('ConcertService Unit Tests', () => {
 
     testException(testError, BadRequestException, {
       msg: expectedError,
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
 
     expect(mockMetaSearch).toHaveBeenCalledWith(mockConcertId)

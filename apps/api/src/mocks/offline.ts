@@ -1,3 +1,4 @@
+import { HttpStatus } from '@nestjs/common'
 import { createMockContext } from '@repo/mock-data/event'
 import { json } from 'body-parser'
 import express, { type Request, type Response } from 'express'
@@ -55,14 +56,16 @@ offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
     }
 
     if ('body' in response && typeof response.body === 'string') {
-      res.writeHead(200, jsonContent).end(response.body)
+      res.writeHead(HttpStatus.OK, jsonContent).end(response.body)
       return
     }
 
     throw new Error('Invalid Api Response')
   } catch (err: unknown) {
     console.log(err)
-    res.status(500).send({ message: 'Internal Server Error' })
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+      message: 'Internal Server Error'
+    })
   }
 })
 

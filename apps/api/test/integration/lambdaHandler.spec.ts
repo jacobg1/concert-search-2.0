@@ -45,7 +45,7 @@ describe('Lambda Handler Integration', () => {
     nock(getApiBaseUrl())
       .get('/advancedsearch.php')
       .query(({ q }) => !!q?.includes(mockSearchTerm))
-      .reply(200, concertList)
+      .reply(HttpStatus.OK, concertList)
 
     const mockEvent = createMockEvent({
       method: 'POST',
@@ -77,7 +77,7 @@ describe('Lambda Handler Integration', () => {
   it('lambda handler can get a single concert', async () => {
     nock(getApiBaseUrl())
       .get(`/metadata/${mockConcertId}`)
-      .reply(200, singleConcert)
+      .reply(HttpStatus.OK, singleConcert)
 
     const mockEvent = createMockEvent({
       method: 'GET',
@@ -157,11 +157,11 @@ describe('Lambda Handler Integration', () => {
 
     nock(getApiBaseUrl())
       .get(`/metadata/${mockConcertId}`)
-      .reply(200, singleConcert)
+      .reply(HttpStatus.OK, singleConcert)
 
     const mockEvent = createMockEvent({
       method: 'GET',
-      route: `${concertsRoute}/{id}`,
+      route: singleConcertRoute,
       path: `${concertsRoute}/${mockConcertId}`,
       pathParameters: { id: mockConcertId },
     })
