@@ -1,8 +1,5 @@
 service: concert-search
 
-plugins:
-  - serverless-offline
-
 package:
   individually: true
   patterns:

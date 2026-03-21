@@ -1,3 +1,7 @@
+import { BadRequestException, HttpStatus } from '@nestjs/common'
+import { createMockEvent } from '@repo/mock-data/event'
+import type { APIGatewayProxyEventV2 } from 'aws-lambda'
+import { extractReqData, handleError, handleResponse } from '../../src/helpers'
 import {
   expectedErrorHeaders,
   expectedHeaders,
@@ -5,10 +9,6 @@ import {
   testException,
   testLambdaResponse,
 } from '../utils'
-import { extractReqData, handleResponse, handleError } from '../../src/helpers'
-import { createMockEvent } from '@repo/mock-data/event'
-import type { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { BadRequestException, HttpStatus } from '@nestjs/common'
 
 const mockConcertId = '001'
 const mockSearchTerm = 'handler test'
@@ -61,7 +61,7 @@ describe('Request Format Helper Tests', () => {
 
     testException(testError, BadRequestException, {
       msg: 'Invalid request body',
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
   })
 

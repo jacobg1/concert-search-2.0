@@ -1,8 +1,8 @@
+import { BadRequestException, HttpStatus } from '@nestjs/common'
 import { concertList } from '@repo/mock-data/post-api'
-import { paginateResponse } from '../../src/services'
 import { MediaFormat, type SearchResponse } from '../../src/interface'
+import { paginateResponse } from '../../src/services'
 import { filterDuplicates2d, testConcertList, testException } from '../utils'
-import { BadRequestException } from '@nestjs/common'
 
 const duplicateConcertDate = '1994-10-01T00:00:00Z'
 const list = concertList as SearchResponse
@@ -52,7 +52,7 @@ describe('Concert Util Test', () => {
 
     testException(testError, BadRequestException, {
       msg: 'No results',
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
   })
 
@@ -70,7 +70,7 @@ describe('Concert Util Test', () => {
 
     testException(testError, BadRequestException, {
       msg: 'No results',
-      status: 400,
+      status: HttpStatus.BAD_REQUEST,
     })
   })
 })

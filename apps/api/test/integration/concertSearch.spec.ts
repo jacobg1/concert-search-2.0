@@ -1,6 +1,6 @@
-import { INestApplicationContext } from '@nestjs/common'
-import nock from 'nock'
+import { HttpStatus, type INestApplicationContext } from '@nestjs/common'
 import { concertList, singleConcert } from '@repo/mock-data/pre-api'
+import nock from 'nock'
 import { AppModule } from '../../src/app.module'
 import { ConcertService } from '../../src/services'
 import {
@@ -36,7 +36,7 @@ describe('Concert Search Integration', () => {
     nock(getApiBaseUrl())
       .get('/advancedsearch.php')
       .query(({ q }) => !!q?.includes(mockSearchTerm))
-      .reply(200, concertList)
+      .reply(HttpStatus.OK, concertList)
 
     const resp = await concertService.getConcertList({
       body: getMockInput(mockSearchTerm),
@@ -48,7 +48,7 @@ describe('Concert Search Integration', () => {
   it('getSingleConcert returns the correct response', async () => {
     nock(getApiBaseUrl())
       .get(`/metadata/${mockConcertId}`)
-      .reply(200, singleConcert)
+      .reply(HttpStatus.OK, singleConcert)
 
     const resp = await concertService.getSingleConcert({
       pathParameters: { id: mockConcertId },

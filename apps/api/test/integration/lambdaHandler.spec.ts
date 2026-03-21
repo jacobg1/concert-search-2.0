@@ -1,32 +1,35 @@
-import nock from 'nock'
-import { server } from '../../src/mocks/node'
-import type { APIGatewayProxyEventV2 } from 'aws-lambda'
+import { HttpStatus, Logger } from '@nestjs/common'
+import { createMockContext, createMockEvent } from '@repo/mock-data/event'
 import { concertList, singleConcert } from '@repo/mock-data/pre-api'
-import { createMockEvent, createMockContext } from '@repo/mock-data/event'
+import type { APIGatewayProxyEventV2 } from 'aws-lambda'
+import nock from 'nock'
+import type { ConcertData, PaginatedConcertList } from '../../src/interface'
+import { handler } from '../../src/main'
+import { mockServer } from '../../src/mocks/node'
+import { offline } from '../../src/mocks/offline'
+import type { TestLambdaResponse } from '../types'
 import {
+  expectedErrorHeaders,
+  expectedHeaders,
   getApiBaseUrl,
   getMockInput,
-  testSingleConcert,
-  testLambdaResponse,
   testConcertList,
-  expectedHeaders,
-  expectedErrorHeaders,
+  testLambdaResponse,
+  testSingleConcert,
 } from '../utils'
-import { handler } from '../../src/main'
-import { handler as mockHandler } from '../../src/mocks/mockMain'
-import type { ConcertData, PaginatedConcertList } from '../../src/interface'
-import { HttpStatus, Logger } from '@nestjs/common'
-import type { TestLambdaResponse } from '../types'
 
 const mockConcertId = '001'
 const mockSearchTerm = 'handler test'
 const concertsRoute = '/concerts'
+const singleConcertRoute = '/concerts/{id}'
 
 const mockContext = createMockContext()
 const mockCallback = () => null
 
 const errorLogMock = jest.spyOn(Logger, 'error')
-const serverListenMock = jest.spyOn(server, 'listen')
+
+const serverListenMock = jest.spyOn(mockServer, 'listen')
+const offlineListenMock = jest.spyOn(offline, 'listen')
 
 describe('Lambda Handler Integration', () => {
   afterEach(() => {
@@ -42,7 +45,7 @@ describe('Lambda Handler Integration', () => {
     nock(getApiBaseUrl())
       .get('/advancedsearch.php')
       .query(({ q }) => !!q?.includes(mockSearchTerm))
-      .reply(200, concertList)
+      .reply(HttpStatus.OK, concertList)
 
     const mockEvent = createMockEvent({
       method: 'POST',
@@ -74,12 +77,12 @@ describe('Lambda Handler Integration', () => {
   it('lambda handler can get a single concert', async () => {
     nock(getApiBaseUrl())
       .get(`/metadata/${mockConcertId}`)
-      .reply(200, singleConcert)
+      .reply(HttpStatus.OK, singleConcert)
 
     const mockEvent = createMockEvent({
       method: 'GET',
-      route: `${concertsRoute}/{id}`,
-      path: concertsRoute,
+      route: singleConcertRoute,
+      path: `${concertsRoute}/${mockConcertId}`,
       pathParameters: { id: mockConcertId },
     })
 
@@ -147,16 +150,19 @@ describe('Lambda Handler Integration', () => {
   })
 
   it('mock lambda handler returns proper response', async () => {
+    const { handler: mockHandler } = await import('../../src/mocks/mockMain')
+
     serverListenMock.mockReturnThis()
+    offlineListenMock.mockReturnThis()
 
     nock(getApiBaseUrl())
       .get(`/metadata/${mockConcertId}`)
-      .reply(200, singleConcert)
+      .reply(HttpStatus.OK, singleConcert)
 
     const mockEvent = createMockEvent({
       method: 'GET',
-      route: `${concertsRoute}/{id}`,
-      path: concertsRoute,
+      route: singleConcertRoute,
+      path: `${concertsRoute}/${mockConcertId}`,
       pathParameters: { id: mockConcertId },
     })
 
@@ -180,5 +186,6 @@ describe('Lambda Handler Integration', () => {
     testSingleConcert(concertData)
 
     expect(serverListenMock).toHaveBeenCalledTimes(1)
+    expect(offlineListenMock).toHaveBeenCalledTimes(1)
   })
 })
