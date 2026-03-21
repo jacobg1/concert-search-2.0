@@ -16,7 +16,7 @@ export const nextJestConfig: Config = {
   ],
   testPathIgnorePatterns: [
     'node_modules',
-    'build',
+    '<rootDir>.*/build',
     '.turbo',
     '.next',
     'coverage',
