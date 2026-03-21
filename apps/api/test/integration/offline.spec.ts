@@ -3,6 +3,7 @@ import { concertList, singleConcert } from '@repo/mock-data/pre-api'
 import type { APIGatewayProxyStructuredResultV2 } from 'aws-lambda'
 import { HttpMethods } from 'msw'
 import nock from 'nock'
+import type { ConcertData, PaginatedConcertList } from '../../src/interface'
 import * as main from '../../src/main'
 import { jsonContent } from '../../src/mocks/config'
 import { offline } from '../../src/mocks/offline'
@@ -17,19 +18,21 @@ import {
 
 const mockConcertId = '001'
 const mockSearchTerm = 'offline test'
-const offlinePort = 3007
+const offlinePort = '3007'
 const offlineUrl = `http://localhost:${offlinePort}`
 
-// TODO  - Fix linter warnings in this file (npm run lint)
 describe('Offline Api Integration', () => {
   let api: ReturnType<typeof offline.listen>
 
   beforeAll((done) => {
-    api = offline.listen(offlinePort, () => done())
+    api = offline.listen(
+      parseInt(offlinePort, 10),
+      () => done() as undefined
+    )
   })
 
   afterAll((done) => {
-    api.close(() => done())
+    api.close(() => done() as undefined)
   })
 
   afterEach(() => {
@@ -53,7 +56,7 @@ describe('Offline Api Integration', () => {
     )
 
     testOfflineResponse(response, true)
-    testConcertList(await response.json())
+    testConcertList(await response.json() as PaginatedConcertList)
   })
 
   it('Offline api returns the correct individual concert', async () => {
@@ -66,7 +69,7 @@ describe('Offline Api Integration', () => {
     )
 
     testOfflineResponse(response, true)
-    testSingleConcert(await response.json())
+    testSingleConcert(await response.json() as ConcertData)
   })
 
   it('Offline api throws an error if route is not found', async () => {
@@ -124,7 +127,9 @@ describe('Offline Api Integration', () => {
     const handlerSpy = jest.spyOn(main, 'handler')
     const mockLog = jest.spyOn(console, 'log')
 
-    handlerSpy.mockResolvedValue({ data: { test: true } } as APIGatewayProxyStructuredResultV2)
+    const invalidData = { data: { test: true } }
+
+    handlerSpy.mockResolvedValue(invalidData as APIGatewayProxyStructuredResultV2)
     mockLog.mockReturnThis()
 
     const response = await fetch(
