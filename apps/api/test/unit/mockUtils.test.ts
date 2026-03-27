@@ -1,6 +1,13 @@
-import type { Request as ExpressRequest, NextFunction, Response } from 'express'
+import type {
+  Request as ExpressRequest,
+  NextFunction,
+  Response,
+} from 'express'
 import { HttpMethods } from 'msw'
-import type { ConcertSearchOptions, OfflineConfig } from '../../src/interface'
+import type {
+  ConcertSearchOptions,
+  OfflineConfig,
+} from '../../src/interface'
 import { cb } from '../../src/mocks/config'
 import {
   allowCrossDomain,
@@ -21,12 +28,12 @@ const mockConfig: OfflineConfig[] = [
   {
     configPath: '/mock/:testId',
     method: GET,
-    lambdaRoute: '/mock/{testId}'
+    lambdaRoute: '/mock/{testId}',
   },
   {
     configPath: '/mock',
     method: POST,
-    lambdaRoute: '/mock'
+    lambdaRoute: '/mock',
   },
 ]
 
@@ -60,8 +67,12 @@ describe('Mock Utils Tests', () => {
 
   it('getPathParams returns the proper object', () => {
     expect(
-      getPathParams(firstMock.configPath, mockRouteParams)
-    ).toStrictEqual(params)
+      getPathParams(firstMock.configPath, `/mock/${expectedId}`)
+    ).toEqual(params)
+
+    expect(getPathParams(firstMock.configPath, `invalid route`)).toEqual(
+      {}
+    )
   })
 
   it('createOfflineEvent creates the correct event', () => {
@@ -118,9 +129,9 @@ describe('Mock Utils Tests', () => {
   })
 
   it('findConfigUrl find the correct configuration entry', () => {
-    expect(
-      findConfigUrl(mockConfig, mockRouteParams, GET)
-    ).toStrictEqual(firstMock)
+    expect(findConfigUrl(mockConfig, mockRouteParams, GET)).toStrictEqual(
+      firstMock
+    )
   })
 
   it('findConfigUrl returns undefined if no match is found', () => {
