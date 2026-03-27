@@ -22,10 +22,11 @@ offline.options('/{*route}', (_: Request, res: Response) => res.end())
 offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
   try {
     const {
+      url,
       method,
       body,
       query,
-      params: { route }
+      params: { route },
     } = req
 
     const configUrl = findConfigUrl(offlineConfig, route, method)
@@ -34,13 +35,10 @@ offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
       throw Error('Route Not Found')
     }
 
-    const params = getPathParams(configUrl.configPath, route)
+    const params = getPathParams(configUrl.configPath, url)
 
     const response = await handler(
-      createOfflineEvent(
-        configUrl,
-        { params, query, body }
-      ),
+      createOfflineEvent(configUrl, { params, query, body }),
       createMockContext(),
       cb
     )
@@ -64,7 +62,7 @@ offline.all('/{*route}', async (req: OfflineRequest, res: Response) => {
   } catch (err: unknown) {
     console.log(err)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-      message: 'Internal Server Error'
+      message: 'Internal Server Error',
     })
   }
 })
