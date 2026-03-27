@@ -1,15 +1,25 @@
-import { createMockEvent } from '@repo/mock-data/event';
-import type { Request as ExpressRequest, NextFunction, Response } from 'express';
-import type { OfflineConfig, OfflineParams } from '../interface';
+import { createMockEvent } from '@repo/mock-data/event'
+import type {
+  Request as ExpressRequest,
+  NextFunction,
+  Response,
+} from 'express'
+import { match } from 'path-to-regexp'
+import type {
+  OfflineConfig,
+  OfflineParams,
+  PathParams,
+} from '../interface'
 
-const checkFirstLetter = (
-  str: string | string[],
-  comp: string
-): boolean => str[0] === comp;
+const checkFirstLetter = (str: string | string[], comp: string): boolean =>
+  str[0] === comp
 
-function doesUrlMatch(configUrlArray: string[], urlArray: string[]): boolean {
+function doesUrlMatch(
+  configUrlArray: string[],
+  urlArray: string[]
+): boolean {
   return configUrlArray.every((item, index) => {
-    if (checkFirstLetter(item, ":")) return true
+    if (checkFirstLetter(item, ':')) return true
     return urlArray[index] === item
   })
 }
@@ -43,23 +53,15 @@ export function createOfflineEvent(
     path: configPath,
     pathParameters: params,
     ...(body && { body }),
-    ...(query && { queryStringParameters: query })
+    ...(query && { queryStringParameters: query }),
   })
 }
 
-export function getPathParams(
-  offlineRoute: string,
-  routeData: string[]
-): Record<string, string> {
-  return formatUrl(offlineRoute).reduce((acc, curr, i) => {
-    if (checkFirstLetter(curr, ":")) {
-      return {
-        ...acc,
-        [curr.replace(":", "")]: routeData[i]
-      }
-    }
-    return acc
-  }, {})
+export function getPathParams(route: string, url: string): PathParams {
+  const result = match<PathParams>(route)(url)
+  if (!result) return {}
+
+  return result.params
 }
 
 export const logMockRequest = ({
@@ -72,9 +74,9 @@ export const logMockRequest = ({
 
 export function allowCrossDomain() {
   return (_: ExpressRequest, res: Response, next: NextFunction) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "*");
-    res.header("Access-Control-Allow-Headers", "*");
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', '*')
+    res.header('Access-Control-Allow-Headers', '*')
     next()
   }
 }
