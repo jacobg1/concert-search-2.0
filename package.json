@@ -17,13 +17,22 @@
   },
   "devDependencies": {
     "prettier": "^3.6.2",
-    "turbo": "^2.5.5",
+    "turbo": "^2.8.20",
     "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "path-to-regexp": "8.4.0",
+    "@nestjs/core": "11.1.17"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "npm@11.6.2",
+  "overrides": {
+    "@nestjs/core": {
+      "path-to-regexp": "$path-to-regexp"
+    }
+  },
+  "packageManager": "npm@11.12.1",
   "workspaces": [
     "apps/*",
     "packages/*"
