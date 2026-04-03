@@ -10,6 +10,7 @@ import type {
   OfflineParams,
   PathParams,
 } from '../interface'
+import path from 'path'
 
 const checkFirstLetter = (str: string | string[], comp: string): boolean =>
   str[0] === comp
@@ -77,6 +78,26 @@ export function allowCrossDomain() {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', '*')
     res.header('Access-Control-Allow-Headers', '*')
+    res.header('Cross-Origin-Resource-Policy', 'cross-origin')
+
+    next()
+  }
+}
+
+export function handleMockAudio() {
+  const mockAudioPath = '/mock-audio'
+  const soundPath = '/sound/'
+
+  return (req: ExpressRequest, res: Response, next: NextFunction) => {
+    if (req.path.includes(soundPath)) {
+      const ext = req.path.includes('.ogg') ? '.ogg' : '.mp3'
+
+      res.sendFile(
+        path.join(__dirname, `${soundPath}${mockAudioPath}${ext}`)
+      )
+      return
+    }
+
     next()
   }
 }
