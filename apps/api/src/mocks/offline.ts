@@ -10,12 +10,19 @@ import {
   createOfflineEvent,
   findConfigUrl,
   getPathParams,
+  handleMockAudio,
 } from './utils'
+import path from 'path'
 
 const offline = express()
 
 offline.use(allowCrossDomain())
+offline.use(handleMockAudio())
 offline.use(json())
+offline.use(
+  '/sound',
+  express.static(path.join(__dirname, '../dist/sound'))
+)
 
 offline.options('/{*route}', (_: Request, res: Response) => res.end())
 
