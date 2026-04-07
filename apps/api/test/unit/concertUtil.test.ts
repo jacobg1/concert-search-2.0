@@ -1,13 +1,31 @@
 import { BadRequestException, HttpStatus } from '@nestjs/common'
-import { concertList } from '@repo/mock-data/post-api'
-import { MediaFormat, type SearchResponse } from '../../src/interface'
-import { paginateResponse } from '../../src/services'
-import { filterDuplicates2d, testConcertList, testException } from '../utils'
+import { concertList, singleConcert } from '@repo/mock-data/post-api'
+import {
+  MediaFormat,
+  type TrackListData,
+  type SearchResponse,
+} from '../../src/interface'
+import { formatFiles, paginateResponse } from '../../src/services'
+import {
+  filterDuplicates2d,
+  testConcertList,
+  testException,
+} from '../utils'
 
 const duplicateConcertDate = '1994-10-01T00:00:00Z'
 const list = concertList as SearchResponse
 
 describe('Concert Util Test', () => {
+  const prevEnv = process.env
+
+  beforeEach(() => {
+    process.env = { ...prevEnv }
+  })
+
+  afterEach(() => {
+    process.env = prevEnv
+  })
+
   it('paginateResponse returns paginated concert list', () => {
     const paginatedResponse = paginateResponse(list, {
       filterDuplicates: true,
@@ -72,5 +90,26 @@ describe('Concert Util Test', () => {
       msg: 'No results',
       status: HttpStatus.BAD_REQUEST,
     })
+  })
+
+  it('formatFiles properly handles development env', () => {
+    process.env.NODE_ENV = 'development'
+
+    const result = formatFiles(singleConcert.files as TrackListData[])
+
+    for (const { link } of result) {
+      expect(link).toContain('http')
+      expect(link).not.toContain('https')
+    }
+  })
+
+  it('formatFiles properly handles production env', () => {
+    process.env.NODE_ENV = 'production'
+
+    const result = formatFiles(singleConcert.files as TrackListData[])
+
+    for (const { link } of result) {
+      expect(link).toContain('https')
+    }
   })
 })
