@@ -16,6 +16,8 @@ import type {
   TestLambdaResponse,
 } from '../types'
 
+const mockSoundApi = 'https://localhost:3000/sound/'
+
 export function isDefinedAs(typeName: string, val?: unknown): void {
   expect(val).toBeDefined()
   expect(typeof val).toBe(typeName)
@@ -39,17 +41,26 @@ export function getMockInput(searchTerm: string): ConcertSearchOptions {
   }
 }
 
-export function testSingleConcert({ trackList, metadata }: ConcertData): void {
+export function testSingleConcert({
+  trackList,
+  metadata,
+}: ConcertData): void {
   expect(trackList.length).toBeGreaterThan(0)
 
   trackList.forEach(({ title, link, length }) => {
     expect(title).toBeDefined()
     expect(link).toBeDefined()
     expect(length).toBeDefined()
-    expect(link).toContain('localhost:3007')
+    expect(link).toContain(mockSoundApi)
   })
 
-  const metadataFields = ['creator', 'date', 'description', 'venue', 'source']
+  const metadataFields = [
+    'creator',
+    'date',
+    'description',
+    'venue',
+    'source',
+  ]
 
   for (const field of metadataFields) {
     expect(metadata[field as keyof TrackMetaData]).toBeDefined()
@@ -173,7 +184,9 @@ export function getMockPath(key: string): string {
   return `GET ${val}`
 }
 
-export async function getJsonResponse<T extends object>(response?: Response) {
+export async function getJsonResponse<T extends object>(
+  response?: Response
+) {
   const json = await response?.text()
   if (!json) {
     throw new Error('Failed to get json response')
@@ -184,7 +197,7 @@ export async function getJsonResponse<T extends object>(response?: Response) {
 export const expectedCorsHeaders = [
   'Access-Control-Allow-Origin',
   'Access-Control-Allow-Methods',
-  'Access-Control-Allow-Headers'
+  'Access-Control-Allow-Headers',
 ]
 
 export function testCorsHeaders(headers: Headers): void {
@@ -195,7 +208,10 @@ export function testCorsHeaders(headers: Headers): void {
   }
 }
 
-export function testOfflineResponse(response: Response, success: boolean): void {
+export function testOfflineResponse(
+  response: Response,
+  success: boolean
+): void {
   expect(response.ok).toBe(success)
   expect(response.body).toBeDefined()
   testCorsHeaders(response.headers)
@@ -210,8 +226,5 @@ export function testOfflineResponse(response: Response, success: boolean): void 
 }
 
 export function fetchSingleConcert(url: string): Promise<Response> {
-  return fetch(
-    url,
-    { method: HttpMethods.GET }
-  )
+  return fetch(url, { method: HttpMethods.GET })
 }
