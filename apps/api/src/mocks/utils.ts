@@ -86,7 +86,7 @@ export function allowCrossDomain() {
 
 export function handleMockAudio() {
   const mockAudioPath = '/mock-audio'
-  const soundPath = '/sound/'
+  const soundPath = '/sound'
 
   return (req: ExpressRequest, res: Response, next: NextFunction) => {
     if (req.path.includes(soundPath)) {

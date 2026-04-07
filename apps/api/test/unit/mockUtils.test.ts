@@ -14,9 +14,11 @@ import {
   createOfflineEvent,
   findConfigUrl,
   getPathParams,
+  handleMockAudio,
   logMockRequest,
 } from '../../src/mocks/utils'
 import { expectedCorsHeaders, getMockInput } from '../utils'
+import path from 'path'
 
 const { GET, POST, DELETE } = HttpMethods
 
@@ -170,5 +172,38 @@ describe('Mock Utils Tests', () => {
 
   it('Mock callback works properly', () => {
     expect(cb()).toBeNull()
+  })
+
+  it('handleMockAudio calls next function if not dealing with a sound file', () => {
+    const mockNext = jest.fn()
+    const middleware = handleMockAudio()
+
+    middleware(
+      { path: '/test' } as ExpressRequest,
+      {} as Response,
+      mockNext as NextFunction
+    )
+
+    expect(mockNext).toHaveBeenCalledTimes(1)
+  })
+
+  it('handleMockAudio works for both sound formats', () => {
+    const mockSendFile = jest.fn()
+    const pathJoinSpy = jest.spyOn(path, 'join')
+
+    const middleware = handleMockAudio()
+
+    for (const [i, format] of ['mp3', 'ogg'].entries()) {
+      const reqPath = `/sound/mock-audio.${format}`
+
+      middleware(
+        { path: reqPath } as ExpressRequest,
+        { sendFile: mockSendFile } as unknown as Response,
+        jest.fn() as NextFunction
+      )
+
+      expect(mockSendFile.mock.calls[i][0]).toContain(reqPath)
+      expect(pathJoinSpy.mock.calls[i][1]).toBe(reqPath)
+    }
   })
 })
