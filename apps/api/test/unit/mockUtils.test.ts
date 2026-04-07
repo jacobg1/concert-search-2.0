@@ -188,7 +188,7 @@ describe('Mock Utils Tests', () => {
   })
 
   it('handleMockAudio works for both sound formats', () => {
-    const mockSendFile = jest.fn()
+    const mockSendFile = jest.fn<string, string[]>()
     const pathJoinSpy = jest.spyOn(path, 'join')
 
     const middleware = handleMockAudio()
