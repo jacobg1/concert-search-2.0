@@ -1,15 +1,15 @@
-import type { OfflineConfig } from "../../src/interface"
+import type { OfflineConfig } from '../../src/interface'
 
 export const offlineConfig: OfflineConfig[] = [
   {
     configPath: '/concerts/:id',
     method: 'GET',
-    lambdaRoute: '/concerts/{id}'
+    lambdaRoute: '/concerts/{id}',
   },
   {
     configPath: '/concerts',
     method: 'POST',
-    lambdaRoute: '/concerts'
+    lambdaRoute: '/concerts',
   },
 ]
 

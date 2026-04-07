@@ -10,10 +10,7 @@ import type {
   PaginatedConcertList,
   SearchResponse,
 } from '../interface'
-import { MediaFormat } from '../interface'
-import { baseOptions, paginateResponse } from './concert.util'
-
-const { MP3 } = MediaFormat
+import { formatFiles, baseOptions, paginateResponse } from './concert.util'
 
 @Injectable()
 export class ConcertService {
@@ -58,9 +55,7 @@ export class ConcertService {
 
     return {
       metadata,
-      // Filter for mp3 so that we don't send uneeded formats to front-end
-      // We can switch formats by updating file name someId.mp3 => someId.ogg
-      trackList: files.filter((file) => file.format === MP3),
+      trackList: formatFiles(files),
     }
   }
 }

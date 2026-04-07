@@ -7,12 +7,20 @@ import type {
   PaginatedConcertList,
   SearchResponse,
   SingleConcert,
+  TrackListData,
 } from '../interface'
 import { MediaFormat } from '../interface'
 
 export const baseOptions: BaseSearchOptions = {
   searchBy: 'creator',
-  fields: ['date', 'description', 'format', 'mediatype', 'source', 'title'],
+  fields: [
+    'date',
+    'description',
+    'format',
+    'mediatype',
+    'source',
+    'title',
+  ],
 }
 
 // This ensures that concerts will have requested formats sent from front-end
@@ -55,4 +63,24 @@ export function paginateResponse(
   }
 
   return chunk(filterAndDedupe, 30)
+}
+
+export function formatFilesDevelopment(
+  files: TrackListData[]
+): TrackListData[] {
+  return files.reduce((acc: TrackListData[], curr: TrackListData) => {
+    if (curr.format !== MediaFormat.MP3) return acc
+
+    return [...acc, { ...curr, link: curr.link.replace('s', '') }]
+  }, [])
+}
+
+export function formatFiles(files: TrackListData[]): TrackListData[] {
+  if (process.env.NODE_ENV === 'development') {
+    return formatFilesDevelopment(files)
+  }
+
+  // Filter for mp3 so that we don't send uneeded formats to front-end
+  // We can switch formats by updating file name someId.mp3 => someId.ogg
+  return files.filter((file) => file.format === MediaFormat.MP3)
 }
