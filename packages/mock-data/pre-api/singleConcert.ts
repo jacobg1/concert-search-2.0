@@ -2,21 +2,21 @@ export const singleConcert = {
   alternate_locations: {
     servers: [
       {
-        server: 'localhost:3007',
+        server: 'localhost:3000',
         dir: '/0/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
       },
     ],
     workable: [
       {
-        server: 'localhost:3007',
+        server: 'localhost:3000',
         dir: '/0/items/gd1977-12-31.151332.sbd.bear.gems.V3.flac1648',
       },
     ],
   },
   created: 1752193508,
-  d1: 'localhost:3007',
-  d2: 'localhost:3007',
-  dir: '/images/medium',
+  d1: 'localhost:3000',
+  d2: 'localhost:3000',
+  dir: '/sound',
   files: [
     {
       name: '01 Tuning.afpk',
@@ -52,7 +52,7 @@ export const singleConcert = {
         'urn:acoustid:be4f329a-2b66-4b73-8c8a-d01e1e9ab2c9',
     },
     {
-      name: 'test-audio.mp3',
+      name: '01 Tuning.mp3',
       source: 'derivative',
       creator: 'Grateful Dead',
       title: 'Tuning',
@@ -1707,7 +1707,8 @@ export const singleConcert = {
     description:
       '<div>\n<div class="b1 set">\n<b>Set I</b>\n    <div class="set_info">\n        <span title="Click to edit" style="background-image:none;">The Music Never Stopped<br />\nTennessee Jed<br />\nFiniculi Finicula<br />\nMe & My Uncle<br />\nLoser<br />\nJack Straw<br />\nFriend Of The Devil<br />\nLazy Lightning ><br />\nSupplication</span>\n    </div>\n</div>\n\n<div class="b2 set">\n<b>Set II</b>\n    <div class="set_info">\n        <span title="Click to edit">New Years Countdown<br />\nSugar Magnolia ><br />\nScarlet Begonias ><br />\nFire On The Mountain<br />\nTruckin\' ><br />\nWharf Rat ><br />\nDrums ><br />\nNot Fade Away ><br />\nAround & Around<br /><br />\nEncore:<br />\nOne More Saturday Night ><br />\nCasey Jones</span></div>\n</div>\n\n<div class="b1 set">\n<br /><div class="set_info">\n        <span title="Click to edit"><br /></span></div>\n</div>\n\n<div class="b2 set">\n<b>Comment</b>\n    <div class="set_info">\n        <span title="Click to edit">New Riders Of The Purple Sage opened<br /><br />\nJerry Garcia - Guitar<br />\nBob Weir - Guitar<br />\nKeith Godchaux - Keyboards<br />\nPhil Lesh - Bass<br />\nBill Kreutzmann - Drums<br />\nMickey Hart - Drums<br />\nDonna Jean Godchaux - Vocals</span>\n    </div>\n</div>\n\n</div>',
     scanner: 'Internet Archive HTML5 Uploader 1.6.4',
-    subject: 'Soundboard;Bear;Jim Blackwood;Jamison Waddell;Jason Chastain',
+    subject:
+      'Soundboard;Bear;Jim Blackwood;Jamison Waddell;Jason Chastain',
     title: 'Grateful Dead Live at Winterland Arena on 1977-12-31',
     type: 'sound',
     venue: 'Winterland Arena',
@@ -1729,7 +1730,7 @@ export const singleConcert = {
       'This updated "version three" was created on January 1, 2021.\n\n...and you may ask yourself, how did we get here? Uncharacteristically, we did a couple fixes to make this show right.  The original seed had one of the two tapes channels reversed by accident, so we fixed that.  Upon listening, scholars let us know that while Keith was on the left side of the stage physically, the mix was done to put him in the right channel, therefore our second fix had the mix flipped channels wise. Though it represented the stage position of Keith, it had the drummers and band in the wrong locations.  Thanks for understanding the process and our desire to present the most accurate possible version. This version three also includes a tiny adjustment to the speed. If you have the previous two versions (151250 + 151297), please don\'t continue to share them elsewhere.\n',
     'access-restricted-item': 'true',
   },
-  server: 'localhost:3007',
+  server: 'localhost:3000',
   uniq: 698267596,
-  workable_servers: ['localhost:3007', 'localhost:3007'],
+  workable_servers: ['localhost:3000', 'localhost:3000'],
 }
