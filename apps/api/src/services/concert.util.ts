@@ -65,7 +65,6 @@ export function paginateResponse(
   return chunk(filterAndDedupe, 30)
 }
 
-// TODO - find solution that doesn't involve updating concert service's code
 export function formatFilesDevelopment(
   files: TrackListData[]
 ): TrackListData[] {
