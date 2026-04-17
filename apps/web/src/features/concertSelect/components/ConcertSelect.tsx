@@ -74,13 +74,15 @@ const expandIconStyles: SxProps = {
 }
 
 const MenuProps = {
-  PaperProps: {
-    style: {
-      maxWidth: '900px',
-      maxHeight: 250,
-      background: '#2e7e89',
-      color: 'white',
-      fontWeight: 'bold',
+  slotProps: {
+    paper: {
+      style: {
+        maxWidth: '900px',
+        maxHeight: 250,
+        background: '#2e7e89',
+        color: 'white',
+        fontWeight: 'bold',
+      },
     },
   },
 }
@@ -113,11 +115,18 @@ export default function ConcertSelect({
               data-testid={`${id}-clear`}
             />
           ) : null}
-          <ExpandMoreIcon className={props.className} sx={expandIconStyles} />
+          <ExpandMoreIcon
+            className={props.className}
+            sx={expandIconStyles}
+          />
         </Box>
       )}
-      onChange={(event: SelectChangeEvent) => changeHandler(event.target.value)}
-      renderValue={(selected) => (!selected.length ? placeholder : selected)}
+      onChange={(event: SelectChangeEvent) =>
+        changeHandler(event.target.value)
+      }
+      renderValue={(selected) =>
+        !selected.length ? placeholder : selected
+      }
     >
       <MenuItem id={`${id}-placeholder`} disabled value="">
         {placeholder}

@@ -1,7 +1,15 @@
 import { screen } from '@testing-library/react'
 import type { RefObject } from 'react'
-import type { MediaHandler, PlayerState, SongPosition } from '../../src/app/interface'
-import type { CreateMockAudioElProps, MockSongPosition, TestMockAudioEl } from '../types'
+import type {
+  MediaHandler,
+  PlayerState,
+  SongPosition,
+} from '../../src/app/interface'
+import type {
+  CreateMockAudioElProps,
+  MockSongPosition,
+  TestMockAudioEl,
+} from '../types'
 import type { AppStore } from '../../src/app/store'
 import { waitFor } from '@testing-library/react'
 
@@ -57,12 +65,12 @@ export async function testAudioElement(
   nextTrackMock: jest.Mock,
   expectedSrc?: string
 ) {
-  expect(container.querySelector("#musicPlayer")).toBeVisible()
+  expect(container.querySelector('#musicPlayer')).toBeVisible()
 
-  if (!audioEl?.current) throw new Error("Missing audio ref")
+  if (!audioEl?.current) throw new Error('Missing audio ref')
   expect(audioEl.current.src).toBe(expectedSrc)
 
-  audioEl.current.dispatchEvent(new Event("ended"))
+  audioEl.current.dispatchEvent(new Event('ended'))
   expect(nextTrackMock).toHaveBeenCalled()
 }
 
@@ -77,7 +85,7 @@ export function getProgressBar(container: HTMLElement): Element {
 }
 
 export function getCanvasHeight(container: HTMLElement): number {
-  const getCanvas = container.querySelector("canvas")
+  const getCanvas = container.querySelector('canvas')
   if (!getCanvas) return 0
   return getCanvas.height
 }
@@ -87,19 +95,19 @@ export function getMockSongPosition({
   setSongPosition,
   resetSongPosition,
   connectionError,
-  setConnectionError
+  setConnectionError,
 }: MockSongPosition = {}): SongPosition {
   return [
     position || 0,
     setSongPosition || jest.fn(),
     resetSongPosition || jest.fn(),
-    connectionError || "",
+    connectionError || '',
     setConnectionError || jest.fn(),
   ]
 }
 
 export function testPlayingTrack(trackName: string): void {
-  const playingTrack = screen.getByText("Playing...")
+  const playingTrack = screen.getByText('Playing...')
   const { parentElement } = playingTrack
 
   const name = parentElement?.parentElement?.firstChild?.textContent

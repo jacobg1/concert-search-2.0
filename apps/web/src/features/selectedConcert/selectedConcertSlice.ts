@@ -1,5 +1,13 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { MediaFormat, NetworkError, PlayerState } from '../../app/interface'
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+} from '@reduxjs/toolkit'
+import {
+  MediaFormat,
+  NetworkError,
+  PlayerState,
+} from '../../app/interface'
 import {
   SelectedConcert,
   SelectedConcertState,
@@ -76,7 +84,11 @@ const selectedConcertSlice = createSlice({
 
       const trackIndex = findTrackIndex(trackList, currentTrackName)
 
-      const nextTrack = findNextTrack(trackList, trackIndex, currentTrackName)
+      const nextTrack = findNextTrack(
+        trackList,
+        trackIndex,
+        currentTrackName
+      )
 
       state.currentlyPlayingTrack = {
         currentTrackName: nextTrack.name,

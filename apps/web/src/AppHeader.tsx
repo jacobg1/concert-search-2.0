@@ -19,7 +19,7 @@ export function AppHeader(): JSX.Element {
 
   return (
     <AppBar sx={appBarStyles}>
-      <Stack display="flex" flexDirection="row" justifyContent="space-between">
+      <Stack direction="row" style={{ justifyContent: 'space-between' }}>
         <Typography variant="h1">Concert Search</Typography>
         {trackList.length ? (
           <>

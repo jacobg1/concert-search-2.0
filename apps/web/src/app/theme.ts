@@ -65,7 +65,7 @@ export const theme = createTheme({
   components: {
     MuiDrawer: {
       styleOverrides: {
-        paperAnchorBottom: {
+        paper: {
           display: 'flex',
           justifyContent: 'space-evenly',
         },
