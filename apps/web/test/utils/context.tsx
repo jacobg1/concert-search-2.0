@@ -1,7 +1,6 @@
 import React, {
   type ReactElement,
   type PropsWithChildren,
-  type RefObject,
   useRef,
 } from 'react'
 import { render, renderHook } from '@testing-library/react'
