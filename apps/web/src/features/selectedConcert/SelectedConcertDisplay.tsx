@@ -17,7 +17,10 @@ import ConcertMeta from '../tracks/components/ConcertMeta'
 import AudioPlayer from '../player/AudioPlayer'
 import { ButtonContainer } from './components/ButtonContainer'
 import Visualizer from '../visualizer/Visualizer'
-import { handlePlayNewTrack, handleNextOrPreviousTrack } from '../../app/util'
+import {
+  handlePlayNewTrack,
+  handleNextOrPreviousTrack,
+} from '../../app/util'
 import {
   useAppSelector,
   useAppDispatch,
@@ -34,8 +37,6 @@ const drawerStyles: SxProps = {
     boxSizing: 'border-box',
     zIndex: 0,
     minWidth: '320px',
-  },
-  '& .MuiDrawer-paperAnchorBottom': {
     backgroundColor: '#2e7e89',
     overflow: 'auto',
   },
@@ -75,6 +76,9 @@ const snackbarBoxStyles: SxProps = {
     alignSelf: 'center',
     display: 'inline-block',
   },
+  '& .error-text': {
+    display: 'inline-flex',
+  },
 }
 
 export default function SelectedConcertDisplay(): JSX.Element {
@@ -100,8 +104,16 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   useMediaSession(metadata, trackList, currentTrackName)
 
-  const nextOrPrevTrack = handleNextOrPreviousTrack(dispatch, audioEl, resetSongPosition)
-  const playNewTrack = handlePlayNewTrack(dispatch, audioEl, resetSongPosition)
+  const nextOrPrevTrack = handleNextOrPreviousTrack(
+    dispatch,
+    audioEl,
+    resetSongPosition
+  )
+  const playNewTrack = handlePlayNewTrack(
+    dispatch,
+    audioEl,
+    resetSongPosition
+  )
 
   return (
     <Drawer
@@ -162,7 +174,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
         sx={snackbarStyles}
       >
         <Box sx={snackbarBoxStyles}>
-          <Box display="inline-flex">
+          <Box className="error-text">
             <ErrorOutlineSharpIcon fontSize="medium" />
             <Typography>{connectionError}</Typography>
           </Box>

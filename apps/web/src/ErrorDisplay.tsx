@@ -44,7 +44,7 @@ export function ErrorDisplay(): JSX.Element {
       open={hasNetworkError(listError, concertError)}
     >
       <Box sx={boxStyles}>
-        <Box display="inline-flex">
+        <Box style={{ display: 'inline-flex' }}>
           <ErrorOutlineSharpIcon fontSize="medium" />
           <Typography>
             Oops! Something went wrong, please update search and try again.

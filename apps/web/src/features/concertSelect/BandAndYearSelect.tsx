@@ -11,7 +11,11 @@ import {
 } from './concertSelectSlice'
 import FilterDuplicatesCheckbox from './components/FilterDuplicatesCheckbox'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { getBandOptions, getYearOptions, withDispatch } from '../../app/util'
+import {
+  getBandOptions,
+  getYearOptions,
+  withDispatch,
+} from '../../app/util'
 
 const boxStyles: SxProps = {
   width: '90%',
@@ -62,7 +66,7 @@ export default function BandAndYearSelect(): JSX.Element | null {
       {options(selectedYear, selectedBand).map((opt) => (
         <ConcertSelect key={opt.id} {...opt} />
       ))}
-      <Stack display="flex" flexDirection="row" justifyContent="space-between">
+      <Stack direction="row" style={{ justifyContent: 'space-between' }}>
         <FilterDuplicatesCheckbox />
         <ConcertSelectButton />
       </Stack>

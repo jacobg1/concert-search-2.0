@@ -6,6 +6,9 @@ import { useResize } from '../../../app/hooks'
 const progressBarHolderStyles = {
   width: '100%',
   margin: '5px auto 15px auto',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
   '& .MuiSlider-rail, & .MuiSlider-track': {
     height: { xs: 5, md: 10 },
   },
@@ -52,12 +55,7 @@ export default function ProgressBar({
 }: ProgressBarProps): JSX.Element {
   const [, windowWidth] = useResize(1000)
   return (
-    <Box
-      sx={progressBarHolderStyles}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-    >
+    <Box sx={progressBarHolderStyles}>
       <DurationLabel
         disabled={duration === 0}
         time={handleTrackProgressDuration(position)}

@@ -26,7 +26,7 @@ export default function ConcertPagination({
   // Only show pagination if more than one page
   if (count <= 1) return null
   return (
-    <Box my={3} style={boxStyles}>
+    <Box style={boxStyles}>
       <Pagination
         shape="rounded"
         color="primary"
