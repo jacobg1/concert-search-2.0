@@ -1,5 +1,6 @@
 {
   "name": "concert-search-2.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -16,8 +17,8 @@
     "test:watch": "turbo run test:watch"
   },
   "devDependencies": {
-    "prettier": "^3.6.2",
-    "turbo": "^2.8.20",
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
