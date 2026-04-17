@@ -1,4 +1,8 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+} from '@reduxjs/toolkit'
 import { MediaFormat, NetworkError, SortOrder } from '../../app/interface'
 import {
   ChunkedConcertList,
@@ -45,7 +49,9 @@ export const fetchConcertList = createAsyncThunk<
     if (response.ok) {
       return response.json() as Promise<ChunkedConcertList>
     }
-    return thunkApi.rejectWithValue((await response.json()) as NetworkError)
+    return thunkApi.rejectWithValue(
+      (await response.json()) as NetworkError
+    )
   },
   {
     condition: (query, { getState }) => {

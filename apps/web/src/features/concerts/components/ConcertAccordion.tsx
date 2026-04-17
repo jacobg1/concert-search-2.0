@@ -53,18 +53,25 @@ export default function ConcertAccordion({
         aria-controls={`concert-${concertId}-header`}
         expandIcon={<ExpandMoreIcon color="primary" />}
         slotProps={{ root: { component: Box } }}
+        nativeButton={false}
         sx={summaryStyles}
       >
-        <Typography component="span" width="67%">
+        <Typography component="span" style={{ width: '67%' }}>
           {title}
         </Typography>
-        <PlayConcertButton concertId={concertId} playConcert={playConcert} />
+        <PlayConcertButton
+          concertId={concertId}
+          playConcert={playConcert}
+        />
       </AccordionSummary>
 
       <AccordionDetails>
         {source && (
           <>
-            <Typography variant="subtitle1" style={{ marginBottom: '3px' }}>
+            <Typography
+              variant="subtitle1"
+              style={{ marginBottom: '3px' }}
+            >
               Source
             </Typography>
             <Typography
@@ -77,7 +84,10 @@ export default function ConcertAccordion({
         )}
         {description && (
           <>
-            <Typography variant="subtitle1" style={{ marginBottom: '3px' }}>
+            <Typography
+              variant="subtitle1"
+              style={{ marginBottom: '3px' }}
+            >
               Track list
             </Typography>
             <Typography variant="body1">{description}</Typography>

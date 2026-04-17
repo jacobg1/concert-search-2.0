@@ -29,6 +29,8 @@ const audioPlayerStyles: SxProps = {
   width: '90%',
   background,
   boxSizing: 'border-box',
+  marginTop: 3,
+  marginBottom: 3,
 }
 
 const containerStyles: SxProps = {
@@ -61,7 +63,7 @@ export default function AudioPlayer({
   }
 
   return (
-    <Box my={3} sx={audioPlayerStyles}>
+    <Box sx={audioPlayerStyles}>
       <ProgressBar
         duration={duration}
         position={position}
@@ -71,10 +73,15 @@ export default function AudioPlayer({
         <SkipButton direction={Prev} clickHandler={nextOrPrevTrack} />
         <PlayOrPause
           isPlaying={playerState === PlayerState.Play}
-          onPlayPauseClick={() => onPlayPauseClick(dispatch, audioEl, playUrl)}
+          onPlayPauseClick={() =>
+            onPlayPauseClick(dispatch, audioEl, playUrl)
+          }
         />
         <SkipButton direction={Next} clickHandler={nextOrPrevTrack} />
-        <VolumeSlider volume={volume} handleVolumeChange={handleVolumeChange} />
+        <VolumeSlider
+          volume={volume}
+          handleVolumeChange={handleVolumeChange}
+        />
       </Stack>
       <AudioElement
         ref={audioEl}

@@ -47,7 +47,7 @@ export default function VolumeSlider({
         open={isOpen}
         anchorEl={htmlEl}
       >
-        <Stack bgcolor="#bed5ff">
+        <Stack style={{ backgroundColor: '#bed5ff' }}>
           <Slider
             style={{ width: '225px', margin: '11px' }}
             value={volume}

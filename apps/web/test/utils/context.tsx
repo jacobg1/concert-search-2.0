@@ -1,11 +1,19 @@
-import React, { type ReactElement, type PropsWithChildren, useRef } from 'react'
+import React, {
+  type ReactElement,
+  type PropsWithChildren,
+  useRef,
+} from 'react'
 import { render, renderHook } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from '@mui/material/styles'
 import { Provider } from 'react-redux'
 import { type AppStore, setupStore } from '../../src/app/store'
 import { theme } from '../../src/app/theme'
-import type { ContextRenderOptions, ContextRenderHookOptions, TestVisualizerProps } from '../types'
+import type {
+  ContextRenderOptions,
+  ContextRenderHookOptions,
+  TestVisualizerProps,
+} from '../types'
 
 export const htmlContainer = document.body.appendChild(
   document.createElement('html')
@@ -72,7 +80,7 @@ export function userRenderContext(
 
 export function TestVisualizer({
   Component,
-  concertInitialized
+  concertInitialized,
 }: TestVisualizerProps): JSX.Element | null {
   const audioRef = useRef<HTMLAudioElement>(null)
   return (

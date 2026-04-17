@@ -27,6 +27,8 @@ describe('Audio Player Feature', () => {
   beforeEach(() => {
     mockPlay = jest.spyOn(HTMLMediaElement.prototype, 'play')
     mockPause = jest.spyOn(HTMLMediaElement.prototype, 'pause')
+
+    HTMLElement.prototype.hasPointerCapture = jest.fn()
   })
 
   afterEach(() => {
@@ -107,8 +109,9 @@ describe('Audio Player Feature', () => {
       expect(label).toHaveStyle({ opacity: 0.7 })
     }
 
-    expect(getProgressBar(container))
-      .toHaveStyle({ pointerEvents: 'none' })
+    expect(getProgressBar(container)).toHaveStyle({
+      pointerEvents: 'none',
+    })
   })
 
   it("ProgressBar's slider is disabled on smaller screens", async () => {
@@ -147,18 +150,18 @@ describe('Audio Player Feature', () => {
     expect(setSongPosition).toHaveBeenCalled()
   })
 
-  it("AudioPlayer renders properly in both play and pause state", () => {
+  it('AudioPlayer renders properly in both play and pause state', () => {
     const audioPlayerTests = [
       {
         playerState: PlayerState.Pause,
-        testId: "PlayArrowSharpIcon",
+        testId: 'PlayArrowSharpIcon',
         mock: () => mockPause.mockReturnValue(),
       },
       {
         playerState: PlayerState.Play,
-        testId: "PauseSharpIcon",
+        testId: 'PauseSharpIcon',
         mock: () => mockPlay.mockResolvedValue(),
-      }
+      },
     ]
 
     for (const { mock, playerState, testId } of audioPlayerTests) {
@@ -179,7 +182,7 @@ describe('Audio Player Feature', () => {
     }
   })
 
-  it("AudioPlayer can change volume", async () => {
+  it('AudioPlayer can change volume', async () => {
     const mockUseState = jest.spyOn(React, 'useState')
     const setVolumeMock = jest.fn()
 
@@ -197,13 +200,13 @@ describe('Audio Player Feature', () => {
       />
     )
 
-    await user.click(screen.getByLabelText("volume-control"))
-    await user.click(screen.getByTestId("volume-slider"))
+    await user.click(screen.getByLabelText('volume-control'))
+    await user.click(screen.getByTestId('volume-slider'))
 
     expect(setVolumeMock).toHaveBeenCalled()
   })
 
-  it("AudioPlayer onEnded event calls next track method", () => {
+  it('AudioPlayer onEnded event calls next track method', () => {
     mockPlay.mockResolvedValue()
 
     contextRender(
@@ -217,7 +220,7 @@ describe('Audio Player Feature', () => {
       />
     )
 
-    mockAudioElement.current?.dispatchEvent(new Event("ended"))
+    mockAudioElement.current?.dispatchEvent(new Event('ended'))
     expect(nextOrPrevTrack).toHaveBeenCalled()
   })
 })
