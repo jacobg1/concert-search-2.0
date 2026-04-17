@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "path-to-regexp": "8.4.0",
-    "@nestjs/core": "11.1.18"
+    "@nestjs/core": "11.1.19"
   },
   "engines": {
     "node": ">=18"
