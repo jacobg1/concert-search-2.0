@@ -3,7 +3,10 @@ import { createMockContext, createMockEvent } from '@repo/mock-data/event'
 import { concertList, singleConcert } from '@repo/mock-data/pre-api'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 import nock from 'nock'
-import type { ConcertData, PaginatedConcertList } from '../../src/interface'
+import type {
+  ConcertData,
+  PaginatedConcertList,
+} from '../../src/interface'
 import { handler } from '../../src/main'
 import { mockServer } from '../../src/mocks/node'
 import { offline } from '../../src/mocks/offline'
@@ -69,7 +72,9 @@ describe('Lambda Handler Integration', () => {
       throw new Error('Invalid handler response body')
     }
 
-    const concertListData = JSON.parse(response.body) as PaginatedConcertList
+    const concertListData = JSON.parse(
+      response.body
+    ) as PaginatedConcertList
 
     testConcertList(concertListData)
   })
@@ -150,7 +155,9 @@ describe('Lambda Handler Integration', () => {
   })
 
   it('mock lambda handler returns proper response', async () => {
-    const { handler: mockHandler } = await import('../../src/mocks/mockMain')
+    const { handler: mockHandler } = await import(
+      '../../src/mocks/mockMain'
+    )
 
     serverListenMock.mockReturnThis()
     offlineListenMock.mockReturnThis()
