@@ -2,7 +2,6 @@ import { BadRequestException } from '@nestjs/common'
 import chunk from 'lodash.chunk'
 import type {
   BaseSearchOptions,
-  DateLookupObj,
   FilterParams,
   PaginatedConcertList,
   SearchResponse,
@@ -36,16 +35,16 @@ export function paginateResponse(
   searchResponse: SearchResponse,
   { filterDuplicates, mediaFormat }: FilterParams
 ): PaginatedConcertList {
-  const dateLookup: DateLookupObj = {}
+  const dateLookup = new Map<string, boolean>()
 
   const filterAndDedupe = searchResponse.docs.reduce<SingleConcert[]>(
     (acc, curr) => {
       if (filterDuplicates) {
         if (
           isProperFormat(curr.format, mediaFormat) &&
-          !dateLookup[curr.date]
+          !dateLookup.has(curr.date)
         ) {
-          dateLookup[curr.date] = true
+          dateLookup.set(curr.date, true)
           return acc.concat(curr)
         }
         return acc

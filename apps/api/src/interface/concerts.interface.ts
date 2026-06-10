@@ -102,8 +102,6 @@ export type FilterParams = Pick<
   'filterDuplicates' | 'mediaFormat'
 >
 
-export type DateLookupObj = Record<string, boolean>
-
 export type RouteConfigObj<T> = Record<string, T>
 
 export interface ConcertListInput {
