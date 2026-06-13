@@ -34,7 +34,9 @@
         "CDK_DEFAULT_ACCOUNT",
         "CDK_DEFAULT_REGION",
         "STAGE",
-        "NODE_ENV"
+        "NODE_ENV",
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
+        "API_BASE_URL"
       ]
     },
     "deploy:base": {
@@ -43,7 +45,9 @@
       "env": [
         "CDK_DEFAULT_ACCOUNT",
         "CDK_DEFAULT_REGION",
-        "STAGE"
+        "STAGE",
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
+        "API_BASE_URL"
       ]
     },
     "deploy:test": {
@@ -53,7 +57,9 @@
         "CDK_DEFAULT_ACCOUNT",
         "CDK_DEFAULT_REGION",
         "STAGE",
-        "NODE_ENV"
+        "NODE_ENV",
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
+        "API_BASE_URL"
       ]
     },
     "deploy:test:base": {
@@ -62,7 +68,9 @@
       "env": [
         "CDK_DEFAULT_ACCOUNT",
         "CDK_DEFAULT_REGION",
-        "STAGE"
+        "STAGE",
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
+        "API_BASE_URL"
       ]
     },
     "destroy:test:base": {
@@ -70,7 +78,9 @@
       "env": [
         "CDK_DEFAULT_ACCOUNT",
         "CDK_DEFAULT_REGION",
-        "STAGE"
+        "STAGE",
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
+        "API_BASE_URL"
       ]
     },
     "destroy:test": {
@@ -78,7 +88,9 @@
       "env": [
         "CDK_DEFAULT_ACCOUNT",
         "CDK_DEFAULT_REGION",
-        "STAGE"
+        "STAGE",
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
+        "API_BASE_URL"
       ]
     },
     "test": {
