@@ -1,7 +1,6 @@
 # compiled output
 /dist
 /node_modules
-.serverless
 .build
 
 # Logs
@@ -40,3 +39,9 @@ lerna-debug.log*
 .env.*
 
 sound
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+.env
+dist-cdk

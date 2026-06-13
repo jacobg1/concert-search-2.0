@@ -13,6 +13,10 @@
       "dependsOn": ["lint", "^build"],
       "outputs": [".next/**", "!.next/cache/**", "build/**"]
     },
+    "build:cdk": {
+      "outputs": ["cdk.out/**", "dist-cdk/**"],
+      "env": ["STAGE"]
+    },
     "build:watch": {
       "persistent": true,
       "cache": false
@@ -24,17 +28,71 @@
       "dependsOn": ["^check-types"]
     },
     "deploy": {
-      "dependsOn": ["test", "build"]
+      "cache": false,
+      "dependsOn": ["test", "deploy:base"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE",
+        "NODE_ENV"
+      ]
+    },
+    "deploy:base": {
+      "cache": false,
+      "dependsOn": ["build", "build:cdk"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE"
+      ]
     },
     "deploy:test": {
-      "dependsOn": ["test", "build"]
+      "cache": false,
+      "dependsOn": ["test", "deploy:test:base"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE",
+        "NODE_ENV"
+      ]
+    },
+    "deploy:test:base": {
+      "cache": false,
+      "dependsOn": ["build", "build:cdk"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE"
+      ]
+    },
+    "destroy:test:base": {
+      "dependsOn": ["build", "build:cdk"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE"
+      ]
+    },
+    "destroy:test": {
+      "dependsOn": ["destroy:test:base"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE"
+      ]
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": ["^test"],
+      "env": [
+        "NEXT_PUBLIC_BASE_URL"
+      ]
     },
     "test:watch": {
       "persistent": true,
-      "cache": false
+      "cache": false,
+      "env": [
+        "NEXT_PUBLIC_BASE_URL"
+      ]
     }
   }
 }

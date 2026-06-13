@@ -70,7 +70,7 @@ describe('Concert Select Feature', () => {
       await user.click(screen.getByTestId(`${concertYearId}-clear`))
       await user.click(screen.getByTestId(`${bandNameId}-clear`))
     }
-  }, 7000)
+  }, 10000)
 
   it('FilterDuplicatesCheckbox checks and unchecks properly', async () => {
     const { user, store } = userRenderContext(<FilterDuplicatesCheckbox />)

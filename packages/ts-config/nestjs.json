@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./base.json",
   "compilerOptions": {
+    "types": ["node", "jest", "mocha"],
     "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": true,

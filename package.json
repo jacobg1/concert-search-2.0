@@ -9,6 +9,7 @@
     "start": "turbo run start",
     "deploy": "turbo run deploy --filter=concert-search-api",
     "deploy:test": "turbo run deploy:test --filter=concert-search-api",
+    "destroy:test": "turbo run destroy:test --filter=concert-search-api",
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
@@ -22,16 +23,14 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "path-to-regexp": "8.4.0",
-    "@nestjs/core": "11.1.19"
+    "postcss": "8.5.15",
+    "next": "16.2.9"
   },
   "engines": {
     "node": ">=18"
   },
   "overrides": {
-    "@nestjs/core": {
-      "path-to-regexp": "$path-to-regexp"
-    }
+    "postcss": "$postcss"
   },
   "packageManager": "npm@11.12.1",
   "workspaces": [

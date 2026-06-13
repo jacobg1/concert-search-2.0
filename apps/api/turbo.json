@@ -7,14 +7,24 @@
     "deploy": {
       "env": [
         "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
-        "SERVERLESS_ACCESS_KEY",
+				"API_BASE_URL"
+      ]
+    },
+     "deploy:base": {
+      "env": [
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
 				"API_BASE_URL"
       ]
     },
     "deploy:test": {
       "env": [
         "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
-        "SERVERLESS_ACCESS_KEY",
+				"API_BASE_URL"
+      ]
+    },
+    "deploy:base:test": {
+      "env": [
+        "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI",
 				"API_BASE_URL"
       ]
     },
