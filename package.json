@@ -9,6 +9,7 @@
     "start": "turbo run start",
     "deploy": "turbo run deploy --filter=concert-search-api",
     "deploy:test": "turbo run deploy:test --filter=concert-search-api",
+    "destroy:test": "turbo run destroy:test --filter=concert-search-api",
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
