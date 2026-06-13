@@ -37,8 +37,11 @@ export const nestJsConfig = [
       '**/eslint.config.mjs',
       '**/webpack.config.js',
       '**/dist',
+      '**/dist-cdk',
       '**/coverage',
       '**/.turbo',
+      '**/cdk',
+      '**/cdk.out',
     ],
   },
 ]
