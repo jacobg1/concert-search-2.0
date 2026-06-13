@@ -28,10 +28,22 @@
       "dependsOn": ["^check-types"]
     },
     "deploy": {
-      "dependsOn": ["test", "build"],
+      "cache": false,
+      "dependsOn": ["test", "deploy:base"],
       "env": [
         "CDK_DEFAULT_ACCOUNT",
-        "CDK_DEFAULT_REGION"
+        "CDK_DEFAULT_REGION",
+        "STAGE",
+        "NODE_ENV"
+      ]
+    },
+    "deploy:base": {
+      "cache": false,
+      "dependsOn": ["build", "build:cdk"],
+      "env": [
+        "CDK_DEFAULT_ACCOUNT",
+        "CDK_DEFAULT_REGION",
+        "STAGE"
       ]
     },
     "deploy:test": {
