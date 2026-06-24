@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import {
   CircularProgress,
   Drawer,
@@ -27,6 +27,7 @@ import {
   useMediaSession,
   useSongPosition,
 } from '../../app/hooks'
+import type { Playlist } from './interface'
 
 const drawerStyles: SxProps = {
   height: '100%',
@@ -104,16 +105,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   useMediaSession(metadata, trackList, currentTrackName)
 
-  const nextOrPrevTrack = handleNextOrPreviousTrack(
-    dispatch,
-    audioEl,
-    resetSongPosition
-  )
-  const playNewTrack = handlePlayNewTrack(
-    dispatch,
-    audioEl,
-    resetSongPosition
-  )
+  // TODO - implement useSyncExternalStore to store playlist in local storage
+  const [playlist, setPlaylist] = useState<Playlist>(new Map())
 
   return (
     <Drawer
@@ -148,8 +141,14 @@ export default function SelectedConcertDisplay(): JSX.Element {
               <>
                 <TrackListDisplay
                   trackList={trackList}
+                  playlist={playlist}
+                  setPlaylist={setPlaylist}
                   currentTrackName={currentTrackName}
-                  playNewTrack={playNewTrack}
+                  playNewTrack={handlePlayNewTrack(
+                    dispatch,
+                    audioEl,
+                    resetSongPosition
+                  )}
                 />
                 <AudioPlayer
                   audioEl={audioEl}
@@ -157,7 +156,11 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   playerState={playerState}
                   position={position}
                   setSongPosition={setSongPosition}
-                  nextOrPrevTrack={nextOrPrevTrack}
+                  nextOrPrevTrack={handleNextOrPreviousTrack(
+                    dispatch,
+                    audioEl,
+                    resetSongPosition
+                  )}
                 />
               </>
             ) : null}
