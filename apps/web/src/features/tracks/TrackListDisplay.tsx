@@ -20,6 +20,8 @@ const listContainerStyles: SxProps = {
 
 function TrackListDisplay({
   trackList,
+  playlist,
+  setPlaylist,
   playNewTrack,
   currentTrackName,
 }: TrackListDisplayProps): JSX.Element | null {
@@ -29,6 +31,8 @@ function TrackListDisplay({
         return (
           <SingleTrack
             key={track.name}
+            playlist={playlist}
+            setPlaylist={setPlaylist}
             playNewTrack={playNewTrack}
             currentTrackName={currentTrackName}
             {...track}

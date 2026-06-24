@@ -1,4 +1,5 @@
 import {
+  Box,
   ListItemButton,
   ListItemText,
   Typography,
@@ -8,6 +9,7 @@ import { background } from '../../../app/background'
 import { handleTrackDuration } from '../../../app/util'
 import { SingleTrackProps } from '../trackInterface'
 import { PlayingText } from './PlayingText'
+import { PlaylistToggle } from './PlaylistToggle'
 
 const listItemStyles: SxProps = {
   background,
@@ -40,17 +42,30 @@ const songDurationContainer: SxProps = {
   },
 }
 
+const playlistToggleContainer: SxProps = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: { xs: '55px', sm: '75px' },
+  flexDirection: 'row',
+}
+
 export default function SingleTrack({
   name,
+  link,
   title,
+  length,
+  playlist,
+  md5,
+  setPlaylist,
   playNewTrack,
   currentTrackName,
-  length,
 }: SingleTrackProps): JSX.Element {
   const isSelectedTrack = currentTrackName === name
+
   return (
     <ListItemButton
       dense
+      disableRipple
       key={name}
       sx={listItemStyles}
       selected={isSelectedTrack}
@@ -68,9 +83,17 @@ export default function SingleTrack({
         secondary={
           <>
             {isSelectedTrack && <PlayingText />}
-            <Typography component="span" variant="subtitle2">
-              {length ? handleTrackDuration(length) : null}
-            </Typography>
+            <Box sx={playlistToggleContainer}>
+              <PlaylistToggle
+                md5={md5}
+                add={!playlist.has(md5)}
+                track={{ title, link, length }}
+                setPlaylist={setPlaylist}
+              />
+              <Typography component="span" variant="subtitle2">
+                {length ? handleTrackDuration(length) : null}
+              </Typography>
+            </Box>
           </>
         }
         onClick={() => playNewTrack(name)}
