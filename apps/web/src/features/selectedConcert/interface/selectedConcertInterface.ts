@@ -1,4 +1,8 @@
-import { PlayerState, MediaFormat, NetworkError } from '../../../app/interface'
+import {
+  PlayerState,
+  MediaFormat,
+  NetworkError,
+} from '../../../app/interface'
 import { TrackMetadata, TrackListData } from '../../tracks/trackInterface'
 
 export interface SelectedConcert {
@@ -21,3 +25,12 @@ export interface SelectedConcertState {
   loading: boolean
   error: NetworkError | Record<string, never>
 }
+
+export type Playlist = Map<
+  string,
+  {
+    title: string
+    link: string
+    length: string
+  }
+>
