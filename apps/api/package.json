@@ -15,7 +15,7 @@
     "destroy:test": "export STAGE=test && cdk destroy --all --yes",
     "destroy:test:base": "export STAGE=test && cdk destroy ConcertSearchBaseStack-test --yes",
     "dev": "WITH_MOCKS=true npm run build:watch & WITH_MOCKS=true nest build --webpack && nodemon ./dist/main.js",
-    "start": "WITH_MOCKS=true nest build --webpack && node ./dist/main.js",
+    "start": "OFFLINE=true nest build --webpack && node ./dist/main.js",
     "test": "jest",
     "test:watch": "jest --watch --collectCoverage=false",
     "lint": "eslint .",

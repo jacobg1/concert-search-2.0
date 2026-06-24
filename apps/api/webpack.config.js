@@ -3,7 +3,8 @@ const TerserPlugin = require('terser-webpack-plugin')
 const { IgnorePlugin } = require('webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 
-function getEntryPoint(withMocks) {
+function getEntryPoint(withMocks, offline) {
+  if (offline) return './src/mocks/offlineMain.ts'
   return withMocks ? './src/mocks/mockMain.ts' : './src/main.ts'
 }
 
@@ -34,7 +35,7 @@ module.exports = (options) => {
 
   return {
     ...options,
-    entry: getEntryPoint(process.env.WITH_MOCKS),
+    entry: getEntryPoint(process.env.WITH_MOCKS, process.env.OFFLINE),
     externals: getExternals(process.env.WITH_MOCKS),
     optimization: {
       minimizer: [
