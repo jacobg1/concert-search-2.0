@@ -127,14 +127,10 @@ export default function SelectedConcertDisplay(): JSX.Element {
           <CircularProgress color="secondary" />
         ) : (
           <>
-            <p
-              onClick={() => {
-                dispatch(setUsePlaylist(!usePlaylist))
-              }}
-            >
-              TODO - playlist / tracklist toggle
-            </p>
-            <ButtonContainer />
+            <ButtonContainer
+              usePlaylist={usePlaylist}
+              playlist={playlist}
+            />
             {metadata && (
               <Box style={metadataStyles}>
                 <ConcertMeta
