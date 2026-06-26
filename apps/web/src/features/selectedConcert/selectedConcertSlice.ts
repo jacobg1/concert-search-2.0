@@ -158,7 +158,10 @@ const selectedConcertSlice = createSlice({
       .addCase(
         fetchSelectedConcert.fulfilled,
         (state, action: PayloadAction<SelectedConcert>) => {
-          state.selectedConcert = action.payload
+          state.selectedConcert = {
+            ...action.payload,
+            playlist: state.selectedConcert.playlist || [],
+          }
           state.loading = false
           state.concertInitialized = initialState.concertInitialized
           state.playerState = initialState.playerState
