@@ -1,9 +1,36 @@
-import { Box } from '@mui/material'
+import { Box, type SxProps, Typography } from '@mui/material'
 import { IconDirection } from '../../../app/interface'
 import SongFormatSelect from '../../tracks/components/SongFormatSelect'
 import { BackButton } from './BackButton'
+import { useAppDispatch } from '../../../app/hooks'
+import { setUsePlaylist } from '../selectedConcertSlice'
+import type { PlaylistTrack } from '../../tracks'
 
-export function ButtonContainer(): JSX.Element {
+const selectorStyles: SxProps = {
+  alignSelf: 'center',
+  '& span': {
+    color: '#ffffff',
+    fontSize: '1.1rem',
+  },
+}
+
+const activeStyles: SxProps = {
+  fontWeight: 600,
+  textDecoration: 'underline',
+}
+
+export function ButtonContainer({
+  usePlaylist,
+  playlist,
+}: {
+  usePlaylist: boolean
+  playlist: PlaylistTrack[]
+}): JSX.Element {
+  const dispatch = useAppDispatch()
+
+  const tracklistSelected = !usePlaylist ? activeStyles : {}
+  const playlistSelected = usePlaylist ? activeStyles : {}
+
   return (
     <Box
       style={{
@@ -15,6 +42,22 @@ export function ButtonContainer(): JSX.Element {
       }}
     >
       <BackButton iconDirection={IconDirection.Left} />
+      {playlist?.length ? (
+        <Box
+          sx={selectorStyles}
+          onClick={() => {
+            dispatch(setUsePlaylist(!usePlaylist))
+          }}
+        >
+          <Typography sx={tracklistSelected} component="span">
+            Tracklist
+          </Typography>
+          <Typography component="span"> / </Typography>
+          <Typography sx={playlistSelected} component="span">
+            Playlist
+          </Typography>
+        </Box>
+      ) : null}
       <SongFormatSelect />
     </Box>
   )
