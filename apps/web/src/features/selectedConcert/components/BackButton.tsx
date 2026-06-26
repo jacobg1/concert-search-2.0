@@ -1,6 +1,9 @@
 import { Button } from '@mui/material'
 import ArrowLeftSharpIcon from '@mui/icons-material/ArrowLeftSharp'
-import { toggleConcertDrawer } from '../selectedConcertSlice'
+import {
+  toggleConcertDrawer,
+  setUsePlaylist,
+} from '../selectedConcertSlice'
 import { IconDirection } from '../../../app/interface'
 import { useAppDispatch } from '../../../app/hooks'
 
@@ -20,11 +23,15 @@ export function BackButton({
         background: '#bed5ff',
         padding: 0,
       }}
-      onClick={() => dispatch(toggleConcertDrawer())}
+      onClick={() => {
+        dispatch(toggleConcertDrawer())
+        dispatch(setUsePlaylist(false))
+      }}
     >
       <ArrowLeftSharpIcon
         style={{
-          transform: iconDirection === 'right' ? 'rotate(180deg)' : 'rotate(0)',
+          transform:
+            iconDirection === 'right' ? 'rotate(180deg)' : 'rotate(0)',
         }}
         fontSize="large"
       />
