@@ -1,5 +1,5 @@
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import RemoveIcon from '@mui/icons-material/Remove'
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 import type { PlaylistToggleProps } from '../trackInterface'
 
 export function PlaylistToggle({
@@ -19,7 +19,7 @@ export function PlaylistToggle({
   }
 
   return (
-    <RemoveIcon
+    <IndeterminateCheckBoxIcon
       onClick={(e) => {
         e.stopPropagation()
         setPlaylist((prevList) => {
