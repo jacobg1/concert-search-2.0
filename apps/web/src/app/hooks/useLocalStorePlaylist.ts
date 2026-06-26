@@ -65,7 +65,7 @@ export function useLocalStorePlaylist(key: string, defaultValue: string) {
       dispatch(setUsePlaylist(false))
       dispatch(setPlayerState(PlayerState.Pause))
     }
-  }, [value])
+  }, [value, defaultValue])
 
   return [parsePlaylist(value, defaultValue), setValue]
 }
