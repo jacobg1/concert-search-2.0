@@ -85,9 +85,8 @@ export default function SingleTrack({
             {isSelectedTrack && <PlayingText />}
             <Box sx={playlistToggleContainer}>
               <PlaylistToggle
-                md5={md5}
-                add={!playlist.has(md5)}
-                track={{ title, link, length }}
+                add={!playlist.find((song) => song?.md5 === md5)}
+                track={{ md5, name, title, link, length }}
                 setPlaylist={setPlaylist}
               />
               <Typography component="span" variant="subtitle2">
