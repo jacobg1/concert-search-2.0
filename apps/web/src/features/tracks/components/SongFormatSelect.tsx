@@ -10,7 +10,7 @@ const formatSelectStyles: SxProps = {
   background: '#bed5ff',
   width: { xs: '30%', sm: '20%' },
   maxWidth: '150px',
-  display: { xs: 'none', md: 'flex' },
+  display: { xs: 'none', sm: 'flex' },
   justifyContent: 'space-around',
   alignItems: 'center',
   padding: 0,
@@ -26,7 +26,9 @@ const formatSelectStyles: SxProps = {
 }
 
 export default function SongFormatSelect(): JSX.Element {
-  const { mediaFormat } = useAppSelector((state) => state.individualConcert)
+  const { mediaFormat } = useAppSelector(
+    (state) => state.individualConcert
+  )
   const dispatch = useAppDispatch()
   const [isOpen, openMenu] = useState(false)
 
