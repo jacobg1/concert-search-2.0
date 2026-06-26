@@ -4,7 +4,6 @@ import type { PlaylistToggleProps } from '../trackInterface'
 
 export function PlaylistToggle({
   add,
-  md5,
   track,
   setPlaylist,
 }: PlaylistToggleProps) {
@@ -13,7 +12,7 @@ export function PlaylistToggle({
       <AddBoxIcon
         onClick={(e) => {
           e.stopPropagation()
-          setPlaylist((prevList) => new Map(prevList.set(md5, track)))
+          setPlaylist((prevList) => [...prevList, track])
         }}
       />
     )
@@ -24,9 +23,7 @@ export function PlaylistToggle({
       onClick={(e) => {
         e.stopPropagation()
         setPlaylist((prevList) => {
-          const newList = new Map(prevList)
-          newList.delete(md5)
-          return newList
+          return prevList.filter((song) => song?.md5 !== track.md5)
         })
       }}
     />
