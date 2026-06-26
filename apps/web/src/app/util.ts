@@ -1,6 +1,15 @@
 import type { UnknownAction } from '@reduxjs/toolkit'
-import type { TrackListData } from '../features/tracks/trackInterface'
-import { MediaFormat, type NetworkError, type BandList, PlayerState, TrackDirection } from './interface'
+import type {
+  PlaylistTrack,
+  TrackListData,
+} from '../features/tracks/trackInterface'
+import {
+  MediaFormat,
+  type NetworkError,
+  type BandList,
+  PlayerState,
+  TrackDirection,
+} from './interface'
 import type { AppDispatch, AppThunk } from './store'
 import type { RefObject } from 'react'
 import {
@@ -8,7 +17,7 @@ import {
   playNewTrack,
   setPlayerState,
   playNextTrack,
-  playPreviousTrack
+  playPreviousTrack,
 } from '../features/selectedConcert/selectedConcertSlice'
 
 function durationFormat(
@@ -106,7 +115,7 @@ export function findNextTrack(
 }
 
 export function findNewTrack(
-  trackList: TrackListData[],
+  trackList: TrackListData[] & PlaylistTrack[],
   currentTrackName?: string
 ): TrackListData {
   if (!currentTrackName) return trackList[0]
@@ -176,7 +185,7 @@ export function onPlayPauseClick(
 export function handleNextOrPreviousTrack(
   dispatch: AppDispatch,
   audioElement: RefObject<HTMLAudioElement>,
-  resetSongPosition: () => void,
+  resetSongPosition: () => void
 ) {
   return (nextOrPrev: TrackDirection): void => {
     if (!audioElement.current) return
