@@ -3,11 +3,16 @@ import {
   MediaFormat,
   NetworkError,
 } from '../../../app/interface'
-import { TrackMetadata, TrackListData } from '../../tracks/trackInterface'
+import type {
+  TrackMetadata,
+  TrackListData,
+  PlaylistTrack,
+} from '../../tracks/trackInterface'
 
 export interface SelectedConcert {
   metadata: TrackMetadata | null
   trackList: TrackListData[]
+  playlist?: PlaylistTrack[]
 }
 
 export interface CurrentlyPlayingTrack {
@@ -20,6 +25,7 @@ export interface SelectedConcertState {
   currentlyPlayingTrack: CurrentlyPlayingTrack
   playerState: PlayerState
   mediaFormat: MediaFormat
+  usePlaylist: boolean
   isDrawerOpen: boolean
   concertInitialized: boolean
   loading: boolean
@@ -29,6 +35,7 @@ export interface SelectedConcertState {
 export type Playlist = Map<
   string,
   {
+    md5: string
     title: string
     link: string
     length: string
