@@ -19,6 +19,7 @@ import {
   findPreviousTrack,
   addSongFormat,
 } from '../../app/util'
+import type { PlaylistTrack, Tracks } from '../tracks'
 
 const { Play, Pause } = PlayerState
 
@@ -39,7 +40,8 @@ export const fetchSelectedConcert = createAsyncThunk(
 )
 
 const initialState: SelectedConcertState = {
-  selectedConcert: { trackList: [], metadata: null },
+  selectedConcert: { trackList: [], playlist: [], metadata: null },
+  usePlaylist: false,
   currentlyPlayingTrack: { currentTrackName: '', playUrl: '' },
   playerState: Pause,
   mediaFormat: MediaFormat.MP3,
@@ -63,11 +65,14 @@ const selectedConcertSlice = createSlice({
     },
     playNewTrack: (state, action: PayloadAction<string | undefined>) => {
       const {
-        selectedConcert: { trackList },
+        selectedConcert: { trackList, playlist },
         mediaFormat,
+        usePlaylist,
       } = state
 
-      const newTrack = findNewTrack(trackList, action.payload)
+      const tracks = usePlaylist ? playlist : trackList
+
+      const newTrack = findNewTrack(tracks as Tracks, action.payload)
 
       state.currentlyPlayingTrack = {
         currentTrackName: newTrack.name,
@@ -77,15 +82,18 @@ const selectedConcertSlice = createSlice({
     },
     playNextTrack: (state) => {
       const {
-        selectedConcert: { trackList },
+        selectedConcert: { trackList, playlist },
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
+        usePlaylist,
       } = state
 
-      const trackIndex = findTrackIndex(trackList, currentTrackName)
+      const tracks = usePlaylist ? playlist : trackList
+
+      const trackIndex = findTrackIndex(tracks as Tracks, currentTrackName)
 
       const nextTrack = findNextTrack(
-        trackList,
+        tracks as Tracks,
         trackIndex,
         currentTrackName
       )
@@ -98,15 +106,18 @@ const selectedConcertSlice = createSlice({
     },
     playPreviousTrack: (state) => {
       const {
-        selectedConcert: { trackList },
+        selectedConcert: { trackList, playlist },
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
+        usePlaylist,
       } = state
 
-      const trackIndex = findTrackIndex(trackList, currentTrackName)
+      const tracks = usePlaylist ? playlist : trackList
+
+      const trackIndex = findTrackIndex(tracks as Tracks, currentTrackName)
 
       const previousTrack = findPreviousTrack(
-        trackList,
+        tracks as Tracks,
         trackIndex,
         currentTrackName
       )
@@ -126,6 +137,12 @@ const selectedConcertSlice = createSlice({
       if (!state.concertInitialized) {
         state.concertInitialized = true
       }
+    },
+    setPlaylist: (state, action: PayloadAction<PlaylistTrack[]>) => {
+      state.selectedConcert.playlist = action.payload
+    },
+    setUsePlaylist: (state, action: PayloadAction<boolean>) => {
+      state.usePlaylist = action.payload
     },
     clearSelectedConcertError: (state) => {
       state.error = {}
@@ -162,6 +179,8 @@ export const {
   playPreviousTrack,
   changeMediaFormat,
   setConcertInitialized,
+  setPlaylist,
+  setUsePlaylist,
   clearSelectedConcertError,
 } = selectedConcertSlice.actions
 
