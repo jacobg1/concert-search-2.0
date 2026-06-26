@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react'
-import type { Playlist } from '../selectedConcert'
+import type { WritableDraft } from '@reduxjs/toolkit'
 
 export interface TrackListData {
   name: string
@@ -34,8 +34,8 @@ export interface TrackMetadata {
 
 export interface TrackListDisplayProps {
   trackList: TrackListData[]
-  playlist: Playlist
-  setPlaylist: Dispatch<SetStateAction<Playlist>>
+  playlist: PlaylistTrack[]
+  setPlaylist: Dispatch<SetStateAction<PlaylistTrack[]>>
   currentTrackName: string
   playNewTrack: (name: string) => void
 }
@@ -47,12 +47,14 @@ export interface SingleTrackProps {
   length: string
   currentTrackName: string
   md5: string
-  playlist: Playlist
-  setPlaylist: Dispatch<SetStateAction<Playlist>>
+  playlist: PlaylistTrack[]
+  setPlaylist: Dispatch<SetStateAction<PlaylistTrack[]>>
   playNewTrack: (name: string) => void
 }
 
-type PlaylistTrack = {
+export type PlaylistTrack = {
+  md5: string
+  name: string
   title: string
   link: string
   length: string
@@ -60,7 +62,10 @@ type PlaylistTrack = {
 
 export interface PlaylistToggleProps {
   add: boolean
-  md5: string
   track: PlaylistTrack
-  setPlaylist: Dispatch<SetStateAction<Playlist>>
+  setPlaylist: Dispatch<SetStateAction<PlaylistTrack[]>>
 }
+
+type PlaylistAndTracklist = PlaylistTrack & TrackListData
+
+export type Tracks = WritableDraft<PlaylistAndTracklist>[]

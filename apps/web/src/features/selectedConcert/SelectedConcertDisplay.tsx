@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import {
   CircularProgress,
   Drawer,
@@ -26,8 +26,9 @@ import {
   useAppDispatch,
   useMediaSession,
   useSongPosition,
+  useLocalStorePlaylist,
 } from '../../app/hooks'
-import type { Playlist } from './interface'
+import { setUsePlaylist } from './selectedConcertSlice'
 
 const drawerStyles: SxProps = {
   height: '100%',
@@ -90,6 +91,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     concertInitialized,
     currentlyPlayingTrack: { playUrl, currentTrackName },
     selectedConcert: { trackList, metadata },
+    usePlaylist,
   } = useAppSelector((state) => state.individualConcert)
   const dispatch = useAppDispatch()
 
@@ -106,7 +108,10 @@ export default function SelectedConcertDisplay(): JSX.Element {
   useMediaSession(metadata, trackList, currentTrackName)
 
   // TODO - implement useSyncExternalStore to store playlist in local storage
-  const [playlist, setPlaylist] = useState<Playlist>(new Map())
+  const [playlist, setPlaylist] = useLocalStorePlaylist(
+    'concert-search-playlist',
+    ''
+  )
 
   return (
     <Drawer
@@ -122,6 +127,13 @@ export default function SelectedConcertDisplay(): JSX.Element {
           <CircularProgress color="secondary" />
         ) : (
           <>
+            <p
+              onClick={() => {
+                dispatch(setUsePlaylist(!usePlaylist))
+              }}
+            >
+              TODO - playlist / tracklist toggle
+            </p>
             <ButtonContainer />
             {metadata && (
               <Box style={metadataStyles}>
@@ -137,10 +149,10 @@ export default function SelectedConcertDisplay(): JSX.Element {
                 concertInitialized={concertInitialized}
               />
             )}
-            {trackList.length ? (
+            {trackList.length || playlist?.length ? (
               <>
                 <TrackListDisplay
-                  trackList={trackList}
+                  trackList={usePlaylist ? playlist : trackList}
                   playlist={playlist}
                   setPlaylist={setPlaylist}
                   currentTrackName={currentTrackName}
