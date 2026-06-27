@@ -138,7 +138,7 @@ const selectedConcertSlice = createSlice({
         state.concertInitialized = true
       }
     },
-    setPlaylist: (state, action: PayloadAction<PlaylistTrack[]>) => {
+    setReduxPlaylist: (state, action: PayloadAction<PlaylistTrack[]>) => {
       state.selectedConcert.playlist = action.payload
     },
     setUsePlaylist: (state, action: PayloadAction<boolean>) => {
@@ -182,7 +182,7 @@ export const {
   playPreviousTrack,
   changeMediaFormat,
   setConcertInitialized,
-  setPlaylist,
+  setReduxPlaylist,
   setUsePlaylist,
   clearSelectedConcertError,
 } = selectedConcertSlice.actions
