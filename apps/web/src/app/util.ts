@@ -185,7 +185,8 @@ export function onPlayPauseClick(
 export function handleNextOrPreviousTrack(
   dispatch: AppDispatch,
   audioElement: RefObject<HTMLAudioElement>,
-  resetSongPosition: () => void
+  resetSongPosition: () => void,
+  tracklist: PlaylistTrack[] | TrackListData[] | undefined
 ) {
   return (nextOrPrev: TrackDirection): void => {
     if (!audioElement.current) return
@@ -193,6 +194,10 @@ export function handleNextOrPreviousTrack(
     dispatch(setConcertInitialized())
     resetSongPosition()
 
+    if (tracklist?.length === 1) {
+      audioElement.current.play()
+      return
+    }
     if (nextOrPrev === TrackDirection.Next) {
       dispatch(playNextTrack())
     } else {
