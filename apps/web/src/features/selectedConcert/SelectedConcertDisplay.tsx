@@ -90,7 +90,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     isDrawerOpen,
     concertInitialized,
     currentlyPlayingTrack: { playUrl, currentTrackName },
-    selectedConcert: { trackList, metadata },
+    selectedConcert: { trackList, playlist, metadata },
     usePlaylist,
   } = useAppSelector((state) => state.individualConcert)
   const dispatch = useAppDispatch()
@@ -107,11 +107,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
 
   useMediaSession(metadata, trackList, currentTrackName)
 
-  // TODO - implement useSyncExternalStore to store playlist in local storage
-  const [playlist, setPlaylist] = useLocalStorePlaylist(
-    'concert-search-playlist',
-    ''
-  )
+  const setPlaylist = useLocalStorePlaylist('concert-search-playlist', '')
 
   return (
     <Drawer
@@ -167,7 +163,8 @@ export default function SelectedConcertDisplay(): JSX.Element {
                   nextOrPrevTrack={handleNextOrPreviousTrack(
                     dispatch,
                     audioEl,
-                    resetSongPosition
+                    resetSongPosition,
+                    usePlaylist ? playlist : trackList
                   )}
                 />
               </>
