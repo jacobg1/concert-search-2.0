@@ -12,7 +12,10 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ConcertAccordionProps } from '../concertListInterface'
 import PlayConcertButton from './PlayConcertButton'
-import { fetchSelectedConcert } from '../../selectedConcert/selectedConcertSlice'
+import {
+  fetchSelectedConcert,
+  setUsePlaylist,
+} from '../../selectedConcert/selectedConcertSlice'
 import { useAppDispatch } from '../../../app/hooks'
 
 const summaryStyles: SxProps = {
@@ -39,6 +42,7 @@ export default function ConcertAccordion({
 
   const playConcert = useCallback((concertId: string) => {
     dispatch(fetchSelectedConcert(concertId))
+    dispatch(setUsePlaylist(false))
   }, [])
 
   return (
