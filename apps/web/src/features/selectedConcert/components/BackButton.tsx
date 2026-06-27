@@ -1,9 +1,6 @@
 import { Button } from '@mui/material'
 import ArrowLeftSharpIcon from '@mui/icons-material/ArrowLeftSharp'
-import {
-  toggleConcertDrawer,
-  setUsePlaylist,
-} from '../selectedConcertSlice'
+import { toggleConcertDrawer } from '../selectedConcertSlice'
 import { IconDirection } from '../../../app/interface'
 import { useAppDispatch } from '../../../app/hooks'
 

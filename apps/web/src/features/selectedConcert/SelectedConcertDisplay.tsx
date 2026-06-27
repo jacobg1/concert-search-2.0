@@ -28,7 +28,6 @@ import {
   useSongPosition,
   useLocalStorePlaylist,
 } from '../../app/hooks'
-import { setUsePlaylist } from './selectedConcertSlice'
 
 const drawerStyles: SxProps = {
   height: '100%',

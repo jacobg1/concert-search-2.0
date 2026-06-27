@@ -1,4 +1,3 @@
-import type { Dispatch, SetStateAction } from 'react'
 import type { WritableDraft } from '@reduxjs/toolkit'
 
 export interface TrackListData {
