@@ -33,9 +33,9 @@ export interface TrackMetadata {
 }
 
 export interface TrackListDisplayProps {
-  trackList: TrackListData[]
-  playlist: PlaylistTrack[]
-  setPlaylist: Dispatch<SetStateAction<PlaylistTrack[]>>
+  trackList: TrackListData[] | (PlaylistTrack[] | undefined)
+  playlist?: PlaylistTrack[]
+  setPlaylist: SetLocalStorePlaylist
   currentTrackName: string
   playNewTrack: (name: string) => void
 }
@@ -47,8 +47,8 @@ export interface SingleTrackProps {
   length: string
   currentTrackName: string
   md5: string
-  playlist: PlaylistTrack[]
-  setPlaylist: Dispatch<SetStateAction<PlaylistTrack[]>>
+  playlist?: PlaylistTrack[]
+  setPlaylist: SetLocalStorePlaylist
   playNewTrack: (name: string) => void
 }
 
@@ -63,9 +63,13 @@ export type PlaylistTrack = {
 export interface PlaylistToggleProps {
   add: boolean
   track: PlaylistTrack
-  setPlaylist: Dispatch<SetStateAction<PlaylistTrack[]>>
+  setPlaylist: SetLocalStorePlaylist
 }
 
 type PlaylistAndTracklist = PlaylistTrack & TrackListData
 
 export type Tracks = WritableDraft<PlaylistAndTracklist>[]
+
+export type SetLocalStorePlaylist = (
+  value: (prevList: PlaylistTrack[]) => PlaylistTrack[]
+) => void
