@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
-import type { PlaylistTrack } from '../../features'
+import type { PlaylistTrack, SetLocalStorePlaylist } from '../../features'
 import { useAppDispatch } from './useRedux'
 import {
   setPlayerState,
-  setPlaylist,
+  setReduxPlaylist,
   setUsePlaylist,
 } from '../../features/selectedConcert/selectedConcertSlice'
 import { PlayerState } from '../interface'
@@ -23,7 +23,10 @@ function parsePlaylist(list: string, defaultValue: string) {
   return list !== defaultValue ? JSON.parse(list) : []
 }
 
-export function useLocalStorePlaylist(key: string, defaultValue: string) {
+export function useLocalStorePlaylist(
+  key: string,
+  defaultValue: string
+): SetLocalStorePlaylist {
   const dispatch = useAppDispatch()
   const valueFromStorage = useCallback(() => {
     try {
@@ -59,7 +62,7 @@ export function useLocalStorePlaylist(key: string, defaultValue: string) {
   useEffect(() => {
     const formattedValue = parsePlaylist(value, defaultValue)
 
-    dispatch(setPlaylist(formattedValue))
+    dispatch(setReduxPlaylist(formattedValue))
 
     if (!formattedValue?.length) {
       dispatch(setUsePlaylist(false))
@@ -67,5 +70,5 @@ export function useLocalStorePlaylist(key: string, defaultValue: string) {
     }
   }, [value, defaultValue])
 
-  return [parsePlaylist(value, defaultValue), setValue]
+  return setValue
 }
