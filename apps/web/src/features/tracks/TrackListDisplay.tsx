@@ -27,7 +27,7 @@ function TrackListDisplay({
 }: TrackListDisplayProps): JSX.Element | null {
   return (
     <List disablePadding sx={listContainerStyles}>
-      {trackList.map((track) => {
+      {trackList?.map((track) => {
         return (
           <SingleTrack
             key={track.name}

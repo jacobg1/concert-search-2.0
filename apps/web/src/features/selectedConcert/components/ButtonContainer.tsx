@@ -11,6 +11,7 @@ const selectorStyles: SxProps = {
   '& span': {
     color: '#ffffff',
     fontSize: '1.1rem',
+    cursor: 'pointer',
   },
 }
 
@@ -24,7 +25,7 @@ export function ButtonContainer({
   playlist,
 }: {
   usePlaylist: boolean
-  playlist: PlaylistTrack[]
+  playlist?: PlaylistTrack[]
 }): JSX.Element {
   const dispatch = useAppDispatch()
 
