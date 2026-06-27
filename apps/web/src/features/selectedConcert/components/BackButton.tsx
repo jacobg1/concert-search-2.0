@@ -25,7 +25,6 @@ export function BackButton({
       }}
       onClick={() => {
         dispatch(toggleConcertDrawer())
-        dispatch(setUsePlaylist(false))
       }}
     >
       <ArrowLeftSharpIcon
