@@ -1,7 +1,8 @@
 import {
   PlayerState,
   MediaFormat,
-  NetworkError,
+  type NetworkError,
+  IconDirection,
 } from '../../../app/interface'
 import type {
   TrackMetadata,
@@ -41,3 +42,14 @@ export type Playlist = Map<
     length: string
   }
 >
+
+export interface ButtonContainerProps {
+  showPlaylist: boolean
+  playlist?: PlaylistTrack[]
+  tracklist?: TrackListData[]
+}
+
+export interface BackButtonProps {
+  iconDirection: IconDirection
+  hasTracklist?: number
+}
