@@ -4,7 +4,7 @@ import { useAppDispatch } from './useRedux'
 import {
   setPlayerState,
   setReduxPlaylist,
-  setUsePlaylist,
+  setShowPlaylist,
 } from '../../features/selectedConcert/selectedConcertSlice'
 import { PlayerState } from '../interface'
 
@@ -65,7 +65,7 @@ export function useLocalStorePlaylist(
     dispatch(setReduxPlaylist(formattedValue))
 
     if (!formattedValue?.length) {
-      dispatch(setUsePlaylist(false))
+      dispatch(setShowPlaylist(false))
       dispatch(setPlayerState(PlayerState.Pause))
     }
   }, [value, defaultValue])

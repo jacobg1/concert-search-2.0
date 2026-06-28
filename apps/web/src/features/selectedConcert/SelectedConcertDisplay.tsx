@@ -90,7 +90,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
     concertInitialized,
     currentlyPlayingTrack: { playUrl, currentTrackName },
     selectedConcert: { trackList, playlist, metadata },
-    usePlaylist,
+    showPlaylist,
   } = useAppSelector((state) => state.individualConcert)
   const dispatch = useAppDispatch()
 
@@ -123,17 +123,17 @@ export default function SelectedConcertDisplay(): JSX.Element {
         ) : (
           <>
             <ButtonContainer
-              usePlaylist={usePlaylist}
+              showPlaylist={showPlaylist}
               playlist={playlist}
             />
-            {metadata && (
+            {metadata && !showPlaylist ? (
               <Box style={metadataStyles}>
                 <ConcertMeta
                   {...metadata}
                   numTracks={trackList.length.toString()}
                 />
               </Box>
-            )}
+            ) : null}
             {audioEl.current && (
               <Visualizer
                 audioEl={audioEl}
@@ -143,8 +143,9 @@ export default function SelectedConcertDisplay(): JSX.Element {
             {trackList.length || playlist?.length ? (
               <>
                 <TrackListDisplay
-                  trackList={usePlaylist ? playlist : trackList}
+                  trackList={showPlaylist ? playlist : trackList}
                   playlist={playlist}
+                  showPlaylist={showPlaylist}
                   setPlaylist={setPlaylist}
                   currentTrackName={currentTrackName}
                   playNewTrack={handlePlayNewTrack(
@@ -163,7 +164,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
                     dispatch,
                     audioEl,
                     resetSongPosition,
-                    usePlaylist ? playlist : trackList
+                    showPlaylist ? playlist : trackList
                   )}
                 />
               </>

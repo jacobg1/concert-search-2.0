@@ -14,7 +14,7 @@ import { ConcertAccordionProps } from '../concertListInterface'
 import PlayConcertButton from './PlayConcertButton'
 import {
   fetchSelectedConcert,
-  setUsePlaylist,
+  setShowPlaylist,
 } from '../../selectedConcert/selectedConcertSlice'
 import { useAppDispatch } from '../../../app/hooks'
 
@@ -42,7 +42,7 @@ export default function ConcertAccordion({
 
   const playConcert = useCallback((concertId: string) => {
     dispatch(fetchSelectedConcert(concertId))
-    dispatch(setUsePlaylist(false))
+    dispatch(setShowPlaylist(false))
   }, [])
 
   return (

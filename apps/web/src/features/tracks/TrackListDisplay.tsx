@@ -21,6 +21,7 @@ const listContainerStyles: SxProps = {
 function TrackListDisplay({
   trackList,
   playlist,
+  showPlaylist,
   setPlaylist,
   playNewTrack,
   currentTrackName,
@@ -32,6 +33,7 @@ function TrackListDisplay({
           <SingleTrack
             key={track.name}
             playlist={playlist}
+            showPlaylist={showPlaylist}
             setPlaylist={setPlaylist}
             playNewTrack={playNewTrack}
             currentTrackName={currentTrackName}

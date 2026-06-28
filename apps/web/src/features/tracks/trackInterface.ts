@@ -34,12 +34,15 @@ export interface TrackMetadata {
 export interface TrackListDisplayProps {
   trackList: TrackListData[] | (PlaylistTrack[] | undefined)
   playlist?: PlaylistTrack[]
+  showPlaylist: boolean
   setPlaylist: SetLocalStorePlaylist
   currentTrackName: string
   playNewTrack: (name: string) => void
 }
 
 export interface SingleTrackProps {
+  album: string
+  creator: string
   name: string
   link: string
   title: string
@@ -47,11 +50,14 @@ export interface SingleTrackProps {
   currentTrackName: string
   md5: string
   playlist?: PlaylistTrack[]
+  showPlaylist: boolean
   setPlaylist: SetLocalStorePlaylist
   playNewTrack: (name: string) => void
 }
 
 export type PlaylistTrack = {
+  album: string
+  creator: string
   md5: string
   name: string
   title: string

@@ -3,7 +3,7 @@ import { IconDirection } from '../../../app/interface'
 import SongFormatSelect from '../../tracks/components/SongFormatSelect'
 import { BackButton } from './BackButton'
 import { useAppDispatch } from '../../../app/hooks'
-import { setUsePlaylist } from '../selectedConcertSlice'
+import { setShowPlaylist } from '../selectedConcertSlice'
 import type { PlaylistTrack } from '../../tracks'
 
 const selectorStyles: SxProps = {
@@ -21,16 +21,16 @@ const activeStyles: SxProps = {
 }
 
 export function ButtonContainer({
-  usePlaylist,
+  showPlaylist,
   playlist,
 }: {
-  usePlaylist: boolean
+  showPlaylist: boolean
   playlist?: PlaylistTrack[]
 }): JSX.Element {
   const dispatch = useAppDispatch()
 
-  const tracklistSelected = !usePlaylist ? activeStyles : {}
-  const playlistSelected = usePlaylist ? activeStyles : {}
+  const tracklistSelected = !showPlaylist ? activeStyles : {}
+  const playlistSelected = showPlaylist ? activeStyles : {}
 
   return (
     <Box
@@ -47,7 +47,7 @@ export function ButtonContainer({
         <Box
           sx={selectorStyles}
           onClick={() => {
-            dispatch(setUsePlaylist(!usePlaylist))
+            dispatch(setShowPlaylist(!showPlaylist))
           }}
         >
           <Typography sx={tracklistSelected} component="span">

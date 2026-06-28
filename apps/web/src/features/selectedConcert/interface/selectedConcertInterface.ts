@@ -25,7 +25,7 @@ export interface SelectedConcertState {
   currentlyPlayingTrack: CurrentlyPlayingTrack
   playerState: PlayerState
   mediaFormat: MediaFormat
-  usePlaylist: boolean
+  showPlaylist: boolean
   isDrawerOpen: boolean
   concertInitialized: boolean
   loading: boolean

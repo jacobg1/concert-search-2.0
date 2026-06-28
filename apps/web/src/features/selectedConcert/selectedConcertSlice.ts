@@ -41,7 +41,7 @@ export const fetchSelectedConcert = createAsyncThunk(
 
 const initialState: SelectedConcertState = {
   selectedConcert: { trackList: [], playlist: [], metadata: null },
-  usePlaylist: false,
+  showPlaylist: false,
   currentlyPlayingTrack: { currentTrackName: '', playUrl: '' },
   playerState: Pause,
   mediaFormat: MediaFormat.MP3,
@@ -67,10 +67,10 @@ const selectedConcertSlice = createSlice({
       const {
         selectedConcert: { trackList, playlist },
         mediaFormat,
-        usePlaylist,
+        showPlaylist,
       } = state
 
-      const tracks = usePlaylist ? playlist : trackList
+      const tracks = showPlaylist ? playlist : trackList
 
       const newTrack = findNewTrack(tracks as Tracks, action.payload)
 
@@ -85,10 +85,10 @@ const selectedConcertSlice = createSlice({
         selectedConcert: { trackList, playlist },
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
-        usePlaylist,
+        showPlaylist,
       } = state
 
-      const tracks = usePlaylist ? playlist : trackList
+      const tracks = showPlaylist ? playlist : trackList
 
       const trackIndex = findTrackIndex(tracks as Tracks, currentTrackName)
 
@@ -109,10 +109,10 @@ const selectedConcertSlice = createSlice({
         selectedConcert: { trackList, playlist },
         currentlyPlayingTrack: { currentTrackName },
         mediaFormat,
-        usePlaylist,
+        showPlaylist,
       } = state
 
-      const tracks = usePlaylist ? playlist : trackList
+      const tracks = showPlaylist ? playlist : trackList
 
       const trackIndex = findTrackIndex(tracks as Tracks, currentTrackName)
 
@@ -141,8 +141,8 @@ const selectedConcertSlice = createSlice({
     setReduxPlaylist: (state, action: PayloadAction<PlaylistTrack[]>) => {
       state.selectedConcert.playlist = action.payload
     },
-    setUsePlaylist: (state, action: PayloadAction<boolean>) => {
-      state.usePlaylist = action.payload
+    setShowPlaylist: (state, action: PayloadAction<boolean>) => {
+      state.showPlaylist = action.payload
     },
     clearSelectedConcertError: (state) => {
       state.error = {}
@@ -183,7 +183,7 @@ export const {
   changeMediaFormat,
   setConcertInitialized,
   setReduxPlaylist,
-  setUsePlaylist,
+  setShowPlaylist,
   clearSelectedConcertError,
 } = selectedConcertSlice.actions
 
