@@ -14,14 +14,15 @@ import { PlaylistToggle } from './PlaylistToggle'
 const listItemStyles: SxProps = {
   background,
   margin: '10px 0',
-  // padding: '7px 16px',
-  // border: '2px solid white',
   textTransform: 'capitalize',
+  display: 'flex',
+  flexDirection: 'column',
 }
 
 const listItemTextSyles: SxProps = {
   display: 'flex',
   justifyContent: 'space-between',
+  width: '100%',
   '& span': {
     fontSize: '1rem',
     fontWeight: 700,
@@ -50,12 +51,15 @@ const playlistToggleContainer: SxProps = {
 }
 
 export default function SingleTrack({
+  album,
+  creator,
   name,
   link,
   title,
   length,
   playlist,
   md5,
+  showPlaylist,
   setPlaylist,
   playNewTrack,
   currentTrackName,
@@ -86,7 +90,7 @@ export default function SingleTrack({
             <Box sx={playlistToggleContainer}>
               <PlaylistToggle
                 add={!playlist?.find((song) => song?.md5 === md5)}
-                track={{ md5, name, title, link, length }}
+                track={{ album, creator, md5, name, title, link, length }}
                 setPlaylist={setPlaylist}
               />
               <Typography component="span" variant="subtitle2">
@@ -97,6 +101,16 @@ export default function SingleTrack({
         }
         onClick={() => playNewTrack(name)}
       />
+      {showPlaylist ? (
+        <Box
+          onClick={() => playNewTrack(name)}
+          style={{ alignSelf: 'flex-start' }}
+        >
+          <Typography style={{ paddingBottom: '5px' }}>
+            {creator} - {album}
+          </Typography>
+        </Box>
+      ) : null}
     </ListItemButton>
   )
 }
