@@ -125,6 +125,7 @@ export default function SelectedConcertDisplay(): JSX.Element {
             <ButtonContainer
               showPlaylist={showPlaylist}
               playlist={playlist}
+              tracklist={trackList}
             />
             {metadata && !showPlaylist ? (
               <Box style={metadataStyles}>

@@ -4,7 +4,7 @@ import SongFormatSelect from '../../tracks/components/SongFormatSelect'
 import { BackButton } from './BackButton'
 import { useAppDispatch } from '../../../app/hooks'
 import { setShowPlaylist } from '../selectedConcertSlice'
-import type { PlaylistTrack } from '../../tracks'
+import { ButtonContainerProps } from '../interface'
 
 const selectorStyles: SxProps = {
   alignSelf: 'center',
@@ -23,14 +23,15 @@ const activeStyles: SxProps = {
 export function ButtonContainer({
   showPlaylist,
   playlist,
-}: {
-  showPlaylist: boolean
-  playlist?: PlaylistTrack[]
-}): JSX.Element {
+  tracklist,
+}: ButtonContainerProps): JSX.Element {
   const dispatch = useAppDispatch()
 
   const tracklistSelected = !showPlaylist ? activeStyles : {}
   const playlistSelected = showPlaylist ? activeStyles : {}
+
+  const hasTracklist = tracklist?.length
+  const hasPlaylist = playlist?.length
 
   return (
     <Box
@@ -42,23 +43,37 @@ export function ButtonContainer({
         // alignItems: 'center',
       }}
     >
-      <BackButton iconDirection={IconDirection.Left} />
-      {playlist?.length ? (
-        <Box
-          sx={selectorStyles}
-          onClick={() => {
-            dispatch(setShowPlaylist(!showPlaylist))
-          }}
-        >
-          <Typography sx={tracklistSelected} component="span">
-            Tracklist
-          </Typography>
-          <Typography component="span"> / </Typography>
-          <Typography sx={playlistSelected} component="span">
+      <BackButton
+        hasTracklist={tracklist?.length}
+        iconDirection={IconDirection.Left}
+      />
+      <Box sx={selectorStyles}>
+        {hasPlaylist && hasTracklist ? (
+          <>
+            <Typography
+              onClick={() => {
+                dispatch(setShowPlaylist(false))
+              }}
+              sx={tracklistSelected}
+              component="span"
+            >
+              Tracklist
+            </Typography>
+            <Typography component="span"> / </Typography>
+          </>
+        ) : null}
+        {hasPlaylist ? (
+          <Typography
+            onClick={() => {
+              dispatch(setShowPlaylist(true))
+            }}
+            sx={playlistSelected}
+            component="span"
+          >
             Playlist
           </Typography>
-        </Box>
-      ) : null}
+        ) : null}
+      </Box>
       <SongFormatSelect />
     </Box>
   )

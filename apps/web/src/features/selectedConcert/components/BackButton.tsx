@@ -1,14 +1,16 @@
 import { Button } from '@mui/material'
 import ArrowLeftSharpIcon from '@mui/icons-material/ArrowLeftSharp'
-import { toggleConcertDrawer } from '../selectedConcertSlice'
-import { IconDirection } from '../../../app/interface'
+import {
+  setShowPlaylist,
+  toggleConcertDrawer,
+} from '../selectedConcertSlice'
 import { useAppDispatch } from '../../../app/hooks'
+import { BackButtonProps } from '../interface'
 
 export function BackButton({
   iconDirection,
-}: {
-  iconDirection: IconDirection
-}): JSX.Element {
+  hasTracklist,
+}: BackButtonProps): JSX.Element {
   const dispatch = useAppDispatch()
 
   return (
@@ -22,6 +24,9 @@ export function BackButton({
       }}
       onClick={() => {
         dispatch(toggleConcertDrawer())
+        if (!hasTracklist) {
+          dispatch(setShowPlaylist(true))
+        }
       }}
     >
       <ArrowLeftSharpIcon

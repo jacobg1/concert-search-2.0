@@ -14,16 +14,19 @@ const appBarStyles: SxProps = {
 
 export function AppHeader(): JSX.Element {
   const {
-    selectedConcert: { trackList },
+    selectedConcert: { trackList, playlist },
   } = useAppSelector((state) => state.individualConcert)
-
+  const hasTracklist = trackList?.length
   return (
     <AppBar sx={appBarStyles}>
       <Stack direction="row" style={{ justifyContent: 'space-between' }}>
         <Typography variant="h1">Concert Search</Typography>
-        {trackList.length ? (
+        {hasTracklist || playlist?.length ? (
           <>
-            <BackButton iconDirection={IconDirection.Right} />
+            <BackButton
+              hasTracklist={hasTracklist}
+              iconDirection={IconDirection.Right}
+            />
           </>
         ) : null}
       </Stack>
