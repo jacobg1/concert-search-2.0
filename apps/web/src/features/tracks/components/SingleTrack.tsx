@@ -39,7 +39,7 @@ const songDurationContainer: SxProps = {
   alignItems: 'center',
   '& .playing': {
     fontWeight: 700,
-    marginRight: { xs: '15px', md: '40px' },
+    paddingRight: { xs: '15px', md: '40px' },
   },
 }
 
@@ -73,6 +73,7 @@ export default function SingleTrack({
       key={name}
       sx={listItemStyles}
       selected={isSelectedTrack}
+      onClick={() => playNewTrack(name)}
     >
       <ListItemText
         sx={listItemTextSyles}
@@ -99,14 +100,13 @@ export default function SingleTrack({
             </Box>
           </>
         }
-        onClick={() => playNewTrack(name)}
       />
       {showPlaylist ? (
         <Box
           onClick={() => playNewTrack(name)}
           style={{ alignSelf: 'flex-start' }}
         >
-          <Typography style={{ paddingBottom: '5px' }}>
+          <Typography style={{ paddingBottom: '5px', margin: 0 }}>
             {creator} - {album}
           </Typography>
         </Box>
