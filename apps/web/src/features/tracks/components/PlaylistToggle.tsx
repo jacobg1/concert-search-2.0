@@ -1,6 +1,11 @@
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
 import type { PlaylistToggleProps } from '../trackInterface'
+import type { SxProps } from '@mui/material'
+
+const toggleIconStyles: SxProps = {
+  fontSize: { xs: '1.7rem', md: '1.5rem' },
+}
 
 export function PlaylistToggle({
   add,
@@ -10,6 +15,7 @@ export function PlaylistToggle({
   if (add) {
     return (
       <AddBoxIcon
+        sx={toggleIconStyles}
         onClick={(e) => {
           e.stopPropagation()
           setPlaylist((prevList) => [...prevList, track])
@@ -20,6 +26,7 @@ export function PlaylistToggle({
 
   return (
     <IndeterminateCheckBoxIcon
+      sx={toggleIconStyles}
       onClick={(e) => {
         e.stopPropagation()
         setPlaylist((prevList) => {
